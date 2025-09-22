@@ -6,6 +6,16 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use App\Models\Kurir;
+use App\Models\Pelanggan;
+use App\Models\Karyawan;
+use App\Models\Layanan;
+use App\Models\Pesanan;
+use App\Models\KategoriItem;
+use App\Models\DetailTransaksi;
+use App\Models\TransaksiPembayaran;
+use App\Models\Pengaduan;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -20,15 +30,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        kurir::factory()->create([
-            // 'idKurir' => 1,
+        $kurir = Kurir::factory()->create([
             'namaKurir' => 'Kurir 1',
             'noHp' => '081234567891',
             'alamat' => 'Jl. Kurir No. 1',
         ]);
 
-        pelanggan::factory()->create([
-            // 'idPelanggan' => 1,
+        $pelanggan = Pelanggan::factory()->create([
             'namaPelanggan' => 'Pelanggan 1',
             'username' => 'pelanggan1',
             'password' => bcrypt('password123'),
@@ -38,8 +46,7 @@ class DatabaseSeeder extends Seeder
             'noHp' => '081234567892',
         ]);
 
-        karyawan::factory()->create([
-            // 'idKaryawan' => 1,
+        $karyawan = Karyawan::factory()->create([
             'namaKaryawan' => 'Karyawan 1',
             'username' => 'karyawan1',
             'password' => bcrypt('password123'),
@@ -47,52 +54,45 @@ class DatabaseSeeder extends Seeder
             'noHp' => '081234567890',
         ]);
 
-        layanan::factory()->create([
-            // 'idLayanan' => 1,
+        $layanan = Layanan::factory()->create([
             'namaLayanan' => 'Cuci Kering',
             'hargaPerKg' => 5000,
             'estimasiHari' => 2,
         ]);
 
-        pesanan::factory()->create([
-            // 'idPesanan' => 1,
+        $pesanan = Pesanan::factory()->create([
             'namaPesanan' => 'Pesanan 1',
-            'idPelanggan' => 1,
-            'idLayanan' => 1,
-            'idKurir' => 1,
-            'idKaryawan' => 1,
+            'idPelanggan' => $pelanggan -> id,
+            'idLayanan' => $layanan -> id,
+            'idKurir' => $kurir -> id,
+            'idKaryawan' => $karyawan -> id,
             'statusPesanan' => false,
             'tanggalMasuk' => now(),
             'tanggalSelesai' => now()->addDays(2),
             'totalHarga' => 15000,
         ]);
 
-        kategoriItem::factory()->create([
-            // 'idKategoriItem' => 1,
+        $kategori = KategoriItem::factory()->create([
             'namaKategori' => 'Pakaian',
         ]);   
 
-        detailTransaksi::factory()->create([
-            'idPesanan' => 1,
-            'idKategoriItem' => 1,
+        $detail = DetailTransaksi::factory()->create([
+            'idPesanan' => $pesanan -> id,
+            'idKategoriItem' => $kategori -> id,
             'beratItem' => 3,
         ]);
 
-        transaksiPembayaran::factory()->create([
-            'idDetailTransaksi' => 1,
+        TransaksiPembayaran::factory()->create([
+            'idDetailTransaksi' => $detail -> id,
             'metodePembayaran' => 'Transfer Bank',
             'tanggalPembayaran' => now(),
             'totalPembayaran' => 15000,
         ]);
-        pengaduan::factory()->create([
-            'idPelanggan' => 1,
-            'idPesanan' => 1,
+        Pengaduan::factory()->create([
+            'idPelanggan' => $pelanggan -> id,
+            'idPesanan' => $pesanan -> id,
             'tanggalPengaduan' => now(),
             'deskripsi' => 'Pakaian hilang',
         ]);
-
-
-
-
     }
 }
