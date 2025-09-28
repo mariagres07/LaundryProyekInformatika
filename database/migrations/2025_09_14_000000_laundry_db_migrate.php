@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('kurir', function (Blueprint $table) {
             $table->id('idKurir');
             $table->string('namaKurir');
-            $table->string('noHp');
+            $table->string('noHp')->unique();
             $table->string('alamat')->nullable();
+            $table->string('username')->unique();
+            $table->string('password');
+            $table->string('email')->unique();
         });
 
         Schema::create('pelanggan', function (Blueprint $table) {
@@ -26,7 +29,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('otp');
             $table->string('alamat');
-            $table->string('noHp');
+            $table->string('noHp')->unique();
         });
 
         Schema::create('karyawan', function (Blueprint $table) {
@@ -34,18 +37,19 @@ return new class extends Migration
             $table->string('namaKaryawan');
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('email')->unique();
             $table->string('alamat')->nullable();
-            $table->string('noHp');
+            $table->string('noHp')->unique();
         });
 
         Schema::create('layanan', function (Blueprint $table) {
             $table->id('idLayanan');
             $table->string('namaLayanan');
-            $table->integer('hargaPerKg');
+            $table->integer('hargaPerKg', 10, 2);
             $table->integer('estimasiHari');
         });
 
-         Schema::create('pesanan', function (Blueprint $table) {
+        Schema::create('pesanan', function (Blueprint $table) {
             $table->id('idPesanan');
             $table->string('namaPesanan');
             $table->foreignId('idPelanggan')->constrained('pelanggan', 'idPelanggan')->onDelete('cascade');
@@ -53,17 +57,18 @@ return new class extends Migration
             $table->foreignId('idKurir')->constrained('kurir', 'idKurir')->onDelete('cascade');
             $table->foreignId('idKaryawan')->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
             $table->boolean('statusPesanan');
-            $table->date('tanggalMasuk');   
+            $table->date('tanggalMasuk');
             $table->date('tanggalSelesai');
-            $table->integer('totalHarga');
+            $table->integer('totalHarga', 12, 2);
         });
 
-         Schema::create('kategoriItem', function (Blueprint $table) {
+        Schema::create('kategoriItem', function (Blueprint $table) {
             $table->id('idKategoriItem');
             $table->string('namaKategori');
+            $table->integer('jumlahItem')->default(0);
         });
 
-         Schema::create('detailTransaksi', function (Blueprint $table) {
+        Schema::create('detailTransaksi', function (Blueprint $table) {
             $table->id('idDetailTransaksi');
             $table->foreignId('idPesanan')->constrained('pesanan', 'idPesanan')->onDelete('cascade');
             $table->foreignId('idKategoriItem')->constrained('kategoriItem', 'idKategoriItem')->onDelete('cascade');
@@ -74,7 +79,7 @@ return new class extends Migration
             $table->foreignId('idDetailTransaksi')->constrained('detailTransaksi', 'idDetailTransaksi')->onDelete('cascade');
             $table->string('metodePembayaran');
             $table->date('tanggalPembayaran');
-            $table->integer('totalPembayaran');
+            $table->integer('totalPembayaran', 12, 2);
         });
 
         Schema::create('pengaduan', function (Blueprint $table) {
@@ -83,6 +88,9 @@ return new class extends Migration
             $table->foreignId('idPesanan')->constrained('pesanan', 'idPesanan')->onDelete('cascade');
             $table->date('tanggalPengaduan');
             $table->text('deskripsi')->nullable();
+            $table->string('judulPengaduan');
+            $table->string('media');
+            $table->string('tanggapanPengaduan')->nullable();
         });
 
         // Schema::create('password_reset_tokens', function (Blueprint $table) {

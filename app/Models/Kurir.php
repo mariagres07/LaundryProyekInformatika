@@ -23,8 +23,11 @@ class Kurir extends Model
         'email',
         'password',
         'alamat',
+        'username',
+        'password',
+        'email',
     ];
-   
+  
     public function pesanan(){
         return $this->hasMany(Pesanan::class, 'idKurir');
     }
