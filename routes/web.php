@@ -27,6 +27,7 @@ Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('lay
 
 
 Route::get('/', function () {
+
     return view('login.index');
 });
 
@@ -72,4 +73,6 @@ Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('d
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
+
+});
 
