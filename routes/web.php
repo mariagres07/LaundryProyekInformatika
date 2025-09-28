@@ -8,10 +8,11 @@ use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanLaundryController;
 
+// PELANGGAN
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::post('/editprofil', [PelangganController::class, 'update'])->name('pelanggan.update');
 
-// ---- ROUTE KURIR ----
+// KURIR
 // Manajemen Kurir
 Route::get('/mkurir', [KurirController::class, 'index'])->name('kurir.index');
 Route::get('/mkurir/input', [KurirController::class, 'create']);
@@ -20,12 +21,12 @@ Route::get('/mkurir/edit/{idKurir}', [KurirController::class, 'edit']);
 Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
-// ---- ROUTE LAYANAN ----
+// LAYANAN 
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
 Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
-
+// AUTH / LOGIN
 Route::get('/', function () {
 
     return view('login.index');
@@ -63,16 +64,10 @@ Route::post('/verifikasi-otp', function (\Illuminate\Http\Request $request) {
     return back()->withErrors(['otp' => 'Kode OTP salah!']);
 });
 
-// untuk pesanLaundry.blade.php
+// PESAN LAUNDRY
 Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry');
-
-// untuk detailPesanan.blade.php
 Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
-
-// proses checkout (alamat + paket)
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
+// LAPORAN
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
-
-});
-
