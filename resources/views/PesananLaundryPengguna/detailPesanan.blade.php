@@ -9,7 +9,6 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
         rel="stylesheet" 
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
         crossorigin="anonymous">
 
   <!-- Bootstrap Icons -->
@@ -18,45 +17,54 @@
 </head>
 <body class="container py-4">
 
-  <h1 class="mb-4">Pesan Laundry</h1>
+  <h1 class="mb-4">Detail Pesanan Laundry</h1>
+
+  {{-- Alert sukses --}}
+  @if(session('success'))
+    <div class="alert alert-success">
+      {{ session('success') }}
+    </div>
+  @endif
 
   <div class="card mb-4 shadow-sm">
     <div class="card-header bg-primary text-white">
-      <i class="bi bi-receipt"></i> Detail Pesanan
+      <i class="bi bi-receipt"></i> Ringkasan Pesanan
     </div>
     <div class="card-body">
       <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-person"></i> Nama</span>
-          <span>---</span>
+          <span>Nama</span>
+          <span>{{ $nama }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-house"></i> Alamat</span>
-          <span>---</span>
+          <span>Alamat</span>
+          <span>{{ $alamat }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-tags"></i> Kategori</span>
-          <span>---</span>
+          <span>Kategori</span>
+          <span>{{ $kategori }}</span>
         </li>   
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-box-seam"></i> Jenis Paket</span>
-          <span>---</span>
+          <span>Jenis Paket</span>
+          <span>{{ $paket }}</span>
         </li>   
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-clock-history"></i> Estimasi Hari</span>
-          <span>---</span>
+          <span>Estimasi Hari</span>
+          <span>{{ $estimasi }}</span>
         </li>   
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span><i class="bi bi-cash-stack"></i> Total Harga</span>
-          <span>---</span>
+          <span>Total Harga</span>
+          <span>{{ $harga }}</span>
         </li>   
       </ul>
     </div>
   </div>
 
-  <div class="d-flex gap-2">
-    <a href="#" class="btn btn-primary"><i class="bi bi-check-circle"></i> Konfirmasi Pesanan</a>
-    <a href="#" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+  <!-- Tombol kembali -->
+  <div class="mb-3">
+    <a href="{{ route('pesanLaundry') }}" class="btn btn-secondary rounded-pill px-4">
+      <i class="bi bi-arrow-left"></i> Kembali
+    </a>
   </div>
 
 </body>

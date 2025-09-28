@@ -1,14 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClihatLap;
+
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PesanLaundryController;
 
+// PELANGGAN
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::post('/editprofil', [PelangganController::class, 'update'])->name('pelanggan.update');
 
-// ---- ROUTE KURIR ----
+// KURIR
 // Manajemen Kurir
 Route::get('/mkurir', [KurirController::class, 'index'])->name('kurir.index');
 Route::get('/mkurir/input', [KurirController::class, 'create']);
@@ -31,7 +35,9 @@ Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index
 Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
+// AUTH / LOGIN
 Route::get('/', function () {
+
     return view('login.index');
 });
 
@@ -67,8 +73,16 @@ Route::post('/verifikasi-otp', function (\Illuminate\Http\Request $request) {
     return back()->withErrors(['otp' => 'Kode OTP salah!']);
 });
 
+// PESAN LAUNDRY
+Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry');
+Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
+Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
+
+// LAPORAN
+Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 
 // Halaman dashboard
 Route::get('/tampilanKaryawan', function () {
     return view('dashboard.index');
 });
+
