@@ -23,8 +23,6 @@ class Kurir extends Model
         'email',
         'password',
         'alamat',
-        'username',
-        'password',
         'email',
     ];
   

@@ -45,7 +45,7 @@ return new class extends Migration
         Schema::create('layanan', function (Blueprint $table) {
             $table->id('idLayanan');
             $table->string('namaLayanan');
-            $table->integer('hargaPerKg', 10, 2);
+            $table->decimal('hargaPerKg', 10, 2);
             $table->integer('estimasiHari');
         });
 
@@ -59,7 +59,7 @@ return new class extends Migration
             $table->boolean('statusPesanan');
             $table->date('tanggalMasuk');
             $table->date('tanggalSelesai');
-            $table->integer('totalHarga', 12, 2);
+            $table->decimal('totalHarga', 12, 2);
         });
 
         Schema::create('kategoriItem', function (Blueprint $table) {
@@ -79,7 +79,7 @@ return new class extends Migration
             $table->foreignId('idDetailTransaksi')->constrained('detailTransaksi', 'idDetailTransaksi')->onDelete('cascade');
             $table->string('metodePembayaran');
             $table->date('tanggalPembayaran');
-            $table->integer('totalPembayaran', 12, 2);
+            $table->decimal('totalPembayaran', 12, 2);
         });
 
         Schema::create('pengaduan', function (Blueprint $table) {
