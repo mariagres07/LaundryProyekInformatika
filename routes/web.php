@@ -21,11 +21,6 @@ Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
 Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
-=======
-//Route::get('/', function () {
-  //  return view('welcome');
-//});
-
 
 Route::get('/', function () {
     return view('login.index');
@@ -61,4 +56,10 @@ Route::post('/verifikasi-otp', function (\Illuminate\Http\Request $request) {
         return redirect('/berhasil');
     }
     return back()->withErrors(['otp' => 'Kode OTP salah!']);
+});
+
+
+// Halaman dashboard
+Route::get('/tampilanKaryawan', function () {
+    return view('dashboard.index');
 });
