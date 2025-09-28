@@ -18,13 +18,12 @@ class Pengaduan extends Model
         'idPesanan',
         'tanggalPengaduan',
         'deskripsi',
-        //'judul',
-        //'file_path',
-        //'tanggapan karyawan',
-
+        'judulPengadauan',
+        'media',
+        'tanggapanPengaduan',
     ];
 
-     public function pelanggan()
+    public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'idPelanggan');
     }
@@ -33,5 +32,4 @@ class Pengaduan extends Model
     {
         return $this->belongsTo(Pesanan::class, 'idPesanan');
     }
-
 }

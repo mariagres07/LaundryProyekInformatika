@@ -18,9 +18,11 @@ class Karyawan extends Model
         'username',
         'password',
         'alamat',
+        'email',
         'noHp',
     ];
-   public function pesanan(){
+    public function pesanan()
+    {
         return $this->hasMany(Pesanan::class, 'idKaryawan');
     }
 }
