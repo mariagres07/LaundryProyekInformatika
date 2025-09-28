@@ -61,12 +61,13 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($kurirs as $kurir)
-        <tr data-id="{{ $kurir->idKurir }}">
-          <td>{{ $kurir->namaKurir }}</td>
-          <td>{{ $kurir->username }}</td>
-        </tr>
-        @endforeach
+       @foreach($kurir as $k)
+<tr data-id="{{ $k->idKurir }}">
+  <td>{{ $k->namaKurir }}</td>
+  <td>{{ $k->username }}</td>
+</tr>
+@endforeach
+
       </tbody>
     </table>
   </div>
