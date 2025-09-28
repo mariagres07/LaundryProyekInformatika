@@ -15,8 +15,8 @@ class Layanan extends Model
 
     protected $fillable = [
         'namaLayanan',
-        'harga',
-        'estimasiWaktu',
+        'hargaPerKg',
+        'estimasiHari',
     ];
 
     public function pesanan()
