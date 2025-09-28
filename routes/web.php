@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PesanLaundryController;
 
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::post('/editprofil', [PelangganController::class, 'update'])->name('pelanggan.update');
@@ -21,10 +23,6 @@ Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
 Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
-=======
-//Route::get('/', function () {
-  //  return view('welcome');
-//});
 
 
 Route::get('/', function () {
@@ -62,3 +60,13 @@ Route::post('/verifikasi-otp', function (\Illuminate\Http\Request $request) {
     }
     return back()->withErrors(['otp' => 'Kode OTP salah!']);
 });
+
+// untuk pesanLaundry.blade.php
+Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry');
+
+// untuk detailPesanan.blade.php
+Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
+
+// proses checkout (alamat + paket)
+Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
+
