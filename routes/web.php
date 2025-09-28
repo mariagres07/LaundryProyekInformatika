@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClihatLap;
 
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
@@ -69,4 +70,6 @@ Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('d
 
 // proses checkout (alamat + paket)
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
+
+Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 
