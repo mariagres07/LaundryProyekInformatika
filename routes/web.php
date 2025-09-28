@@ -7,6 +7,7 @@ use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanLaundryController;
+use App\Http\Controllers\KaryawanController;
 
 // PELANGGAN
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
@@ -85,4 +86,3 @@ Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/tampilanKaryawan', function () {
     return view('dashboard.index');
 });
-
