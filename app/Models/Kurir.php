@@ -9,16 +9,22 @@ class Kurir extends Model
 {
     use HasFactory;
 
-    protected $table = 'kurir';
-    protected $primaryKey = 'idKurir';
+    protected $table = 'kurir';   // nama tabel
+    protected $primaryKey = 'idKurir'; // primary key
     public $timestamps = false;
+    public $incrementing = true;
+    protected $keyType = 'int';
+
 
     protected $fillable = [
         'namaKurir',
+        'username',
         'noHp',
+        'email',
+        'password',
         'alamat',
     ];
-
+   
     public function pesanan(){
         return $this->hasMany(Pesanan::class, 'idKurir');
     }
