@@ -23,13 +23,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         $kurir = Kurir::create([
             'namaKurir' => 'Kurir 1',
             'noHp' => '081234567891',
@@ -100,7 +93,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Pakaian saya ada yang hilang',
             'judulPengaduan' => 'Pakaian hilang',
             'media' => '',
-            'tanggapanPengaduan' => 'Maaf, akan kami cari',
+            'tanggapanPengaduan' => 'Mohon maaf atas ketidaknyamanannya, kami akan mencari pakaian Anda secepatnya.',
         ]);
     }
 }
