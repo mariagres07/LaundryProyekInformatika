@@ -21,7 +21,16 @@ Route::get('/mkurir/edit/{idKurir}', [KurirController::class, 'edit']);
 Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
-// LAYANAN 
+// ---- ROUTE KARYAWAN ----
+Route::get('/mkaryawan', [KaryawanController::class, 'index'])->name('karyawan.index');
+Route::get('/mkaryawan/input', [KaryawanController::class, 'create'])->name('karyawan.create');
+Route::post('/mkaryawan/store', [KaryawanController::class, 'store'])->name('karyawan.store');
+Route::get('/mkaryawan/edit/{idKaryawan}', [KaryawanController::class, 'edit'])->name('karyawan.edit');
+Route::put('/mkaryawan/update/{idKaryawan}', [KaryawanController::class, 'update'])->name('karyawan.update');
+Route::get('/mkaryawan/hapus/{idKaryawan}', [KaryawanController::class, 'confirmDelete'])->name('karyawan.confirmDelete');
+Route::delete('/mkaryawan/destroy/{idKaryawan}', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
+
+// ---- ROUTE LAYANAN ----
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
 Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
@@ -71,3 +80,9 @@ Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('che
 
 // LAPORAN
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
+
+// Halaman dashboard
+Route::get('/tampilanKaryawan', function () {
+    return view('dashboard.index');
+});
+
