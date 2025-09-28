@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -15,9 +15,11 @@ class KategoriItem extends Model
 
     protected $fillable = [
         'namaKategori',
+        'jumlahItem',
     ];
 
-    public function detailTransaksi(){
+    public function detailTransaksi()
+    {
         return $this->hasMany(DetailTransaksi::class, 'idKategoriItem');
     }
 }
