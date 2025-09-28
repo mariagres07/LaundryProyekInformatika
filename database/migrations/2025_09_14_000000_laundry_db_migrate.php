@@ -65,6 +65,7 @@ return new class extends Migration
         Schema::create('kategoriItem', function (Blueprint $table) {
             $table->id('idKategoriItem');
             $table->string('namaKategori');
+            $table->integer('jumlahItem')->default(0);
         });
 
         Schema::create('detailTransaksi', function (Blueprint $table) {

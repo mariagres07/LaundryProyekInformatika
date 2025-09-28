@@ -60,8 +60,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $layanan = Layanan::create([
-            'namaLayanan' => 'Cuci Kering',
-            'hargaPerKg' => 5000,
+            'namaLayanan' => 'Express(Vanilla)',
+            'hargaPerKg' => 10000,
             'estimasiHari' => 2,
         ]);
 
@@ -79,6 +79,7 @@ class DatabaseSeeder extends Seeder
 
         $kategori = KategoriItem::create([
             'namaKategori' => 'Pakaian',
+            'jumlahItem' => 3,
         ]);
 
         $detail = DetailTransaksi::create([
