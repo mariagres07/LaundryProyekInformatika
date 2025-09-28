@@ -18,9 +18,12 @@ class Pengaduan extends Model
         'idPesanan',
         'tanggalPengaduan',
         'deskripsi',
+        'judulPengadauan',
+        'media',
+        'tanggapanPengaduan',
     ];
 
-     public function pelanggan()
+    public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'idPelanggan');
     }

@@ -34,13 +34,16 @@ class DatabaseSeeder extends Seeder
             'namaKurir' => 'Kurir 1',
             'noHp' => '081234567891',
             'alamat' => 'Jl. Kurir No. 1',
+            'username' => 'kurir1',
+            'password' => bcrypt('password123'),
+            'email' => 'kurir1@gmail.com',
         ]);
 
         $pelanggan = Pelanggan::create([
             'namaPelanggan' => 'Pelanggan 1',
             'username' => 'pelanggan1',
             'password' => bcrypt('password123'),
-            'email' => 'pelanggan@gmail.com',    
+            'email' => 'pelanggan@gmail.com',
             'otp' => now(),
             'alamat' => 'Jl. Pelanggan No. 1',
             'noHp' => '081234567892',
@@ -52,6 +55,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password123'),
             'alamat' => 'Jl. Karyawan No. 1',
             'noHp' => '081234567890',
+            'email' => 'karyawan1@gmail.com',
+            'password' => bcrypt('password123'),
         ]);
 
         $layanan = Layanan::create([
@@ -62,10 +67,10 @@ class DatabaseSeeder extends Seeder
 
         $pesanan = Pesanan::create([
             'namaPesanan' => 'Pesanan 1',
-            'idPelanggan' => $pelanggan -> idPelanggan,
-            'idLayanan' => $layanan -> idLayanan,
-            'idKurir' => $kurir -> idKurir,
-            'idKaryawan' => $karyawan -> idKaryawan,
+            'idPelanggan' => $pelanggan->idPelanggan,
+            'idLayanan' => $layanan->idLayanan,
+            'idKurir' => $kurir->idKurir,
+            'idKaryawan' => $karyawan->idKaryawan,
             'statusPesanan' => false,
             'tanggalMasuk' => now(),
             'tanggalSelesai' => now()->addDays(2),
@@ -74,22 +79,22 @@ class DatabaseSeeder extends Seeder
 
         $kategori = KategoriItem::create([
             'namaKategori' => 'Pakaian',
-        ]);   
+        ]);
 
         $detail = DetailTransaksi::create([
-            'idPesanan' => $pesanan -> idPesanan,
-            'idKategoriItem' => $kategori -> idKategoriItem,
+            'idPesanan' => $pesanan->idPesanan,
+            'idKategoriItem' => $kategori->idKategoriItem,
         ]);
 
         TransaksiPembayaran::create([
-            'idDetailTransaksi' => $detail -> idDetailTransaksi,
+            'idDetailTransaksi' => $detail->idDetailTransaksi,
             'metodePembayaran' => 'Transfer Bank',
             'tanggalPembayaran' => now(),
             'totalPembayaran' => 15000,
         ]);
         Pengaduan::create([
-            'idPelanggan' => $pelanggan -> idPelanggan,
-            'idPesanan' => $pesanan -> idPesanan,
+            'idPelanggan' => $pelanggan->idPelanggan,
+            'idPesanan' => $pesanan->idPesanan,
             'tanggalPengaduan' => now(),
             'deskripsi' => 'Pakaian hilang',
         ]);
