@@ -7,24 +7,27 @@ use App\Models\Kurir;
 
 class KurirController extends Controller
 {
+    // Halaman daftar kurir
     public function index()
     {
-        $kurirs = Kurir::all();
-        return view('kurir.index', compact('kurirs'));
+        $kurir = Kurir::all(); // ambil semua kurir
+        return view('ManajemenAkun.manajemenKurir', compact('kurir'));
     }
 
+    // Halaman form input kurir baru
     public function create()
     {
-        return view('kurir.input');
+        return view('ManajemenAkun.inputKurir');
     }
 
+    // Simpan data kurir baru
     public function store(Request $request)
     {
         $request->validate([
             'namaKurir' => 'required|string|max:255',
-            'username'  => 'required|string|max:255|unique:kurirs,username',
+            'username'  => 'required|string|max:255|unique:kurir,username',
             'noHp'      => 'required|string|max:15',
-            'email'     => 'required|email|unique:kurirs,email',
+            'email'     => 'required|email|unique:kurir,email',
             'password'  => 'required|min:6',
             'alamat'    => 'required|string',
         ]);
@@ -34,28 +37,30 @@ class KurirController extends Controller
             'username'  => $request->username,
             'noHp'      => $request->noHp,
             'email'     => $request->email,
-            'password'  => bcrypt($request->password), // hash password
+            'password'  => bcrypt($request->password),
             'alamat'    => $request->alamat,
         ]);
 
-        return redirect()->route('kurir.index')->with('success', 'Kurir berhasil ditambahkan!');
+        return redirect('/mkurir')->with('success', 'Kurir berhasil ditambahkan!');
     }
 
+    // Halaman form edit kurir
     public function edit($idKurir)
     {
         $kurir = Kurir::findOrFail($idKurir);
-        return view('kurir.edit', compact('kurir'));
+        return view('ManajemenAkun.editKurir', compact('kurir'));
     }
 
+    // Update data kurir
     public function update(Request $request, $idKurir)
     {
         $kurir = Kurir::findOrFail($idKurir);
 
         $request->validate([
             'namaKurir' => 'required|string|max:255',
-            'username'  => 'required|string|max:255|unique:kurirs,username,' . $kurir->idKurir . ',idKurir',
+            'username'  => 'required|string|max:255|unique:kurir,username,' . $idKurir . ',idKurir',
             'noHp'      => 'required|string|max:15',
-            'email'     => 'required|email|unique:kurirs,email,' . $kurir->idKurir . ',idKurir',
+            'email'     => 'required|email|unique:kurir,email,' . $idKurir . ',idKurir',
             'password'  => 'nullable|min:6',
             'alamat'    => 'required|string',
         ]);
@@ -72,13 +77,15 @@ class KurirController extends Controller
 
         $kurir->save();
 
-        return redirect()->route('kurir.index')->with('success', 'Data kurir berhasil diperbarui!');
+        return redirect('/mkurir')->with('success', 'Data kurir berhasil diperbarui!');
     }
 
+    // Hapus kurir
     public function hapus($idKurir)
     {
         $kurir = Kurir::findOrFail($idKurir);
         $kurir->delete();
-        return redirect()->route('kurir.index')->with('success', 'Kurir berhasil dihapus!');
+
+        return redirect('/mkurir')->with('success', 'Kurir berhasil dihapus!');
     }
 }

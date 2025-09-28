@@ -35,14 +35,14 @@ class DatabaseSeeder extends Seeder
             'noHp' => '081234567891',
             'alamat' => 'Jl. Kurir No. 1',
             'username' => 'kurir1',
-            'password' => bcrypt('password123'),
+            'password' => ('password123'),
             'email' => 'kurir1@gmail.com',
         ]);
 
         $pelanggan = Pelanggan::create([
             'namaPelanggan' => 'Pelanggan 1',
             'username' => 'pelanggan1',
-            'password' => bcrypt('password123'),
+            'password' => ('password123'),
             'email' => 'pelanggan@gmail.com',
             'otp' => now(),
             'alamat' => 'Jl. Pelanggan No. 1',
@@ -52,11 +52,11 @@ class DatabaseSeeder extends Seeder
         $karyawan = Karyawan::create([
             'namaKaryawan' => 'Karyawan 1',
             'username' => 'karyawan1',
-            'password' => bcrypt('password123'),
+            'password' => ('password123'),
             'alamat' => 'Jl. Karyawan No. 1',
             'noHp' => '081234567890',
             'email' => 'karyawan1@gmail.com',
-            'password' => bcrypt('password123'),
+            'password' => ('password123'),
         ]);
 
         $layanan = Layanan::create([
@@ -97,7 +97,10 @@ class DatabaseSeeder extends Seeder
             'idPelanggan' => $pelanggan->idPelanggan,
             'idPesanan' => $pesanan->idPesanan,
             'tanggalPengaduan' => now(),
-            'deskripsi' => 'Pakaian hilang',
+            'deskripsi' => 'Pakaian saya ada yang hilang',
+            'judulPengaduan' => 'Pakaian hilang',
+            'media' => '',
+            'tanggapanPengaduan' => 'Maaf, akan kami cari',
         ]);
     }
 }
