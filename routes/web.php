@@ -8,6 +8,8 @@ use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanLaundryController;
 use App\Http\Controllers\KaryawanController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\DashboardKaryawanController;
 
 // PELANGGAN
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
@@ -83,6 +85,6 @@ Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('che
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 
 // Halaman dashboard
-Route::get('/tampilanKaryawan', function () {
-    return view('dashboard.index');
-});
+Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
+// Route::get('/tampilanKurir', [DahboardKurirController::class, 'tampilanKurir'])->name('tampilanKurir');
+// Route::get('/tampilanPelanggan', [DashboardPelangganController::class, 'tampilanPelanggan'])->name('tampilanPelanggan');
