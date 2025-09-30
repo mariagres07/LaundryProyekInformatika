@@ -34,27 +34,27 @@
       <ul class="list-group list-group-flush">
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>Nama</span>
-          <span>{{ $nama }}</span>
+          <span>{{ $pesanan['nama'] }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>Alamat</span>
-          <span>{{ $alamat }}</span>
+          <span>{{ $pesanan['alamat'] }}</span>
         </li>
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>Kategori</span>
-          <span>{{ $kategori }}</span>
+          <span>{{ $pesanan['kategori'] }}</span>
         </li>   
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>Jenis Paket</span>
-          <span>{{ $paket }}</span>
+          <span>{{ $pesanan ['paket'] }}</span>
         </li>   
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>Estimasi Hari</span>
-          <span>{{ $estimasi }}</span>
+          <span>{{ $pesanan['estimasi'] }}</span>
         </li>   
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <span>Total Harga</span>
-          <span>{{ $harga }}</span>
+          <span>{{ $pesanan['harga'] }}</span>
         </li>   
       </ul>
     </div>
