@@ -96,3 +96,5 @@ Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name(
 
 // Rute untuk memproses pengiriman formulir pengaduan (POST request)
 Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
+
+//tanggapi pengaduan
