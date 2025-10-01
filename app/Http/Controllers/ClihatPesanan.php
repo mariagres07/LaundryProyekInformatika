@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
 
-class PesananController extends Controller
+class ClihatPesanan extends Controller
 {
     public function index()
     {
@@ -14,6 +14,6 @@ class PesananController extends Controller
                     ->orderBy('tanggalMasuk', 'desc')
                     ->get();
 
-        return view('pesanan.index', compact('pesanan'));
+        return view('lihatDataPesanan.lihatDPesanan', compact('pesanan'));
     }
 }
