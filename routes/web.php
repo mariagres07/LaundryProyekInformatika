@@ -25,14 +25,7 @@ Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
 // ---- ROUTE KARYAWAN ----
-Route::get('/mkaryawan', [KaryawanController::class, 'index'])->name('karyawan.index');
-Route::get('/mkaryawan/input', [KaryawanController::class, 'create'])->name('karyawan.create');
-Route::post('/mkaryawan/store', [KaryawanController::class, 'store'])->name('karyawan.store');
-Route::get('/mkaryawan/edit/{idKaryawan}', [KaryawanController::class, 'edit'])->name('karyawan.edit');
-Route::put('/mkaryawan/update/{idKaryawan}', [KaryawanController::class, 'update'])->name('karyawan.update');
-Route::get('/mkaryawan/hapus/{idKaryawan}', [KaryawanController::class, 'confirmDelete'])->name('karyawan.confirmDelete');
-Route::delete('/mkaryawan/destroy/{idKaryawan}', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
-
+Route::resource('karyawan', KaryawanController::class);
 // ---- ROUTE LAYANAN ----
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
 Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
