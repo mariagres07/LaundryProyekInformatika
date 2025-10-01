@@ -35,31 +35,31 @@
         <!-- Detail -->
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Nama</div>
-            <div class="col-8">: {{ $pesanan->pelanggan->nama ?? '-' }}</div>
+            <div class="col-8">: {{ $pesanan->pelanggan->namaPelanggan}}</div>
         </div>
 
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Kategori</div>
             <div class="col-8">
                 @foreach($pesanan->kategoriItems as $item)
-                : {{ $item->kategori->namaKategori ?? '-' }} : {{ $item->jumlah }} <br>
+                : {{ $item->kategori->namaKategori}} : {{ $item->jumlahItem}} <br>
                 @endforeach
             </div>
         </div>
 
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Paket (Pewangi)</div>
-            <div class="col-8">: {{ $pesanan->layanan->namaLayanan ?? '-' }}</div>
+            <div class="col-8">: {{ $pesanan->layanan->namaLayanan}}</div>
         </div>
 
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Alamat</div>
-            <div class="col-8">: {{ $pesanan->pelanggan->alamat ?? '-' }}</div>
+            <div class="col-8">: {{ $pesanan->pelanggan->alamat}}</div>
         </div>
 
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">No HP</div>
-            <div class="col-8">: {{ $pesanan->pelanggan->noHP ?? '-' }}</div>
+            <div class="col-8">: {{ $pesanan->pelanggan->noHP}}</div>
         </div>
 
     </div>
