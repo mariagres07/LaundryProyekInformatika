@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClihatLap;
-
+use App\Http\Controllers\ClihatPesanan;
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
@@ -81,6 +81,7 @@ Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('che
 
 // LAPORAN
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
+Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
 
 // Halaman dashboard
 Route::get('/tampilanKaryawan', function () {
