@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClihatLap;
 
+use App\Http\Controllers\ClihatLap;
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
@@ -10,6 +10,7 @@ use App\Http\Controllers\PesanLaundryController;
 use App\Http\Controllers\KaryawanController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\DashboardKaryawanController;
+use App\Http\Controllers\BuatPengaduanController;
 
 // PELANGGAN
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
@@ -81,3 +82,11 @@ Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
 // Route::get('/tampilanKurir', [DahboardKurirController::class, 'tampilanKurir'])->name('tampilanKurir');
 // Route::get('/tampilanPelanggan', [DashboardPelangganController::class, 'tampilanPelanggan'])->name('tampilanPelanggan');
+
+//Buat Pengaduan
+// Rute untuk menampilkan formulir pengaduan (GET request)
+Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name('pengaduan.create');
+
+// Rute untuk memproses pengiriman formulir pengaduan (POST request)
+Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
+
