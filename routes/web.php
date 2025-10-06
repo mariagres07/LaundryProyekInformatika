@@ -9,6 +9,8 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanLaundryController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\BuatPengaduanController;
+use App\Http\Controllers\TanggapiPengaduanController;
+
 
 
 // PELANGGAN
@@ -98,3 +100,25 @@ Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name(
 Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
 
 //tanggapi pengaduan
+Route::prefix('pengaduan')->name('pengaduan.')->group(function () {
+
+    // 1. DAFTAR PENGADUAN (INDEX)
+    // URL: /pengaduan
+    // Nama Route: pengaduan.index
+    Route::get('/', [TanggapiPengaduanController::class, 'index'])->name('index');
+
+    // 2. DETAIL PENGADUAN (SHOW)
+    // URL: /pengaduan/{idPengaduan}
+    // Nama Route: pengaduan.show
+    Route::get('/{idPengaduan}', [TanggapiPengaduanController::class, 'show'])->name('show');
+
+    // 3. KIRIM TANGGAPAN (PROSES SIMPAN/UPDATE)
+    // URL: /pengaduan/{idPengaduan}/tanggapan
+    // Nama Route: pengaduan.kirim
+    Route::post('/{idPengaduan}/tanggapan', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('kirim');
+
+    // 4. TANDAI SELESAI (PROSES UPDATE STATUS)
+    // URL: /pengaduan/{idPengaduan}/selesai
+    // Nama Route: pengaduan.selesai
+    Route::post('/{idPengaduan}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('selesai');
+});
