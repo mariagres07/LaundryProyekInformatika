@@ -14,7 +14,7 @@
     <div class="text-start p-3 mb-4"
         style="background:url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;">
         <h2 class="fw-bold text-primary" style="text-shadow:1px 1px white;">
-            {{ $pesanan->pelanggan->nama ?? '-' }}
+            Detail Pesanan {{ $pesanan->pelanggan->namaPelanggan ?? '-' }}
         </h2>
     </div>
 
@@ -24,7 +24,15 @@
         <div class="rounded-4 p-3 mb-4 bg-info-subtle">
             <div class="row">
                 <div class="col-6 text-primary fw-semibold">Status</div>
-                <div class="col-6">: {{ ucfirst($pesanan->statusPesanan) }}</div>
+                <div class="col-6">:
+                    @if($pesanan->statusPesanan == '0')
+                    Proses
+                    @elseif($pesanan->statusPesanan == '1')
+                    Selesai
+                    @else
+                    {{ ucfirst($pesanan->statusPesanan) }}
+                    @endif
+                </div>
             </div>
             <div class="row">
                 <div class="col-6 text-primary fw-semibold">Batas waktu pengantaran</div>
@@ -35,31 +43,32 @@
         <!-- Detail -->
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Nama</div>
-            <div class="col-8">: {{ $pesanan->pelanggan->namaPelanggan}}</div>
+            <div class="col-8">: {{ $pesanan->pelanggan->namaPelanggan ?? '-' }}</div>
         </div>
 
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Kategori</div>
-            <div class="col-8">
-                @foreach($pesanan->kategoriItems as $item)
-                : {{ $item->kategori->namaKategori}} : {{ $item->jumlahItem}} <br>
+            <div class="col-8">:
+                @foreach($pesanan->detailTransaksi as $detail)
+                {{ $detail->kategoriItem->namaKategori ?? '-' }} : {{ $detail->kategoriItem->jumlahItem ?? '-' }} <br>
                 @endforeach
             </div>
         </div>
 
+
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Paket (Pewangi)</div>
-            <div class="col-8">: {{ $pesanan->layanan->namaLayanan}}</div>
+            <div class="col-8">: {{ $pesanan->layanan->namaLayanan ?? '-' }}</div>
         </div>
 
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Alamat</div>
-            <div class="col-8">: {{ $pesanan->pelanggan->alamat}}</div>
+            <div class="col-8">: {{ $pesanan->pelanggan->alamat ?? '-' }}</div>
         </div>
 
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">No HP</div>
-            <div class="col-8">: {{ $pesanan->pelanggan->noHP}}</div>
+            <div class="col-8">: {{ $pesanan->pelanggan->noHp ?? '-' }}</div>
         </div>
 
     </div>

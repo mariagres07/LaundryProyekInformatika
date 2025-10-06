@@ -16,4 +16,15 @@ class ClihatPesanan extends Controller
 
         return view('lihatDataPesanan.lihatDPesanan', compact('pesanan'));
     }
+
+    // Tambahkan method baru untuk lihat detail
+    public function lihatDetail($id)
+    {
+        // Ambil data pesanan dengan relasi yang diperlukan
+        $pesanan = Pesanan::with(['pelanggan', 'layanan', 'detailTransaksi.kategoriItem'])
+            ->findOrFail($id);
+
+
+        return view('lihatDataPesanan.lihatDetail', compact('pesanan'));
+    }
 }

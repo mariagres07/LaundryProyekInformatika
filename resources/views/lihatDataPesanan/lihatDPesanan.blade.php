@@ -40,13 +40,13 @@
 
                 <!-- Status -->
                 @if($p->statusPesanan == '0')
-                <button class="btn btn-warning fw-semibold rounded-3">Proses</button>
+                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-warning fw-semibold rounded-3">Proses</a>
                 @elseif($p->statusPesanan == '1')
-                <button class="btn btn-success fw-semibold rounded-3">Selesai</button>
+                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-success fw-semibold rounded-3">Selesai</a>
                 @else
-                <button class="btn btn-secondary fw-semibold rounded-3">
+                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-secondary fw-semibold rounded-3">
                     {{ ucfirst($p->statusPesanan) }}
-                </button>
+                </a>
                 @endif
             </div>
         </div>
