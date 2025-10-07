@@ -14,7 +14,6 @@ use App\Http\Controllers\DashboardKaryawanController;
 use App\Http\Controllers\BuatPengaduanController;
 use App\Http\Controllers\TanggapiPengaduanController;
 
-
 // PELANGGAN
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::post('/editprofil', [PelangganController::class, 'update'])->name('pelanggan.update');
@@ -81,6 +80,7 @@ Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('che
 // LAPORAN
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
+Route::get('/lihat-detail/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatDetail');
 
 // Halaman dashboard
 Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
@@ -92,4 +92,3 @@ Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKa
 Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name('pengaduan.create');
 // Rute untuk memproses pengiriman formulir pengaduan (POST request)
 Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
-
