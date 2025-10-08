@@ -92,7 +92,7 @@
         </div>
         
         <div class="d-flex flex-column align-items-center">
-            <a href="{{ route('karyawan.index') }}" class="btn btn-primary mb-3 w-50 rounded-pill"> MANAJEMEN KARYAWAN</a>
+            <a href="{{ route('karyawan') }}" class="btn btn-primary mb-3 w-50 rounded-pill"> MANAJEMEN KARYAWAN</a>
             <a href="{{ route('kurir.index') }}" class="btn btn-info w-50 rounded-pill"> MANAJEMEN KURIR </a>
             <button class="btn btn-secondary mt-3 w-25 rounded-pill" onclick="showDashboard()"> Kembali </button>
         </div>
