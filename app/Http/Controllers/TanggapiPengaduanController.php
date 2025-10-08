@@ -20,7 +20,7 @@ class TanggapiPengaduanController extends Controller
             $pengaduans = collect();
         }
 
-        return view('ListTanggapiPengaduan', compact('pengaduans'));
+        return view('Pengaduan.ListTanggapiPengaduan', compact('pengaduans'));
     }
 
     // Tampilkan detail pengaduan dan form tanggapan
@@ -35,7 +35,7 @@ class TanggapiPengaduanController extends Controller
         }
     }
 
-    // Kirim tanggapan - PERBAIKAN BESAR DI SINI
+    // Kirim tanggapan
     public function kirimTanggapan(Request $request, string $idPengaduan)
     {
         $request->validate([
@@ -47,7 +47,7 @@ class TanggapiPengaduanController extends Controller
             DB::beginTransaction();
 
             $pengaduan = Pengaduan::findOrFail($idPengaduan);
-            
+
             // Update tanggapan dan status
             $pengaduan->update([
                 'tanggapanPengaduan' => $request->input('pesan'),
@@ -57,8 +57,7 @@ class TanggapiPengaduanController extends Controller
             DB::commit();
 
             return redirect()->route('pengaduan.show', $idPengaduan)
-                             ->with('success', 'Tanggapan berhasil dikirim!');
-                             
+                ->with('success', 'Tanggapan berhasil dikirim!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("Gagal mengirim tanggapan: " . $e->getMessage());
@@ -80,8 +79,7 @@ class TanggapiPengaduanController extends Controller
             DB::commit();
 
             return redirect()->route('pengaduan.index')
-                             ->with('success', 'Pengaduan telah ditandai sebagai selesai.');
-                             
+                ->with('success', 'Pengaduan telah ditandai sebagai selesai.');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("Gagal menyelesaikan pengaduan: " . $e->getMessage());

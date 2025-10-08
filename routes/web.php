@@ -92,3 +92,9 @@ Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKa
 Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name('pengaduan.create');
 // Rute untuk memproses pengiriman formulir pengaduan (POST request)
 Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
+
+//TanggapiPengaduan
+Route::get('/pengaduan', [TanggapiPengaduanController::class, 'index'])->name('pengaduan.index');
+Route::get('/pengaduan/{idPengaduan}', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
+Route::post('/pengaduan/{idPengaduan}/tanggapan', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
+Route::post('/pengaduan/{idPengaduan}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
