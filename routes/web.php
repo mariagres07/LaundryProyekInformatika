@@ -89,7 +89,7 @@ Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index
 // Halaman dashboard
 Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
 // Route::get('/tampilanKurir', [DahboardKurirController::class, 'tampilanKurir'])->name('tampilanKurir');
-// Route::get('/tampilanPelanggan', [DashboardPelangganController::class, 'tampilanPelanggan'])->name('tampilanPelanggan');
+ Route::get('/tampilanPelanggan', [DashboardPelangganController::class, 'tampilanPelanggan'])->name('tampilanPelanggan');
 
 //Buat Pengaduan
 // Rute untuk menampilkan formulir pengaduan (GET request)
