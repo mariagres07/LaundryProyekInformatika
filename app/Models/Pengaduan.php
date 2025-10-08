@@ -20,6 +20,7 @@ class Pengaduan extends Model
         'deskripsi',
         'judulPengaduan',
         'media',
+        'statusPengaduan',
         'tanggapanPengaduan',
     ];
 }
