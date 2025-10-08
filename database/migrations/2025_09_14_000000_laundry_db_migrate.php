@@ -57,6 +57,7 @@ return new class extends Migration
             $table->foreignId('idKurir')->constrained('kurir', 'idKurir')->onDelete('cascade');
             $table->foreignId('idKaryawan')->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
             $table->boolean('statusPesanan');
+            $table->decimal('beratBarang', 8, 2);
             $table->date('tanggalMasuk');
             $table->date('tanggalSelesai');
             $table->decimal('totalHarga', 12, 2);
@@ -90,6 +91,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->string('judulPengaduan');
             $table->string('media');
+            $table->boolean('statusPengaduan')->default(false);
             $table->string('tanggapanPengaduan')->nullable();
         });
 

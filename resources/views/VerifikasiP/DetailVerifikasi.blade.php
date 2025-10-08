@@ -14,31 +14,11 @@
     <div class="text-start p-3 mb-4"
         style="background:url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;">
         <h2 class="fw-bold text-primary" style="text-shadow:1px 1px white;">
-            Detail Pesanan {{ $pesanan->pelanggan->namaPelanggan ?? '-' }}
+            Verifikasi {{ $pesanan->pelanggan->namaPelanggan ?? '-' }}
         </h2>
     </div>
 
     <div class="container">
-
-        <!-- Status & Batas Waktu -->
-        <div class="rounded-4 p-3 mb-4 bg-info-subtle">
-            <div class="row">
-                <div class="col-6 text-primary fw-semibold">Status</div>
-                <div class="col-6">:
-                    @if($pesanan->statusPesanan == '0')
-                    Proses
-                    @elseif($pesanan->statusPesanan == '1')
-                    Selesai
-                    @else
-                    {{ ucfirst($pesanan->statusPesanan) }}
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6 text-primary fw-semibold">Batas waktu pengantaran</div>
-                <div class="col-6">: 10.00</div>
-            </div>
-        </div>
 
         <!-- Detail -->
         <div class="row mb-2">
@@ -70,6 +50,18 @@
             <div class="col-4 text-primary fw-semibold">No HP</div>
             <div class="col-8">: {{ $pesanan->pelanggan->noHp ?? '-' }}</div>
         </div>
+
+        <div class="row mb-2">
+            <div class="col-4 text-primary fw-semibold">Berat</div>
+            <div class="col-8">
+                <input type="number" class="form-control" id="inputBerat" name="berat" placeholder="Masukkan berat">
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary" type="button">Verifikasi Pesanan</button>
+        </div>
+
         <!-- Tombol kembali -->
         <div class="mb-3">
             <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
