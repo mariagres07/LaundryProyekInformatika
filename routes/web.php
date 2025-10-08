@@ -27,7 +27,13 @@ Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
 // ---- ROUTE KARYAWAN ----
-Route::resource('karyawan', KaryawanController::class);
+Route::get('/karyawan', [KaryawanController::class, 'index']);
+Route::get('/karyawan/input', [KaryawanController::class, 'input']);
+Route::post('/mkaryawan/simpan', [KaryawanController::class, 'store']);
+Route::get('/mkaryawan/edit/{id}', [KaryawanController::class, 'edit']);
+Route::put('/mkaryawan/update/{id}', [KaryawanController::class, 'update']);
+Route::delete('/mkaryawan/hapus/{id}', [KaryawanController::class, 'destroy']);
+
 // ---- ROUTE LAYANAN ----
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
 Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');

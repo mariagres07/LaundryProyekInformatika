@@ -12,7 +12,7 @@
         <div class="card-header bg-success text-white">
             <h4 class="mb-0">Tambah Karyawan</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body"> 
             <form method="POST" action="{{ url('/mkaryawan/store') }}">
                 @csrf
 
@@ -32,6 +32,11 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label">Email *</label>
+                    <input type="email" name="email" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label">Password *</label>
                     <input type="password" name="password" class="form-control" required>
                 </div>
@@ -41,7 +46,7 @@
                     <textarea name="alamat" class="form-control" rows="3" required></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-success">Simpan</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="{{ url('/mkaryawan') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>
