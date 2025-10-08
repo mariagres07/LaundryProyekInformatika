@@ -29,7 +29,7 @@ Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
 // ---- ROUTE KARYAWAN ----
-Route::get('/karyawan', [KaryawanController::class, 'index']);
+Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan');
 Route::get('/karyawan/input', [KaryawanController::class, 'input']);
 Route::post('/mkaryawan/simpan', [KaryawanController::class, 'store']);
 Route::get('/mkaryawan/edit/{id}', [KaryawanController::class, 'edit']);
