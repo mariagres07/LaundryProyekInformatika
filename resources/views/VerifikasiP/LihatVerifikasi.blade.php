@@ -11,43 +11,36 @@
 <body class="bg-light">
 
     <!-- Header -->
-    <div class="text-center p-3 mb-4"
+    <div class="text-center p-4 mb-4"
         style="background:url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;">
-        <h2 class="fw-bold text-primary" style="text-shadow:1px 1px white;">Pesanan</h2>
+        <h1 class="fw-bold text-light" style="font-size:3rem; text-shadow:2px 2px 4px #000;">
+            Verifikasi<br>Pesanan
+        </h1>
     </div>
 
     <div class="container">
 
         @foreach($pesanan as $p)
-        <div class="card rounded-4 shadow-sm mb-3">
-            <div class="card-body d-flex justify-content-between align-items-center bg-info-subtle rounded-4">
-                <div>
+        <a href="/detailVer/{{ $p->idPesanan }}" class="text-decoration-none text-dark">
+            <div class="card rounded-pill shadow-sm mb-3 border-0">
+                <div class="card-body bg-info-subtle rounded-pill">
                     <!-- Nama pelanggan -->
-                    <h5 class="mb-0 fw-semibold">
-                        {{ $p->pelanggan->namaPelanggan}}
+                    <h5 class="fw-semibold mb-0">
+                        {{ $p->pelanggan->namaPelanggan }}
                     </h5>
 
-                    <!-- Email pelanggan -->
-                    <small class="text-muted">
-                        {{ $p->pelanggan->email}}
-                    </small><br>
+                    <!-- Username (ambil sebelum tanda @) -->
+                    <small class="text-muted d-block">
+                        {{ '@' . explode('@', $p->pelanggan->email)[0] }}
+                    </small>
 
                     <!-- Tanggal selesai -->
                     <small class="text-danger fw-semibold">
                         {{ $p->tanggalSelesai ? \Carbon\Carbon::parse($p->tanggalSelesai)->format('d/m/Y') : '-' }}
                     </small>
                 </div>
-
-                <!-- Status -->
-                @if($p->statusPesanan == '0')
-                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-warning fw-semibold rounded-3">Proses</a>
-                @else
-                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-secondary fw-semibold rounded-3">
-                    {{ ucfirst($p->statusPesanan) }}
-                </a>
-                @endif
             </div>
-        </div>
+        </a>
         @endforeach
 
         @if($pesanan->isEmpty())

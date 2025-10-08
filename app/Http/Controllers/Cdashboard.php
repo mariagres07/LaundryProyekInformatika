@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DashboardKaryawanController extends Controller
+class Cdashboard extends Controller
 {
     public function tampilanKaryawan(Request $request)
     {
         return view('Dashboard.tampilanKaryawan');
+    }
+    
+    public function tampilanKurir(Request $request)
+    {
+        return view('Dashboard.tampilanKurir');
     }
 }

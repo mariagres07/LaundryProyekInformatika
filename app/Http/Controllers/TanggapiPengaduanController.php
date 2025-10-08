@@ -1,115 +1,89 @@
 <?php
 
-namespace App\Http\Controllers\Karyawan;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pengaduan;
-// use App\Models\ChatPengaduan; // Dihapus karena tidak menggunakan sistem chat
-use Illuminate\Support\Facades\Auth; // Digunakan untuk mendapatkan ID Karyawan yang login
-use Illuminate\Support\Facades\Log; // Digunakan untuk logging error
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
-class PengaduanController extends Controller
+class TanggapiPengaduanController extends Controller
 {
-    /**
-     * Tampilkan daftar pengaduan yang perlu ditanggapi oleh karyawan (Pending).
-     * Sesuai dengan halaman 'Tanggapi Pengaduan'
-     */
+    // Tampilkan daftar pengaduan
     public function index()
     {
-        // Ambil pengaduan yang statusnya 'Baru' atau 'Ditanggapi' (Belum Selesai).
-        // Memuat relasi pelanggan untuk menampilkan informasi di daftar.
-        // Asumsi model Pengaduan memiliki scopePending() untuk filter status.
         try {
-             $pengaduans = Pengaduan::pending()
-                ->with('pelanggan')
-                ->get();
+            // Mengambil semua pengaduan dengan relasi pelanggan
+            $pengaduans = Pengaduan::with('pelanggan')->get();
         } catch (\Exception $e) {
-            Log::error("Gagal memuat daftar pengaduan karyawan: " . $e->getMessage());
-            $pengaduans = collect(); // Kembalikan koleksi kosong jika terjadi error
+            Log::error("Gagal memuat daftar pengaduan: " . $e->getMessage());
+            $pengaduans = collect();
         }
-       
-        return view('karyawan.pengaduan.index', compact('pengaduans'));
+
+        return view('Pengaduan.ListTanggapiPengaduan', compact('pengaduans'));
     }
 
-    /**
-     * Tampilkan halaman detail pengaduan.
-     * Halaman ini akan menampilkan deskripsi pelanggan dan kolom untuk mengisi tanggapan.
-     * @param string $idPengaduan ID unik dari Pengaduan
-     */
+    // Tampilkan detail pengaduan dan form tanggapan
     public function show(string $idPengaduan)
     {
-        // Cari data Pengaduan, jika tidak ditemukan akan throw 404.
-        // Eager load relasi pelanggan dan pesanan saja.
-        $pengaduan = Pengaduan::with(['pelanggan', 'pesanan'])
-            ->findOrFail($idPengaduan);
-
-        return view('karyawan.pengaduan.show', compact('pengaduan'));
+        try {
+            $pengaduan = Pengaduan::with('pelanggan')->findOrFail($idPengaduan);
+            return view('DetailTanggapiPengaduan', compact('pengaduan'));
+        } catch (\Exception $e) {
+            Log::error("Gagal memuat detail pengaduan: " . $e->getMessage());
+            return redirect()->route('pengaduan.index')->with('error', 'Pengaduan tidak ditemukan.');
+        }
     }
 
-    /**
-     * Simpan tanggapan dari karyawan langsung ke kolom Pengaduan.
-     * Model Pengaduan diasumsikan memiliki kolom 'tanggapan_karyawan' dan 'idKaryawan'.
-     * @param Request $request Data pesan dari form
-     * @param string $idPengaduan ID unik dari Pengaduan
-     */
+    // Kirim tanggapan
     public function kirimTanggapan(Request $request, string $idPengaduan)
     {
-        // 1. Validasi input pesan
         $request->validate([
             'pesan' => 'required|string|max:1000',
         ]);
 
-        $pengaduan = Pengaduan::findOrFail($idPengaduan);
-
-        // 2. Dapatkan ID pengguna (karyawan) yang sedang login
-        $idKaryawan = Auth::id(); 
-        
-        // *Fallback jika autentikasi belum diimplementasikan*
-        if (!$idKaryawan) {
-             $idKaryawan = 1; // Asumsi ID karyawan default adalah 1
-        }
-
         try {
-            // 3. Simpan tanggapan dan ID Karyawan yang merespons ke model Pengaduan
-            $pengaduan->tanggapan_karyawan = $request->input('pesan');
-            $pengaduan->idKaryawan = $idKaryawan; // Asumsi ada kolom idKaryawan di Pengaduan
+            // Gunakan transaction untuk keamanan data
+            DB::beginTransaction();
 
-            // 4. Perbarui status pengaduan menjadi 'Ditanggapi'
-            if ($pengaduan->status !== 'Selesai') {
-                 $pengaduan->status = 'Ditanggapi';
-            }
-            $pengaduan->save();
+            $pengaduan = Pengaduan::findOrFail($idPengaduan);
 
-            // Redirect kembali ke halaman detail pengaduan
-            return redirect()->route('karyawan.pengaduan.show', $idPengaduan)
-                             ->with('success', 'Tanggapan berhasil dikirim!');
+            // Update tanggapan dan status
+            $pengaduan->update([
+                'tanggapanPengaduan' => $request->input('pesan'),
+                'status' => 'Ditanggapi'
+            ]);
 
+            DB::commit();
+
+            return redirect()->route('pengaduan.show', $idPengaduan)
+                ->with('success', 'Tanggapan berhasil dikirim!');
         } catch (\Exception $e) {
-            Log::error("Gagal mengirim tanggapan pengaduan (Non-Chat): " . $e->getMessage());
-            return back()->with('error', 'Terjadi kesalahan saat menyimpan tanggapan.');
+            DB::rollBack();
+            Log::error("Gagal mengirim tanggapan: " . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan tanggapan: ' . $e->getMessage());
         }
     }
-    
-    /**
-     * Ubah status pengaduan menjadi Selesai.
-     * @param string $idPengaduan ID unik dari Pengaduan
-     */
+
+    // Tandai pengaduan sebagai selesai
     public function selesaikan(string $idPengaduan)
     {
         try {
-            $pengaduan = Pengaduan::findOrFail($idPengaduan);
-            
-            $pengaduan->status = 'Selesai';
-            $pengaduan->save();
+            DB::beginTransaction();
 
-            // Redirect kembali ke daftar pengaduan
-            return redirect()->route('karyawan.pengaduan.index')
-                             ->with('success', 'Pengaduan berhasil ditandai Selesai.');
+            $pengaduan = Pengaduan::findOrFail($idPengaduan);
+            $pengaduan->update([
+                'status' => 'Selesai'
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('pengaduan.index')
+                ->with('success', 'Pengaduan telah ditandai sebagai selesai.');
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error("Gagal menyelesaikan pengaduan: " . $e->getMessage());
-            return back()->with('error', 'Gagal menandai pengaduan sebagai selesai.');
+            return back()->with('error', 'Gagal menandai pengaduan sebagai selesai: ' . $e->getMessage());
         }
     }
 }
-

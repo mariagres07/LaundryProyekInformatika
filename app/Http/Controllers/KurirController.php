@@ -37,7 +37,7 @@ class KurirController extends Controller
             'username'  => $request->username,
             'noHp'      => $request->noHp,
             'email'     => $request->email,
-            'password'  => bcrypt($request->password),
+            'password'  => ($request->password),
             'alamat'    => $request->alamat,
         ]);
 
