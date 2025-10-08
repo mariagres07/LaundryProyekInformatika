@@ -41,8 +41,6 @@
                 <!-- Status -->
                 @if($p->statusPesanan == '0')
                 <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-warning fw-semibold rounded-3">Proses</a>
-                @elseif($p->statusPesanan == '1')
-                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-success fw-semibold rounded-3">Selesai</a>
                 @else
                 <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-secondary fw-semibold rounded-3">
                     {{ ucfirst($p->statusPesanan) }}
