@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ClihatLap;
 use App\Http\Controllers\ClihatPesanan;
+use App\Http\Controllers\CVerifikasi;
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\KaryawanController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\DashboardKaryawanController;
 use App\Http\Controllers\BuatPengaduanController;
+use App\Http\Controllers\TanggapiPengaduanController;
 
 // PELANGGAN
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
@@ -82,9 +84,13 @@ Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pes
 Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
-// LAPORAN
+// LAPORAN dan KURIR
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
+Route::get('/lihat-detail/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatDetail');
+
+Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
+Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
 
 // Halaman dashboard
 Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
@@ -97,3 +103,8 @@ Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name(
 // Rute untuk memproses pengiriman formulir pengaduan (POST request)
 Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
 
+//TanggapiPengaduan
+Route::get('/pengaduan', [TanggapiPengaduanController::class, 'index'])->name('pengaduan.index');
+Route::get('/pengaduan/{idPengaduan}', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
+Route::post('/pengaduan/{idPengaduan}/tanggapan', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
+Route::post('/pengaduan/{idPengaduan}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
