@@ -65,6 +65,7 @@ class DatabaseSeeder extends Seeder
             'idKurir' => $kurir->idKurir,
             'idKaryawan' => $karyawan->idKaryawan,
             'statusPesanan' => false,
+            'beratBarang' => 1.5,
             'tanggalMasuk' => now(),
             'tanggalSelesai' => now()->addDays(2),
             'totalHarga' => 15000,
@@ -93,6 +94,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Pakaian saya ada yang hilang',
             'judulPengaduan' => 'Pakaian hilang',
             'media' => '',
+            'statusPengaduan' => false,
             'tanggapanPengaduan' => 'Mohon maaf atas ketidaknyamanannya, kami akan mencari pakaian Anda secepatnya.',
         ]);
     }

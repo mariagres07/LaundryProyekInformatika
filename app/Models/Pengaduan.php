@@ -29,3 +29,4 @@ class Pengaduan extends Model
         return $this->belongsTo(Pelanggan::class, 'idPelanggan', 'idPelanggan');
     }
 }
+

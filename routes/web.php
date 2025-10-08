@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ClihatLap;
 use App\Http\Controllers\ClihatPesanan;
+use App\Http\Controllers\CVerifikasi;
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
@@ -28,7 +29,13 @@ Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
 // ---- ROUTE KARYAWAN ----
-Route::resource('karyawan', KaryawanController::class);
+Route::get('/karyawan', [KaryawanController::class, 'index']);
+Route::get('/karyawan/input', [KaryawanController::class, 'input']);
+Route::post('/mkaryawan/simpan', [KaryawanController::class, 'store']);
+Route::get('/mkaryawan/edit/{id}', [KaryawanController::class, 'edit']);
+Route::put('/mkaryawan/update/{id}', [KaryawanController::class, 'update']);
+Route::delete('/mkaryawan/hapus/{id}', [KaryawanController::class, 'destroy']);
+
 // ---- ROUTE LAYANAN ----
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
 Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
@@ -77,10 +84,13 @@ Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pes
 Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
-// LAPORAN
+// LAPORAN dan KURIR
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
 Route::get('/lihat-detail/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatDetail');
+
+Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
+Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
 
 // Halaman dashboard
 Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKaryawan'])->name('tampilanKaryawan');

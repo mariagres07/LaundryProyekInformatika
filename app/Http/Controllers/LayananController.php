@@ -14,8 +14,10 @@ class LayananController extends Controller
 
         // Paket bisa statis dulu
         $pakets = [
-            (object)['nama' => 'Regular', 'harga' => 5000, 'icon' => '/images/icon-paket.png'],
-            (object)['nama' => 'Express', 'harga' => 10000, 'icon' => '/images/icon-paket.png'],
+            (object)['namaLayanan' => 'Regular (Fresh Coffe)', 'hargaPerKg' => 5000, 'icon' => '/regularlogo.png'],
+            (object)['namaLayanan' => 'Express (Fresh Coffe)', 'hargaPerKg' => 10000, 'icon' => '/Expresslogo.png'],
+            (object)['namaLayanan' => 'Regular (Vanila)', 'hargaPerKg' => 5000, 'icon' => '/regularlogo.png'],
+            (object)['namaLayanan' => 'Express (Vanila)', 'hargaPerKg' => 10000, 'icon' => '/Expresslogo.png'],
         ];
 
         // Hati-hati: view ada di folder LayananLaundry
@@ -23,19 +25,28 @@ class LayananController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama'  => 'required|string|max:100',
-            'harga' => 'required|numeric',
-        ]);
+{
+    $request->validate([
+        'namaLayanan'  => 'required|string|max:100',
+        'hargaPerKg' => 'required|numeric',
+    ]);
 
-        Layanan::create([
-            'nama'  => $request->nama,
-            'harga' => $request->harga,
-        ]);
-
-        return redirect()->route('layanan.index')->with('success', 'Data berhasil disimpan');
+    // Tentukan estimasi otomatis
+    $estimasiHari = 2; // default
+    if (stripos($request->namaLayanan, 'express') !== false) {
+        $estimasiHari = 1;
+    } elseif (stripos($request->namaLayanan, 'regular') !== false) {
+        $estimasiHari = 2;
     }
+
+    Layanan::create([
+        'namaLayanan'  => $request->namaLayanan,
+        'hargaPerKg' => $request->hargaPerKg,
+        'estimasiHari' => $estimasiHari,
+    ]);
+
+    return redirect()->route('layanan.index')->with('success', 'Data berhasil disimpan');
+}
 
     public function destroy($id)
     {
