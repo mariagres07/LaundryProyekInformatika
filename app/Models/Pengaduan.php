@@ -20,7 +20,13 @@ class Pengaduan extends Model
         'deskripsi',
         'judulPengaduan',
         'media',
-        'statusPengaduan',
-        'tanggapanPengaduan',
+        'tanggapanPengaduan', 
+        'status', 
     ];
+
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class, 'idPelanggan', 'idPelanggan');
+    }
 }
+

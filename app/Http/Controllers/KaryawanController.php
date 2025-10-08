@@ -7,76 +7,82 @@ use App\Models\Karyawan;
 
 class KaryawanController extends Controller
 {
-    public function index(Request $request)
+    // Tampilkan daftar semua karyawan
+    public function index()
     {
-        $cari = $request->input('cari');
-        $karyawan = Karyawan::when($cari, function ($query, $cari) {
-            return $query->where('namaKaryawan', 'like', "%$cari%")
-                         ->orWhere('username', 'like', "%$cari%");
-        })->get();
-
-        return view('ManajemenAkun.manajemenKaryawan', compact('karyawan', 'cari'));
+        $karyawan = Karyawan::all();
+        return view('ManajemenAkun.manajemenKaryawan', compact('karyawan'));
     }
 
+    // Tampilkan form tambah karyawan
     public function create()
     {
-        return view('ManajemenAkun.createKaryawan');
+        return view('ManajemenAkun.tambahKaryawan');
     }
 
+    // Simpan data karyawan baru
     public function store(Request $request)
     {
         $request->validate([
-            'namaKaryawan' => 'required|string|max:255',
-            'username'     => 'required|string|max:255|unique:karyawan',
+            'namaKaryawan' => 'required|string|max:100',
+            'username'     => 'required|string|max:50',
+            'noHp'         => 'required|string|max:15',
+            'email'        => 'required|email',
             'password'     => 'required|string|min:6',
-            'alamat'       => 'required|string',
-            'noHp'         => 'required|string|max:20',
+            'alamat'       => 'required|string'
         ]);
 
         Karyawan::create([
             'namaKaryawan' => $request->namaKaryawan,
             'username'     => $request->username,
+            'noHp'         => $request->noHp,
+            'email'        => $request->email,
             'password'     => bcrypt($request->password),
             'alamat'       => $request->alamat,
-            'noHp'         => $request->noHp,
         ]);
 
-        return redirect()->route('karyawan.index')->with('success', 'Data berhasil ditambahkan');
+        return redirect('/mkaryawan')->with('success', 'Data karyawan berhasil disimpan!');
     }
 
+    // Tampilkan form edit karyawan
     public function edit($id)
     {
         $karyawan = Karyawan::findOrFail($id);
-        return view('ManajemenAkun.edit', compact('karyawan'));
+        return view('ManajemenAkun.editKaryawan', compact('karyawan'));
     }
 
+    // Update data karyawan
     public function update(Request $request, $id)
     {
         $karyawan = Karyawan::findOrFail($id);
 
         $request->validate([
-            'namaKaryawan' => 'required|string|max:255',
-            'username'     => 'required|string|max:255|unique:karyawan,username,' . $id,
-            'password'     => 'nullable|string|min:6',
-            'alamat'       => 'required|string',
-            'noHp'         => 'required|string|max:20',
+            'namaKaryawan' => 'required|string|max:100',
+            'username'     => 'required|string|max:50',
+            'noHp'         => 'required|string|max:15',
+            'email'        => 'required|email',
+            'password'     => 'required|string|min:6',
+            'alamat'       => 'required|string'
         ]);
 
-        $data = $request->only(['namaKaryawan', 'username', 'alamat', 'noHp']);
-        if ($request->filled('password')) {
-            $data['password'] = bcrypt($request->password);
-        }
+        $karyawan->update([
+            'namaKaryawan' => $request->namaKaryawan,
+            'username'     => $request->username,
+            'noHp'         => $request->noHp,
+            'email'        => $request->email,
+            'password'     => bcrypt($request->password),
+            'alamat'       => $request->alamat,
+        ]);
 
-        $karyawan->update($data);
-
-        return redirect()->route('karyawan.index')->with('success', 'Data berhasil diperbarui');
+        return redirect('/mkaryawan')->with('success', 'Data karyawan berhasil diperbarui!');
     }
 
+    // Hapus data karyawan
     public function destroy($id)
     {
         $karyawan = Karyawan::findOrFail($id);
         $karyawan->delete();
 
-        return redirect()->route('karyawan.index')->with('success', 'Data berhasil dihapus');
+        return redirect('/mkaryawan')->with('success', 'Data karyawan berhasil dihapus!');
     }
 }
