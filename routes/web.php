@@ -95,7 +95,7 @@ Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
 // Halaman dashboard
 Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
 Route::get('/tampilanKurir', [Cdashboard::class, 'tampilanKurir'])->name('tampilanKurir');
-Route::get('/tampilanPelanggan', [DashboardPelangganController::class, 'tampilanPelanggan'])->name('tampilanPelanggan');
+Route::get('/tampilanPelanggan', [Cdashboard::class, 'tampilanPelanggan'])->name('tampilanPelanggan');
 
 //Buat Pengaduan
 // Rute untuk menampilkan formulir pengaduan (GET request)

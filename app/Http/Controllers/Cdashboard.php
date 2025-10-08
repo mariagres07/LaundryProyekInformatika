@@ -15,4 +15,10 @@ class Cdashboard extends Controller
     {
         return view('Dashboard.tampilanKurir');
     }
+
+    public function tampilanPelanggan()
+    {
+        // menuju file: resources/views/pelanggan/beranda.blade.php
+        return view('Dashboard.tampilanPelanggan');
+    }
 }

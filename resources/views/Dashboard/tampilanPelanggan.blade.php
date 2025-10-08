@@ -67,13 +67,14 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-5">
       <img src="https://i.ibb.co/GHR6mt3/iva-laundry-logo.png" alt="IVA Laundry" class="logo">
-      <a href="{{ route('logout') }}" class="btn logout-btn">KELUAR</a>
+      <a href="/" class="btn logout-btn">KELUAR</a>
     </div>
 
     <!-- Menu -->
+     <!-- Pesaan Laundry -->
     <div class="row justify-content-center mt-5">
       <div class="col-md-3 mb-4">
-        <a href="{{ route('pesanLaundry.index') }}" class="text-decoration-none text-dark">
+        <a href="/pesanLaundry" class="text-decoration-none text-dark">
           <div class="menu-card">
             <i class="bi bi-washer menu-icon"></i>
             <h5>Pesan Laundry</h5>
@@ -81,8 +82,9 @@
         </a>
       </div>
 
+      <!-- Lihat Data Pesanan -->
       <div class="col-md-3 mb-4">
-        <a href="{{ route('pesanan.index') }}" class="text-decoration-none text-dark">
+        <a href="/detailPesanan" class="text-decoration-none text-dark">
           <div class="menu-card">
             <i class="bi bi-file-text menu-icon"></i>
             <h5>Lihat Data Pesanan</h5>
@@ -90,8 +92,9 @@
         </a>
       </div>
 
+      <!-- Edit Profil -->
       <div class="col-md-3 mb-4">
-        <a href="{{ route('profil.edit') }}" class="text-decoration-none text-dark">
+        <a href="/editprofil" class="text-decoration-none text-dark">
           <div class="menu-card">
             <i class="bi bi-people-fill menu-icon"></i>
             <h5>Edit Profil</h5>
