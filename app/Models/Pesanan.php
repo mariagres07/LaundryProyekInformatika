@@ -20,28 +20,33 @@ class Pesanan extends Model
         'idKurir',
         'idKaryawan',
         'statusPesanan',
+        'beratBarang',
         'tanggalMasuk',
         'tanggalSelesai',
         'totalHarga',
     ];
 
-    public function pelanggan(){
+    public function pelanggan()
+    {
         return $this->belongsTo(Pelanggan::class, 'idPelanggan');
     }
 
-    public function karyawan(){
+    public function karyawan()
+    {
         return $this->belongsTo(Karyawan::class, 'idKaryawan');
     }
 
-    public function kurir(){
+    public function kurir()
+    {
         return $this->belongsTo(Kurir::class, 'idKurir');
     }
 
-    public function layanan(){
+    public function layanan()
+    {
         return $this->belongsTo(Layanan::class, 'idLayanan');
     }
 
-     public function detailTransaksi()
+    public function detailTransaksi()
     {
         return $this->hasMany(DetailTransaksi::class, 'idPesanan');
     }
