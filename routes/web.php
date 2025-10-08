@@ -11,7 +11,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanLaundryController;
 use App\Http\Controllers\KaryawanController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-use App\Http\Controllers\DashboardKaryawanController;
+use App\Http\Controllers\Cdashboard;
 use App\Http\Controllers\BuatPengaduanController;
 use App\Http\Controllers\TanggapiPengaduanController;
 
@@ -93,8 +93,8 @@ Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifi
 Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
 
 // Halaman dashboard
-Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
-// Route::get('/tampilanKurir', [DahboardKurirController::class, 'tampilanKurir'])->name('tampilanKurir');
+Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
+Route::get('/tampilanKurir', [Cdashboard::class, 'tampilanKurir'])->name('tampilanKurir');
 // Route::get('/tampilanPelanggan', [DashboardPelangganController::class, 'tampilanPelanggan'])->name('tampilanPelanggan');
 
 //Buat Pengaduan
