@@ -8,17 +8,19 @@ class Cdashboard extends Controller
 {
     public function tampilanKaryawan(Request $request)
     {
-        return view('Dashboard.tampilanKaryawan');
+        $user = session('user');
+        return view('Dashboard.tampilanKaryawan', compact('user'));
     }
-    
+
     public function tampilanKurir(Request $request)
     {
-        return view('Dashboard.tampilanKurir');
+        $user = session('user');
+        return view('Dashboard.tampilanKurir', compact('user'));
     }
 
     public function tampilanPelanggan()
     {
-        // menuju file: resources/views/pelanggan/beranda.blade.php
-        return view('Dashboard.tampilanPelanggan');
+        $user = session('user');
+        return view('Dashboard.tampilanPelanggan', compact('user'));
     }
 }
