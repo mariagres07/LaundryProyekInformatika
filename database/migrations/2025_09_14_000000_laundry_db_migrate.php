@@ -54,8 +54,8 @@ return new class extends Migration
             $table->string('namaPesanan');
             $table->foreignId('idPelanggan')->constrained('pelanggan', 'idPelanggan')->onDelete('cascade');
             $table->foreignId('idLayanan')->constrained('layanan', 'idLayanan')->onDelete('cascade');
-            $table->foreignId('idKurir')->constrained('kurir', 'idKurir')->onDelete('cascade');
-            $table->foreignId('idKaryawan')->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
+            $table->foreignId('idKurir')->nullable()->constrained('kurir', 'idKurir')->onDelete('cascade');
+            $table->foreignId('idKaryawan')->nullable()->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
             $table->boolean('statusPesanan');
             $table->decimal('beratBarang', 8, 2);
             $table->date('tanggalMasuk');
