@@ -16,6 +16,7 @@ use App\Http\Controllers\LoginController;
 
 // ===================== AUTH / LOGIN =====================
 Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');
+Route::post('/masuk', [LoginController::class, 'login'])->name('login.process');
 Route::get('/daftar', [LoginController::class, 'showRegister'])->name('register.show');
 Route::post('/register', [LoginController::class, 'register'])->name('register.process');
 
@@ -23,6 +24,9 @@ Route::get('/otp', [LoginController::class, 'showOtp'])->name('otp.show');
 Route::post('/otp', [LoginController::class, 'verifyOtp'])->name('otp.verify');
 
 Route::get('/berhasil', [LoginController::class, 'success'])->name('success');
+
+// ========LOGOUT========
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // ===================== PELANGGAN =====================
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');

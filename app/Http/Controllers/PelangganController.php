@@ -9,7 +9,7 @@ class PelangganController extends Controller
 {
     public function edit()
     {
-        $user = auth()->user(); // data user login
+        $pela = auth()->user(); // data user login
         return view('editProfilPelanggan', compact('user'));
     }
 

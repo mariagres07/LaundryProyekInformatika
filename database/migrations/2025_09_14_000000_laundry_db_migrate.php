@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('email')->unique();
-            // $table->timestamp('otp');
+            $table->timestamp('otp');
             $table->string('alamat');
             $table->string('noHp')->unique();
         });
