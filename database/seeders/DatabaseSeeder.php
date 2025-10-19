@@ -15,6 +15,7 @@ use App\Models\KategoriItem;
 use App\Models\DetailTransaksi;
 use App\Models\TransaksiPembayaran;
 use App\Models\Pengaduan;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,14 +29,14 @@ class DatabaseSeeder extends Seeder
             'noHp' => '081234567891',
             'alamat' => 'Jl. Kurir No. 1',
             'username' => 'kurir1',
-            'password' => ('password123'),
+            'password' => Hash::make('password123'),
             'email' => 'kurir1@gmail.com',
         ]);
 
         $pelanggan = Pelanggan::create([
             'namaPelanggan' => 'Pelanggan 1',
             'username' => 'pelanggan1',
-            'password' => ('password123'),
+            'password' => Hash::make('password123'),
             'email' => 'pelanggan@gmail.com',
             'otp' => now(),
             'alamat' => 'Jl. Pelanggan No. 1',
@@ -45,11 +46,10 @@ class DatabaseSeeder extends Seeder
         $karyawan = Karyawan::create([
             'namaKaryawan' => 'Karyawan 1',
             'username' => 'karyawan1',
-            'password' => ('password123'),
+            'password' => Hash::make('password123'),
             'alamat' => 'Jl. Karyawan No. 1',
             'noHp' => '081234567890',
             'email' => 'karyawan1@gmail.com',
-            'password' => ('password123'),
         ]);
 
         $layanan = Layanan::create([
