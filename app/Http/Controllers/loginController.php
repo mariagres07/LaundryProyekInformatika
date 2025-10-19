@@ -20,22 +20,31 @@ class LoginController extends Controller
         return view('login.masuk');
     }
 
-    // Proses login
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+  public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        $user = User::where('email', $request->email)->first();
+    $user = User::where('email', $request->email)->first();
 
-        if ($user && Hash::check($request->password, $user->password)) {
-            return redirect()->route('otp.show');
+    if ($user && Hash::check($request->password, $user->password)) {
+        // Arahkan ke halaman sesuai role
+        switch ($user->role) {
+            case 'karyawan':
+                return redirect()->route('dashboard.karyawan');
+            case 'kurir':
+                return redirect()->route('dashboard.kurir');
+            case 'pelanggan':
+                return redirect()->route('dashboard.pelanggan');
+            default:
+                return redirect()->route('login.index');
         }
-
-        return back()->withErrors(['email' => 'Email atau password salah!']);
     }
+
+    return back()->withErrors(['email' => 'Email atau password salah!']);
+}
 
     // Form register
     public function showRegister()
@@ -48,14 +57,17 @@ class LoginController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:pelanggan,email',
+            'username' => 'required|unique:pelanggan,username',
             'password' => 'required|min:6|confirmed',
         ]);
 
         User::create([
             'name' => $request->name,
             'email'=> $request->email,
+            'username' => $request->username,
             'password'=> Hash::make($request->password),
+            'role' => 'pelanggan',
         ]);
 
         return redirect()->route('otp.show');
