@@ -113,7 +113,8 @@
         @endif
 
         {{-- Daftar pengaduan --}}
-        @forelse($pengaduans as $p)
+        @if(isset($pengaduans) && count($pengaduans) > 0)
+        @foreach($pengaduans as $p)
         <div class="card mb-3 shadow-sm w-100 border-0 rounded-3">
             <div class="card-body">
                 <h5 class="text-primary">{{ $p->judulPengaduan }}</h5>
@@ -129,6 +130,7 @@
                 default => 'bg-warning',
                 };
                 @endphp
+
                 <span class="badge {{ $badgeClass }} text-white mb-3">
                     Status: <strong>{{ $p->statusPengaduan ?? 'Menunggu' }}</strong>
                 </span>
@@ -152,15 +154,19 @@
                 </div>
             </div>
         </div>
-        @empty
+        @endforeach
+        @else
+        {{-- alert hanya tampil kalau benar-benar di halaman index --}}
+        @if(request()->routeIs('pengaduan.index'))
         <div class="alert alert-info">Tidak ada pengaduan ditemukan.</div>
-        @endforelse
+        @endif
+        @endif
     </div>
 
-    <!--Tombol kembali di bagian bawah -->
-    <div class="d-flex justify-content-start mt-4 mb-3">
+    <!-- 🔹 Tombol kembali -->
+    <div class="d-flex justify-content-start mt-4 mb-3 px-5">
         <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
-            <i class="bi bi-arrow-left">Kembali</i>
+            <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
 
