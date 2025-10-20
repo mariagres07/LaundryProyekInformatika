@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Karyawan;
+use Illuminate\Support\Facades\Hash;
 
 class KaryawanController extends Controller
 {
@@ -37,7 +38,7 @@ class KaryawanController extends Controller
             'username'     => $request->username,
             'noHp'         => $request->noHp,
             'email'        => $request->email,
-            'password'     => bcrypt($request->password),
+            'password'     => Hash::make($request->password),
             'alamat'       => $request->alamat,
         ]);
 
@@ -70,7 +71,7 @@ class KaryawanController extends Controller
             'username'     => $request->username,
             'noHp'         => $request->noHp,
             'email'        => $request->email,
-            'password'     => bcrypt($request->password),
+            'password'     => Hash::make($request->password),
             'alamat'       => $request->alamat,
         ]);
 
