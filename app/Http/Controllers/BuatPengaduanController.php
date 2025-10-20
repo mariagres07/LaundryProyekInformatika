@@ -11,27 +11,37 @@ class BuatPengaduanController extends Controller
     {
         return view('Pengaduan.BuatPengaduan');
     }
+
     public function store(Request $request)
     {
-        // kalau klik tombol "TIDAK"
+        // Kalau klik tombol "TIDAK"
         if ($request->input('aksi') === 'tidak') {
             return redirect()->route('pengaduan.create')
                 ->with('pesan', 'Pengaduan dibatalkan');
         }
 
-        // --- Upload file kalau ada ---
-        $filePath = null;
-        if ($request->hasFile('lampiran')) {
-            $filePath = $request->file('lampiran')->store('pengaduan', 'public');
+        // Upload file media
+        $filePathMedia = null;
+        if ($request->hasFile('media')) {
+            $file = $request->file('media');
+            $filename = time() . '-' . $file->getClientOriginalName();
+            $file->move(public_path('images/mediaPengaduan'), $filename);
+            $filePathMedia = $filename;
         }
 
-        // --- Simpan ke DB ---
+        // Upload file lampiran
+        $filePathLampiran = null;
+        if ($request->hasFile('lampiran')) {
+            $filePathLampiran = $request->file('lampiran')->store('pengaduan', 'public');
+        }
+
+        // Simpan ke database
         Pengaduan::create([
-            'idPelanggan'      => 1,  // sementara fix isi "1"
-            'idPesanan'        => 1,  // sementara fix isi "1"
+            'idPelanggan'      => 1,
+            'idPesanan'        => 1,
             'judulPengaduan'   => $request->judul,
             'deskripsi'        => $request->deskripsi,
-            'media'            => $filePath,
+            'media'            => $filePathMedia ?? $filePathLampiran,
             'tanggalPengaduan' => now()->format('Y-m-d')
         ]);
 
