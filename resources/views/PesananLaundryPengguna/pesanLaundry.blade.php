@@ -32,9 +32,24 @@
       </div>
   @endif
 
+  <!-- Alert error -->
+  @if($errors->any())
+      <div class="alert alert-danger mt-3">
+          <ul class="mb-0">
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+  @endif
+
   <!-- Form Pesan Laundry -->
   <form method="POST" action="{{ route('checkout') }}">
     @csrf
+
+    <!-- Tambahan input hidden agar lolos validasi -->
+    <input type="hidden" name="namaPesanan" value="Pesanan Laundry">
+    <input type="hidden" name="idLayanan" value="1">
 
     <!-- Alamat -->
     <div class="mb-3">
@@ -46,8 +61,8 @@
 
     <!-- Tombol simpan alamat -->
     <div class="text-end mb-4">
-      <button type="submit" class="btn btn-success rounded-pill px-4">
-        <i class="bi"></i> Simpan
+      <button type="button" class="btn btn-success rounded-pill px-4" id="simpanAlamat">
+        <i class="bi bi-check2-circle"></i> Simpan
       </button>
     </div>
 
@@ -150,49 +165,43 @@
     </div>
   </form>
 
+  <!-- Tombol kembali -->
+  <div class="mb-3 mt-4">
+    <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
+      <i class="bi bi-arrow-left"></i> Kembali
+    </a>
+  </div>
+
   <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
-          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
-          crossorigin="anonymous"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-<!-- Tombol kembali -->
-<div class="mb-3">
-  <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
-    <i class="bi bi-arrow-left"></i> Kembali
-  </a>
-</div>
+  <!-- Script untuk tombol +/- -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.quantity-control').forEach(function (group) {
+          let minus = group.querySelector('.minus');
+          let plus = group.querySelector('.plus');
+          let quantity = group.querySelector('.quantity');
+          let input = group.parentElement.querySelector('.quantity-input');
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
-        crossorigin="anonymous"></script>
+          plus.addEventListener('click', function () {
+              let value = parseInt(quantity.textContent);
+              value++;
+              quantity.textContent = value;
+              input.value = value;
+          });
 
-<!-- Script untuk tombol +/- -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.quantity-control').forEach(function (group) {
-        let minus = group.querySelector('.minus');
-        let plus = group.querySelector('.plus');
-        let quantity = group.querySelector('.quantity');
-        let input = group.parentElement.querySelector('.quantity-input');
-
-        plus.addEventListener('click', function () {
-            let value = parseInt(quantity.textContent);
-            value++;
-            quantity.textContent = value;
-            input.value = value;
-        });
-
-        minus.addEventListener('click', function () {
-            let value = parseInt(quantity.textContent);
-            if (value > 0) {
-                value--;
-                quantity.textContent = value;
-                input.value = value;
-            }
-        });
-    });
-});
-</script>
+          minus.addEventListener('click', function () {
+              let value = parseInt(quantity.textContent);
+              if (value > 0) {
+                  value--;
+                  quantity.textContent = value;
+                  input.value = value;
+              }
+          });
+      });
+  });
+  </script>
 
 </body>
 </html>

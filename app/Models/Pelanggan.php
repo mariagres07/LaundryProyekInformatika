@@ -19,7 +19,6 @@ class Pelanggan extends Model
         'username', 
         'password',
         'email',
-        'otp',
         'alamat',
         'noHp',
     ];

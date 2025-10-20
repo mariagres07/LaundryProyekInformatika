@@ -17,18 +17,19 @@ class DetailTransaksi extends Model
         'idPesanan',
         'idKategoriItem',
     ];
-    
+
     public function pesanan()
     {
-        return $this->belongsTo(Pesanan::class, 'idPesanan');
+        return $this->belongsTo(Pesanan::class, 'idPesanan', 'idPesanan');
     }
 
     public function kategoriItem()
     {
-        return $this->belongsTo(KategoriItem::class, 'idKategoriItem');
+        return $this->belongsTo(KategoriItem::class, 'idKategoriItem', 'idKategoriItem');
     }
 
-    public function transaksiPembayaran(){
-        return $this->belongsTo(TransaksiPembayaran::class, 'idDetailTransaksi');
+    public function transaksiPembayaran()
+    {
+        return $this->belongsTo(TransaksiPembayaran::class, 'idDetailTransaksi', 'idDetailTransaksi');
     }
 }
