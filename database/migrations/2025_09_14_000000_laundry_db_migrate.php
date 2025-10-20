@@ -57,6 +57,11 @@ return new class extends Migration
             $table->foreignId('idKurir')->nullable()->constrained('kurir', 'idKurir')->onDelete('cascade');
             $table->foreignId('idKaryawan')->nullable()->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
             $table->boolean('statusPesanan');
+            $table->string('alamat')->nullable();
+            $table->string('paket')->nullable();
+            $table->integer('pakaian')->default(0);
+            $table->integer('seprai')->default(0);
+            $table->integer('handuk')->default(0);
             $table->decimal('beratBarang', 8, 2);
             $table->date('tanggalMasuk');
             $table->date('tanggalSelesai');

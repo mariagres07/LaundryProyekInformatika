@@ -53,23 +53,32 @@ class PesanLaundryController extends Controller
         $beratBarang = (int)$request->pakaian + (int)$request->seprai + (int)$request->handuk;
 
         // Simpan pesanan ke database
-        Pesanan::create([
+        $pesanan = Pesanan::create([
             'namaPesanan'    => 'Pesanan ' . $user['namaPelanggan'],
             'idPelanggan'    => $user['idPelanggan'],
             'idLayanan'      => 1,
             'idKurir'        => null,
             'idKaryawan'     => null,
             'statusPesanan'  => false,
+            'alamat'         => $request->alamat,
+            'paket'          => $request->paket,
+            'pakaian'        => $request->pakaian,
+            'seprai'         => $request->seprai,
+            'handuk'         => $request->handuk,
             'beratBarang'    => $beratBarang,
             'tanggalMasuk'   => now(),
             'tanggalSelesai' => now()->addDays($estimasiHari),
             'totalHarga'     => $total,
         ]);
 
-        return redirect()->route('detailPesanan')->with('success', 'Pesanan berhasil dibuat!');
+        // return redirect()->route('detailPesanan')->with('success', 'Pesanan berhasil dibuat!');
+
+        // Redirect ke halaman detail pesanan baru
+        return redirect()->route('detailPesanan', ['id' => $pesanan->idPesanan])
+            ->with('success', 'Pesanan berhasil dibuat!');
     }
 
-    public function detail()
+    public function detail($id)
     {
         $user = session('user');
         if (!$user) {
@@ -77,14 +86,14 @@ class PesanLaundryController extends Controller
         }
 
         $pesanan = Pesanan::with('pelanggan')
+            ->where('idPesanan', $id)
             ->where('idPelanggan', $user['idPelanggan'])
-            ->latest('idPesanan')
-            ->first();
+            ->firstOrFail();
 
-        if (!$pesanan) {
-            return redirect()->route('pesanLaundry')
-                ->with('error', 'Belum ada pesanan.');
-        }
+        // if (!$pesanan) {
+        //     return redirect()->route('pesanLaundry')
+        //         ->with('error', 'Belum ada pesanan.');
+        // }
 
         return view('PesananLaundryPengguna.detailPesanan', compact('pesanan'));
     }
