@@ -51,7 +51,7 @@ class TanggapiPengaduanController extends Controller
             // Update tanggapan dan status
             $pengaduan->update([
                 'tanggapanPengaduan' => $request->input('pesan'),
-                'status' => 'Ditanggapi'
+                'statusPengaduan' => 'Ditanggapi'
             ]);
 
             DB::commit();
@@ -73,7 +73,7 @@ class TanggapiPengaduanController extends Controller
 
             $pengaduan = Pengaduan::findOrFail($idPengaduan);
             $pengaduan->update([
-                'status' => 'Selesai'
+                'statusPengaduan' => 'Selesai'
             ]);
 
             DB::commit();
