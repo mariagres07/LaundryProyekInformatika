@@ -5,37 +5,34 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pengaduan;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
 
 class TanggapiPengaduanController extends Controller
 {
-    // Tampilkan daftar pengaduan
+    //Tampilkan daftar pengaduan
     public function index()
     {
         try {
-            // Mengambil semua pengaduan dengan relasi pelanggan
             $pengaduans = Pengaduan::with('pelanggan')->get();
+            return view('Pengaduan.ListTanggapiPengaduan', compact('pengaduans'));
         } catch (\Exception $e) {
             Log::error("Gagal memuat daftar pengaduan: " . $e->getMessage());
-            $pengaduans = collect();
+            return back()->with('error', 'Gagal memuat daftar pengaduan.');
         }
-
-        return view('Pengaduan.ListTanggapiPengaduan', compact('pengaduans'));
     }
 
-    // Tampilkan detail pengaduan dan form tanggapan
+    //Tampilkan detail pengaduan dan form tanggapan
     public function show(string $idPengaduan)
     {
         try {
             $pengaduan = Pengaduan::with('pelanggan')->findOrFail($idPengaduan);
-            return view('DetailTanggapiPengaduan', compact('pengaduan'));
+            return view('Pengaduan.DetailTanggapiPengaduan', compact('pengaduan'));
         } catch (\Exception $e) {
             Log::error("Gagal memuat detail pengaduan: " . $e->getMessage());
             return redirect()->route('pengaduan.index')->with('error', 'Pengaduan tidak ditemukan.');
         }
     }
 
-    // Kirim tanggapan
+    //Kirim tanggapan
     public function kirimTanggapan(Request $request, string $idPengaduan)
     {
         $request->validate([
@@ -43,47 +40,32 @@ class TanggapiPengaduanController extends Controller
         ]);
 
         try {
-            // Gunakan transaction untuk keamanan data
-            DB::beginTransaction();
-
             $pengaduan = Pengaduan::findOrFail($idPengaduan);
-
-            // Update tanggapan dan status
-            $pengaduan->update([
-                'tanggapanPengaduan' => $request->input('pesan'),
-                'statusPengaduan' => 'Ditanggapi'
-            ]);
-
-            DB::commit();
+            $pengaduan->tanggapanPengaduan = $request->input('pesan');
+            $pengaduan->statusPengaduan = 'Ditanggapi';
+            $pengaduan->save();
 
             return redirect()->route('pengaduan.show', $idPengaduan)
                 ->with('success', 'Tanggapan berhasil dikirim!');
         } catch (\Exception $e) {
-            DB::rollBack();
             Log::error("Gagal mengirim tanggapan: " . $e->getMessage());
-            return back()->with('error', 'Terjadi kesalahan saat menyimpan tanggapan: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan tanggapan.');
         }
     }
 
-    // Tandai pengaduan sebagai selesai
+    //Tandai pengaduan sebagai selesai
     public function selesaikan(string $idPengaduan)
     {
         try {
-            DB::beginTransaction();
-
             $pengaduan = Pengaduan::findOrFail($idPengaduan);
-            $pengaduan->update([
-                'statusPengaduan' => 'Selesai'
-            ]);
-
-            DB::commit();
+            $pengaduan->statusPengaduan = 'Selesai';
+            $pengaduan->save();
 
             return redirect()->route('pengaduan.index')
                 ->with('success', 'Pengaduan telah ditandai sebagai selesai.');
         } catch (\Exception $e) {
-            DB::rollBack();
             Log::error("Gagal menyelesaikan pengaduan: " . $e->getMessage());
-            return back()->with('error', 'Gagal menandai pengaduan sebagai selesai: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menandai pengaduan sebagai selesai.');
         }
     }
 }
