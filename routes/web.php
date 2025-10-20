@@ -55,7 +55,7 @@ Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('lay
 
 // ===================== PESAN LAUNDRY =====================
 Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry');
-Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
+Route::get('/detailPesanan/{id}', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
 // ===================== LAPORAN DAN VERIFIKASI =====================
@@ -65,6 +65,7 @@ Route::get('/lihat-detail/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('l
 
 Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
 Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
+Route::post('/verifikasi/perhitungan/{id}', [CVerifikasi::class, 'perhitungan'])->name('verifikasi.perhitungan');
 
 // ===================== DASHBOARD =====================
 Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('dashboard.karyawan');
