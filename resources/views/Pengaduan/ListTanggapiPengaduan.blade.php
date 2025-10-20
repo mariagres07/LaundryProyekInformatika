@@ -67,7 +67,7 @@
 
 <body>
 
-    <!-- 🔹 Navbar Atas -->
+    <!-- Navbar Atas -->
     <nav class="navbar navbar-custom fixed-top px-3">
         <div class="container-fluid d-flex">
             <button class="menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
@@ -78,7 +78,7 @@
         </div>
     </nav>
 
-    <!-- 🔹 Sidebar Offcanvas -->
+    <!-- Sidebar Offcanvas -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
@@ -98,7 +98,7 @@
         </div>
     </div>
 
-    <!-- 🔹 Konten Utama -->
+    <!-- Konten Utama -->
     <div class="container-fluid py-4 px-5 main-content">
         <h3 class="text-primary mb-4">
             <i class="bi bi-bell-fill me-2"></i>Daftar Pengaduan
@@ -163,7 +163,7 @@
         @endif
     </div>
 
-    <!-- 🔹 Tombol kembali -->
+    <!-- Tombol kembali -->
     <div class="d-flex justify-content-start mt-4 mb-3 px-5">
         <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
             <i class="bi bi-arrow-left"></i> Kembali

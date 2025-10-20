@@ -7,12 +7,13 @@
     <title>Detail Pengaduan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
     <style>
         body {
             background-color: #f8f9fa;
         }
 
-        /* Navbar */
+        /*Navbar*/
         .navbar-custom {
             background-color: #ffffff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -30,7 +31,7 @@
             background-color: #0b5ed7;
         }
 
-        /* Sidebar */
+        /*Sidebar*/
         .offcanvas-body a {
             display: block;
             padding: 10px 0;
@@ -45,7 +46,7 @@
 
         .logout-btn {
             width: 100%;
-            background-color: #f8f9fae5;
+            background-color: #f8f9fa;
             color: red;
             border: none;
             padding: 10px;
@@ -57,18 +58,53 @@
             background-color: #f5c2c7;
         }
 
-        /* Spasi bawah navbar */
+        /*Main content*/
         .main-content {
             margin-top: 80px;
+        }
+
+        /*Card styling*/
+        .card-custom {
+            width: 100%;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            background-color: #fff;
+        }
+
+        /*Title*/
+        h2.text-primary {
+            font-size: 2.3rem;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        /*Button styling*/
+        .btn-secondary {
+            border-radius: 50px;
+            padding: 8px 25px;
+            font-weight: 500;
+        }
+
+        .btn-secondary i {
+            margin-right: 5px;
         }
     </style>
 </head>
 
-<body class="bg-light">
-
-    <!-- 🔹 Navbar Atas -->
+<body>
+    <!--Navbar Atas -->
     <nav class="navbar navbar-custom fixed-top px-3">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="container-fluid d-flex">
             <button class="menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
                 aria-controls="sidebar">
                 <i class="bi bi-list"></i>
@@ -77,16 +113,17 @@
         </div>
     </nav>
 
-    <!-- 🔹 Sidebar -->
+    <!--Sidebar Offcanvas -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column">
-            <a href="#" onclick="showDashboard()" data-bs-dismiss="offcanvas"><i class="bi bi-house"></i> Dashboard</a>
-            <a href="#" onclick="showPengguna()" data-bs-dismiss="offcanvas"><i class="bi bi-people"></i> Manajemen Pengguna</a>
-            <a href="#" onclick="showLaundry()" data-bs-dismiss="offcanvas"><i class="bi bi-basket"></i> Manajemen Laundry</a>
+            <a href="#"><i class="bi bi-house"></i> Dashboard</a>
+            <a href="#"><i class="bi bi-people"></i> Manajemen Pengguna</a>
+            <a href="#"><i class="bi bi-basket"></i> Manajemen Laundry</a>
             <a href="{{ route('laporan.index') }}"><i class="bi bi-list-check"></i> Pesanan</a>
             <a href="{{ route('pengaduan.index') }}"><i class="bi bi-chat-dots"></i> Pengaduan</a>
             <form method="POST" action="{{ route('logout') }}">
@@ -96,100 +133,40 @@
         </div>
     </div>
 
-    <!-- 🔹 Konten Utama -->
-    <div class="container py-4 main-content">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+    <!--Konten Utama -->
+    <div class="container-fluid py-4 px-5 main-content">
+        <div class="card card-custom">
+            <h2 class="text-primary">
+                📋 Detail Pengaduan
+            </h2>
 
-                    <h4 class="text-primary mb-0">Detail Pengaduan</h4>
-                    <div></div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h4 class="fw-bold">{{ $pengaduan->judulPengaduan }}</h4>
+                    <p class="text-muted mb-1">
+                        Dari: <strong>Anonim</strong> |
+                        Tanggal: {{ \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d/m/Y') }}
+                    </p>
+                    <span class="badge bg-success">Selesai</span>
                 </div>
 
-                @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-                @elseif(session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-                @endif
-
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <h5 class="card-title text-primary mb-0">{{ $pengaduan->judulPengaduan }}</h5>
-                            @php
-                            $badgeClass = match($pengaduan->statusPengaduan) {
-                            'Selesai' => 'bg-success',
-                            'Ditanggapi' => 'bg-info',
-                            default => 'bg-warning',
-                            };
-                            @endphp
-                            <span class="badge {{ $badgeClass }} text-white">
-                                {{ $pengaduan->statusPengaduan ?? 'Menunggu' }}
-                            </span>
-                        </div>
-
-                        <p class="text-muted mb-3 small">
-                            <strong>Dari: {{ $pengaduan->pelanggan->nama ?? 'Anonim' }}</strong> |
-                            Tanggal: {{ \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d/m/Y') }}
-                        </p>
-
-                        <div class="bg-light p-3 rounded mb-4">
-                            <p class="mb-0">{{ $pengaduan->deskripsi }}</p>
-                        </div>
-
-                        @if($pengaduan->media)
-                        <div class="mb-4">
-                            <p class="fw-bold mb-2">Lampiran:</p>
-                            <img src="{{ asset('storage/' . $pengaduan->media) }}"
-                                class="img-fluid rounded shadow-sm"
-                                alt="Lampiran Media"
-                                </div>
-                            @endif
-
-                            @if(($pengaduan->statusPengaduan ?? 'Menunggu') != 'Selesai')
-                            <form action="{{ route('pengaduan.kirim', $pengaduan->idPengaduan) }}" method="POST" class="mt-4">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="pesan" class="form-label fw-bold">Kirim Tanggapan:</label>
-                                    <textarea name="pesan" id="pesan" class="form-control" rows="4"
-                                        placeholder="Ketik tanggapan di sini..." required>{{ old('pesan') }}</textarea>
-                                </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-send me-1"></i>Kirim Tanggapan
-                                    </button>
-                                </div>
-                            </form>
-
-                            <form action="{{ route('pengaduan.selesai', $pengaduan->idPengaduan) }}" method="POST" class="mt-3">
-                                @csrf
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-success"
-                                        onclick="return confirm('Apakah yakin ingin menandai pengaduan ini sebagai selesai?')">
-                                        <i class="bi bi-check-circle me-1"></i>Tandai Selesai
-                                    </button>
-                                </div>
-                            </form>
-                            @else
-                            <div class="alert alert-success mt-3">
-                                <i class="bi bi-check-circle-fill me-1"></i>Pengaduan ini telah selesai.
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-
-                    <!-- 🔹 Tombol kembali di bagian bawah -->
-                    <div class="d-flex justify-content-start mt-4 mb-3">
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
-                            <i class="bi bi-arrow-left">Kembali</i>
-                        </a>
-                    </div>
-
+                <div class="mb-4 p-3 bg-light rounded">
+                    <p class="mb-0">{{ $pengaduan->deskripsi }}</p>
                 </div>
+
+                <div class="alert alert-success d-flex align-items-center">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Pengaduan ini telah selesai.
+                </div>
+
+                <a href="{{ route('pengaduan.index') }}" class="btn btn-secondary mt-3">
+                    <i class="bi bi-arrow-left"></i> Kembali
+                </a>
             </div>
         </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

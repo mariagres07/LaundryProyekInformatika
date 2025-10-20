@@ -14,7 +14,7 @@ class BuatPengaduanController extends Controller
 
     public function store(Request $request)
     {
-        // Kalau klik tombol "TIDAK"
+        // Kalau klik tombol TIDAK
         if ($request->input('aksi') === 'tidak') {
             return redirect()->route('pengaduan.create')
                 ->with('pesan', 'Pengaduan dibatalkan');
