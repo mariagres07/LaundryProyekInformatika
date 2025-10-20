@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('email')->unique();
+            $table->timestamps();
         });
 
         Schema::create('pelanggan', function (Blueprint $table) {
@@ -40,6 +41,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('alamat')->nullable();
             $table->string('noHp')->unique();
+            $table->timestamps();
         });
 
         Schema::create('layanan', function (Blueprint $table) {
