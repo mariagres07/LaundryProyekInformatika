@@ -16,20 +16,29 @@
         <h2 class="fw-bold text-primary" style="text-shadow:1px 1px white;">Pesanan</h2>
     </div>
 
+    <!-- Daftar Pesanan -->
     <div class="container">
+        @php
+        $adaProses = false;
+        @endphp
 
         @foreach($pesanan as $p)
+        @if($p->statusPesanan == '0')
+        @php
+        $adaProses = true;
+        @endphp
+
         <div class="card rounded-4 shadow-sm mb-3">
             <div class="card-body d-flex justify-content-between align-items-center bg-info-subtle rounded-4">
                 <div>
                     <!-- Nama pelanggan -->
                     <h5 class="mb-0 fw-semibold">
-                        {{ $p->pelanggan->namaPelanggan}}
+                        {{ $p->pelanggan->namaPelanggan }}
                     </h5>
 
                     <!-- Email pelanggan -->
                     <small class="text-muted">
-                        {{ $p->pelanggan->email}}
+                        {{ $p->pelanggan->email }}
                     </small><br>
 
                     <!-- Tanggal selesai -->
@@ -38,26 +47,23 @@
                     </small>
                 </div>
 
-                <!-- Status -->
-                @if($p->statusPesanan == '0')
-                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-warning fw-semibold rounded-3">Proses</a>
-                @else
-                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-secondary fw-semibold rounded-3">
-                    {{ ucfirst($p->statusPesanan) }}
+                <!-- Tombol status -->
+                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-warning fw-semibold rounded-3">
+                    Proses
                 </a>
-                @endif
             </div>
         </div>
+        @endif
         @endforeach
 
-        @if($pesanan->isEmpty())
+        @unless($adaProses)
         <div class="alert alert-info text-center rounded-4">
-            Belum ada pesanan.
+            Belum ada pesanan yang sedang diproses.
         </div>
-        @endif
+        @endunless
 
-        <!-- Tombol kembali -->
-        <div class="mb-3">
+        <!-- Tombol kembali (di kiri bawah) -->
+        <div class="d-flex justify-content-start mt-4 mb-3">
             <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
                 <i class="bi bi-arrow-left"></i> Kembali
             </a>

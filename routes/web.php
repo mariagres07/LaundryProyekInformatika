@@ -91,6 +91,7 @@ Route::get('/lihat-detail/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('l
 
 Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
 Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
+Route::post('/verifikasi/perhitungan/{id}', [CVerifikasi::class, 'perhitungan'])->name('verifikasi.perhitungan');
 
 // Halaman dashboard
 Route::get('/tampilanKaryawan', [DashboardKaryawanController::class, 'tampilanKaryawan'])->name('tampilanKaryawan');
