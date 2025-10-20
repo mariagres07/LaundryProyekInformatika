@@ -15,11 +15,9 @@ class PesanLaundryController extends Controller
     public function checkout(Request $request)
     {
         $request->validate([
-            'alamat' => 'required',
-            'paket'  => 'required',
-            'pakaian' => 'nullable|integer|min:0',
-            'seprai'  => 'nullable|integer|min:0',
-            'handuk'  => 'nullable|integer|min:0',
+            'namaPesanan' => 'required',
+            'idLayanan'  => 'required',
+            'totalHarga'  => 'nullable|numeric|min:0',
         ]);
 
         // Ambil data pelanggan dari session
@@ -28,8 +26,10 @@ class PesanLaundryController extends Controller
             return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login sebagai pelanggan terlebih dahulu.']);
         }
 
+        $paket = strtolower($request->input('paket', 'reguler'));
+
         // Hitung estimasi berdasarkan paket
-        $estimasi = str_contains(strtolower($request->paket), 'express') ? '1 Hari' : '3 Hari';
+        $estimasiHari = str_contains($paket, 'express') ? 1 : 3;
 
         // Daftar harga
         $hargaPerKategori = [
@@ -40,16 +40,17 @@ class PesanLaundryController extends Controller
 
         // Hitung total harga
         $total = 0;
-        $beratBarang = 0;
+        // $beratBarang = 0;
         foreach ($hargaPerKategori as $key => $harga) {
-            $jumlah = (int) $request->input($key, 0);
-            $total += $jumlah * $harga;
-            $beratBarang += $jumlah;
+            $jumlah = (int) $request->input($key, 0) * $harga;
+            $total += $jumlah;
         }
 
         // Tambahkan biaya paket
-        $biayaPaket = str_contains(strtolower($request->paket), 'express') ? 15000 : 10000;
+        $biayaPaket = str_contains($paket, 'express') ? 15000 : 10000;
         $total += $biayaPaket;
+
+        $beratBarang = (int)$request->pakaian + (int)$request->seprai + (int)$request->handuk;
 
         // Simpan pesanan ke database
         Pesanan::create([
@@ -61,7 +62,7 @@ class PesanLaundryController extends Controller
             'statusPesanan'  => false,
             'beratBarang'    => $beratBarang,
             'tanggalMasuk'   => now(),
-            'tanggalSelesai' => now()->addDays($estimasi),
+            'tanggalSelesai' => now()->addDays($estimasiHari),
             'totalHarga'     => $total,
         ]);
 
@@ -75,7 +76,10 @@ class PesanLaundryController extends Controller
             return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login dulu.']);
         }
 
-        $pesanan = Pesanan::where('idPelanggan', $user['idPelanggan'])->latest('idPesanan')->first();
+        $pesanan = Pesanan::with('pelanggan')
+            ->where('idPelanggan', $user['idPelanggan'])
+            ->latest('idPesanan')
+            ->first();
 
         if (!$pesanan) {
             return redirect()->route('pesanLaundry')

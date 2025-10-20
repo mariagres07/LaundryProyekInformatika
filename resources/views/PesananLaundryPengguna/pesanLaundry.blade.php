@@ -46,8 +46,8 @@
 
     <!-- Tombol simpan alamat -->
     <div class="text-end mb-4">
-      <button type="submit" class="btn btn-success rounded-pill px-4">
-        <i class="bi"></i> Simpan
+      <button type="button" class="btn btn-success rounded-pill px-4" id="simpanAlamat">
+        <i class="bi bi-check2-circle"></i> Simpan
       </button>
     </div>
 

@@ -20,6 +20,11 @@ class Pesanan extends Model
         'idKurir',
         'idKaryawan',
         'statusPesanan',
+        // 'alamat',
+        // 'paket',
+        // 'pakaian',
+        // 'seprai',
+        // 'handuk',
         'beratBarang',
         'tanggalMasuk',
         'tanggalSelesai',
@@ -28,31 +33,31 @@ class Pesanan extends Model
 
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class, 'idPelanggan');
+        return $this->belongsTo(Pelanggan::class, 'idPelanggan', 'idPelanggan');
     }
 
     public function karyawan()
     {
-        return $this->belongsTo(Karyawan::class, 'idKaryawan');
+        return $this->belongsTo(Karyawan::class, 'idKaryawan', 'idKaryawan');
     }
 
     public function kurir()
     {
-        return $this->belongsTo(Kurir::class, 'idKurir');
+        return $this->belongsTo(Kurir::class, 'idKurir', 'idKurir');
     }
 
     public function layanan()
     {
-        return $this->belongsTo(Layanan::class, 'idLayanan');
+        return $this->belongsTo(Layanan::class, 'idLayanan', 'idLayanan');
     }
 
     public function detailTransaksi()
     {
-        return $this->hasMany(DetailTransaksi::class, 'idPesanan');
+        return $this->hasMany(DetailTransaksi::class, 'idPesanan', 'idPesanan');
     }
 
     public function pengaduan()
     {
-        return $this->hasMany(Pengaduan::class, 'idPesanan');
+        return $this->hasMany(Pengaduan::class, 'idPesanan', 'idPesanan');
     }
 }
