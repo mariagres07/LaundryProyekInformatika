@@ -20,7 +20,12 @@
 
     <div class="container">
 
-        <!-- Detail -->
+        <!-- Alert jika sukses -->
+        @if(session('success'))
+        <div class="alert alert-success rounded-4">{{ session('success') }}</div>
+        @endif
+
+        <!-- Detail Pesanan -->
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Nama</div>
             <div class="col-8">: {{ $pesanan->pelanggan->namaPelanggan ?? '-' }}</div>
@@ -30,11 +35,11 @@
             <div class="col-4 text-primary fw-semibold">Kategori</div>
             <div class="col-8">:
                 @foreach($pesanan->detailTransaksi as $detail)
-                {{ $detail->kategoriItem->namaKategori ?? '-' }} : {{ $detail->kategoriItem->jumlahItem ?? '-' }} <br>
+                {{ $detail->kategoriItem->namaKategori ?? '-' }} :
+                {{ $detail->kategoriItem->jumlahItem ?? '-' }} <br>
                 @endforeach
             </div>
         </div>
-
 
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Paket (Pewangi)</div>
@@ -51,19 +56,24 @@
             <div class="col-8">: {{ $pesanan->pelanggan->noHp ?? '-' }}</div>
         </div>
 
-        <div class="row mb-2">
-            <div class="col-4 text-primary fw-semibold">Berat</div>
-            <div class="col-8">
-                <input type="number" class="form-control" id="inputBerat" name="berat" placeholder="Masukkan berat">
+        <!-- Form input berat -->
+        <form action="{{ route('verifikasi.perhitungan', $pesanan->idPesanan) }}" method="POST">
+            @csrf
+            <div class="row mb-3">
+                <div class="col-4 text-primary fw-semibold">Berat</div>
+                <div class="col-8">
+                    <input type="number" step="0.1" class="form-control" id="inputBerat" name="beratBarang"
+                        placeholder="Masukkan berat (kg)" required>
+                </div>
             </div>
-        </div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn btn-primary" type="button">Verifikasi Pesanan</button>
-        </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">Verifikasi Pesanan</button>
+            </div>
+        </form>
 
         <!-- Tombol kembali -->
-        <div class="mb-3">
+        <div class="mt-3">
             <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
                 <i class="bi bi-arrow-left"></i> Kembali
             </a>
