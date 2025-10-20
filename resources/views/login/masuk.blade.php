@@ -32,11 +32,11 @@
   <div class="container">
     <div class="login-box">
       <h3 class="text-center text-primary mb-4">MASUK</h3>
-      <form action="{{ url('/login') }}" method="POST">
+      <form action="{{ route('login.process') }}" method="POST">
         @csrf
         <div class="mb-3">
-          <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="username" name="username" required>
+          <label for="username" class="form-label">Email <span class="text-danger">*</span></label>
+          <input type="email" class="form-control" id="email" name="email" required>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password <span class="text-danger">*</span></label>

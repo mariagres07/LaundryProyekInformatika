@@ -17,6 +17,7 @@
                 @csrf
                 @method('PUT')
 
+
                 <div class="mb-3">
                     <label class="form-label">Nama Lengkap *</label>
                     <input type="text" name="namaKaryawan" class="form-control" value="{{ $karyawan->namaKaryawan }}" required>
