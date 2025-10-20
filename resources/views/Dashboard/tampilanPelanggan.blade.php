@@ -82,7 +82,7 @@
       <div class="col-md-3 mb-4">
         <a href="/pesanLaundry" class="text-decoration-none text-dark">
           <div class="menu-card">
-            <i class="bi bi-washer menu-icon"></i>
+            <i class="bi bi-washer menu-icon" style="font-size:40px;"></i>
             <h5>Pesan Laundry</h5>
           </div>
         </a>
@@ -92,7 +92,7 @@
       <div class="col-md-3 mb-4">
         <a href="/detailPesanan" class="text-decoration-none text-dark">
           <div class="menu-card">
-            <i class="bi bi-file-text menu-icon"></i>
+            <i class="bi bi-file-text menu-icon" style="font-size:40px;"></i>
             <h5>Lihat Data Pesanan</h5>
           </div>
         </a>

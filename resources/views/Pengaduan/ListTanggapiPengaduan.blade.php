@@ -26,26 +26,30 @@
                 <div class="card mb-3 shadow-sm">
                     <div class="card-body">
                         <h5 class="text-primary">{{ $p->judulPengaduan }}</h5>
-                        <p class="text-muted small mb-2">Tanggal: {{ \Carbon\Carbon::parse($p->tanggalPengaduan)->format('d/m/Y') }}</p>
+                        <p class="text-muted small mb-2">
+                            Tanggal: {{ \Carbon\Carbon::parse($p->tanggalPengaduan)->format('d/m/Y') }}
+                        </p>
                         <p class="text-truncate">{{ Str::limit($p->deskripsi, 100) }}</p>
 
                         @php
-                        $badgeClass = match($p->status) {
+                        $badgeClass = match($p->statusPengaduan) {
                         'Selesai' => 'bg-success',
                         'Ditanggapi' => 'bg-info',
                         default => 'bg-warning',
                         };
                         @endphp
-                        <span class="badge {{ $badgeClass }} text-white mb-3">Status: <strong>{{ $p->status ?? 'Menunggu' }}</strong></span>
+                        <span class="badge {{ $badgeClass }} text-white mb-3">
+                            Status: <strong>{{ $p->statusPengaduan ?? 'Menunggu' }}</strong>
+                        </span>
 
                         <div class="mt-2">
-                            @if(($p->status ?? 'Menunggu') != 'Selesai')
+                            @if(($p->statusPengaduan ?? 'Menunggu') != 'Selesai')
                             <a href="{{ route('pengaduan.show', $p->idPengaduan) }}" class="btn btn-sm btn-primary me-2">
                                 <i class="bi bi-chat-dots me-1"></i>Tanggapi
                             </a>
                             <form action="{{ route('pengaduan.selesai', $p->idPengaduan) }}" method="POST" style="display:inline;">
                                 @csrf
-                                <button class="btn btn-sm btn-success" type="submit" onclick="return confirm('Apakah Anda yakin ingin menandai pengaduan ini sebagai Selesai?');">
+                                <button class="btn btn-sm btn-success" type="submit" onclick="return confirm('Tandai sebagai selesai?');">
                                     <i class="bi bi-check-circle me-1"></i>Selesai
                                 </button>
                             </form>
@@ -58,7 +62,7 @@
                     </div>
                 </div>
                 @empty
-                <div class="alert alert-info">Tidak ada pengaduan yang ditemukan.</div>
+                <div class="alert alert-info">Tidak ada pengaduan ditemukan.</div>
                 @endforelse
             </div>
         </div>
