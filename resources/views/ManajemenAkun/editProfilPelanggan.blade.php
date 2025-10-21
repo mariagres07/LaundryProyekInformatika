@@ -29,39 +29,46 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card-custom shadow">
-                    <div class="title">EDIT PROFILE</div>
+                    <div class="title">EDIT PROFIL</div>
 
+                    {{-- Pesan sukses --}}
                     @if(session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
 
+                    {{-- Form Edit Profil --}}
                     <form action="{{ route('pelanggan.update') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
-                            <input type="text" name="nama" class="form-control" 
-                                value="{{ old('nama', $user->name ?? '') }}" required>
+                            <input type="text" name="namaPelanggan" class="form-control" 
+                                value="{{ old('namaPelanggan', $pelanggan->namaPelanggan ?? '') }}" required>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Username <span class="text-danger">*</span></label>
                             <input type="text" name="username" class="form-control" 
-                                value="{{ old('username', $user->username ?? '') }}" required>
+                                value="{{ old('username', $pelanggan->username ?? '') }}" required>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label">No Hp <span class="text-danger">*</span></label>
-                            <input type="text" name="no_hp" class="form-control" 
-                                value="{{ old('no_hp', $user->no_hp ?? '') }}" required>
+                            <label class="form-label">No HP <span class="text-danger">*</span></label>
+                            <input type="text" name="noHp" class="form-control" 
+                                value="{{ old('noHp', $pelanggan->noHp ?? '') }}" required>
                         </div>
+
                         <div class="mb-3">
                             <label class="form-label">Email <span class="text-danger">*</span></label>
                             <input type="email" name="email" class="form-control" 
-                                value="{{ old('email', $user->email ?? '') }}" required>
+                                value="{{ old('email', $pelanggan->email ?? '') }}" required>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label">Password <span class="text-danger">*</span></label>
+                            <label class="form-label">Password</label>
                             <input type="password" name="password" class="form-control">
                             <small class="text-muted">Kosongkan jika tidak ingin mengganti password</small>
                         </div>
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">SIMPAN</button>
                         </div>
