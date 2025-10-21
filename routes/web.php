@@ -27,6 +27,7 @@ Route::get('/berhasil', [LoginController::class, 'success'])->name('success');
 
 // ========LOGOUT========
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // ===================== PELANGGAN =====================
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');

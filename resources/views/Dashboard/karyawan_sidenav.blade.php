@@ -56,9 +56,8 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body d-flex flex-column">
-        <a href="#" onclick="showDashboard()" data-bs-dismiss="offcanvas"><i class="bi bi-house"></i> Dashboard</a>
-        <a href="#" onclick="showPengguna()" data-bs-dismiss="offcanvas"><i class="bi bi-people"></i> Manajemen
-            Pengguna</a>
+        <a href="{{ route('dashboard.karyawan') }}"><i class="bi bi-house"></i> Dashboard</a>
+        <a href=""><i class="bi bi-people"></i> Manajemen Pengguna</a>
         <a href="#" onclick="showLaundry()" data-bs-dismiss="offcanvas"><i class="bi bi-basket"></i> Manajemen
             Laundry</a>
         <a href="{{ route('laporan.index') }}"><i class="bi bi-list-check"></i> Pesanan</a>
@@ -70,27 +69,5 @@
         </form>
     </div>
 </div>
-
-<!-- Script bawaan -->
-<script>
-function showDashboard() {
-    document.getElementById('dashboard')?.classList.remove('hidden');
-    document.getElementById('pengguna')?.classList.add('hidden');
-    document.getElementById('laundry')?.classList.add('hidden');
-}
-
-function showPengguna() {
-    document.getElementById('dashboard')?.classList.add('hidden');
-    document.getElementById('pengguna')?.classList.remove('hidden');
-    document.getElementById('laundry')?.classList.add('hidden');
-}
-
-function showLaundry() {
-    document.getElementById('dashboard')?.classList.add('hidden');
-    document.getElementById('laundry')?.classList.remove('hidden');
-    document.getElementById('pengguna')?.classList.add('hidden');
-}
-</script>
-
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
