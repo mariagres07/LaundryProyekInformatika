@@ -3,37 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Pelanggan;
+use Illuminate\Support\Facades\Hash;
 
 class PelangganController extends Controller
 {
     public function edit()
     {
-        $pela = auth()->user(); // data user login
-        return view('editProfilPelanggan', compact('user'));
+        // Ambil ID pelanggan dari session
+        $id = session('idPelanggan');
+
+        // Jika session kosong, tampilkan pesan error langsung
+        if (!$id) {
+            return back()->with('error', 'Data pelanggan tidak ditemukan atau belum login.');
+        }
+
+        // Ambil data pelanggan dari database
+        $pelanggan = Pelanggan::find($id);
+
+        // Jika data pelanggan tidak ditemukan di database
+        if (!$pelanggan) {
+            return back()->with('error', 'Data pelanggan tidak ditemukan.');
+        }
+
+        // Kirim data ke view
+        return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
     }
 
     public function update(Request $request)
     {
+        $id = session('idPelanggan');
+
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . auth()->id(),
-            'no_hp' => 'required|string|max:15',
-            'email' => 'required|email|unique:users,email,' . auth()->id(),
+            'namaPelanggan' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:pelanggan,username,' . $id . ',idPelanggan',
+            'noHp' => 'required|string|max:15',
+            'email' => 'required|email|unique:pelanggan,email,' . $id . ',idPelanggan',
             'password' => 'nullable|min:6',
         ]);
 
-        $user = auth()->user();
-        $user->name = $request->nama;
-        $user->username = $request->username;
-        $user->no_hp = $request->no_hp;
-        $user->email = $request->email;
+        $pelanggan = Pelanggan::find($id);
 
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
+        if (!$pelanggan) {
+            return back()->with('error', 'Data pelanggan tidak ditemukan.');
         }
 
-        $user->save();
+        // Update data
+        $pelanggan->namaPelanggan = $request->namaPelanggan;
+        $pelanggan->username = $request->username;
+        $pelanggan->noHp = $request->noHp;
+        $pelanggan->email = $request->email;
+
+        if ($request->filled('password')) {
+            $pelanggan->password = Hash::make($request->password);
+        }
+
+        $pelanggan->save();
 
         return redirect()->route('pelanggan.edit')->with('success', 'Profil berhasil diperbarui!');
     }
