@@ -1,12 +1,13 @@
-// Fungsi utama yang menangani logika Tab dan Redirect untuk Pelanggan
+// Fungsi utama untuk Pelanggan, disesuaikan agar default ke dashboard_utama
 function handlePelangganTabClick(targetId) {
-    // Cek apakah elemen 'pesanlaundry' (indikasi halaman utama Pelanggan) ada.
-    const utamaElement = document.getElementById('pesanlaundry');
+    // Cek keberadaan elemen utama untuk menentukan lokasi.
+    const utamaElement = document.getElementById('dashboard_utama');
 
     if (utamaElement) {
         // --- 1. Logika Tampilkan/Sembunyikan Tab (Saat di halaman Dashboard Pelanggan) ---
 
-        // Sembunyikan semua konten tab
+        // Sembunyikan semua konten tab, termasuk dashboard_utama
+        document.getElementById('dashboard_utama').classList.add('hidden');
         document.getElementById('pesanlaundry').classList.add('hidden');
         document.getElementById('lihatdatapesanan').classList.add('hidden');
         document.getElementById('editprofil').classList.add('hidden');
@@ -17,14 +18,18 @@ function handlePelangganTabClick(targetId) {
             targetElement.classList.remove('hidden');
         }
     } else {
-        // --- 2. Logika Pengalihan Halaman (Saat di halaman lain, misalnya /pesanLaundry) ---
+        // --- 2. Logika Pengalihan Halaman (Saat di halaman lain) ---
 
-        // Alihkan pengguna ke Dashboard utama dengan parameter tab yang diminta
+        // Ganti '/tampilanPelanggan' dengan URL/Route yang benar ke dashboard pelanggan
         window.location.href = '/tampilanPelanggan?tab=' + targetId;
     }
 }
 
 // Fungsi Panggilan
+function showDashboardPelanggan() {
+    handlePelangganTabClick('dashboard_utama');
+}
+
 function showPesanLaundry() {
     handlePelangganTabClick('pesanlaundry');
 }

@@ -74,8 +74,9 @@
 </head>
 
 <body>
-    @include('Dashboard.pelanggan_sidenav') <div class="container py-4 text-center position-relative"
-        style="min-height: 90vh;">
+    @include('Dashboard.pelanggan_sidenav')
+    <div class="container py-4 text-center position-relative" style="min-height: 90vh;">
+        {{-- Header dan Tombol Logout --}}
         <div class="d-flex justify-content-between align-items-center mb-5">
             <img src="https://i.ibb.co/GHR6mt3/iva-laundry-logo.png" alt="IVA Laundry" class="logo">
             <form method="POST" action="{{ route('logout') }}">
@@ -84,36 +85,46 @@
             </form>
         </div>
 
-        <div id="pesanlaundry" class="row justify-content-center mt-5">
-            <h3>Pesan Laundry (Halaman Pesan Laundry)</h3>
+        {{-- ================================================= --}}
+        {{-- DASHBOARD INDUK (Semua menu tampil di sini) --}}
+        {{-- ================================================= --}}
+        <h2 class="text-center mb-5 fw-bold text-primary">Pilih Fitur Pelanggan</h2>
+
+        <div id="dashboard_pelanggan_utama" class="row justify-content-center mt-5">
+
+            {{-- 1. Pesan Laundry --}}
             <div class="col-md-3 mb-4">
-                <div class="menu-card" onclick="window.location.href='/pesanLaundry'">
-                    <i class="bi bi-washer menu-icon" style="font-size:40px;"></i>
-                    <h5>Pesan Laundry</h5>
-                </div>
+                <a href="/pesanLaundry" class="text-decoration-none text-dark">
+                    <div class="menu-card">
+                        <i class="bi bi-washer menu-icon" style="font-size:40px;"></i>
+                        <h5>Pesan Laundry</h5>
+                    </div>
+                </a>
             </div>
+
+            {{-- 2. Lihat Data Pesanan --}}
+            <div class="col-md-3 mb-4">
+                <a href="/detailPesanan" class="text-decoration-none text-dark">
+                    <div class="menu-card">
+                        <i class="bi bi-file-text menu-icon" style="font-size:40px;"></i>
+                        <h5>Lihat Data Pesanan</h5>
+                    </div>
+                </a>
+            </div>
+
+            {{-- 3. Edit Profil --}}
+            <div class="col-md-3 mb-4">
+                <a href="/editprofil" class="text-decoration-none text-dark">
+                    <div class="menu-card">
+                        <i class="bi bi-person-circle menu-icon"></i>
+                        <h5>Edit Profil</h5>
+                    </div>
+                </a>
+            </div>
+
         </div>
 
-        <div id="lihatdatapesanan" class="hidden row justify-content-center mt-5">
-            <h3>Lihat Data Pesanan (Halaman Pesanan Anda)</h3>
-            <div class="col-md-3 mb-4">
-                <div class="menu-card" onclick="window.location.href='/detailPesanan'">
-                    <i class="bi bi-file-text menu-icon" style="font-size:40px;"></i>
-                    <h5>Lihat Data Pesanan</h5>
-                </div>
-            </div>
-        </div>
-
-        <div id="editprofil" class="hidden row justify-content-center mt-5">
-            <h3>Edit Profil (Halaman Pengaturan Akun)</h3>
-            <div class="col-md-3 mb-4">
-                <div class="menu-card" onclick="window.location.href='/editprofil'">
-                    <i class="bi bi-people-fill menu-icon"></i>
-                    <h5>Edit Profil</h5>
-                </div>
-            </div>
-        </div>
-
+        {{-- Footer --}}
         <footer>
             <div><i class="bi bi-instagram text-danger"></i>iva.laundry</div>
             <div><i class="bi bi-whatsapp text-success"></i>iva.laundry</div>
