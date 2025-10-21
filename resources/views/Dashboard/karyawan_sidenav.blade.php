@@ -61,9 +61,8 @@
             Pengguna</a>
         <a href="#" onclick="showLaundry()" data-bs-dismiss="offcanvas"><i class="bi bi-basket"></i> Manajemen
             Laundry</a>
-        <a href="{{ route('laporan.index') }}"><i class="bi bi-list-check"></i> Pesanan</a>
-        <a href="{{ route('pengaduan.index') }}"><i class="bi bi-chat-dots"></i> Pengaduan</a>
-
+        {{-- <a href="#" onclick="showPesanan()" data-bs-dismiss="offcanvas"><i class="bi bi-list-check"></i> Pesanan</a> --}}
+        <a href="#" onclick="showPengaduan()" data-bs-dismiss="offcanvas"><i class="bi bi-chat-dots"></i> Pengaduan</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="logout-btn">KELUAR</button>
@@ -89,6 +88,13 @@ function showLaundry() {
     document.getElementById('dashboard')?.classList.add('hidden');
     document.getElementById('laundry')?.classList.remove('hidden');
     document.getElementById('pengguna')?.classList.add('hidden');
+}
+
+function showPengaduan() {
+    document.getElementById('dashboard')?.classList.add('hidden');
+    document.getElementById('pengguna')?.classList.add('hidden');
+    document.getElementById('laundry')?.classList.add('hidden');
+    document.getElementById('pengaduan')?.classList.remove('hidden');
 }
 </script>
 

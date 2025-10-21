@@ -92,14 +92,14 @@
                     <h5>Manajemen Laundry</h5>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
+            {{-- <div class="col-md-3 mb-4">
                 <a href="{{ route('laporan.index') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
                         <i class="bi bi-list-check menu-icon"></i>
                         <h5>Pesanan</h5>
                     </div>
                 </a>
-            </div>
+            </div> --}}
             <div class="col-md-3 mb-4">
                 <a href="{{ route('pengaduan.index') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
@@ -143,6 +143,17 @@
         </div>
     </div>
 
+<!-- Pengaduan -->
+<div id="pengaduan" class="hidden row justify-content-center py-4">
+    <div class="col-md-8">
+        <div class="card shadow-sm p-4">
+            <h4 class="mb-3"><i class="bi bi-chat-dots"></i> Daftar Pengaduan</h4>
+            <a href="{{ route('pengaduan.index') }}" class="btn btn-primary mb-3">Lihat Semua Pengaduan</a>
+        </div>
+    </div>
+</div>
+
+
     <!-- Footer -->
     <footer>
         <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
@@ -169,6 +180,13 @@
         document.getElementById('pengguna').classList.add('hidden');
         document.getElementById('laundry').classList.add('hidden');
     }
+
+    function showPengaduan() {
+    document.getElementById('dashboard')?.classList.add('hidden');
+    document.getElementById('pengguna')?.classList.add('hidden');
+    document.getElementById('laundry')?.classList.add('hidden');
+    document.getElementById('pengaduan')?.classList.remove('hidden');
+}
     </script>
 </body>
 
