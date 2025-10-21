@@ -10,13 +10,15 @@
 </head>
 
 <body class="bg-white">
+    @include('Dashboard.karyawan_sidenav')
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-        <div class="container-md">
-            <a class="navbar-brand" href="#">Lihat Laporan</a>
-        </div>
-    </nav>
+    <!-- Header -->
+    <div class="text-center p-4 mb-4"
+        style="background:url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;">
+        <h3 class="fw-bold text-light" style="font-size:3rem; text-shadow:2px 2px 4px #000;">
+            Lihat Laporan
+        </h3>
+    </div>
 
     <div class="container">
 
