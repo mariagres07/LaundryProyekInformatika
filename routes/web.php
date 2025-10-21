@@ -50,12 +50,14 @@ Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
 // ===================== LAYANAN =====================
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
-Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
+Route::post('/layanan/kategori', [LayananController::class, 'storeKategori'])->name('kategori.store');
+Route::delete('/layanan/kategori/{id}', [LayananController::class, 'destroyKategori'])->name('kategori.destroy');
+Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
 // ===================== PESAN LAUNDRY =====================
 Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry');
-Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
+Route::get('/detailPesanan/{id}', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
 // ===================== LAPORAN DAN VERIFIKASI =====================
@@ -65,6 +67,7 @@ Route::get('/lihat-detail/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('l
 
 Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
 Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
+Route::post('/verifikasi/perhitungan/{id}', [CVerifikasi::class, 'perhitungan'])->name('verifikasi.perhitungan');
 
 // ===================== DASHBOARD =====================
 Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('dashboard.karyawan');
@@ -78,6 +81,6 @@ Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('peng
 
 // Tanggapi Pengaduan
 Route::get('/pengaduan', [TanggapiPengaduanController::class, 'index'])->name('pengaduan.index');
-Route::get('/pengaduan/{idPengaduan}', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
-Route::post('/pengaduan/{idPengaduan}/tanggapan', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
-Route::post('/pengaduan/{idPengaduan}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
+Route::get('/pengaduan/{id}', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
+Route::post('/pengaduan/{id}/kirim', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
+Route::post('/pengaduan/{id}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
