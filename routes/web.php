@@ -50,9 +50,15 @@ Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
 // ===================== LAYANAN =====================
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
-Route::post('/layanan/kategori', [LayananController::class, 'storeKategori'])->name('kategori.store');
-Route::delete('/layanan/kategori/{id}', [LayananController::class, 'destroyKategori'])->name('kategori.destroy');
+
+// Kategori
+Route::post('/kategori', [LayananController::class, 'storeKategori'])->name('kategori.store');
+Route::put('/kategori/{id}', [LayananController::class, 'updateKategori'])->name('kategori.update');
+Route::delete('/kategori/{id}', [LayananController::class, 'destroyKategori'])->name('kategori.destroy');
+
+// Layanan
 Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
+Route::put('/layanan/{id}', [LayananController::class, 'update'])->name('layanan.update');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
 // ===================== PESAN LAUNDRY =====================

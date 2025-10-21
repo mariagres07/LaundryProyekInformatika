@@ -19,10 +19,10 @@
         <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
 
-          <!-- ID Pelanggan (hidden) -->
+          <!-- ID Pelanggan -->
           <input type="hidden" name="idPelanggan" value="5">
 
-          <!-- ID Pesanan (hidden) -->
+          <!-- ID Pesanan -->
           <input type="hidden" name="idPesanan" value="12">
 
           <!-- Judul -->
