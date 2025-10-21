@@ -60,7 +60,7 @@
         <a href=""><i class="bi bi-people"></i> Manajemen Pengguna</a>
         <a href="#" onclick="showLaundry()" data-bs-dismiss="offcanvas"><i class="bi bi-basket"></i> Manajemen
             Laundry</a>
-        <a href="{{ route('laporan.index') }}"><i class="bi bi-list-check"></i> Pesanan</a>
+        {{-- <a href="{{ route('laporan.index') }}"><i class="bi bi-list-check"></i> Pesanan</a> --}}
         <a href="{{ route('pengaduan.index') }}"><i class="bi bi-chat-dots"></i> Pengaduan</a>
 
         <form method="POST" action="{{ route('logout') }}">

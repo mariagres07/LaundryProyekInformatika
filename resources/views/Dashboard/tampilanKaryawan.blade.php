@@ -92,14 +92,14 @@
                     <h5>Manajemen Laundry</h5>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
+            {{-- <div class="col-md-3 mb-4">
                 <a href="{{ route('laporan.index') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
                         <i class="bi bi-list-check menu-icon"></i>
                         <h5>Pesanan</h5>
                     </div>
                 </a>
-            </div>
+            </div> --}}
             <div class="col-md-3 mb-4">
                 <a href="{{ route('pengaduan.index') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
