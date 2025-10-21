@@ -53,7 +53,7 @@ class TanggapiPengaduanController extends Controller
         }
     }
 
-    //Tandai pengaduan sebagai selesai
+    //Tandai pengaduan telah selesai
     public function selesaikan(string $idPengaduan)
     {
         try {

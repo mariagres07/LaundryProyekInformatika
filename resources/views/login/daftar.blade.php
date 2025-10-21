@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: url('https://img.freepik.com/free-photo/abstract-background-water-texture_23-2148176921.jpg') no-repeat center center fixed;
+      background: url('water.jpg') no-repeat center center fixed;
       background-size: cover;
     }
     .register-box {
