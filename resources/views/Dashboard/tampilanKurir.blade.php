@@ -72,7 +72,7 @@
 <body>
 
     <!-- Include navbar & sidebar -->
-    @include('dashboard.kurir_sidenav')
+    @include('Dashboard.kurir_sidenav')
 
     <!-- Content -->
     <div class="container py-4">
@@ -80,7 +80,7 @@
             <div class="col-md-4 mb-4">
                 <a href="{{ url('/lihatverifikasi') }}" class="text-decoration-none text-dark">
                     <div class="menu-card text-center p-4">
-                        <i class="bi bi-list-ul menu-icon"></i>
+                        <i class="bi bi-list-check menu-icon"></i>
                         <h5 class="mt-2">Verifikasi Pesanan</h5>
                     </div>
                 </a>
@@ -89,7 +89,7 @@
             <div class="col-md-4 mb-4">
                 <a href="{{ url('/lihatdata') }}" class="text-decoration-none text-dark">
                     <div class="menu-card text-center p-4">
-                        <i class="bi bi-clipboard-data menu-icon"></i>
+                        <i class="bi bi-list-ul menu-icon"></i>
                         <h5 class="mt-2">Pesanan</h5>
                     </div>
                 </a>

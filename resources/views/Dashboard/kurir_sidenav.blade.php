@@ -1,5 +1,3 @@
-<!-- resources/views/dashboard/kurir_nav_sidebar.blade.php -->
-
 <!-- Bootstrap 5.3 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -60,13 +58,13 @@
 
     <div class="offcanvas-body d-flex flex-column">
         <a href="{{ url('/tampilanKurir') }}">
-            <i class="bi bi-list-ul"></i> Dashboard
+            <i class="bi bi-house"></i> Dashboard
         </a>
         <a href="{{ url('/lihatverifikasi') }}">
-            <i class="bi bi-list-ul"></i> Verifikasi Pesanan
+            <i class="bi bi-list-check"></i> Verifikasi Pesanan
         </a>
         <a href="{{ route('lihatdata.index') }}">
-            <i class="bi bi-clipboard-data"></i> Pesanan
+            <i class="bi bi-list-ul"></i> Pesanan
         </a>
 
         <form method="POST" action="{{ route('logout') }}">
