@@ -6,14 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Kurir - IVA Laundry</title>
 
-    <!-- Cek role -->
     @if (session('role') !== 'kurir')
     <script>
     window.location.href = "{{ route('login.show') }}";
     </script>
     @endif
 
-    <!-- Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -52,23 +50,6 @@
         color: #2d4b74;
     }
 
-    .offcanvas-body a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 15px;
-        margin-bottom: 8px;
-        border-radius: 12px;
-        text-decoration: none;
-        color: #2d4b74;
-        transition: 0.3s;
-    }
-
-    .offcanvas-body a:hover {
-        background-color: #7ba6e0;
-        color: #fff;
-    }
-
     .logout-btn {
         background-color: #dce3e8;
         color: red;
@@ -90,38 +71,12 @@
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-light bg-light shadow-sm">
-        <div class="container-fluid">
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-                aria-controls="sidebar">
-                <i class="bi bi-list"></i>
-            </button>
-            <span class="navbar-brand mb-0 h1">IVA Laundry - Kurir</span>
-        </div>
-    </nav>
-
-    <!-- Sidebar Offcanvas -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body d-flex flex-column">
-            <a href="#" onclick="showDashboard()" data-bs-dismiss="offcanvas"><i class="bi bi-house"></i> Dashboard</a>
-            <a href="{{ url('/lihatverifikasi') }}"><i class="bi bi-list-ul"></i> Verifikasi Pesanan</a>
-            <a href="{{ route('lihatdata.index') }}"><i class="bi bi-clipboard-data"></i> Pesanan</a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="logout-btn">KELUAR</button>
-            </form>
-        </div>
-    </div>
+    <!-- Include navbar & sidebar -->
+    @include('dashboard.kurir_sidenav')
 
     <!-- Content -->
     <div class="container py-4">
         <div id="dashboard" class="row justify-content-center">
-            <!-- Verifikasi Pesanan -->
             <div class="col-md-4 mb-4">
                 <a href="{{ url('/lihatverifikasi') }}" class="text-decoration-none text-dark">
                     <div class="menu-card text-center p-4">
@@ -131,7 +86,6 @@
                 </a>
             </div>
 
-            <!-- Pesanan -->
             <div class="col-md-4 mb-4">
                 <a href="{{ url('/lihatdata') }}" class="text-decoration-none text-dark">
                     <div class="menu-card text-center p-4">
@@ -142,13 +96,12 @@
             </div>
         </div>
 
-    <!-- Footer -->
-    <footer>
-        <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
-        <i class="bi bi-whatsapp text-success"></i> iva.laundry
-    </footer>
+        <footer>
+            <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
+            <i class="bi bi-whatsapp text-success"></i> iva.laundry
+        </footer>
+    </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
