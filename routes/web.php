@@ -33,7 +33,7 @@ Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan
 Route::post('/editprofil', [PelangganController::class, 'update'])->name('pelanggan.update');
 
 // ===================== KARYAWAN =====================
-Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan.index');
+Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan');
 Route::get('/karyawan/create', [KaryawanController::class, 'create'])->name('karyawan.create');
 Route::post('/karyawan/store', [KaryawanController::class, 'store'])->name('karyawan.store');
 Route::get('/karyawan/edit/{id}', [KaryawanController::class, 'edit'])->name('karyawan.edit');

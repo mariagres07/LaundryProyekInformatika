@@ -89,6 +89,6 @@ class KaryawanController extends Controller
         $karyawan = Karyawan::findOrFail($id);
         $karyawan->delete();
 
-        return redirect()->route('karyawan.index')->with('success', 'Data karyawan berhasil dihapus!');
+        return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil dihapus!');
     }
 }
