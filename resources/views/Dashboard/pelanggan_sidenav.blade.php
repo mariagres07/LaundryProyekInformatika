@@ -56,14 +56,12 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body d-flex flex-column">
-        <a href="#" onclick="showDashboard()" data-bs-dismiss="offcanvas"><i class=" bi bi-house"></i> Dashboard</a>
-        <a href="#" onclick="showPengguna()" data-bs-dismiss="offcanvas"><i class="bi bi-people"></i>Manajemen
-            Pengguna</a>
-        <a href="#" onclick="showLaundry()" data-bs-dismiss="offcanvas"><i class="bi bi-basket"></i> Manajemen
+        <a href="#" onclick="showPesanLaundry()" data-bs-dismiss="offcanvas"><i class="bi bi-washer"></i> Pesan
             Laundry</a>
-        {{-- <a href="{{ route('laporan.index') }}"><i class="bi bi-list-check"></i> Pesanan</a> --}}
-        <a href="{{ route('pengaduan.index') }}"><i class="bi bi-chat-dots"></i> Pengaduan</a>
-
+        <a href="#" onclick="showLihatDataPesanan()" data-bs-dismiss="offcanvas"><i class="bi bi-file-text"></i> Lihat
+            Data Pesanan</a>
+        <a href="#" onclick="showEditProfil()" data-bs-dismiss="offcanvas"><i class="bi bi-person-circle"></i> Edit
+            Profil</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="logout-btn">KELUAR</button>
