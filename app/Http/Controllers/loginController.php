@@ -20,55 +20,53 @@ class LoginController extends Controller
     // Proses login
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Cari di setiap tabel berdasarkan email
+        // Cek tabel pelanggan
         $pelanggan = Pelanggan::where('email', $request->email)->first();
         if ($pelanggan && Hash::check($request->password, $pelanggan->password)) {
-            Session::put('user', $pelanggan);
+            Session::put('pelanggan', $pelanggan);
             Session::put('role', 'pelanggan');
             return redirect()->route('dashboard.pelanggan');
         }
 
-        // Cek ke tabel kurir
+        // Cek tabel kurir
         $kurir = Kurir::where('email', $request->email)->first();
         if ($kurir && Hash::check($request->password, $kurir->password)) {
-            Session::put('user', $kurir);
+            Session::put('kurir', $kurir);
             Session::put('role', 'kurir');
             return redirect()->route('dashboard.kurir');
         }
 
-        // Cek ke tabel karyawan
+        // Cek tabel karyawan
         $karyawan = Karyawan::where('email', $request->email)->first();
         if ($karyawan && Hash::check($request->password, $karyawan->password)) {
-            Session::put('user', $karyawan);
+            Session::put('karyawan', $karyawan);
             Session::put('role', 'karyawan');
             return redirect()->route('dashboard.karyawan');
         }
 
-        // Jika tidak ditemukan di ketiga tabel
-        return back()->withErrors(['email' => 'Email atau password salah!']);
+        // Jika tidak cocok dengan siapa pun
+        return back()->withErrors(['login_error' => 'Email atau password salah!']);
     }
 
     // Proses logout
     public function logout()
     {
         Session::flush(); // hapus semua data session
-        return redirect()->route('login.show');
+        return redirect()->route('login.show')->with('success', 'Berhasil keluar.');
     }
 
-    // Form register
+    // Form register pelanggan
     public function showRegister()
     {
         return view('login.daftar');
     }
 
-    // Proses register
+    // Proses register pelanggan
     public function register(Request $request)
     {
         $request->validate([
@@ -79,7 +77,7 @@ class LoginController extends Controller
         ]);
 
         Pelanggan::create([
-            'name' => $request->name,
+            'namaPelanggan' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -90,13 +88,12 @@ class LoginController extends Controller
         return redirect()->route('otp.show');
     }
 
-    // Tampilkan Form OTP
+    // OTP
     public function showOtp()
     {
         return view('login.otp');
     }
 
-    // Verifikasi OTP
     public function verifyOtp(Request $request)
     {
         $kode = implode('', $request->otp);
@@ -108,7 +105,6 @@ class LoginController extends Controller
         return back()->withErrors(['otp' => 'Kode OTP salah!']);
     }
 
-    // Halaman sukses
     public function success()
     {
         return view('login.berhasil');

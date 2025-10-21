@@ -47,7 +47,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ url('/mkaryawan') }}" class="btn btn-secondary">Batal</a>
+                <a href="{{ url('/karyawan') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>
     </div>
