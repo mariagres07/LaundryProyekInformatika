@@ -77,33 +77,7 @@
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-light bg-light shadow-sm">
-        <div class="container-fluid">
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-                aria-controls="sidebar">
-                <i class="bi bi-list"></i>
-            </button>
-            <span class="navbar-brand mb-0 h1">IVA Laundry - Kurir</span>
-        </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body d-flex flex-column">
-            <a href="#"><i class="bi bi-house"></i> Dashboard</a>
-            <a href="{{ url('/lihatverifikasi') }}"><i class="bi bi-list-ul"></i> Verifikasi Pesanan</a>
-            <a href="{{ url('/lihatdata') }}"><i class="bi bi-clipboard-data"></i> Pesanan</a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="logout-btn">KELUAR</button>
-            </form>
-        </div>
-    </div>
+    @include('dashboard.kurir_sidenav')
 
     <!-- Header -->
     <div class="container mt-4">
@@ -152,5 +126,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 
 </html>
