@@ -141,7 +141,6 @@
                 </a>
             </div>
         </div>
-    </div>
 
     <!-- Footer -->
     <footer>
