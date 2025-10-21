@@ -8,20 +8,20 @@ use Illuminate\Support\Facades\Hash;
 
 class KaryawanController extends Controller
 {
-    // 🟦 Tampilkan daftar semua karyawan
+    // Tampilkan daftar semua karyawan
     public function index()
     {
         $karyawan = Karyawan::all();
         return view('ManajemenAkun.manajemenKaryawan', compact('karyawan'));
     }
 
-    // 🟩 Form tambah karyawan baru
+    //  Form tambah karyawan baru
     public function create()
     {
         return view('ManajemenAkun.tambahKaryawan');
     }
 
-    // 🟨 Simpan data baru
+    // Simpan data baru
     public function store(Request $request)
     {
         $request->validate([
@@ -42,17 +42,17 @@ class KaryawanController extends Controller
             'alamat'       => $request->alamat,
         ]);
 
-        return redirect()->route('karyawan.index')->with('success', '✅ Data karyawan berhasil disimpan!');
+        return redirect()->route('karyawan.index')->with('success', 'Data karyawan berhasil disimpan!');
     }
 
-    // 🟦 Form edit
+    // Form edit
     public function edit($id)
     {
         $karyawan = Karyawan::findOrFail($id);
         return view('ManajemenAkun.editKaryawan', compact('karyawan'));
     }
 
-    // 🟩 Update data
+    //  Update data
     public function update(Request $request, $id)
     {
         $karyawan = Karyawan::findOrFail($id);
@@ -80,15 +80,15 @@ class KaryawanController extends Controller
 
         $karyawan->save();
 
-        return redirect()->route('karyawan.index')->with('success', '✅ Data karyawan berhasil diperbarui!');
+        return redirect()->route('karyawan.index')->with('success', 'Data karyawan berhasil diperbarui!');
     }
 
-    // 🟥 Hapus data
+    // hapus data
     public function destroy($id)
     {
         $karyawan = Karyawan::findOrFail($id);
         $karyawan->delete();
 
-        return redirect()->route('karyawan.index')->with('success', '🗑️ Data karyawan berhasil dihapus!');
+        return redirect()->route('karyawan.index')->with('success', 'Data karyawan berhasil dihapus!');
     }
 }

@@ -13,7 +13,7 @@
             <h4 class="mb-0">Tambah Karyawan</h4>
         </div>
         <div class="card-body"> 
-            <form method="POST" action="{{ url('/mkaryawan/store') }}">
+            <form method="POST" action="{{ url('/karyawan/store') }}">
                 @csrf
 
                 <div class="mb-3">
