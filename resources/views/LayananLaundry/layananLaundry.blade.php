@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Kelola Layanan</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
   <style>
     body {
-      background: url('{{ asset('water.jpg') }}') no-repeat center center fixed;
-      background-size: cover;
-      font-family: sans-serif;
-    }
-    .background-header {
-      background-color: rgba(255, 255, 255, 0.9);
-      height: 120px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
-    .title {
-      font-weight: 800;
-      color: #0b3a4a;
-      font-size: 2.4rem;
-    }
-    .header-bar {
-      background: #8fb6c9;
-      border-radius: 50px;
-      padding: 12px;
-      margin: 18px 0;
-    }
+    background-color: #ffffff; /* latar belakang putih */
+    font-family: sans-serif;
+  }
+
+  /* Bagian kotak Kelola Layanan Laundry pakai gambar water.jpg */
+  .background-header {
+    background: url('/water.jpg') no-repeat center center;
+    background-size: cover;
+    height: 120px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  .title {
+    font-weight: 800;
+    color: #ffffffff;
+    font-size: 2.4rem;
+    padding: 8px 20px;
+    border-radius: 50px;
+  }
+
+  .header-bar {
+    background: #8fb6c9;
+    border-radius: 50px;
+    padding: 12px;
+    margin: 18px 0;
+  }
     .nav-pill-big .nav-link {
       border-radius: 50px;
       padding: 0.9rem 1.6rem;
@@ -50,11 +55,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
     }
     .service-left {
       display: flex;
       align-items: center;
       gap: 12px;
+      min-width: 280px;
     }
     .service-left img {
       width: 46px;
@@ -62,13 +69,35 @@
       object-fit: contain;
       border-radius: 8px;
     }
-    .price-input {
-      width: 110px;
-      text-align: center;
+    .price-input, .name-input {
       border: 2px dashed #000;
       padding: 6px 8px;
       border-radius: 6px;
       background: white;
+      text-align: center;
+      font-weight: 600;
+    }
+    .price-input {
+      width: 110px;
+    }
+    .name-input {
+      min-width: 220px;
+      padding-left: 12px;
+      text-align: left;
+      border-radius: 12px;
+    }
+    .update-btn {
+      background: #4caf50;
+      border-radius: 40px;
+      padding: 6px 14px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: 0.3s;
+    }
+    .update-btn:hover {
+      background: #3a8e36;
     }
     .delete-btn {
       background: #e43030;
@@ -98,11 +127,11 @@
     }
   </style>
 </head>
-
 <body class="p-4">
+
 <div class="container">
   <div class="background-header">
-    <h2 class="title">Kelola Layanan Laundry</h2>
+    <h2 class="title">Kelola Layanan</h2>
   </div>
 
   <div class="header-bar">
@@ -121,71 +150,69 @@
     <div id="tabCategories" class="tab-pane fade show active">
       <div id="kategoriList">
         @forelse($categories as $c)
-        <div class="service-item kategori-item">
+        <form action="{{ route('kategori.update', $c->idKategoriItem) }}" method="POST" class="service-item kategori-item d-flex align-items-center" onsubmit="return confirm('Update kategori ini?')">
+          @csrf
+          @method('PUT')
           <div class="service-left">
-            <img src="{{ asset('logo.png') }}" alt="icon">
-            <div class="fw-semibold fs-5">{{ $c->namaKategori }}</div>
+            <img src="/{{ $c->icon }}" alt="{{ $c->namaKategori }}">
+            <input name="namaKategori" type="text" class="name-input form-control border-0" value="{{ $c->namaKategori }}" required>
           </div>
-          <div class="d-flex align-items-center gap-3">
-            <input type="number" class="form-control price-input" placeholder="Harga (tidak disimpan)">
-            <form action="{{ route('kategori.destroy', $c->idKategoriItem) }}" method="POST" onsubmit="return confirm('Hapus kategori ini?')">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="delete-btn"><i class="bi bi-trash-fill"></i></button>
-            </form>
-          </div>
-        </div>
+          <input name="harga" type="number" min="0" class="price-input form-control" value="{{ $c->harga ?? 0 }}" required>
+          <button type="submit" class="update-btn">Simpan</button>
+          <form action="{{ route('kategori.destroy', $c->idKategoriItem) }}" method="POST" onsubmit="return confirm('Hapus kategori ini?')" class="ms-2">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="delete-btn" title="Hapus kategori"><i class="bi bi-trash-fill"></i></button>
+          </form>
+        </form>
         @empty
         <div class="text-center text-muted mt-3">Belum ada kategori laundry.</div>
         @endforelse
       </div>
 
-      <!-- Form input kategori -->
+      <!-- Form input kategori baru -->
       <form id="formKategori" class="service-item d-none mt-3" method="POST" action="{{ route('kategori.store') }}">
         @csrf
         <div class="service-left">
-          <img src="{{ asset('logo.png') }}" alt="Tambah">
+          <img src="/default.png" alt="Tambah">
           <input name="namaKategori" class="form-control border-0" placeholder="Masukkan nama kategori" style="min-width:220px;" required>
         </div>
-        <div class="d-flex align-items-center gap-3">
-          <input type="number" min="0" class="form-control price-input" placeholder="Harga (tidak disimpan)" style="width:150px;">
-          <button type="submit" class="btn btn-success">Simpan</button>
-        </div>
+        <input name="harga" type="number" min="0" class="form-control price-input" placeholder="Harga" style="width:150px;" required>
+        <button type="submit" class="btn btn-success">Simpan</button>
       </form>
     </div>
 
     <!-- TAB 2: JENIS PAKET -->
     <div id="tabPakets" class="tab-pane fade">
       @forelse($pakets as $p)
-      <div class="service-item">
+      <form action="{{ route('layanan.update', $p->idLayanan) }}" method="POST" class="service-item d-flex align-items-center" onsubmit="return confirm('Update paket ini?')">
+        @csrf
+        @method('PUT')
         <div class="service-left">
-          <img src="{{ asset('Expresslogo.png') }}" alt="icon">
-          <div class="fw-semibold fs-5">{{ $p->namaLayanan }}</div>
+          <img src="/{{ $p->icon }}" alt="{{ $p->namaLayanan }}">
+          <input name="namaLayanan" type="text" class="name-input form-control border-0" value="{{ $p->namaLayanan }}" required>
         </div>
-        <div class="d-flex align-items-center gap-3">
-          <div class="price-input">Rp {{ number_format($p->hargaPerKg, 0, ',', '.') }}</div>
-          <form action="{{ route('layanan.destroy', $p->idLayanan) }}" method="POST" onsubmit="return confirm('Hapus layanan ini?')">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="delete-btn"><i class="bi bi-trash-fill"></i></button>
-          </form>
-        </div>
-      </div>
+        <input name="hargaPerKg" type="number" min="0" class="price-input form-control" value="{{ $p->hargaPerKg }}" required>
+        <button type="submit" class="update-btn">Simpan</button>
+        <form action="{{ route('layanan.destroy', $p->idLayanan) }}" method="POST" onsubmit="return confirm('Hapus layanan ini?')" class="ms-2">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="delete-btn" title="Hapus paket"><i class="bi bi-trash-fill"></i></button>
+        </form>
+      </form>
       @empty
       <div class="text-center text-muted mt-3">Belum ada paket laundry.</div>
       @endforelse
 
-      <!-- Form input paket -->
+      <!-- Form input paket baru -->
       <form id="formPaket" class="service-item d-none mt-3" method="POST" action="{{ route('layanan.store') }}">
         @csrf
         <div class="service-left">
-          <img src="{{ asset('Expresslogo.png') }}" alt="Tambah">
+          <img src="/default.png" alt="Tambah">
           <input name="namaLayanan" class="form-control border-0" placeholder="Masukkan nama paket" style="min-width:220px;" required>
         </div>
-        <div class="d-flex align-items-center gap-3">
-          <input name="hargaPerKg" type="number" min="0" class="form-control price-input" placeholder="Harga" style="width:150px;" required>
-          <button type="submit" class="btn btn-success">Simpan</button>
-        </div>
+        <input name="hargaPerKg" type="number" min="0" class="form-control price-input" placeholder="Harga" style="width:150px;" required>
+        <button type="submit" class="btn btn-success">Simpan</button>
       </form>
     </div>
   </div>
@@ -212,5 +239,15 @@
     }
   });
 </script>
+
+
+<div class="text-center my-4">
+  <a href="{{ url('/laundry') }}" 
+   class="btn btn-primary rounded-pill shadow" 
+   style="position: fixed; bottom: 25px; right: 25px;">
+   ⬅ Kembali
+  </a>
+</div>
+
 </body>
 </html>
