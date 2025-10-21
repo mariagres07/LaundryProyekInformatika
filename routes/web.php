@@ -50,7 +50,9 @@ Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
 // ===================== LAYANAN =====================
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
-Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
+Route::post('/layanan/kategori', [LayananController::class, 'storeKategori'])->name('kategori.store');
+Route::delete('/layanan/kategori/{id}', [LayananController::class, 'destroyKategori'])->name('kategori.destroy');
+Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
 // ===================== PESAN LAUNDRY =====================
