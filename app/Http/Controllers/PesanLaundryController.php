@@ -21,10 +21,11 @@ class PesanLaundryController extends Controller
         ]);
 
         // Ambil data pelanggan dari session
-        $user = session('user');
+        $user = session('pelanggan');
         if (!$user || session('role') !== 'pelanggan') {
             return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login sebagai pelanggan terlebih dahulu.']);
         }
+
 
         $paket = strtolower($request->input('paket', 'reguler'));
 
@@ -78,22 +79,37 @@ class PesanLaundryController extends Controller
             ->with('success', 'Pesanan berhasil dibuat!');
     }
 
+    // public function detail($id)
+    // {
+    //     $user = session('user');
+    //     if (!$user) {
+    //         return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login dulu.']);
+    //     }
+
+    //     $pesanan = Pesanan::with('pelanggan')
+    //         ->where('idPesanan', $id)
+    //         ->where('idPelanggan', $user['idPelanggan'])
+    //         ->firstOrFail();
+
+    //     // if (!$pesanan) {
+    //     //     return redirect()->route('pesanLaundry')
+    //     //         ->with('error', 'Belum ada pesanan.');
+    //     // }
+
+    //     return view('PesananLaundryPengguna.detailPesanan', compact('pesanan'));
+    // }
+
     public function detail($id)
     {
-        $user = session('user');
-        if (!$user) {
-            return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login dulu.']);
+        $user = session('pelanggan');
+        if (!$user || session('role') !== 'pelanggan') {
+            return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login sebagai pelanggan terlebih dahulu.']);
         }
 
         $pesanan = Pesanan::with('pelanggan')
             ->where('idPesanan', $id)
             ->where('idPelanggan', $user['idPelanggan'])
             ->firstOrFail();
-
-        // if (!$pesanan) {
-        //     return redirect()->route('pesanLaundry')
-        //         ->with('error', 'Belum ada pesanan.');
-        // }
 
         return view('PesananLaundryPengguna.detailPesanan', compact('pesanan'));
     }
