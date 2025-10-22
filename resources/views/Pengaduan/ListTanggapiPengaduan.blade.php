@@ -65,38 +65,10 @@
     </style>
 </head>
 
+<!-- Include navbar & sidebar -->
+@include('Dashboard.pelanggan_sidenav')
+
 <body>
-
-    <!-- Navbar Atas -->
-    <nav class="navbar navbar-custom fixed-top px-3">
-        <div class="container-fluid d-flex">
-            <button class="menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-                aria-controls="sidebar">
-                <i class="bi bi-list"></i>
-            </button>
-            <span class="fw-bold text-dark">IVA Laundry</span>
-        </div>
-    </nav>
-
-    <!-- Sidebar Offcanvas -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body d-flex flex-column">
-            <a href="#"><i class="bi bi-house"></i> Dashboard</a>
-            <a href="#"><i class="bi bi-people"></i> Manajemen Pengguna</a>
-            <a href="#"><i class="bi bi-basket"></i> Manajemen Laundry</a>
-            <a href="{{ route('laporan.index') }}"><i class="bi bi-list-check"></i> Pesanan</a>
-            <a href="{{ route('pengaduan.index') }}"><i class="bi bi-chat-dots"></i> Pengaduan</a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="logout-btn">KELUAR</button>
-            </form>
-        </div>
-    </div>
 
     <!-- Konten Utama -->
     <div class="container-fluid py-4 px-5 main-content">
