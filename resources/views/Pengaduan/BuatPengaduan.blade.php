@@ -9,7 +9,8 @@
 </head>
 
 <body class="bg-light">
-
+  <!-- Include navbar & sidebar -->
+  @include('Dashboard.pelanggan_sidenav')
   <div class="container mt-5">
     <div class="card shadow">
       <div class="card-body">
@@ -65,6 +66,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
