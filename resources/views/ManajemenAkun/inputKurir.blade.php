@@ -6,12 +6,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background: url("{{ asset('images/water.jpg') }}") no-repeat center center fixed;
+            background: url('/water.jpg') no-repeat center center fixed;
             background-size: cover;
         }
         .card {
             border-radius: 12px;
-            background-color: #fff; /* supaya form tetap putih */
+            background-color: #fff; 
         }
         .card-title {
             text-align: center;
