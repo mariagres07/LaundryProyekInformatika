@@ -100,7 +100,7 @@
 
             <!-- 3. Edit Profil -->
             <div class="col-md-4 mb-4">
-                <a href="{{ url('/editprofil') }}" class="text-decoration-none text-dark">
+                <a href="{{ route('pelanggan.edit') }}" class="text-decoration-none text-dark">
                     <div class="menu-card text-center p-4">
                         <i class="bi bi-person-circle menu-icon" style="font-size:40px; color:#7ba6e0;"></i>
                         <h5 class="mt-2">Edit Profil</h5>
@@ -115,6 +115,12 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const offcanvasElement = document.getElementById('sidebar');
+    offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
+        document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+    });
+    </script>
 </body>
 
 </html>

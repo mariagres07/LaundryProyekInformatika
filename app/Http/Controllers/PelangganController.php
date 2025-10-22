@@ -10,24 +10,25 @@ class PelangganController extends Controller
 {
     public function edit()
     {
-        // Ambil ID pelanggan dari session
-        $id = session('idPelanggan');
+       // Ambil ID pelanggan dari session
+    $id = session('idPelanggan');
 
-        // Jika session kosong, tampilkan pesan error langsung
-        if (!$id) {
-            return back()->with('error', 'Data pelanggan tidak ditemukan atau belum login.');
-        }
+    // Jika session kosong, redirect ke login dengan pesan error
+    if (!$id) {
+        return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+    }
 
-        // Ambil data pelanggan dari database
-        $pelanggan = Pelanggan::find($id);
+    // Ambil data pelanggan dari database
+    $pelanggan = Pelanggan::find($id);
 
-        // Jika data pelanggan tidak ditemukan di database
-        if (!$pelanggan) {
-            return back()->with('error', 'Data pelanggan tidak ditemukan.');
-        }
+    // Jika data pelanggan tidak ditemukan, redirect kembali dengan error
+    if (!$pelanggan) {
+        return redirect()->back()->with('error', 'Data pelanggan tidak ditemukan.');
+    }
 
         // Kirim data ke view
-        return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
+        // return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
+        return view('ManajemenAkun.editProfilPelanggan');
     }
 
     public function update(Request $request)

@@ -30,6 +30,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // ===================== PELANGGAN =====================
+//Route::get('/editprofil', [PelangganController::class, 'index'])->name('pelanggan.index');
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::post('/editprofil', [PelangganController::class, 'update'])->name('pelanggan.update');
 
