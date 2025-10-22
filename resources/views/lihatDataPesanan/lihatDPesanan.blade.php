@@ -117,8 +117,8 @@
         @endunless
 
         <!-- Tombol kembali -->
-        <div class="d-flex justify-content-start mt-4 mb-5">
-            <a href="{{ url('/kurir') }}" class="btn btn-secondary rounded-pill px-4">
+        <div class="mb-3">
+            <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
                 <i class="bi bi-arrow-left"></i> Kembali
             </a>
         </div>

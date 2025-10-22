@@ -116,7 +116,7 @@
 
         <!-- Tombol kembali -->
         <div class="mb-3">
-            <a href="{{ url('/kurir') }}" class="btn btn-secondary rounded-pill px-4">
+            <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
                 <i class="bi bi-arrow-left"></i> Kembali
             </a>
         </div>
