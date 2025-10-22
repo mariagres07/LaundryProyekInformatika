@@ -15,7 +15,6 @@
             font-family: Arial, sans-serif;
         }
         .header {
-            /* PENTING: Ganti 'water.jpg' dengan path gambar Anda, atau gunakan URL online */
             background-image: url('water.jpg');
             background-size: cover;
             background-position: center;
@@ -24,9 +23,10 @@
             font-size: 36px;
             font-weight: bold;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            text-align: left;
         }
         .btn-custom {
-            background-color: #003366; /* Biru tua */
+            background-color: #003366;
             color: white;
             border-radius: 30px;
             padding: 10px 30px;
@@ -37,29 +37,48 @@
             transition: background-color 0.3s;
         }
         .btn-custom:hover {
-            background-color: #002244; /* Biru lebih tua */
+            background-color: #002244;
         }
         .top-bar {
-            background-color: #5dade2; /* Biru muda */
+            background-color: #5dade2;
             padding: 15px;
             border-radius: 5px 5px 0 0;
             text-align: center;
         }
-        /* Style untuk baris yang aktif/dipilih */
         tr.table-active {
-            background-color: #d6eaf8 !important; /* Biru sangat muda */
+            background-color: #d6eaf8 !important; 
             cursor: pointer;
         }
-        /* Style saat mouse hover di baris tabel */
         tbody tr:hover {
             background-color: #eaf2f8;
             cursor: pointer;
+        }
+        /* 🔹 Tombol kembali kanan bawah */
+        .btn-kembali-bawah {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            background-color: #003366;
+            color: white;
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn-kembali-bawah:hover {
+            background-color: #002244;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
-    <div class="header">Data Karyawan</div>
+    <div class="header">
+        Data Karyawan
+    </div>
 
     <div class="container my-4">
         <div class="search-box">
@@ -99,41 +118,41 @@
         </table>
     </div>
 
+    <!-- 🔹 Tombol kembali di kanan bawah -->
+    <a href="{{ url('/masuk') }}" class="btn-kembali-bawah">
+        <i class="bi bi-arrow-left"></i> Kembali
+    </a>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         let selectedRow = null;
 
-        // FUNGSI: Memilih baris tabel saat diklik
+        // Pilih baris tabel saat diklik
         document.querySelectorAll("#karyawanTable tbody tr").forEach(row => {
             row.addEventListener("click", () => {
-                // Hapus class 'table-active' dari semua baris
                 document.querySelectorAll("#karyawanTable tbody tr").forEach(r => r.classList.remove("table-active"));
-                // Tambahkan class 'table-active' ke baris yang diklik
                 row.classList.add("table-active");
-                // Simpan baris yang dipilih
                 selectedRow = row;
             });
         });
 
-        // FUNGSI: Tombol Edit
+        // Tombol Edit
         document.getElementById("btnEdit").addEventListener("click", () => {
             if (selectedRow) {
                 const idKaryawan = selectedRow.getAttribute("data-id");
-                // Arahkan ke halaman edit dengan ID karyawan yang dipilih
                 window.location.href = `/karyawan/edit/${idKaryawan}`;
             } else {
                 alert("Pilih dulu karyawan yang ingin diedit.");
             }
         });
 
-        // FUNGSI: Tombol Hapus
+        // Tombol Hapus
         document.getElementById("btnHapus").addEventListener("click", () => {
             if (selectedRow) {
                 const idKaryawan = selectedRow.getAttribute("data-id");
                 if (confirm("Yakin ingin menghapus karyawan ini?")) {
                     const form = document.getElementById("hapusForm");
-                    // Atur action form sesuai ID karyawan yang dipilih
                     form.action = `/karyawan/hapus/${idKaryawan}`;
                     form.submit();
                 }
@@ -142,12 +161,11 @@
             }
         });
 
-        // FUNGSI: Pencarian langsung (live search)
+        // Live Search
         document.getElementById("searchInput").addEventListener("keyup", function() {
             const keyword = this.value.toLowerCase();
             document.querySelectorAll("#karyawanTable tbody tr").forEach(row => {
                 const rowText = row.textContent.toLowerCase();
-                // Tampilkan baris jika cocok dengan keyword, sembunyikan jika tidak
                 row.style.display = rowText.includes(keyword) ? "" : "none";
             });
         });
