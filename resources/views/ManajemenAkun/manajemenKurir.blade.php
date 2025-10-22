@@ -128,8 +128,6 @@
     });
   </script>
 
-  <script src="{{ asset('js/dashboard.js') }}"></script>
-
 <div class="text-center my-4">
   <a href="{{ url('/pengguna') }}" 
    class="btn btn-secondary" 
@@ -137,6 +135,8 @@
    ⬅ Kembali
   </a>
 </div>
+
+<script src="{{ asset('js/dashboard.js') }}"></script>
 
 </body>
 </html>

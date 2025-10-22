@@ -244,8 +244,6 @@
 
 </script>
 
-<script src="{{ asset('js/dashboard.js') }}"></script>
-
 <div class="text-center my-4">
   <a href="{{ url('/laundry') }}" 
    class="btn btn-primary rounded-pill shadow" 
@@ -253,6 +251,8 @@
    ⬅ Kembali
   </a>
 </div>
+
+<script src="{{ asset('js/dashboard.js') }}"></script>
 
 </body>
 </html>
