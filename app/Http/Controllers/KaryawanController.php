@@ -42,7 +42,7 @@ class KaryawanController extends Controller
             'alamat'       => $request->alamat,
         ]);
 
-        return redirect()->route('karyawan.index')->with('success', 'Data karyawan berhasil disimpan!');
+        return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil disimpan!');
     }
 
     // Form edit
@@ -80,7 +80,7 @@ class KaryawanController extends Controller
 
         $karyawan->save();
 
-        return redirect()->route('karyawan.index')->with('success', 'Data karyawan berhasil diperbarui!');
+        return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil diperbarui!');
     }
 
     // hapus data
