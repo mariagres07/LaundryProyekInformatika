@@ -9,26 +9,23 @@ use Illuminate\Support\Facades\Hash;
 class PelangganController extends Controller
 {
     public function edit()
-    {
-        // Ambil ID pelanggan dari session
-        $id = session('idPelanggan');
+{
+    $id = session('idPelanggan');
 
-        // Jika session kosong, tampilkan pesan error langsung
-        if (!$id) {
-            return back()->with('error', 'Data pelanggan tidak ditemukan atau belum login.');
-        }
-
-        // Ambil data pelanggan dari database
-        $pelanggan = Pelanggan::find($id);
-
-        // Jika data pelanggan tidak ditemukan di database
-        if (!$pelanggan) {
-            return back()->with('error', 'Data pelanggan tidak ditemukan.');
-        }
-
-        // Kirim data ke view
-        return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
+    if (!$id) {
+        return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
     }
+
+    // Ambil data pelanggan berdasarkan idPelanggan
+    $pelanggan = Pelanggan::where('idPelanggan', $id)->first();
+
+    if (!$pelanggan) {
+        return redirect()->back()->with('error', 'Data pelanggan tidak ditemukan.');
+    }
+
+    return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
+}
+
 
     public function update(Request $request)
     {
