@@ -13,19 +13,20 @@ class PelangganController extends Controller
         // Ambil ID pelanggan dari session
         $id = session('idPelanggan');
 
-        // Cegah error kalau session kosong
+        // Jika session kosong, tampilkan pesan error langsung
         if (!$id) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+            return back()->with('error', 'Data pelanggan tidak ditemukan atau belum login.');
         }
 
         // Ambil data pelanggan dari database
         $pelanggan = Pelanggan::find($id);
 
-        // Pastikan data ditemukan
+        // Jika data pelanggan tidak ditemukan di database
         if (!$pelanggan) {
-            return redirect()->route('login')->with('error', 'Data pelanggan tidak ditemukan.');
+            return back()->with('error', 'Data pelanggan tidak ditemukan.');
         }
 
+        // Kirim data ke view
         return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
     }
 
@@ -33,7 +34,6 @@ class PelangganController extends Controller
     {
         $id = session('idPelanggan');
 
-        // Validasi input
         $request->validate([
             'namaPelanggan' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:pelanggan,username,' . $id . ',idPelanggan',
@@ -45,7 +45,7 @@ class PelangganController extends Controller
         $pelanggan = Pelanggan::find($id);
 
         if (!$pelanggan) {
-            return redirect()->route('login')->with('error', 'Data pelanggan tidak ditemukan.');
+            return back()->with('error', 'Data pelanggan tidak ditemukan.');
         }
 
         // Update data
@@ -54,7 +54,6 @@ class PelangganController extends Controller
         $pelanggan->noHp = $request->noHp;
         $pelanggan->email = $request->email;
 
-        // Hanya update password jika diisi
         if ($request->filled('password')) {
             $pelanggan->password = Hash::make($request->password);
         }

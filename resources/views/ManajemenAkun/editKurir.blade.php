@@ -4,14 +4,28 @@
     <meta charset="UTF-8">
     <title>Edit Kurir</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('/water.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .card {
+            border-radius: 12px;
+            background-color: #fff; 
+        }
+        .card-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-header bg-warning text-dark">
-            <h4 class="mb-0">Edit Kurir</h4>
-        </div>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow p-4" style="max-width: 600px; width: 100%;">
+        <h4 class="card-title">Edit Kurir</h4>
         <div class="card-body">
             <form method="POST" action="{{ url('/mkurir/update/'.$kurir->idKurir) }}">
                 @csrf
@@ -47,8 +61,10 @@
                     <textarea name="alamat" class="form-control" rows="3" required>{{ $kurir->alamat }}</textarea>
                 </div>
 
-                <button type="submit" class="btn btn-success">Simpan</button>
-                <a href="{{ url('/mkurir') }}" class="btn btn-secondary">Batal</a>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url('/mkurir') }}" class="btn btn-secondary">Batal</a>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </div>
             </form>
         </div>
     </div>

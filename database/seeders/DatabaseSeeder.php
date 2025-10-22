@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         $karyawan = Karyawan::create([
             'namaKaryawan' => 'Karyawan 1',
             'username' => 'karyawan1',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('karyawan1234'),
             'alamat' => 'Jl. Karyawan No. 1',
             'noHp' => '081234567890',
             'email' => 'karyawan1@gmail.com',

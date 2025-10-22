@@ -15,20 +15,20 @@ class KaryawanController extends Controller
         return view('ManajemenAkun.manajemenKaryawan', compact('karyawan'));
     }
 
-    // Tampilkan form tambah karyawan
+    //  Form tambah karyawan baru
     public function create()
     {
         return view('ManajemenAkun.tambahKaryawan');
     }
 
-    // Simpan data karyawan baru
+    // Simpan data baru
     public function store(Request $request)
     {
         $request->validate([
             'namaKaryawan' => 'required|string|max:100',
-            'username'     => 'required|string|max:50',
+            'username'     => 'required|string|max:50|unique:karyawan,username',
             'noHp'         => 'required|string|max:15',
-            'email'        => 'required|email',
+            'email'        => 'required|email|unique:karyawan,email',
             'password'     => 'required|string|min:6',
             'alamat'       => 'required|string'
         ]);
@@ -42,17 +42,17 @@ class KaryawanController extends Controller
             'alamat'       => $request->alamat,
         ]);
 
-        return redirect('/mkaryawan')->with('success', 'Data karyawan berhasil disimpan!');
+        return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil disimpan!');
     }
 
-    // Tampilkan form edit karyawan
+    // Form edit
     public function edit($id)
     {
         $karyawan = Karyawan::findOrFail($id);
         return view('ManajemenAkun.editKaryawan', compact('karyawan'));
     }
 
-    // Update data karyawan
+    //  Update data
     public function update(Request $request, $id)
     {
         $karyawan = Karyawan::findOrFail($id);
@@ -62,28 +62,33 @@ class KaryawanController extends Controller
             'username'     => 'required|string|max:50',
             'noHp'         => 'required|string|max:15',
             'email'        => 'required|email',
-            'password'     => 'required|string|min:6',
             'alamat'       => 'required|string'
         ]);
+
+        // Jika user mengganti password
+        if ($request->filled('password')) {
+            $karyawan->password = Hash::make($request->password);
+        }
 
         $karyawan->update([
             'namaKaryawan' => $request->namaKaryawan,
             'username'     => $request->username,
             'noHp'         => $request->noHp,
             'email'        => $request->email,
-            'password'     => Hash::make($request->password),
             'alamat'       => $request->alamat,
         ]);
 
-        return redirect('/mkaryawan')->with('success', 'Data karyawan berhasil diperbarui!');
+        $karyawan->save();
+
+        return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil diperbarui!');
     }
 
-    // Hapus data karyawan
+    // hapus data
     public function destroy($id)
     {
         $karyawan = Karyawan::findOrFail($id);
         $karyawan->delete();
 
-        return redirect('/mkaryawan')->with('success', 'Data karyawan berhasil dihapus!');
+        return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil dihapus!');
     }
 }
