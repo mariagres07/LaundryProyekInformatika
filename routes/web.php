@@ -13,15 +13,18 @@ use App\Http\Controllers\Cdashboard;
 use App\Http\Controllers\BuatPengaduanController;
 use App\Http\Controllers\TanggapiPengaduanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\registerController;
 
 // ===================== AUTH / LOGIN =====================
 Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');
 Route::post('/masuk', [LoginController::class, 'login'])->name('login.process');
-Route::get('/daftar', [LoginController::class, 'showRegister'])->name('register.show');
-Route::post('/register', [LoginController::class, 'register'])->name('register.process');
 
-Route::get('/otp', [LoginController::class, 'showOtp'])->name('otp.show');
-Route::post('/otp', [LoginController::class, 'verifyOtp'])->name('otp.verify');
+// ===================== REGISTER / DAFTAR =====================
+Route::get('/daftar', [registerController::class, 'showRegister'])->name('register.show');
+Route::post('/daftar', [registerController::class, 'register'])->name('register.process');
+
+Route::get('/otp', [registerController::class, 'showOtp'])->name('otp.show');
+Route::post('/otp', [registerController::class, 'verifyOtp'])->name('otp.verify');
 
 Route::get('/berhasil', [LoginController::class, 'success'])->name('success');
 

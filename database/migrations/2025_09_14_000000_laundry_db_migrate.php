@@ -28,7 +28,8 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('email')->unique();
-            $table->timestamp('otp');
+            $table->string('otp')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
             $table->string('alamat');
             $table->string('noHp')->unique();
         });
