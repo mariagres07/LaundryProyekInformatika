@@ -35,11 +35,11 @@ Route::post('/editprofil', [PelangganController::class, 'update'])->name('pelang
 
 // ===================== KARYAWAN =====================
 Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan');
-Route::get('/karyawan/input', [KaryawanController::class, 'input']);
-Route::post('/mkaryawan/simpan', [KaryawanController::class, 'store']);
-Route::get('/mkaryawan/edit/{id}', [KaryawanController::class, 'edit']);
-Route::put('/mkaryawan/update/{id}', [KaryawanController::class, 'update']);
-Route::delete('/mkaryawan/hapus/{id}', [KaryawanController::class, 'destroy']);
+Route::get('/karyawan/create', [KaryawanController::class, 'create'])->name('karyawan.create');
+Route::post('/karyawan/store', [KaryawanController::class, 'store'])->name('karyawan.store');
+Route::get('/karyawan/edit/{id}', [KaryawanController::class, 'edit'])->name('karyawan.edit');
+Route::put('/karyawan/update/{id}', [KaryawanController::class, 'update'])->name('karyawan.update');
+Route::delete('/karyawan/hapus/{id}', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
 
 // ===================== KURIR =====================
 Route::get('/mkurir', [KurirController::class, 'index'])->name('kurir.index');

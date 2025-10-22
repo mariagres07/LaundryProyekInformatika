@@ -75,7 +75,7 @@
                 @method('DELETE')
                 <button type="button" class="btn btn-custom" id="btnHapus">HAPUS</button>
             </form>
-            <a href="{{ url('/mkaryawan/create') }}" class="btn btn-custom">INPUT</a>
+            <a href="{{ url('/karyawan/create') }}" class="btn btn-custom">INPUT</a>
             <button type="button" class="btn btn-custom" id="btnEdit">EDIT</button>
         </div>
 
@@ -121,7 +121,7 @@
             if (selectedRow) {
                 const idKaryawan = selectedRow.getAttribute("data-id");
                 // Arahkan ke halaman edit dengan ID karyawan yang dipilih
-                window.location.href = `/mkaryawan/edit/${idKaryawan}`;
+                window.location.href = `/karyawan/edit/${idKaryawan}`;
             } else {
                 alert("Pilih dulu karyawan yang ingin diedit.");
             }
@@ -134,7 +134,7 @@
                 if (confirm("Yakin ingin menghapus karyawan ini?")) {
                     const form = document.getElementById("hapusForm");
                     // Atur action form sesuai ID karyawan yang dipilih
-                    form.action = `/mkaryawan/hapus/${idKaryawan}`;
+                    form.action = `/karyawan/hapus/${idKaryawan}`;
                     form.submit();
                 }
             } else {
