@@ -1,88 +1,259 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Daftar - Iva Laundry</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- FONT LORA -->
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Lora', serif;
+    }
+
     body {
+      font-family: 'Lora', serif;
       background: url('water.jpg') no-repeat center center fixed;
+      /* Gambar background */
       background-size: cover;
+      /* Biar menyesuaikan ukuran layar */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
     }
-    .register-box {
-      max-width: 450px;
-      margin: 80px auto;
-      padding: 30px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+
+    .wrapper {
+      display: flex;
+      width: 800px;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
     }
-    .btn-custom {
-      background: linear-gradient(to bottom, #a3c1d9, #7a9cb7);
-      color: white;
-      font-weight: bold;
-      border-radius: 10px;
-      padding: 10px;
+
+    /* Bagian kiri (Form) */
+    .left {
+      flex: 1;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h2 {
+      color: #7bbde8;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .left p {
+      color: #555;
+      margin-bottom: 30px;
+      font-size: 13px;
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
       width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #7bbde8;
+      outline: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #7bbde8;
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #63aad5;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+      color: #333;
+      font-size: 15px;
+    }
+
+    .login-link a {
+      color: #7bbde8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Bagian kanan (Ilustrasi / Info) */
+    .right {
+      flex: 1;
+      background-color: #7bbde8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #000000;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .right img {
+      width: 120px;
+      margin-bottom: 25px;
+    }
+
+    .right h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .right p {
+      font-size: 15px;
+      opacity: 0.9;
+      max-width: 280px;
+    }
+
+    /* Pesan sukses & error */
+    .alert-success,
+    .alert-danger {
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .alert-success {
+      background: #e6f9ed;
+      color: #256d3b;
+      border: 1px solid #a7e6b5;
+    }
+
+    .alert-danger {
+      background: #fdeaea;
+      color: #b42318;
+      border: 1px solid #f3b6b0;
+    }
+
+    @media (max-width: 850px) {
+      .wrapper {
+        flex-direction: column;
+        width: 95%;
+      }
+
+      .right {
+        display: none;
+      }
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <div class="register-box">
-      <h3 class="text-center text-primary mb-4">DAFTAR</h3>
 
-      {{-- tampilkan success message --}}
+<body>
+
+  <div class="wrapper">
+    <!-- Kiri -->
+    <div class="left">
+      <h2>Daftar Akun</h2>
+      <p>Buat akun baru untuk menikmati layanan laundry Iva dengan mudah.</p>
+
+      {{-- Pesan sukses --}}
       @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+      <div class="alert-success">{{ session('success') }}</div>
       @endif
 
-      {{-- tampilkan error umum --}}
+      {{-- Pesan error --}}
       @if($errors->any())
-        <div class="alert alert-danger">
-          <ul class="mb-0">
-            @foreach($errors->all() as $err)
-              <li>{{ $err }}</li>
-            @endforeach
-          </ul>
-        </div>
+      <div class="alert-danger">
+        <ul>
+          @foreach($errors->all() as $err)
+          <li>{{ $err }}</li>
+          @endforeach
+        </ul>
+      </div>
       @endif
 
       <form action="{{ route('register.process') }}" method="POST">
         @csrf
-        <div class="mb-3">
-          <label for="name" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+        <div class="form-group">
+          <label for="name">Nama Lengkap</label>
+          <input type="text" id="name" name="name" value="{{ old('name') }}" required>
         </div>
 
-        <div class="mb-3">
-          <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" value="{{ old('username') }}" required>
         </div>
 
-        <div class="mb-3">
-          <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-          <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" value="{{ old('email') }}" required>
         </div>
 
-        <div class="mb-3">
-          <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-          <input type="password" class="form-control" id="password" name="password" required>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
         </div>
 
-        <div class="mb-3">
-          <label for="password_confirmation" class="form-label">Konfirmasi Password <span class="text-danger">*</span></label>
-          <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+        <div class="form-group">
+          <label for="password_confirmation">Konfirmasi Password</label>
+          <input type="password" id="password_confirmation" name="password_confirmation" required>
         </div>
 
-        <button type="submit" class="btn btn-custom">DAFTAR</button>
+        <button type="submit" class="btn">Daftar</button>
       </form>
 
-      <p class="text-center mt-3">Sudah punya akun? 
-        <a href="{{ url('/masuk') }}" class="text-decoration-none">Masuk</a>
-      </p>
+      <div class="login-link">
+        Sudah punya akun? <a href="{{ url('/masuk') }}">Masuk di sini</a>
+      </div>
+    </div>
+
+    <!-- Kanan -->
+    <div class="right">
+      <img src="selimut.png" alt="Laundry Icon">
+      <h3>Selamat Datang di Iva Laundry</h3>
+      <p>Atur dan pantau cucianmu dengan mudah lewat akun Iva Laundry — cepat, aman, dan terintegrasi.</p>
     </div>
   </div>
+
 </body>
+
 </html>
