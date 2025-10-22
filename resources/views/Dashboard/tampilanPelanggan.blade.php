@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda Pelanggan - IVA Laundry</title>
+    <title>Dashboard Pelanggan - IVA Laundry</title>
 
     @if (session('role') !== 'pelanggan')
     <script>
@@ -20,10 +20,6 @@
         font-family: 'Poppins', sans-serif;
         background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
         min-height: 100vh;
-    }
-
-    .hidden {
-        display: none !important;
     }
 
     .menu-card {
@@ -74,82 +70,51 @@
 </head>
 
 <body>
+
+    <!-- Include navbar & sidebar -->
     @include('Dashboard.pelanggan_sidenav')
-    <div class="container py-4 text-center position-relative" style="min-height: 90vh;">
-        {{-- Header dan Tombol Logout --}}
-        <div class="d-flex justify-content-between align-items-center mb-5">
-            <img src="https://i.ibb.co/GHR6mt3/iva-laundry-logo.png" alt="IVA Laundry" class="logo">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn logout-btn">KELUAR</button>
-            </form>
+
+    <!-- Content -->
+    <div class="container py-4">
+        <div id="dashboard_pelanggan_utama" class="row justify-content-center">
+
+            <!-- 1. Pesan Laundry -->
+            <div class="col-md-4 mb-4">
+                <a href="{{ url('/pesanLaundry') }}" class="text-decoration-none text-dark">
+                    <div class="menu-card text-center p-4">
+                        <i class="bi bi-basket2-fill menu-icon" style="font-size:40px; color:#7ba6e0;"></i>
+                        <h5 class="mt-2">Pesan Laundry</h5>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 2. Lihat Data Pesanan -->
+            <div class="col-md-4 mb-4">
+                <a href="{{ url('/lihatData') }}" class="text-decoration-none text-dark">
+                    <div class="menu-card text-center p-4">
+                        <i class="bi bi-file-earmark-text-fill menu-icon" style="font-size:40px; color:#7ba6e0;"></i>
+                        <h5 class="mt-2">Lihat Data Pesanan</h5>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 3. Edit Profil -->
+            <div class="col-md-4 mb-4">
+                <a href="{{ url('/editprofil') }}" class="text-decoration-none text-dark">
+                    <div class="menu-card text-center p-4">
+                        <i class="bi bi-person-circle menu-icon" style="font-size:40px; color:#7ba6e0;"></i>
+                        <h5 class="mt-2">Edit Profil</h5>
+                    </div>
+                </a>
+            </div>
         </div>
-
-        {{-- ================================================= --}}
-        {{-- DASHBOARD INDUK (Semua menu tampil di sini) --}}
-        {{-- ================================================= --}}
-        <h2 class="text-center mb-5 fw-bold text-primary">Pilih Fitur Pelanggan</h2>
-
-        <div id="dashboard_pelanggan_utama" class="row justify-content-center mt-5">
-
-            {{-- 1. Pesan Laundry --}}
-            <div class="col-md-3 mb-4">
-                <a href="/pesanLaundry" class="text-decoration-none text-dark">
-                    <div class="menu-card">
-                        <i class="bi bi-washer menu-icon" style="font-size:40px;"></i>
-                        <h5>Pesan Laundry</h5>
-                    </div>
-                </a>
-            </div>
-
-            {{-- 2. Lihat Data Pesanan --}}
-            <div class="col-md-3 mb-4">
-                <a href="/detailPesanan" class="text-decoration-none text-dark">
-                    <div class="menu-card">
-                        <i class="bi bi-file-text menu-icon" style="font-size:40px;"></i>
-                        <h5>Lihat Data Pesanan</h5>
-                    </div>
-                </a>
-            </div>
-
-            {{-- 3. Edit Profil --}}
-            <div class="col-md-3 mb-4">
-                <a href="/editprofil" class="text-decoration-none text-dark">
-                    <div class="menu-card">
-                        <i class="bi bi-person-circle menu-icon"></i>
-                        <h5>Edit Profil</h5>
-                    </div>
-                </a>
-            </div>
-
-        </div>
-
-        {{-- Footer --}}
         <footer>
-            <div><i class="bi bi-instagram text-danger"></i>iva.laundry</div>
-            <div><i class="bi bi-whatsapp text-success"></i>iva.laundry</div>
+            <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
+            <i class="bi bi-whatsapp text-success"></i> iva.laundry
         </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/dashboard_pelanggan.js') }}"></script>
-    <script>
-    // LOGIKA PEMUATAN TAB OTOMATIS
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialTab = urlParams.get('tab');
-
-    // Tentukan fungsi JS mana yang akan dijalankan saat halaman dimuat
-    if (initialTab === 'pesanlaundry') {
-        showPesanLaundry();
-    } else if (initialTab === 'lihatdatapesanan') {
-        showLihatDataPesanan();
-    } else if (initialTab === 'editprofil') {
-        showEditProfil();
-    } else {
-        // Default ke tab Pesan Laundry jika tidak ada parameter
-        showPesanLaundry();
-    }
-    </script>
 </body>
 
 </html>

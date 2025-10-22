@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="id">
 <!-- Bootstrap 5.3 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -38,36 +40,46 @@
 }
 </style>
 
-<!-- Navbar -->
-<nav class="navbar navbar-light bg-light shadow-sm">
-    <div class="container-fluid">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarKaryawan"
-            aria-controls="sidebarKaryawan">
-            <i class="bi bi-list"></i>
-        </button>
-        <span class="navbar-brand mb-0 h1">IVA Laundry - Karyawan</span>
-    </div>
-</nav>
+<body>
 
-<!-- Sidebar Offcanvas -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarKaryawan" aria-labelledby="sidebarKaryawanLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="sidebarKaryawanLabel">Menu</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light shadow-sm">
+        <div class="container-fluid">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+                aria-controls="sidebar">
+                <i class="bi bi-list"></i>
+            </button>
+            <span class="navbar-brand mb-0 h1">IVA Laundry - Pelanggan</span>
+        </div>
+    </nav>
+
+    <!-- Sidebar Offcanvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <a href="{{ url('/tampilanPelanggan') }}">
+                <i class="bi bi-house"></i> Dashboard
+            </a>
+            <a href="{{ url('/pesanLaundry') }}">
+                <i class="bi bi-basket2-fill"></i> Pesan Laundry
+            </a>
+            <a href="{{ url('/lihatData') }}">
+                <i class="bi bi-file-earmark-text-fill"></i> Lihat Data Pesanan
+            </a>
+            <a href="{{ url('/editprofil') }}">
+                <i class="bi bi-person-circle"></i> Edit Profil
+            </a>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="logout-btn">KELUAR</button>
+            </form>
+        </div>
     </div>
-    <div class="offcanvas-body d-flex flex-column">
-        <a href="#" onclick="showPesanLaundry()" data-bs-dismiss="offcanvas"><i class="bi bi-washer"></i> Pesan
-            Laundry</a>
-        <a href="#" onclick="showLihatDataPesanan()" data-bs-dismiss="offcanvas"><i class="bi bi-file-text"></i> Lihat
-            Data Pesanan</a>
-        <a href="#" onclick="showEditProfil()" data-bs-dismiss="offcanvas"><i class="bi bi-person-circle"></i> Edit
-            Profil</a>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="logout-btn">KELUAR</button>
-        </form>
-    </div>
-</div>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/dashboard.js') }}"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
