@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kurir;
-use Illuminate\Support\Facades\Hash;
 
 class KurirController extends Controller
 {
@@ -38,7 +37,7 @@ class KurirController extends Controller
             'username'  => $request->username,
             'noHp'      => $request->noHp,
             'email'     => $request->email,
-            'password'  => Hash::make($request->password),
+            'password'  => bcrypt($request->password),
             'alamat'    => $request->alamat,
         ]);
 

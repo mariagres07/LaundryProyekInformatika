@@ -76,7 +76,7 @@
 </head>
 
 <body>
-    @include('dashboard.kurir_sidenav')
+    @include('Dashboard.kurir_sidenav')
 
     <!-- Header -->
     <div class="text-center p-4 mb-4 header-bg text-light shadow-sm">
