@@ -129,6 +129,8 @@
 </head>
 <body class="p-4">
 
+@include('Dashboard.karyawan_sidenav')
+
 <div class="container">
   <div class="background-header">
     <h2 class="title">Kelola Layanan</h2>
@@ -238,8 +240,11 @@
       btn.textContent = formPaket.classList.contains('d-none') ? 'INPUT' : 'Tutup';
     }
   });
+
+
 </script>
 
+<script src="{{ asset('js/dashboard.js') }}"></script>
 
 <div class="text-center my-4">
   <a href="{{ url('/laundry') }}" 

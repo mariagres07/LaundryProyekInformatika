@@ -52,6 +52,8 @@
 </head>
 <body>
 
+@include('Dashboard.karyawan_sidenav')
+
   <div class="header">Data Kurir</div>
 
   <div class="container my-4">
