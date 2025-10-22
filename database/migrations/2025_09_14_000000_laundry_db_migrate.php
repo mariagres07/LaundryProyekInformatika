@@ -132,5 +132,6 @@ return new class extends Migration
         Schema::dropIfExists('karyawan');
         Schema::dropIfExists('pelanggan');
         Schema::dropIfExists('kurir');
+        Schema::dropIfExists('sessions');
     }
 };
