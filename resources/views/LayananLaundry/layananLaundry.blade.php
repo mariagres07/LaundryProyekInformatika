@@ -43,9 +43,10 @@
       padding: 0.9rem 1.6rem;
       font-weight: 600;
     }
-    .nav-pill-big .nav-link.active {
+     .nav-link.active {
       background: #dceff6;
       color: #0b3a4a;
+      background-color: rgba(136, 233, 255, 0.67) !important;
     }
     .service-item {
       background: rgba(217,233,244,0.95);
@@ -139,7 +140,7 @@
   <div class="header-bar">
     <ul class="nav nav-pills nav-pill-big justify-content-center">
       <li class="nav-item w-50 text-center">
-        <a class="nav-link active" data-bs-toggle="pill" href="#tabCategories">Kategori Laundry</a>
+        <a class="nav-link" data-bs-toggle="pill" href="#tabCategories">Kategori Laundry</a>
       </li>
       <li class="nav-item w-50 text-center">
         <a class="nav-link" data-bs-toggle="pill" href="#tabPakets">Jenis Paket</a>
@@ -245,7 +246,7 @@
 </script>
 
 <div class="text-center my-4">
-  <a href="{{ url('/laundry') }}" 
+  <a href="{{ url()->previous() }}" 
    class="btn btn-primary rounded-pill shadow" 
    style="position: fixed; bottom: 25px; right: 25px;">
    ⬅ Kembali
