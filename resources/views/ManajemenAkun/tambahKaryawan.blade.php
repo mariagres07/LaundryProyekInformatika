@@ -13,7 +13,7 @@
             <h4 class="mb-0">Tambah Karyawan</h4>
         </div>
         <div class="card-body"> 
-            <form method="POST" action="{{ url('/mkaryawan/store') }}">
+            <form method="POST" action="{{ url('/karyawan/store') }}">
                 @csrf
 
                 <div class="mb-3">
@@ -47,7 +47,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ url('/mkaryawan') }}" class="btn btn-secondary">Batal</a>
+                <a href="{{ url('/karyawan') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>
     </div>

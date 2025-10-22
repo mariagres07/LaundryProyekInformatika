@@ -13,7 +13,7 @@
             <h4 class="mb-0">Edit Karyawan</h4>
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ url('/mkaryawan/update/'.$karyawan->idKaryawan) }}">
+            <form method="POST" action="{{ url('/karyawan/update/'.$karyawan->idKaryawan) }}">
                 @csrf
                 @method('PUT')
 
@@ -49,7 +49,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">Simpan</button>
-                <a href="{{ url('/mkaryawan') }}" class="btn btn-secondary">Batal</a>
+                <a href="{{ url('/karyawan') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>
     </div>

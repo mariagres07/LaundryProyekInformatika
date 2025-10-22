@@ -75,7 +75,7 @@ class KaryawanController extends Controller
             'alamat'       => $request->alamat,
         ]);
 
-        return redirect('/mkaryawan')->with('success', 'Data karyawan berhasil diperbarui!');
+        return redirect('/karyawan')->with('success', 'Data karyawan berhasil diperbarui!');
     }
 
     // Hapus data karyawan
@@ -84,6 +84,6 @@ class KaryawanController extends Controller
         $karyawan = Karyawan::findOrFail($id);
         $karyawan->delete();
 
-        return redirect('/mkaryawan')->with('success', 'Data karyawan berhasil dihapus!');
+        return redirect('/karyawan')->with('success', 'Data karyawan berhasil dihapus!');
     }
 }
