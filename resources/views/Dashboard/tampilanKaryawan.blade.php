@@ -92,55 +92,55 @@
                     <h5>Manajemen Laundry</h5>
                 </div>
             </div>
-            <div class="col-md-3 mb-4">
+            {{-- <div class="col-md-3 mb-4">
                 <a href="{{ route('laporan.index') }}" class="text-decoration-none text-dark">
-                    <div class="menu-card">
-                        <i class="bi bi-list-check menu-icon"></i>
-                        <h5>Pesanan</h5>
-                    </div>
-                </a>
+            <div class="menu-card">
+                <i class="bi bi-list-check menu-icon"></i>
+                <h5>Pesanan</h5>
             </div>
-            <div class="col-md-3 mb-4">
-                <a href="{{ route('pengaduan.index') }}" class="text-decoration-none text-dark">
-                    <div class="menu-card">
-                        <i class="bi bi-chat-dots menu-icon"></i>
-                        <h5>Pengaduan</h5>
-                    </div>
-                </a>
-            </div>
+            </a>
+        </div> --}}
+        <div class="col-md-3 mb-4">
+            <a href="{{ route('pengaduan.index') }}" class="text-decoration-none text-dark">
+                <div class="menu-card">
+                    <i class="bi bi-chat-dots menu-icon"></i>
+                    <h5>Pengaduan</h5>
+                </div>
+            </a>
         </div>
+    </div>
 
-        <!-- Manajemen Pengguna -->
-        <div id="pengguna" class="hidden row justify-content-center py-4">
-            <div class="col-md-4 mb-4">
-                <div class="menu-card" onclick="window.location='{{ route('karyawan') }}'">
-                    <i class="bi bi-person-badge menu-icon"></i>
-                    <h5>Manajemen Karyawan</h5>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="menu-card" onclick="window.location='{{ route('kurir.index') }}'">
-                    <i class="bi bi-truck menu-icon"></i>
-                    <h5>Manajemen Kurir</h5>
-                </div>
+    <!-- Manajemen Pengguna -->
+    <div id="pengguna" class="hidden row justify-content-center py-4">
+        <div class="col-md-4 mb-4">
+            <div class="menu-card" onclick="window.location='{{ route('karyawan') }}'">
+                <i class="bi bi-person-badge menu-icon"></i>
+                <h5>Manajemen Karyawan</h5>
             </div>
         </div>
+        <div class="col-md-4 mb-4">
+            <div class="menu-card" onclick="window.location='{{ route('kurir.index') }}'">
+                <i class="bi bi-truck menu-icon"></i>
+                <h5>Manajemen Kurir</h5>
+            </div>
+        </div>
+    </div>
 
-        <!-- Manajemen Laundry -->
-        <div id="laundry" class="hidden row justify-content-center py-4">
-            <div class="col-md-4 mb-4">
-                <div class="menu-card" onclick="window.location='{{ route('layanan.index') }}'">
-                    <i class="bi bi-list-task menu-icon"></i>
-                    <h5>Kelola Layanan</h5>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="menu-card" onclick="window.location='{{ route('laporan.index') }}'">
-                    <i class="bi bi-graph-up menu-icon"></i>
-                    <h5>Lihat Laporan</h5>
-                </div>
+    <!-- Manajemen Laundry -->
+    <div id="laundry" class="hidden row justify-content-center py-4">
+        <div class="col-md-4 mb-4">
+            <div class="menu-card" onclick="window.location='{{ route('layanan.index') }}'">
+                <i class="bi bi-list-task menu-icon"></i>
+                <h5>Kelola Layanan</h5>
             </div>
         </div>
+        <div class="col-md-4 mb-4">
+            <div class="menu-card" onclick="window.location='{{ route('laporan.index') }}'">
+                <i class="bi bi-graph-up menu-icon"></i>
+                <h5>Lihat Laporan</h5>
+            </div>
+        </div>
+    </div>
     </div>
 
     <!-- Footer -->
@@ -151,23 +151,19 @@
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
-    function showPengguna() {
-        document.getElementById('dashboard').classList.add('hidden');
-        document.getElementById('pengguna').classList.remove('hidden');
-        document.getElementById('laundry').classList.add('hidden');
-    }
+    // Ambil parameter URL (misalnya 'pengguna' dari ?tab=pengguna)
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialTab = urlParams.get('tab');
 
-    function showLaundry() {
-        document.getElementById('dashboard').classList.add('hidden');
-        document.getElementById('laundry').classList.remove('hidden');
-        document.getElementById('pengguna').classList.add('hidden');
-    }
-
-    function showDashboard() {
-        document.getElementById('dashboard').classList.remove('hidden');
-        document.getElementById('pengguna').classList.add('hidden');
-        document.getElementById('laundry').classList.add('hidden');
+    if (initialTab === 'pengguna') {
+        showPengguna();
+    } else if (initialTab === 'laundry') {
+        showLaundry();
+    } else {
+        // Default ke Dashboard jika tidak ada parameter atau parameter tidak valid
+        showDashboard();
     }
     </script>
 </body>

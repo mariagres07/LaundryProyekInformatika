@@ -13,7 +13,7 @@
       background-color: white;
     }
     .header {
-      background-image: url('images/water.jpg');
+      background-image: url('water.jpg');
       background-size: cover;
       background-position: center;
       padding: 35px;
@@ -51,6 +51,8 @@
   </style>
 </head>
 <body>
+
+@include('Dashboard.karyawan_sidenav')
 
   <div class="header">Data Kurir</div>
 
@@ -125,6 +127,16 @@
       });
     });
   </script>
+
+<div class="text-center my-4">
+  <a href="{{ url('/pengguna') }}" 
+   class="btn btn-secondary" 
+   style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+   ⬅ Kembali
+  </a>
+</div>
+
+<script src="{{ asset('js/dashboard.js') }}"></script>
 
 </body>
 </html>

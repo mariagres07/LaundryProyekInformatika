@@ -10,6 +10,8 @@
 
 <body class="bg-light">
 
+    @include('Dashboard.kurir_sidenav')
+
     <!-- Header -->
     <div class="text-start p-3 mb-4"
         style="background:url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;">
