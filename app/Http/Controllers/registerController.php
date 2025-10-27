@@ -17,12 +17,28 @@ class RegisterController extends Controller
     // ===================== REGISTER =====================
     public function register(Request $request)
     {
-        $validated = $request->validate([
-            'namaPelanggan' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:pelanggan,username',
-            'password' => 'required|string|min:6|confirmed',
-            'email' => 'required|email|unique:pelanggan,email',
-        ]);
+        $validated = $request->validate(
+            [
+                'namaPelanggan' => 'required|string|max:255',
+                'username' => 'required|string|max:255|unique:pelanggan,username',
+                'email' => 'required|email|unique:pelanggan,email',
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8', // minimal 8 karakter
+                    'regex:/[A-Z]/', // ada huruf besar
+                    'regex:/[a-z]/', // ada huruf kecil
+                    'regex:/[0-9]/', // ada angka
+                    'regex:/[@$!%*?&#]/', // ada simbol spesial
+                    'confirmed'
+                ],
+            ],
+            [
+                'password.min' => 'Password minimal 8 karakter.',
+                'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
+                'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            ]
+        );
 
         $otp = rand(100000, 999999);
 
