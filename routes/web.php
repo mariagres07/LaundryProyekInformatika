@@ -26,7 +26,8 @@ Route::post('/daftar', [registerController::class, 'register'])->name('register.
 Route::get('/otp', [registerController::class, 'showOtp'])->name('otp.show');
 Route::post('/otp', [registerController::class, 'verifyOtp'])->name('otp.verify');
 
-Route::get('/berhasil', [LoginController::class, 'success'])->name('success');
+// Route::get('/berhasil', [LoginController::class, 'success'])->name('success');
+Route::get('/berhasil', [registerController::class, 'success'])->name('success');
 
 // ========LOGOUT========
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -52,6 +53,17 @@ Route::post('/mkurir/store', [KurirController::class, 'store']);
 Route::get('/mkurir/edit/{idKurir}', [KurirController::class, 'edit']);
 Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
+
+// ===================== KONFIRMASI BERAT (KURIR) =====================
+Route::post('/kurir/konfirmasi-berat/{idPesanan}', [KurirController::class, 'konfirmasiBerat'])
+    ->name('kurir.konfirmasiBerat');
+
+// ===================== PEMBAYARAN =====================
+// Route::get('/pembayaran/{idPesanan}', [PembayaranController::class, 'showForm'])->name('pembayaran.form');
+// Route::post('/pembayaran/{idPesanan}', [PembayaranController::class, 'prosesPembayaran'])->name('pembayaran.proses');
+
+// ===================== SELESAIKAN PESANAN =====================
+Route::post('/pesanan/{id}/selesai', [CVerifikasi::class, 'selesaikan'])->name('pesanan.selesai');
 
 // ===================== LAYANAN =====================
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');

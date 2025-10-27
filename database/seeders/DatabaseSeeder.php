@@ -64,16 +64,13 @@ class DatabaseSeeder extends Seeder
             'idLayanan' => $layanan->idLayanan,
             'idKurir' => $kurir->idKurir,
             'idKaryawan' => $karyawan->idKaryawan,
-            'statusPesanan' => false,
+            'statusPesanan' => 'Menunggu Penjemputan',
             'alamat' => 'Jl. Pelanggan No. 1',
             'paket' => 'Paket A',
             'pakaian' => 3,
             'seprai' => 2,
             'handuk' => 1,
-            'beratBarang' => 1.5,
             'tanggalMasuk' => now(),
-            'tanggalSelesai' => now()->addDays(2),
-            'totalHarga' => 15000,
         ]);
 
         $kategori = KategoriItem::create([
@@ -99,7 +96,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Pakaian saya ada yang hilang',
             'judulPengaduan' => 'Pakaian hilang',
             'media' => '',
-            'statusPengaduan' => false,
+            'statusPengaduan' => 'Belum Ditanggapi',
             'tanggapanPengaduan' => 'Mohon maaf atas ketidaknyamanannya, kami akan mencari pakaian Anda secepatnya.',
         ]);
     }

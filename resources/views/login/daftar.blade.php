@@ -210,7 +210,17 @@
         @csrf
         <div class="form-group">
           <label for="name">Nama Lengkap</label>
-          <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+          <input type="text" id="namaPelanggan" name="namaPelanggan" value="{{ old('namaPelanggan') }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="alamat">Alamat</label>
+          <input type="text" id="alamat" name="alamat" value="{{ old('alamat') }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="noHp">No. HP</label>
+          <input type="text" id="noHp" name="noHp" value="{{ old('noHp') }}" required>
         </div>
 
         <div class="form-group">
@@ -228,6 +238,15 @@
           <label for="email">Email</label>
           <input type="email" id="email" name="email" value="{{ old('email') }}" required>
         </div>
+
+        <ul id="password-rules" style="font-size:13px; color:#b42318; margin-bottom:5px; list-style:none; padding-left:0;">
+  <li id="rule-length">Minimal 8 karakter</li>
+  <li id="rule-upper">Mengandung huruf besar (A-Z)</li>
+  <li id="rule-lower">Mengandung huruf kecil (a-z)</li>
+  <li id="rule-number">Mengandung angka (0-9)</li>
+  <li id="rule-symbol">Mengandung simbol (@$!%*?&#)</li>
+</ul>
+
 
         <div class="form-group">
           <label for="password">Password</label>
@@ -253,7 +272,67 @@
       <p>Atur dan pantau cucianmu dengan mudah lewat akun Iva Laundry — cepat, aman, dan terintegrasi.</p>
     </div>
   </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const passwordInput = document.getElementById("password");
+  const confirmInput = document.getElementById("password_confirmation");
+  const rules = {
+    length: document.getElementById("rule-length"),
+    upper: document.getElementById("rule-upper"),
+    lower: document.getElementById("rule-lower"),
+    number: document.getElementById("rule-number"),
+    symbol: document.getElementById("rule-symbol")
+  };
+
+  const confirmMessage = document.createElement("div");
+  confirmMessage.style.marginTop = "5px";
+  confirmMessage.style.fontSize = "13px";
+  confirmInput.insertAdjacentElement("afterend", confirmMessage);
+
+  passwordInput.addEventListener("input", function () {
+    const password = passwordInput.value;
+
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSymbol = /[@$!%*?&#]/.test(password);
+    const longEnough = password.length >= 8;
+
+    updateRule(rules.length, longEnough);
+    updateRule(rules.upper, hasUpper);
+    updateRule(rules.lower, hasLower);
+    updateRule(rules.number, hasNumber);
+    updateRule(rules.symbol, hasSymbol);
+
+    checkConfirm();
+  });
+
+  confirmInput.addEventListener("input", checkConfirm);
+
+  function updateRule(element, condition) {
+    if (condition) {
+      element.style.color = "#777"; // redup abu-abu
+      element.style.textDecoration = "line-through"; // coret halus (opsional)
+    } else {
+      element.style.color = "#b42318"; // merah
+      element.style.textDecoration = "none";
+    }
+  }
+
+  function checkConfirm() {
+    const password = passwordInput.value;
+    const confirm = confirmInput.value;
+    if (confirm.length === 0) {
+      confirmMessage.innerHTML = "";
+      return;
+    }
+    confirmMessage.innerHTML =
+      confirm === password
+        ? `<span style="color:green;">Password cocok</span>`
+        : `<span style="color:red;">Password tidak cocok</span>`;
+  }
+});
+</script>
 
 </body>
-
 </html>
