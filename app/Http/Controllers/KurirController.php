@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kurir;
+use App\Models\Layanan;;
+
+use App\Models\Pesanan;
 
 class KurirController extends Controller
 {
@@ -87,5 +90,30 @@ class KurirController extends Controller
         $kurir->delete();
 
         return redirect('/mkurir')->with('success', 'Kurir berhasil dihapus!');
+    }
+
+    public function konfirmasiBerat(Request $request, $idPesanan)
+    {
+        $request->validate([
+            'beratBarang' => 'required|numeric|min:0.1',
+        ]);
+
+        // Ambil data pesanan
+        $pesanan = Pesanan::findOrFail($idPesanan);
+
+        // Ambil harga per kg dari layanan terkait
+        $layanan = Layanan::findOrFail($pesanan->idLayanan);
+
+        // Hitung total harga
+        $totalHarga = $request->beratBarang * $layanan->hargaPerKg;
+
+        // Update data pesanan
+        $pesanan->update([
+            'beratBarang'    => $request->beratBarang,
+            'totalHarga'     => $totalHarga,
+            'statusPesanan'  => 'Menunggu Pembayaran', // setelah ditimbang
+        ]);
+
+        return redirect()->back()->with('success', 'Berat dan total harga berhasil dikonfirmasi.');
     }
 }

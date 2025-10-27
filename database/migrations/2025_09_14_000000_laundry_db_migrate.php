@@ -60,16 +60,27 @@ return new class extends Migration
             $table->foreignId('idLayanan')->constrained('layanan', 'idLayanan')->onDelete('cascade');
             $table->foreignId('idKurir')->nullable()->constrained('kurir', 'idKurir')->onDelete('cascade');
             $table->foreignId('idKaryawan')->nullable()->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
-            $table->boolean('statusPesanan');
+            // $table->boolean('statusPesanan');
+
+            // gunakan enum agar lebih jelas tahapannya
+            $table->enum('statusPesanan', [
+                'Menunggu Penjemputan',
+                'Ditimbang',
+                'Menunggu Pembayaran',
+                'Diproses',
+                'Selesai'
+            ])->default('Menunggu Penjemputan');
+
             $table->string('alamat')->nullable();
             $table->string('paket')->nullable();
             $table->integer('pakaian')->default(0);
             $table->integer('seprai')->default(0);
             $table->integer('handuk')->default(0);
-            $table->decimal('beratBarang', 8, 2);
+            // nullable agar tidak error sebelum ditimbang
+            $table->decimal('beratBarang', 8, 2)->nullable();
             $table->date('tanggalMasuk');
-            $table->date('tanggalSelesai');
-            $table->decimal('totalHarga', 12, 2);
+            $table->date('tanggalSelesai')->nullable();
+            $table->decimal('totalHarga', 12, 2)->nullable();
         });
 
         Schema::create('kategoriItem', function (Blueprint $table) {
