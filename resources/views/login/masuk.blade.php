@@ -15,7 +15,7 @@
 
     .login-box {
       max-width: 400px;
-      margin: 100px auto;
+      margin: 100px auto;    
       padding: 40px 35px;
       border-radius: 25px;
       background: rgba(255, 255, 255, 0.92);
