@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TransaksiPembayaran;
 use Carbon\Carbon;
 
+// KARYAWAN 
 class ClihatLap extends Controller
 {
     public function index(Request $request)

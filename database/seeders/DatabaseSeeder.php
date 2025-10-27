@@ -81,6 +81,7 @@ class DatabaseSeeder extends Seeder
         $detail = DetailTransaksi::create([
             'idPesanan' => $pesanan->idPesanan,
             'idKategoriItem' => $kategori->idKategoriItem,
+            'jumlahKategori' => 3,
         ]);
 
         TransaksiPembayaran::create([

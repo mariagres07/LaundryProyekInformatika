@@ -93,6 +93,7 @@ return new class extends Migration
             $table->id('idDetailTransaksi');
             $table->foreignId('idPesanan')->constrained('pesanan', 'idPesanan')->onDelete('cascade');
             $table->foreignId('idKategoriItem')->constrained('kategoriItem', 'idKategoriItem')->onDelete('cascade');
+            $table->integer('jumlahKategori')->default(0);
         });
 
         Schema::create('transaksiPembayaran', function (Blueprint $table) {
