@@ -20,9 +20,7 @@
     body {
       font-family: 'Lora', serif;
       background: url('water.jpg') no-repeat center center fixed;
-      /* Gambar background */
       background-size: cover;
-      /* Biar menyesuaikan ukuran layar */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -40,7 +38,6 @@
       overflow: hidden;
     }
 
-    /* Bagian kiri (Form) */
     .left {
       flex: 1;
       padding: 50px;
@@ -78,7 +75,8 @@
 
     input[type="text"],
     input[type="email"],
-    input[type="password"] {
+    input[type="password"],
+    input[type="tel"] {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid #ccc;
@@ -123,7 +121,6 @@
       font-weight: 600;
     }
 
-    /* Bagian kanan (Ilustrasi / Info) */
     .right {
       flex: 1;
       background-color: #7bbde8;
@@ -153,7 +150,6 @@
       max-width: 280px;
     }
 
-    /* Pesan sukses & error */
     .alert-success,
     .alert-danger {
       padding: 10px;
@@ -190,7 +186,6 @@
 <body>
 
   <div class="wrapper">
-    <!-- Kiri -->
     <div class="left">
       <h2>Daftar Akun</h2>
       <p>Buat akun baru untuk menikmati layanan laundry Iva dengan mudah.</p>
@@ -223,6 +218,12 @@
           <input type="text" id="username" name="username" value="{{ old('username') }}" required>
         </div>
 
+        <!-- Tambahan: Nomor HP -->
+        <div class="form-group">
+          <label for="phone">Nomor HP</label>
+          <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" pattern="[0-9]{10,13}" placeholder="contoh: 081234567890" required>
+        </div>
+
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" value="{{ old('email') }}" required>
@@ -246,7 +247,6 @@
       </div>
     </div>
 
-    <!-- Kanan -->
     <div class="right">
       <img src="selimut.png" alt="Laundry Icon">
       <h3>Selamat Datang di Iva Laundry</h3>
