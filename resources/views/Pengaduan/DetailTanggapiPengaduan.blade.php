@@ -9,103 +9,88 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
+    body {
+        background-color: #f8f9fa;
+    }
 
-        /*Navbar*/
-        .navbar-custom {
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+    /* Navbar */
+    .navbar-custom {
+        background-color: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
 
-        .menu-btn {
-            background-color: #0d6efd;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            padding: 8px 12px;
-        }
+    /* Sidebar */
+    .offcanvas-body a {
+        display: block;
+        padding: 10px 0;
+        color: #212529;
+        text-decoration: none;
+        font-weight: 500;
+    }
 
-        .menu-btn:hover {
-            background-color: #0b5ed7;
-        }
+    .offcanvas-body a:hover {
+        color: #0d6efd;
+    }
 
-        /*Sidebar*/
-        .offcanvas-body a {
-            display: block;
-            padding: 10px 0;
-            color: #212529;
-            text-decoration: none;
-            font-weight: 500;
-        }
+    .logout-btn {
+        width: 100%;
+        background-color: #f8f9fa;
+        color: red;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
 
-        .offcanvas-body a:hover {
-            color: #0d6efd;
-        }
+    .logout-btn:hover {
+        background-color: #f5c2c7;
+    }
 
-        .logout-btn {
-            width: 100%;
-            background-color: #f8f9fa;
-            color: red;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
+    /* Main content */
+    .main-content {
+        margin-top: 80px;
+    }
 
-        .logout-btn:hover {
-            background-color: #f5c2c7;
-        }
+    /* Card styling */
+    .card-custom {
+        width: 100%;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        background-color: #fff;
+    }
 
-        /*Main content*/
-        .main-content {
-            margin-top: 80px;
-        }
+    h2.text-primary {
+        font-size: 2.3rem;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin-bottom: 30px;
+    }
 
-        /*Card styling*/
-        .card-custom {
-            width: 100%;
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            background-color: #fff;
-        }
+    .btn-primary {
+        border-radius: 50px;
+        padding: 8px 25px;
+        font-weight: 500;
+    }
 
-        /*Title*/
-        h2.text-primary {
-            font-size: 2.3rem;
-            text-align: center;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-bottom: 30px;
-        }
+    .btn-secondary {
+        border-radius: 50px;
+        padding: 8px 25px;
+        font-weight: 500;
+    }
 
-        .alert-success {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-
-        /*Button styling*/
-        .btn-secondary {
-            border-radius: 50px;
-            padding: 8px 25px;
-            font-weight: 500;
-        }
-
-        .btn-secondary i {
-            margin-right: 5px;
-        }
+    .btn-secondary i {
+        margin-right: 5px;
+    }
     </style>
 </head>
-<!-- Include navbar & sidebar -->
+
 @include('Dashboard.karyawan_sidenav')
 
 <body>
 
-    <!--Konten Utama -->
     <div class="container-fluid py-4 px-5 main-content">
         <div class="card card-custom">
             <h2 class="text-primary">
@@ -116,21 +101,43 @@
                 <div class="mb-4">
                     <h4 class="fw-bold">{{ $pengaduan->judulPengaduan }}</h4>
                     <p class="text-muted mb-1">
-                        Dari: <strong>Anonim</strong> |
+                        Dari: <strong>{{ $pengaduan->pelanggan->namaPelanggan ?? 'Anonim' }}</strong> |
                         Tanggal: {{ \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d/m/Y') }}
                     </p>
-                    <span class="badge bg-success">Selesai</span>
+                    <span class="badge 
+                        @if($pengaduan->statusPengaduan == 'Selesai') bg-success 
+                        @elseif($pengaduan->statusPengaduan == 'Ditanggapi') bg-warning text-dark 
+                        @else bg-secondary @endif">
+                        {{ $pengaduan->statusPengaduan }}
+                    </span>
                 </div>
 
+                <!-- Isi Pengaduan -->
                 <div class="mb-4 p-3 bg-light rounded">
                     <p class="mb-0">{{ $pengaduan->deskripsi }}</p>
                 </div>
 
-                <div class="alert alert-success d-flex align-items-center">
-                    <i class="bi bi-check-circle me-2"></i>
-                    Pengaduan ini telah selesai.
-                </div>
+                <form action="{{ route('pengaduan.kirim', $pengaduan->idPengaduan) }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="pesan" class="form-label fw-bold">Tanggapan:</label>
+                        <textarea name="pesan" id="pesan" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i> Kirim Tanggapan
+                    </button>
+                </form>
 
+
+                <!-- Jika sudah ada tanggapan -->
+                @if($pengaduan->tanggapanPengaduan)
+                <div class="alert alert-info mt-4">
+                    <i class="bi bi-chat-left-quote me-2"></i>
+                    <strong>Tanggapan:</strong> {{ $pengaduan->tanggapanPengaduan }}
+                </div>
+                @endif
+
+                <!-- Tombol kembali -->
                 <a href="{{ route('pengaduan.index') }}" class="btn btn-secondary mt-3">
                     <i class="bi bi-arrow-left"></i> Kembali
                 </a>
