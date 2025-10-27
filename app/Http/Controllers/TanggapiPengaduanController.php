@@ -32,29 +32,35 @@ class TanggapiPengaduanController extends Controller
         }
     }
 
-    //Kirim tanggapan
     public function kirimTanggapan(Request $request, string $idPengaduan)
-    {
-        $request->validate([
-            'pesan' => 'required|string|max:1000',
-        ]);
+{
+    $request->validate([
+        'pesan' => 'required|string|max:1000',
+    ]);
 
-        try {
-            $pengaduan = Pengaduan::findOrFail($idPengaduan);
-            $pengaduan->tanggapanPengaduan = $request->input('pesan');
-            $pengaduan->statusPengaduan = 'Ditanggapi';
-            $pengaduan->save();
+    // ✅ Tambahkan log di sini
+    Log::info('Menerima tanggapan:', [
+        'id' => $idPengaduan,
+        'pesan' => $request->input('pesan')
+    ]);
 
-            return redirect()->route('pengaduan.show', $idPengaduan)
-                ->with('success', 'Tanggapan berhasil dikirim!');
-        } catch (\Exception $e) {
-            Log::error("Gagal mengirim tanggapan: " . $e->getMessage());
-            return back()->with('error', 'Terjadi kesalahan saat menyimpan tanggapan.');
-        }
+    try {
+        $pengaduan = Pengaduan::findOrFail($idPengaduan);
+        $pengaduan->tanggapanPengaduan = $request->input('pesan');
+        $pengaduan->statusPengaduan = 'Ditanggapi';
+        $pengaduan->save();
+
+        return redirect()->route('pengaduan.show', $idPengaduan)
+            ->with('success', 'Tanggapan berhasil dikirim!');
+    } catch (\Exception $e) {
+        Log::error("Gagal mengirim tanggapan: " . $e->getMessage());
+        return back()->with('error', 'Terjadi kesalahan saat menyimpan tanggapan.');
     }
+}
+
 
     //Tandai pengaduan telah selesai
-    public function selesaikan(string $idPengaduan)
+    public function selesai(string $idPengaduan)
     {
         try {
             $pengaduan = Pengaduan::findOrFail($idPengaduan);
