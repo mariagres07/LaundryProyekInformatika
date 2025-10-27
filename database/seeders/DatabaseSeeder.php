@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Pakaian saya ada yang hilang',
             'judulPengaduan' => 'Pakaian hilang',
             'media' => '',
-            'statusPengaduan' => false,
+            'statusPengaduan' => 'Belum Ditanggapi',
             'tanggapanPengaduan' => 'Mohon maaf atas ketidaknyamanannya, kami akan mencari pakaian Anda secepatnya.',
         ]);
     }
