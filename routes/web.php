@@ -27,6 +27,7 @@ Route::get('/otp', [registerController::class, 'showOtp'])->name('otp.show');
 Route::post('/otp', [registerController::class, 'verifyOtp'])->name('otp.verify');
 
 Route::get('/berhasil', [LoginController::class, 'success'])->name('success');
+Route::get('/berhasil', [registerController::class, 'success'])->name('success');
 
 // ========LOGOUT========
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

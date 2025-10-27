@@ -7,87 +7,99 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Pelanggan;
 use Illuminate\Support\Facades\Session;
 
-class registerController extends Controller
+class RegisterController extends Controller
 {
-    // Form register pelanggan
     public function showRegister()
     {
         return view('login.daftar');
     }
 
-    // Proses register pelanggan dengan OTP
+    // ===================== REGISTER =====================
     public function register(Request $request)
     {
-        // Validasi input
-        $request->validate([
+        $validated = $request->validate([
             'namaPelanggan' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:pelanggan,username',
             'password' => 'required|string|min:6|confirmed',
             'email' => 'required|email|unique:pelanggan,email',
         ]);
 
-        // Generate OTP 6 digit
         $otp = rand(100000, 999999);
 
-        // Simpan pelanggan beserta OTP
+        // Simpan akun baru dalam status belum terverifikasi
         $pelanggan = Pelanggan::create([
-            'namaPelanggan' => $request->namaPelanggan,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'alamat' => '',
-            'noHp' => '',
-            'otp' => $otp, // Simpan OTP di database
-            'otp_expires_at' => now()->addMinutes(5), // OTP berlaku 5 menit
+            'namaPelanggan'  => $validated['namaPelanggan'],
+            'username'       => $validated['username'],
+            'email'          => $validated['email'],
+            'password'       => Hash::make($validated['password']),
+            'alamat'         => '',
+            'noHp'           => '',
+            'otp'            => $otp,
+            'otp_expires_at' => now()->addMinutes(5),
+            'is_verified'    => false,
         ]);
 
-        // Simpan OTP di session supaya bisa ditampilkan di web
-        session([
-            'otp' => $otp,
-            'pelanggan_id' => $pelanggan->idPelanggan
-        ]);
+        // Simpan session agar OTP bisa muncul
+        session(['pelanggan_id' => $pelanggan->idPelanggan]);
 
-        return redirect()->route('otp.show')
-            ->with('success', 'OTP telah dibuat. Lihat di halaman ini!');
+        return redirect()->route('otp.show');
     }
 
-    // Tampilkan halaman OTP
+    // ===================== TAMPILKAN OTP =====================
     public function showOtp()
     {
-        return view('login.otp');
+        $pelanggan = Pelanggan::find(session('pelanggan_id'));
+
+        if (!$pelanggan) {
+            return redirect()->route('register.show')->with('error', 'Data pelanggan tidak ditemukan.');
+        }
+
+        // Jika OTP masih berlaku, tampilkan
+        if (now()->lessThan($pelanggan->otp_expires_at) && !$pelanggan->is_verified) {
+            $otp = $pelanggan->otp;
+            $expiresAt = $pelanggan->otp_expires_at;
+            return view('login.otp', compact('otp', 'expiresAt'));
+        }
+
+        // Kalau OTP kadaluarsa
+        return redirect()->route('register.show')->with('error', 'Kode OTP sudah kedaluwarsa. Silakan daftar ulang.');
     }
 
-    // Verifikasi OTP
+    // ===================== VERIFIKASI OTP =====================
     public function verifyOtp(Request $request)
     {
         $request->validate([
             'otp' => 'required|array|size:6',
-            'otp.*' => 'required|digits:1'
+            'otp.*' => 'required|digits:1',
         ]);
 
         $kode = implode('', $request->otp);
         $pelanggan = Pelanggan::find(session('pelanggan_id'));
 
         if (!$pelanggan) {
-            return redirect()->route('register')
-                ->withErrors(['otp' => 'Pelanggan tidak ditemukan.']);
+            return redirect()->route('register.show')->with('error', 'Pelanggan tidak ditemukan.');
         }
 
-        // Cek OTP dan waktu kadaluarsa
-        if ($pelanggan->otp == $kode && $pelanggan->otp_expires_at >= now()) {
-            // OTP valid → hapus OTP
-            $pelanggan->otp = null;
-            $pelanggan->otp_expires_at = null;
-            $pelanggan->save();
-
-            // Bisa login otomatis atau redirect ke halaman sukses
-            return redirect()->route('success')->with('success', 'Akun berhasil diverifikasi!');
+        if (now()->greaterThan($pelanggan->otp_expires_at)) {
+            return back()->with('error', 'Kode OTP sudah kedaluwarsa.');
         }
 
-        return back()->withErrors(['otp' => 'Kode OTP salah atau sudah expired!']);
+        if ($pelanggan->otp !== $kode) {
+            return back()->with('error', 'Kode OTP salah.');
+        }
+
+        // OTP benar
+        $pelanggan->update([
+            'otp' => null,
+            'otp_expires_at' => null,
+            'is_verified' => true,
+        ]);
+
+        Session::forget('pelanggan_id');
+
+        return redirect()->route('login.show')->with('success', 'Akun berhasil diverifikasi! Silakan login.');
     }
 
-    // Halaman sukses setelah OTP valid
     public function success()
     {
         return view('login.berhasil');

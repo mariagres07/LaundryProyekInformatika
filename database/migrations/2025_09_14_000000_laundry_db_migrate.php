@@ -29,9 +29,10 @@ return new class extends Migration
             $table->string('password');
             $table->string('email')->unique();
             $table->string('otp')->nullable();
-            $table->timestamp('otp_expires_at')->nullable();
+            $table->dateTime('otp_expires_at')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->string('alamat');
-            $table->string('noHp')->unique();
+            $table->string('noHp')->nullable();
         });
 
         Schema::create('karyawan', function (Blueprint $table) {
