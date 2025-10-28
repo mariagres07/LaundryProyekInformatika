@@ -96,3 +96,10 @@ Route::get('/pengaduan', [TanggapiPengaduanController::class, 'index'])->name('p
 Route::get('/pengaduan/{id}', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
 Route::post('/pengaduan/{id}/kirim', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
 Route::post('/pengaduan/{id}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
+
+// ===================== Beranda Pelanggan =====================
+$routes->get('/pelanggan/beranda', 'PelangganController::beranda');
+$routes->get('/layanan', 'PelangganController::layanan');
+$routes->get('/riwayat', 'PelangganController::riwayat');
+$routes->get('/profil', 'PelangganController::profil');
+$routes->get('/logout', 'PelangganController::logout');

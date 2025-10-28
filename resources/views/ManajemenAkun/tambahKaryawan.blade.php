@@ -69,6 +69,7 @@
                 <a href="{{ url('/karyawan') }}" class="btn btn-secondary">Batal</a>
             </form>
         </div>
+        
     </div>
 </div>
 
