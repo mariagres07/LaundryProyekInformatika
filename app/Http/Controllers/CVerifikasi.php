@@ -39,45 +39,21 @@ class CVerifikasi extends Controller
 
         foreach ($pesanan->detailTransaksi as $detail) {
             $kategori = $detail->kategoriItem->namaKategori;
-            $jumlah = $detail->jumlahKategori;
+            $jumlah = $detail->jumlahItem;
 
             if ($kategori == 'Pakaian') {
-                $totalHarga += $pesanan->beratBarang * 7000;
-            } elseif ($kategori == 'Handuk') {
-                $totalHarga += $jumlah * 5000;
-            } elseif (in_array($kategori, ['Seprai', 'Selimut', 'Bed cover'])) {
-                $totalHarga += $jumlah * 10000;
+                $totalHarga += $pesanan->beratBarang * $kategori->hargaKategori;
+            } 
+            else {
+                $totalHarga += $jumlah * $kategori->hargaKategori;
             }
         }
+        // Update total harga dan status pesanan
+            $pesanan->update([
+                'totalHarga'    => $totalHarga,
+                'statusPesanan' => 'Menunggu Pembayaran', // update status setelah konfirmasi
+            ]);
 
-        $pesanan->totalHarga = $totalHarga;
-        $pesanan->save();
-
-        return redirect()->back()->with('success', 'Verifikasi berhasil! Total harga telah dihitung.');
-    }
-
-    public function konfirmasiBerat(Request $request, $idPesanan)
-    {
-        $request->validate([
-            'beratBarang' => 'required|numeric|min:0.1',
-        ]);
-
-        // Ambil data pesanan
-        $pesanan = Pesanan::findOrFail($idPesanan);
-
-        // Ambil harga per kg dari layanan terkait
-        $layanan = Layanan::findOrFail($pesanan->idLayanan);
-
-        // Hitung total harga
-        $totalHarga = $request->beratBarang * $layanan->hargaPerKg;
-
-        // Update data pesanan
-        $pesanan->update([
-            'beratBarang'    => $request->beratBarang,
-            'totalHarga'     => $totalHarga,
-            'statusPesanan'  => 'Menunggu Pembayaran', // setelah ditimbang
-        ]);
-
-        return redirect()->back()->with('success', 'Berat dan total harga berhasil dikonfirmasi.');
-    }
+            return redirect()->back()->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
+        }
 }
