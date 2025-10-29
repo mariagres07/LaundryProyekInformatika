@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('otp')->nullable();
             $table->dateTime('otp_expires_at')->nullable();
             $table->boolean('is_verified')->default(false);
-            $table->string('alamat');
+            $table->string('alamat')->nullable();
             $table->string('noHp')->nullable();
         });
 
@@ -65,9 +65,10 @@ return new class extends Migration
             // gunakan enum agar lebih jelas tahapannya
             $table->enum('statusPesanan', [
                 'Menunggu Penjemputan',
-                'Ditimbang',
                 'Menunggu Pembayaran',
                 'Diproses',
+                'Menunggu Pengantaran',
+                'Sudah Diantar',
                 'Selesai'
             ])->default('Menunggu Penjemputan');
 
@@ -87,6 +88,7 @@ return new class extends Migration
             $table->id('idKategoriItem');
             $table->string('namaKategori');
             $table->integer('jumlahItem')->default(0);
+            $table->decimal('hargaPerItem', 10, 2);
         });
 
         Schema::create('detailTransaksi', function (Blueprint $table) {

@@ -76,6 +76,7 @@ class DatabaseSeeder extends Seeder
         $kategori = KategoriItem::create([
             'namaKategori' => 'Pakaian',
             'jumlahItem' => 3,
+            'hargaPerItem' => 5000,
         ]);
 
         $detail = DetailTransaksi::create([

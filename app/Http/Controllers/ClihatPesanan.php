@@ -23,8 +23,10 @@ class ClihatPesanan extends Controller
     public function lihatDetail($id)
     {
         // Ambil data pesanan dengan relasi yang diperlukan
-        $pesanan = Pesanan::with(['pelanggan', 'layanan', 'detailTransaksi.kategoriItem'])
-            ->findOrFail($id);
+        $pesanan = Pesanan::with(['pelanggan', 'detailTransaksi.kategoriItem'])
+            ->where('statusPesanan', 'Menunggu Penjemputan')
+            ->orderBy('tanggalMasuk', 'desc')
+            ->get();
 
         return view('lihatDataPesanan.lihatDetail', compact('pesanan'));
     }

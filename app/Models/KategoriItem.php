@@ -16,6 +16,7 @@ class KategoriItem extends Model
     protected $fillable = [
         'namaKategori',
         'jumlahItem',
+        'hargaPerItem',
     ];
 
     public function detailTransaksi()
