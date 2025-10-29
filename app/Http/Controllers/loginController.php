@@ -28,6 +28,7 @@ class LoginController extends Controller
         // Cek tabel pelanggan
         $pelanggan = Pelanggan::where('email', $request->email)->first();
         if ($pelanggan && Hash::check($request->password, $pelanggan->password)) {
+            Session::put('idPelanggan', $pelanggan->idPelanggan);
             Session::put('pelanggan', $pelanggan);
             Session::put('role', 'pelanggan');
             return redirect()->route('dashboard.pelanggan');

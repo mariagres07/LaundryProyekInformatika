@@ -152,14 +152,16 @@
         <label for="alamatPelanggan" class="form-label">
           <i class="bi bi-house"></i> Alamat
         </label>
-        <input type="text" class="form-control" id="alamatPelanggan" name="alamat" placeholder="Masukkan alamat lengkap" required>
+        <input type="text" class="form-control" id="alamatPelanggan" name="alamat" placeholder="Masukkan alamat lengkap" 
+       value="{{ old('alamat', $pelanggan->alamat ?? '') }}" required>
       </div>
 
       <!-- Tombol simpan alamat -->
       <div class="text-end mb-4">
-        <button type="button" class="btn btn-success rounded-pill px-4" id="simpanAlamat">
-          <i class="bi bi-check2-circle"></i> Simpan
-        </button>
+       <button type="submit" class="btn btn-success rounded-pill px-4" id="simpanAlamat">
+  <i class="bi bi-check2-circle"></i> Simpan
+</button>
+
       </div>
 
       <!-- Tabs -->
@@ -280,6 +282,17 @@
       });
   });
   </script>
+
+  <button type="button" class="btn btn-success rounded-pill px-4" id="simpanAlamat">
+  <i class="bi bi-check2-circle"></i> Simpan
+</button>
+
+<script>
+  document.getElementById('simpanAlamat').addEventListener('click', function () {
+    document.querySelector('form').submit();
+  });
+</script>
+
 
 </body>
 </html>
