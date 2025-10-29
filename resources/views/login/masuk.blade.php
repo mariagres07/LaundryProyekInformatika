@@ -59,19 +59,29 @@
       font-size: 18px;
     }
 
+    /* ✅ Menyamakan style untuk semua input */
     input[type="text"],
+    input[type="email"],
     input[type="password"] {
       width: 100%;
       padding: 14px 15px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 18px;
-      transition: border-color 0.3s;
+      transition: all 0.3s ease;
+      background-color: #fff;
     }
 
+    /* Efek saat fokus */
     input:focus {
       border-color: #7bbde8;
+      box-shadow: 0 0 8px rgba(123, 189, 232, 0.4);
       outline: none;
+    }
+
+    /* Efek hover */
+    input:hover {
+      border-color: #9bcdf0;
     }
 
     .btn {
@@ -169,9 +179,10 @@
 
     <form action="{{ route('login.process') }}" method="POST">
       @csrf
+
       <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" value="{{ old('username') }}" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ old('email') }}" required>
       </div>
 
       <div class="form-group">
