@@ -18,26 +18,26 @@
     }
 
     body {
-      font-family: 'Lora', serif;
       background: url('water.jpg') no-repeat center center fixed;
       background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      padding: 0;
+      min-height: 100vh;
     }
 
     .wrapper {
       display: flex;
-      width: 800px;
-      background: rgba(255, 255, 255, 0.92);
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 85%;
+      max-width: 1100px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
       overflow: hidden;
+      margin: 30px auto;
     }
 
+    /* Bagian kiri (Form) */
     .left {
       flex: 1;
       padding: 50px;
@@ -48,7 +48,7 @@
 
     .left h2 {
       color: #7bbde8;
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 600;
       margin-bottom: 10px;
       text-align: center;
@@ -57,9 +57,8 @@
     .left p {
       color: #555;
       margin-bottom: 30px;
-      font-size: 13px;
+      font-size: 14px;
       text-align: center;
-      letter-spacing: 0.3px;
     }
 
     .form-group {
@@ -121,25 +120,26 @@
       font-weight: 600;
     }
 
+    /* Bagian kanan */
     .right {
       flex: 1;
-      background-color: #7bbde8;
+      background: linear-gradient(to bottom right, #7bbde8, #a4d4f2);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      color: #000000;
+      color: #000;
       padding: 40px;
       text-align: center;
     }
 
     .right img {
-      width: 120px;
+      width: 150px;
       margin-bottom: 25px;
     }
 
     .right h3 {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 600;
       margin-bottom: 10px;
     }
@@ -147,9 +147,10 @@
     .right p {
       font-size: 15px;
       opacity: 0.9;
-      max-width: 280px;
+      max-width: 300px;
     }
 
+    /* Pesan sukses & error */
     .alert-success,
     .alert-danger {
       padding: 10px;
@@ -170,7 +171,7 @@
       border: 1px solid #f3b6b0;
     }
 
-    @media (max-width: 850px) {
+    @media (max-width: 900px) {
       .wrapper {
         flex-direction: column;
         width: 95%;
@@ -179,6 +180,10 @@
       .right {
         display: none;
       }
+
+      .left {
+        padding: 35px;
+      }
     }
   </style>
 </head>
@@ -186,6 +191,7 @@
 <body>
 
   <div class="wrapper">
+    <!-- Kiri -->
     <div class="left">
       <h2>Daftar Akun</h2>
       <p>Buat akun baru untuk menikmati layanan laundry Iva dengan mudah.</p>
@@ -210,17 +216,7 @@
         @csrf
         <div class="form-group">
           <label for="name">Nama Lengkap</label>
-          <input type="text" id="namaPelanggan" name="namaPelanggan" value="{{ old('namaPelanggan') }}" required>
-        </div>
-
-        <div class="form-group">
-          <label for="alamat">Alamat</label>
-          <input type="text" id="alamat" name="alamat" value="{{ old('alamat') }}" required>
-        </div>
-
-        <div class="form-group">
-          <label for="noHp">No. HP</label>
-          <input type="text" id="noHp" name="noHp" value="{{ old('noHp') }}" required>
+          <input type="text" id="name" name="name" value="{{ old('name') }}" required>
         </div>
 
         <div class="form-group">
@@ -228,26 +224,23 @@
           <input type="text" id="username" name="username" value="{{ old('username') }}" required>
         </div>
 
-        <!-- Tambahan: Nomor HP -->
-        <div class="form-group">
-          <label for="phone">Nomor HP</label>
-          <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" pattern="[0-9]{10,13}" placeholder="contoh: 081234567890" required>
-        </div>
-
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" value="{{ old('email') }}" required>
         </div>
 
+        <div class="form-group">
+          <label for="no_hp">No. HP</label>
+          <input type="tel" id="no_hp" name="no_hp" value="{{ old('no_hp') }}" required>
+        </div>
+
         <ul id="password-rules" style="font-size:13px; color:#b42318; margin-bottom:5px; list-style:none; padding-left:0;">
-  <li id="rule-length">Minimal 8 karakter</li>
-  <li id="rule-upper">Mengandung huruf besar (A-Z)</li>
-  <li id="rule-lower">Mengandung huruf kecil (a-z)</li>
-  <li id="rule-number">Mengandung angka (0-9)</li>
-  <li id="rule-symbol">Mengandung simbol (@$!%*?&#)</li>
-</ul>
-
-
+          <li id="rule-length">Minimal 8 karakter</li>
+          <li id="rule-upper">Mengandung huruf besar (A-Z)</li>
+          <li id="rule-lower">Mengandung huruf kecil (a-z)</li>
+          <li id="rule-number">Mengandung angka (0-9)</li>
+          <li id="rule-symbol">Mengandung simbol (@$!%*?&#)</li>
+        </ul>
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required>
@@ -266,73 +259,14 @@
       </div>
     </div>
 
+    <!-- Kanan -->
     <div class="right">
       <img src="selimut.png" alt="Laundry Icon">
       <h3>Selamat Datang di Iva Laundry</h3>
       <p>Atur dan pantau cucianmu dengan mudah lewat akun Iva Laundry — cepat, aman, dan terintegrasi.</p>
     </div>
   </div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const passwordInput = document.getElementById("password");
-  const confirmInput = document.getElementById("password_confirmation");
-  const rules = {
-    length: document.getElementById("rule-length"),
-    upper: document.getElementById("rule-upper"),
-    lower: document.getElementById("rule-lower"),
-    number: document.getElementById("rule-number"),
-    symbol: document.getElementById("rule-symbol")
-  };
-
-  const confirmMessage = document.createElement("div");
-  confirmMessage.style.marginTop = "5px";
-  confirmMessage.style.fontSize = "13px";
-  confirmInput.insertAdjacentElement("afterend", confirmMessage);
-
-  passwordInput.addEventListener("input", function () {
-    const password = passwordInput.value;
-
-    const hasUpper = /[A-Z]/.test(password);
-    const hasLower = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSymbol = /[@$!%*?&#]/.test(password);
-    const longEnough = password.length >= 8;
-
-    updateRule(rules.length, longEnough);
-    updateRule(rules.upper, hasUpper);
-    updateRule(rules.lower, hasLower);
-    updateRule(rules.number, hasNumber);
-    updateRule(rules.symbol, hasSymbol);
-
-    checkConfirm();
-  });
-
-  confirmInput.addEventListener("input", checkConfirm);
-
-  function updateRule(element, condition) {
-    if (condition) {
-      element.style.color = "#777"; // redup abu-abu
-      element.style.textDecoration = "line-through"; // coret halus (opsional)
-    } else {
-      element.style.color = "#b42318"; // merah
-      element.style.textDecoration = "none";
-    }
-  }
-
-  function checkConfirm() {
-    const password = passwordInput.value;
-    const confirm = confirmInput.value;
-    if (confirm.length === 0) {
-      confirmMessage.innerHTML = "";
-      return;
-    }
-    confirmMessage.innerHTML =
-      confirm === password
-        ? `<span style="color:green;">Password cocok</span>`
-        : `<span style="color:red;">Password tidak cocok</span>`;
-  }
-});
-</script>
 
 </body>
+
 </html>
