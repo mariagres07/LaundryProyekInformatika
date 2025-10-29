@@ -338,6 +338,17 @@
     });
   </script>
 
+  <button type="button" class="btn btn-success rounded-pill px-4" id="simpanAlamat">
+  <i class="bi bi-check2-circle"></i> Simpan
+</button>
+
+<script>
+  document.getElementById('simpanAlamat').addEventListener('click', function () {
+    document.querySelector('form').submit();
+  });
+</script>
+
+
 </body>
 
 </html>

@@ -28,7 +28,7 @@ class PelangganController extends Controller
 
         // Kirim data ke view
         // return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
-        return view('ManajemenAkun.editProfilPelanggan');
+        return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
     }
 
     public function update(Request $request)

@@ -119,8 +119,8 @@
         @php $adaProses = false; @endphp
 
         @foreach($pesanan as $p)
-        @if($p->statusPesanan == '0')
-        @php $adaProses = true; @endphp
+        {{-- @if($p->statusPesanan == 'Menunggu Penjemputan') --}}
+        {{-- @php $adaProses = true; @endphp --}}
 
         <div class="card shadow-sm mb-3">
             <div class="card-body d-flex justify-content-between align-items-center bg-info-subtle rounded-3">
@@ -128,7 +128,7 @@
                     <h5 class="mb-0 fw-semibold">{{ $p->pelanggan->namaPelanggan }}</h5>
                     <small class="text-muted">{{ $p->pelanggan->email }}</small><br>
                     <small class="text-danger fw-semibold">
-                        {{ $p->tanggalSelesai ? \Carbon\Carbon::parse($p->tanggalSelesai)->format('d/m/Y') : '-' }}
+                        {{ $p->tanggalMasuk ? \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') : '-' }}
                     </small>
                 </div>
 
