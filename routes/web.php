@@ -98,8 +98,8 @@ Route::post('/pengaduan/{id}/kirim', [TanggapiPengaduanController::class, 'kirim
 Route::post('/pengaduan/{id}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
 
 // ===================== Beranda Pelanggan =====================
-$routes->get('/pelanggan/beranda', 'PelangganController::beranda');
-$routes->get('/layanan', 'PelangganController::layanan');
-$routes->get('/riwayat', 'PelangganController::riwayat');
-$routes->get('/profil', 'PelangganController::profil');
-$routes->get('/logout', 'PelangganController::logout');
+Route::get('/pelanggan/beranda', [PelangganController::class, 'beranda']);
+Route::get('/layanan', [PelangganController::class, 'layanan']);
+Route::get('/riwayat', [PelangganController::class, 'riwayat']);
+Route::get('/profil', [PelangganController::class, 'profil']);
+Route::get('/logout', [PelangganController::class, 'logout']);
