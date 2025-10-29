@@ -101,7 +101,7 @@
 
                     <!-- Tanggal selesai -->
                     <small class="text-danger fw-semibold">
-                        {{ $p->tanggalSelesai ? \Carbon\Carbon::parse($p->tanggalSelesai)->format('d/m/Y') : '-' }}
+                        {{ $p->tanggalMasuk ? \Carbon\Carbon::parse($p->tanggalSelesai)->format('d/m/Y') : '-' }}
                     </small>
                 </div>
             </div>

@@ -37,7 +37,7 @@
             <div class="col-4 text-primary fw-semibold">Kategori</div>
             <div class="col-8">:
                 @foreach($pesanan->detailTransaksi as $detail)
-                {{ $detail->kategoriItem->namaKategori ?? '-' }} :
+                {{ $detail->namaKategori ?? '-' }} :
                 {{ $detail->jumlahKategori ?? '-' }} <br>
                 @endforeach
             </div>
@@ -64,9 +64,9 @@
             <div class="row mb-3">
                 <div class="col-4 text-primary fw-semibold">Berat</div>
                 <div class="col-8">
-                   <input type="number" step="0.1" class="form-control" name="beratBarang"
-       value="{{ old('beratBarang', $pesanan->beratBarang) }}"
-       placeholder="Masukkan berat (kg)" required>
+                    <input type="number" step="0.1" class="form-control" name="beratBarang"
+                        value="{{ old('beratBarang', $pesanan->beratBarang) }}" placeholder="Masukkan berat (kg)"
+                        required>
 
                 </div>
             </div>
