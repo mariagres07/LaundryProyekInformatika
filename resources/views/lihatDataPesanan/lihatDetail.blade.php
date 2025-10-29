@@ -48,12 +48,12 @@
             <div class="col-4 text-primary fw-semibold">Kategori</div>
             <div class="col-8">:
                 @forelse($pesanan->detailTransaksi as $detail)
-                    <span class="badge bg-primary badge-category">
-                            {{ $detail->kategoriItem->namaKategori ?? '-' }} : {{ $detail->jumlahItem ?? '-' }}
-                    </span>
+                <span class="badge bg-primary badge-category">
+                    {{ $detail->kategoriItem->namaKategori ?? '-' }} : {{ $detail->jumlahItem ?? '-' }}
+                </span>
                 @empty
-                        <span class="text-muted">Tidak ada kategori</span>
-                        @endforelse
+                <span class="text-muted">Tidak ada kategori</span>
+                @endforelse
             </div>
         </div>
 
