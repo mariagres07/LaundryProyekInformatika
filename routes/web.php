@@ -14,6 +14,10 @@ use App\Http\Controllers\BuatPengaduanController;
 use App\Http\Controllers\TanggapiPengaduanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\registerController;
+use App\Http\Controllers\LandingController;
+
+// Route untuk halaman utama (landing page)
+Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 
 // ===================== AUTH / LOGIN =====================
 Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');

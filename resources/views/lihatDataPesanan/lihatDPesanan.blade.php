@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pesanan - Kurir | IVA Laundry</title>
 
-    @if (session('role') !== 'kurir')
+    <!--@if (session('role') !== 'kurir')
     <script>
     window.location.href = "{{ route('login.show') }}";
     </script>
-    @endif
+    @endif-->
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
