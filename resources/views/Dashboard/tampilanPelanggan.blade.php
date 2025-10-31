@@ -4,123 +4,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pelanggan - IVA Laundry</title>
+    <title>IVA Laundry - Dashboard Pelanggan</title>
 
-    @if (session('role') !== 'pelanggan')
-    <script>
-        window.location.href = "{{ route('login.show') }}";
-    </script>
-    @endif
-
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-            min-height: 100vh;
         }
 
-        .menu-card {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 30px 20px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
+        /* Navbar */
+        .navbar {
+            background-color: #619cf5;
         }
 
-        .menu-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-        }
-
-        .menu-icon {
-            font-size: 50px;
-            color: #7ba6e0;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 15px 0;
+        .navbar-brand {
+            color: white;
             font-weight: 600;
-            color: #2d4b74;
+            font-size: 1.5rem;
         }
 
-        .logout-btn {
-            background-color: #dce3e8;
-            color: red;
-            font-weight: bold;
-            border-radius: 12px;
-            padding: 8px 20px;
-            border: none;
-            width: 100%;
+        .navbar-nav .nav-link {
+            color: white;
+            font-weight: 500;
+            margin-right: 20px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffd700;
+        }
+
+        /* Hero section */
+        .hero {
+            background: linear-gradient(rgba(84, 149, 246, 0.7), rgba(13, 110, 253, 0.6)),
+                url('beranda.png') center/cover no-repeat;
+            color: white;
+            padding: 120px 20px;
             text-align: center;
-            margin-top: 15px;
         }
 
-        .logout-btn:hover {
-            background-color: #f8d7da;
-            color: #a00;
+        .hero h1 {
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+        }
+
+        /* Diskon Section */
+        .discount {
+            background-color: #e9f2ff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .discount h2 {
+            color: #0d6efd;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .discount .card {
+            border: none;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+        }
+
+        .discount .card-body {
+            padding: 25px;
+        }
+
+        .discount .discount-badge {
+            background-color: #ff4757;
+            color: white;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        /* Tentang IVA Laundry */
+        .about {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .about h2 {
+            color: #0d6efd;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            color: #555;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d6efd;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Include navbar & sidebar -->
-    @include('Dashboard.pelanggan_sidenav')
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand">IVA Laundry</a>
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon text-white"></span>
+            </button>
 
-    <!-- Content -->
-    <div class="container py-4">
-        <div id="dashboard_pelanggan_utama" class="row justify-content-center">
-
-            <!-- 1. Pesan Laundry -->
-            <div class="col-md-4 mb-4">
-                <a href="{{ url('/pesanLaundry') }}" class="text-decoration-none text-dark">
-                    <div class="menu-card text-center p-4">
-                        <i class="bi bi-basket2-fill menu-icon" style="font-size:40px; color:#7ba6e0;"></i>
-                        <h5 class="mt-2">Pesan Laundry</h5>
-                    </div>
-                </a>
-            </div>
-
-            <!-- 2. Lihat Data Pesanan -->
-            <div class="col-md-4 mb-4">
-                <a href="{{ url('/lihatdata') }}" class="text-decoration-none text-dark">
-                    <div class="menu-card text-center p-4">
-                        <i class="bi bi-file-earmark-text-fill menu-icon" style="font-size:40px; color:#7ba6e0;"></i>
-                        <h5 class="mt-2">Lihat Data Pesanan</h5>
-                    </div>
-                </a>
-            </div>
-
-            <!-- 3. Edit Profil -->
-            <div class="col-md-4 mb-4">
-                <a href="{{ route('pelanggan.edit') }}" class="text-decoration-none text-dark">
-                    <div class="menu-card text-center p-4">
-                        <i class="bi bi-person-circle menu-icon" style="font-size:40px; color:#7ba6e0;"></i>
-                        <h5 class="mt-2">Edit Profil</h5>
-                    </div>
-                </a>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="#" class="nav-link active">Beranda</a></li>
+                    <li class="nav-item"><a href="#diskon" class="nav-link">Pesan Laundry</a></li>
+                    <li class="nav-item"><a href="{{ route('lihatdata.index') }}" class="nav-link">Lihat Pesanan</a></li>
+                    <li class="nav-item"><a href="{{ route('pelanggan.edit') }}" class="nav-link">Edit Profil</a></li>
+                    <li class="nav-item"><a href="#tentang" class="nav-link">Tentang</a></li>
+                    <li class="nav-item">
+                    <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                <button type="submit" class="btn btn-light btn-sm">Logout</button>
+                </form>
+                </li>
+                </ul>
             </div>
         </div>
-        <footer>
-            <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
-            <i class="bi bi-whatsapp text-success"></i> iva.laundry
-        </footer>
-    </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Solusi Laundry Cepat & Terpercaya</h1>
+            <p>Kami hadir untuk menjaga pakaian Anda tetap bersih, wangi, dan rapi setiap hari.</p>
+        </div>
+    </section>
+
+    <!-- Diskon Section -->
+    <section class="discount" id="diskon">
+        <div class="container">
+            <h2>Promo & Diskon Spesial</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <span class="discount-badge">Diskon 20%</span>
+                            <h5 class="mt-3">Cuci Setrika Minimal 5 Kg</h5>
+                            <p>Dapatkan potongan harga 20% untuk setiap transaksi di atas 5 Kg.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <span class="discount-badge">Gratis Antar</span>
+                            <h5 class="mt-3">Untuk Wilayah Dalam 3 KM</h5>
+                            <p>Gratis layanan antar-jemput tanpa minimal order di area sekitar laundry.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang IVA Laundry -->
+    <section class="about" id="tentang">
+        <div class="container">
+            <h2>Tentang IVA Laundry</h2>
+            <p>
+                IVA Laundry adalah layanan laundry profesional yang mengutamakan kualitas, kebersihan,
+                dan ketepatan waktu. Kami hadir untuk memudahkan Anda dalam menjaga pakaian tetap bersih,
+                wangi, dan rapi setiap hari.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 IVA Laundry. Semua Hak Dilindungi.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const offcanvasElement = document.getElementById('sidebar');
-        offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
-            document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
-        });
-    </script>
 </body>
 
 </html>
