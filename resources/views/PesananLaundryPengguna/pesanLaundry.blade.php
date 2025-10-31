@@ -229,7 +229,7 @@
 </head>
 
 <body>
-    @include('Dashboard.karyawan_sidenav')
+    @include('Dashboard.pelanggan_sidenav')
 
     <!-- ==== HEADER WITH WATER BACKGROUND ==== -->
     <div class="header-wrapper">
