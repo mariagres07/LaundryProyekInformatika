@@ -8,7 +8,7 @@
 
     @if (session('role') !== 'kurir')
     <script>
-    window.location.href = "{{ route('login.show') }}";
+        window.location.href = "{{ route('login.show') }}";
     </script>
     @endif
 
@@ -16,63 +16,61 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-        min-height: 100vh;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+            min-height: 100vh;
+        }
 
-    .menu-card {
-        background-color: #ffffff;
-        border-radius: 15px;
-        padding: 30px 20px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s, box-shadow 0.2s;
-        cursor: pointer;
-    }
+        .menu-card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
 
-    .menu-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-    }
+        .menu-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        }
 
-    .menu-icon {
-        font-size: 50px;
-        color: #7ba6e0;
-        margin-bottom: 15px;
-    }
+        .menu-icon {
+            font-size: 50px;
+            color: #7ba6e0;
+            margin-bottom: 15px;
+        }
 
-    footer {
-        text-align: center;
-        padding: 15px 0;
-        font-weight: 600;
-        color: #2d4b74;
-    }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            font-weight: 600;
+            color: #2d4b74;
+        }
 
-    .logout-btn {
-        background-color: #dce3e8;
-        color: red;
-        font-weight: bold;
-        border-radius: 12px;
-        padding: 8px 20px;
-        border: none;
-        width: 100%;
-        text-align: center;
-        margin-top: 15px;
-    }
+        .logout-btn {
+            background-color: #dce3e8;
+            color: red;
+            font-weight: bold;
+            border-radius: 12px;
+            padding: 8px 20px;
+            border: none;
+            width: 100%;
+            text-align: center;
+            margin-top: 15px;
+        }
 
-    .logout-btn:hover {
-        background-color: #f8d7da;
-        color: #a00;
-    }
+        .logout-btn:hover {
+            background-color: #f8d7da;
+            color: #a00;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- Include navbar & sidebar -->
-    @include('Dashboard.kurir_sidenav')
 
     <!-- Content -->
     <div class="container py-4">
