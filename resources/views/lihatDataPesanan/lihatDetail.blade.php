@@ -11,7 +11,6 @@
 <body class="bg-light">
 
     @include('Dashboard.kurir_sidenav')
-
     <!-- Header -->
     <div class="text-start p-3 mb-4"
         style="background:url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;">
@@ -27,18 +26,22 @@
             <div class="row">
                 <div class="col-6 text-primary fw-semibold">Status</div>
                 <div class="col-6">:
-                    {{ $pesanan->statusPesanan ?? '-' }}
+                    @if($pesanan->statusPesanan == '0')
+                    Proses
+                    @elseif($pesanan->statusPesanan == '1')
+                    Selesai
+                    @else
+                    {{ ucfirst($pesanan->statusPesanan) }}
+                    @endif
                 </div>
             </div>
             <div class="row">
                 <div class="col-6 text-primary fw-semibold">Batas waktu pengantaran</div>
-                <div class="col-6">
-                    : {{ $pesanan->batasWaktu ? \Carbon\Carbon::parse($pesanan->batasWaktu)->format('d/m/Y') : '-' }}
-                </div>
+                <div class="col-6">: 10.00</div>
             </div>
         </div>
 
-        <!-- Detail Pesanan-->
+        <!-- Detail -->
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Nama</div>
             <div class="col-8">: {{ $pesanan->pelanggan->namaPelanggan ?? '-' }}</div>
@@ -47,13 +50,9 @@
         <div class="row mb-2">
             <div class="col-4 text-primary fw-semibold">Kategori</div>
             <div class="col-8">:
-                @forelse($pesanan->detailTransaksi as $detail)
-                <span class="badge bg-primary badge-category">
-                    {{ $detail->kategoriItem->namaKategori ?? '-' }} : {{ $detail->jumlahItem ?? '-' }}
-                </span>
-                @empty
-                <span class="text-muted">Tidak ada kategori</span>
-                @endforelse
+                @foreach($pesanan->detailTransaksi as $detail)
+                {{ $detail->kategoriItem->namaKategori ?? '-' }} : {{ $detail->kategoriItem->jumlahItem ?? '-' }} <br>
+                @endforeach
             </div>
         </div>
 
