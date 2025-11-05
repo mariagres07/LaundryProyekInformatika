@@ -113,33 +113,7 @@
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid px-4">
-            <button class="btn text-white me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-                aria-controls="sidebar">
-                <i class="bi bi-list fs-3"></i>
-            </button>
-            <a class="navbar-brand" href="#">IVA Laundry - Karyawan</a>
-        </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body d-flex flex-column">
-            <a href="{{ url('/dashboardKaryawan') }}"><i class="bi bi-house"></i> Dashboard</a>
-            <a href="{{ url('/dataPesanan') }}"><i class="bi bi-basket2-fill"></i> Data Pesanan</a>
-            <a href="{{ url('/pengaduanKaryawan') }}"><i class="bi bi-chat-dots"></i> Pengaduan</a>
-            <form method="POST" action="{{ route('logout') }}" class="mt-auto">
-                @csrf
-                <button type="submit" class="logout-btn mt-3">Keluar</button>
-            </form>
-        </div>
-    </div>
+    @include('Dashboard.karyawan_sidenav')
 
     <!-- Konten -->
     <div class="content">
@@ -191,6 +165,11 @@
             @endif
         </div>
     </div>
+
+    <!-- tombol kembali -->
+    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+        <i class="bi bi-arrow-left"></i>
+    </a>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
