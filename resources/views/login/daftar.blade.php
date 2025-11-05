@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Daftar - Iva Laundry</title>
 
-  <!-- FONT LORA -->
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
     * {
@@ -37,7 +37,6 @@
       margin: 30px auto;
     }
 
-    /* Bagian kiri (Form) */
     .left {
       flex: 1;
       padding: 50px;
@@ -63,6 +62,7 @@
 
     .form-group {
       margin-bottom: 15px;
+      position: relative;
     }
 
     label {
@@ -87,6 +87,15 @@
     input:focus {
       border-color: #7bbde8;
       outline: none;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 38px;
+      cursor: pointer;
+      color: #888;
+      font-size: 16px;
     }
 
     .btn {
@@ -120,7 +129,6 @@
       font-weight: 600;
     }
 
-    /* Bagian kanan */
     .right {
       flex: 1;
       background: linear-gradient(to bottom right, #7bbde8, #a4d4f2);
@@ -150,7 +158,6 @@
       max-width: 300px;
     }
 
-    /* Pesan sukses & error */
     .alert-success,
     .alert-danger {
       padding: 10px;
@@ -171,6 +178,41 @@
       border: 1px solid #f3b6b0;
     }
 
+    .alert-danger ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    #password-rules {
+      font-size: 13px;
+      margin-bottom: 5px;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    #password-rules li {
+      color: #b42318;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+    }
+
+    #password-rules li.valid {
+      color: #2e7d32;
+      opacity: 0.6;
+    }
+
+    #password-rules li::before {
+      content: "☐";
+      margin-right: 6px;
+      font-size: 14px;
+    }
+
+    #password-rules li.valid::before {
+      content: "☑";
+    }
+
     @media (max-width: 900px) {
       .wrapper {
         flex-direction: column;
@@ -186,27 +228,24 @@
       }
     }
   </style>
+
 </head>
 
 <body>
-
   <div class="wrapper">
-    <!-- Kiri -->
     <div class="left">
       <h2>Daftar Akun</h2>
       <p>Buat akun baru untuk menikmati layanan laundry Iva dengan mudah.</p>
 
-      {{-- Pesan sukses --}}
       @if(session('success'))
       <div class="alert-success">{{ session('success') }}</div>
       @endif
 
-      {{-- Pesan error --}}
       @if($errors->any())
       <div class="alert-danger">
         <ul>
           @foreach($errors->all() as $err)
-          <li>{{ $err }}</li>
+          <li>{{ str_replace('The name field is required.', 'Nama lengkap wajib diisi.', $err) }}</li>
           @endforeach
         </ul>
       </div>
@@ -234,21 +273,24 @@
           <input type="tel" id="no_hp" name="no_hp" value="{{ old('no_hp') }}" required>
         </div>
 
-        <ul id="password-rules" style="font-size:13px; color:#b42318; margin-bottom:5px; list-style:none; padding-left:0;">
+        <ul id="password-rules">
           <li id="rule-length">Minimal 8 karakter</li>
           <li id="rule-upper">Mengandung huruf besar (A-Z)</li>
           <li id="rule-lower">Mengandung huruf kecil (a-z)</li>
           <li id="rule-number">Mengandung angka (0-9)</li>
           <li id="rule-symbol">Mengandung simbol (@$!%*?&#)</li>
         </ul>
+
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required>
+          <i class="fa-solid fa-eye password-toggle" onclick="togglePassword('password', this)"></i>
         </div>
 
         <div class="form-group">
           <label for="password_confirmation">Konfirmasi Password</label>
           <input type="password" id="password_confirmation" name="password_confirmation" required>
+          <i class="fa-solid fa-eye password-toggle" onclick="togglePassword('password_confirmation', this)"></i>
         </div>
 
         <button type="submit" class="btn">Daftar</button>
@@ -259,7 +301,6 @@
       </div>
     </div>
 
-    <!-- Kanan -->
     <div class="right">
       <img src="selimut.png" alt="Laundry Icon">
       <h3>Selamat Datang di Iva Laundry</h3>
@@ -267,6 +308,38 @@
     </div>
   </div>
 
+  <script>
+    const password = document.getElementById('password');
+    const rules = {
+      length: document.getElementById('rule-length'),
+      upper: document.getElementById('rule-upper'),
+      lower: document.getElementById('rule-lower'),
+      number: document.getElementById('rule-number'),
+      symbol: document.getElementById('rule-symbol')
+    };
+
+    password.addEventListener('input', function() {
+      const val = password.value;
+      rules.length.classList.toggle('valid', val.length >= 8);
+      rules.upper.classList.toggle('valid', /[A-Z]/.test(val));
+      rules.lower.classList.toggle('valid', /[a-z]/.test(val));
+      rules.number.classList.toggle('valid', /[0-9]/.test(val));
+      rules.symbol.classList.toggle('valid', /[@$!%*?&#]/.test(val));
+    });
+
+    function togglePassword(id, el) {
+      const input = document.getElementById(id);
+      if (input.type === "password") {
+        input.type = "text";
+        el.classList.remove("fa-eye");
+        el.classList.add("fa-eye-slash");
+      } else {
+        input.type = "password";
+        el.classList.remove("fa-eye-slash");
+        el.classList.add("fa-eye");
+      }
+    }
+  </script>
 </body>
 
 </html>

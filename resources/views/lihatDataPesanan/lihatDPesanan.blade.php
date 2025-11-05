@@ -82,7 +82,6 @@
             color: white;
         }
 
-        /* 🔹 Tombol kembali di pojok kiri bawah */
         .btn-back {
             position: fixed;
             bottom: 25px;
