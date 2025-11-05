@@ -15,7 +15,7 @@
         }
 
         .sidebar {
-            background-color: #2F65B9;
+            background-color: #64b5f6;;
             min-height: 100vh;
             color: #fff;
             padding-top: 40px;
@@ -62,7 +62,7 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            border: 3px solid #2F65B9;
+            border: 3px solid #64b5f6;;
             object-fit: cover;
             margin-bottom: 15px;
         }
@@ -95,9 +95,9 @@
         </div>
         <a href="{{ route('dashboard.pelanggan') }}">🏠 Dashboard</a>
         <a href="{{ route('pelanggan.edit') }}" class="active">👤 Profile</a>
-        <a href="#">🧺 Pesanan Saya</a>
-        <a href="#">📦 Status Laundry</a>
-        <a href="#">⚙️ Pengaturan</a>
+        <a href="{{ route('lihatdata.index') }}"
+                class="menu-link text-decoration-none d-flex align-items-center gap-2 mb-2 {{ request()->routeIs('lihatdata.index') ? 'active-menu' : '' }}">
+                <i class="bi bi-list-check"></i> Status Laundry</a>
         <a href="{{ route('logout') }}" style="color:#f8d7da;">🚪 Logout</a>
     </div>
 
