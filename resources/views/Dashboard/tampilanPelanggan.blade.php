@@ -17,64 +17,74 @@
 
         /* Navbar */
         .navbar {
-            background-color: #619cf5;
+            background: linear-gradient(to right, #528ef5, #2f6df3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .navbar-brand {
-            color: white;
-            font-weight: 600;
-            font-size: 1.5rem;
-        }
-
+        .navbar-brand,
         .navbar-nav .nav-link {
             color: white;
             font-weight: 500;
-            margin-right: 20px;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #ffd700;
+            color: #ffdd57;
         }
 
         /* Hero section */
         .hero {
-            background: linear-gradient(rgba(84, 149, 246, 0.7), rgba(13, 110, 253, 0.6)),
+            background: linear-gradient(rgba(63, 123, 243, 0.8), rgba(17, 54, 148, 0.8)),
                 url('beranda.png') center/cover no-repeat;
             color: white;
-            padding: 120px 20px;
+            padding: 130px 20px;
             text-align: center;
         }
 
         .hero h1 {
             font-weight: 700;
+            font-size: 2.8rem;
         }
 
         .hero p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+        }
+
+        .btn-order {
+            background-color: #ffdd57;
+            color: #0d6efd;
+            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: 30px;
+        }
+
+        .btn-order:hover {
+            background-color: #ffe477;
+            color: #084298;
         }
 
         /* Diskon Section */
         .discount {
-            background-color: #e9f2ff;
-            padding: 60px 20px;
+            background-color: #f4f8ff;
+            padding: 70px 20px;
             text-align: center;
         }
 
         .discount h2 {
             color: #0d6efd;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
 
         .discount .card {
+            transition: transform .3s ease, box-shadow .3s ease;
             border: none;
-            background-color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
+            border-radius: 18px;
         }
 
-        .discount .card-body {
-            padding: 25px;
+        .discount .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .discount .discount-badge {
@@ -82,35 +92,16 @@
             color: white;
             font-weight: bold;
             padding: 8px 15px;
-            border-radius: 20px;
-        }
-
-        /* Tentang IVA Laundry */
-        .about {
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .about h2 {
-            color: #0d6efd;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .about p {
-            color: #555;
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: auto;
+            border-radius: 25px;
         }
 
         /* Footer */
         footer {
-            background-color: #0d6efd;
+            background: #2f6df3;
             color: white;
             text-align: center;
-            padding: 20px;
-            margin-top: 50px;
+            padding: 18px;
+            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -122,24 +113,22 @@
         <div class="container">
             <a class="navbar-brand">IVA Laundry</a>
             <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                aria-label="Toggle navigation">
+                data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon text-white"></span>
             </button>
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="#" class="nav-link active">Beranda</a></li>
-                    <li class="nav-item"><a href="#diskon" class="nav-link">Pesan Laundry</a></li>
+                    <li class="nav-item"><a href="{{ route('pesanLaundry') }}" class="nav-link">Pesan Laundry</a></li>
                     <li class="nav-item"><a href="{{ route('lihatdata.index') }}" class="nav-link">Lihat Pesanan</a></li>
                     <li class="nav-item"><a href="{{ route('pelanggan.edit') }}" class="nav-link">Edit Profil</a></li>
-                    <li class="nav-item"><a href="#tentang" class="nav-link">Tentang</a></li>
                     <li class="nav-item">
-                    <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                <button type="submit" class="btn btn-light btn-sm">Logout</button>
-                </form>
-                </li>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-light btn-sm">Logout</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -148,47 +137,35 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Solusi Laundry Cepat & Terpercaya</h1>
-            <p>Kami hadir untuk menjaga pakaian Anda tetap bersih, wangi, dan rapi setiap hari.</p>
+            <h1>Solusi Laundry Bersih, Cepat, & Terpercaya</h1>
+            <p>Percayakan pakaian Anda pada layanan laundry terbaik pilihan keluarga!</p>
+            <a href="{{ route('pesanLaundry') }}" class="btn btn-order">
+                <i class="bi bi-bag-check"></i> Pesan Laundry Sekarang
+            </a>
         </div>
     </section>
 
     <!-- Diskon Section -->
     <section class="discount" id="diskon">
         <div class="container">
-            <h2>Promo & Diskon Spesial</h2>
+            <h2>Promo & Penawaran Khusus 🎉</h2>
             <div class="row justify-content-center">
                 <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <span class="discount-badge">Diskon 20%</span>
-                            <h5 class="mt-3">Cuci Setrika Minimal 5 Kg</h5>
-                            <p>Dapatkan potongan harga 20% untuk setiap transaksi di atas 5 Kg.</p>
-                        </div>
+                    <div class="card p-3">
+                        <span class="discount-badge">Diskon 20%</span>
+                        <h5 class="mt-3 fw-bold">Cuci Setrika Minimal 5 Kg</h5>
+                        <p class="text-muted">Potongan harga spesial untuk transaksi di atas 5 Kg.</p>
                     </div>
                 </div>
+
                 <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <span class="discount-badge">Gratis Antar</span>
-                            <h5 class="mt-3">Untuk Wilayah Dalam 3 KM</h5>
-                            <p>Gratis layanan antar-jemput tanpa minimal order di area sekitar laundry.</p>
-                        </div>
+                    <div class="card p-3">
+                        <span class="discount-badge">Gratis Antar</span>
+                        <h5 class="mt-3 fw-bold">Wilayah Dalam Radius 3 KM</h5>
+                        <p class="text-muted">Nikmati layanan antar-jemput gratis tanpa minimal order!</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Tentang IVA Laundry -->
-    <section class="about" id="tentang">
-        <div class="container">
-            <h2>Tentang IVA Laundry</h2>
-            <p>
-                IVA Laundry adalah layanan laundry profesional yang mengutamakan kualitas, kebersihan,
-                dan ketepatan waktu. Kami hadir untuk memudahkan Anda dalam menjaga pakaian tetap bersih,
-                wangi, dan rapi setiap hari.
-            </p>
         </div>
     </section>
 
