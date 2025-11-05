@@ -33,8 +33,9 @@
 
         /* Hero section */
         .hero {
-            background: linear-gradient(rgba(63, 123, 243, 0.8), rgba(17, 54, 148, 0.8)),
-                url('beranda.png') center/cover no-repeat;
+            background: 
+                linear-gradient(rgba(63, 123, 243, 0.8), rgba(17, 54, 148, 0.8)),
+                url('image.png') center/cover no-repeat;
             color: white;
             padding: 130px 20px;
             text-align: center;
@@ -50,7 +51,8 @@
             margin-bottom: 25px;
         }
 
-        .btn-order {
+        .btn-order,
+        .btn-pengaduan {
             background-color: #ffdd57;
             color: #0d6efd;
             font-weight: 600;
@@ -58,7 +60,8 @@
             border-radius: 30px;
         }
 
-        .btn-order:hover {
+        .btn-order:hover,
+        .btn-pengaduan:hover {
             background-color: #ffe477;
             color: #084298;
         }
@@ -112,8 +115,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand">IVA Laundry</a>
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon text-white"></span>
             </button>
 
@@ -122,6 +124,7 @@
                     <li class="nav-item"><a href="#" class="nav-link active">Beranda</a></li>
                     <li class="nav-item"><a href="{{ route('pesanLaundry') }}" class="nav-link">Pesan Laundry</a></li>
                     <li class="nav-item"><a href="{{ route('lihatdata.index') }}" class="nav-link">Lihat Pesanan</a></li>
+                    <li class="nav-item"><a href="{{ route('pengaduan.create') }}" class="nav-link">Buat Pengaduan</a></li>
                     <li class="nav-item"><a href="{{ route('pelanggan.edit') }}" class="nav-link">Edit Profil</a></li>
                 </ul>
             </div>
@@ -133,8 +136,9 @@
         <div class="container">
             <h1>Solusi Laundry Bersih, Cepat, & Terpercaya</h1>
             <p>Percayakan pakaian Anda pada layanan laundry terbaik pilihan keluarga!</p>
-            <a href="{{ route('pesanLaundry') }}" class="btn btn-order">
-                <i class="bi bi-bag-check"></i> Pesan Laundry Sekarang
+
+            <a href="{{ route('pesanLaundry') }}" class="btn btn-order me-2">
+                <i class="bi bi-bag-check"></i> Pesan Laundry
             </a>
         </div>
     </section>

@@ -7,6 +7,7 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
@@ -15,7 +16,7 @@
         }
 
         .sidebar {
-            background-color: #64b5f6;;
+            background-color: #64b5f6;
             min-height: 100vh;
             color: #fff;
             padding-top: 40px;
@@ -54,7 +55,6 @@
         .title {
             font-weight: 600;
             color: #2F65B9;
-            margin-bottom: 25px;
             font-size: 24px;
         }
 
@@ -62,7 +62,7 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            border: 3px solid #64b5f6;;
+            border: 3px solid #64b5f6;
             object-fit: cover;
             margin-bottom: 15px;
         }
@@ -79,14 +79,34 @@
             background-color: #1E4FA3;
         }
 
-        .form-label {
-            font-weight: 500;
-            color: #333;
+        /* Tombol Kembali Bulat */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #4273b8;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-back:hover {
+            background-color: #2f5c9b;
+            transform: scale(1.1);
         }
     </style>
 </head>
 
 <body>
+
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="text-center mb-4">
@@ -95,18 +115,20 @@
         </div>
         <a href="{{ route('dashboard.pelanggan') }}">🏠 Dashboard</a>
         <a href="{{ route('pelanggan.edit') }}" class="active">👤 Profile</a>
-        <a href="{{ route('lihatdata.index') }}"
-                class="menu-link text-decoration-none d-flex align-items-center gap-2 mb-2 {{ request()->routeIs('lihatdata.index') ? 'active-menu' : '' }}">
-                <i class="bi bi-list-check"></i> Status Laundry</a>
+        <a href="{{ route('lihatdata.index') }}">🧺 Status Laundry</a>
         <a href="{{ route('logout') }}" style="color:#f8d7da;">🚪 Logout</a>
     </div>
 
+    <!-- Tombol Kembali -->
+    <a href="{{ route('dashboard.pelanggan') }}" class="btn-back" title="Kembali">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
     <!-- Content -->
     <div class="content">
-        <div class="card-custom">
-            <h3 class="title">Edit Profil</h3>
+        <div class="card-custom mt-2">
+            <h3 class="title mb-3">Edit Profil</h3>
 
-            {{-- Pesan sukses --}}
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
@@ -117,29 +139,28 @@
 
             <form action="{{ route('pelanggan.update') }}" method="POST" class="mt-3">
                 @csrf
-
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Nama Lengkap</label>
-                        <input type="text" name="namaPelanggan" class="form-control" 
+                        <input type="text" name="namaPelanggan" class="form-control"
                             value="{{ old('namaPelanggan', $pelanggan->namaPelanggan ?? '') }}" required>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control" 
+                        <input type="text" name="username" class="form-control"
                             value="{{ old('username', $pelanggan->username ?? '') }}" required>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" 
+                        <input type="email" name="email" class="form-control"
                             value="{{ old('email', $pelanggan->email ?? '') }}" required>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Nomor HP</label>
-                        <input type="text" name="noHp" class="form-control" 
+                        <input type="text" name="noHp" class="form-control"
                             value="{{ old('noHp', $pelanggan->noHp ?? '') }}" required>
                     </div>
 
@@ -157,7 +178,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
