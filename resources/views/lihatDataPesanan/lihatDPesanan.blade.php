@@ -11,10 +11,47 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        * {
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-            min-height: 100vh;
+            background-color: #eaf6ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ==== HEADER WATER FRAME ==== */
+        .header-wrapper {
+            position: relative;
+            width: 100%;
+            height: 130px; /* dipendekkan dari 200px */
+            overflow: hidden;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 40px;
+        }
+
+        .header-bg {
+            background-image: url('water.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.75);
+        }
+
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 700;
+            font-size: 34px;
+            text-align: left;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
         }
 
         h2 {
@@ -129,16 +166,15 @@
 
     @include('Dashboard.pelanggan_sidenav')
 
-    <div class="container">
-        <h2>Lihat Data Pesanan</h2>
+    <!-- HEADER DENGAN BACKGROUND WATER -->
+    <div class="header-wrapper">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            Lihat Data Pesanan
+        </div>
+    </div>
 
-        <!-- search -->
-        <form action="{{ route('lihatdata.index') }}" method="GET" class="search-container">
-            <input type="date" name="tanggalPesanan" value="{{ request('tanggalPesanan') }}">
-            <button type="submit" class="btn btn-primary rounded-end-pill px-3">
-                <i class="bi bi-search"></i>
-            </button>
-        </form>
+    <div class="container">
 
         <!-- daftar pesanan dari database-->
         @forelse($pesanan as $p)
@@ -169,5 +205,4 @@
     </a>
 
 </body>
-
 </html>
