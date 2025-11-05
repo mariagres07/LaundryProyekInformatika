@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IVA Laundry - Dashboard Pelanggan</title>
+    <title>IVA Laundry </title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,32 +13,38 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+            background-color: #f4f9ff;
         }
 
         /* Navbar */
         .navbar {
-            background: linear-gradient(to right, #528ef5, #2f6df3);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #b9d7f2;
         }
 
-        .navbar-brand,
+        .navbar-brand {
+            color: #0d3b66 ;
+            font-weight: 600;
+        }
+
         .navbar-nav .nav-link {
-            color: white;
+            color: #0d3b66 !important;
             font-weight: 500;
+            padding: 8px 12px;
         }
 
+        .navbar-nav .nav-link.active,
         .navbar-nav .nav-link:hover {
-            color: #ffdd57;
+            border-bottom: 3px solid #0d3b66;
+            color: #0d3b66 !important;
         }
 
-        /* Hero section */
+        /* Hero Section */
         .hero {
-            background: 
-                linear-gradient(rgba(63, 123, 243, 0.8), rgba(17, 54, 148, 0.8)),
+            background: linear-gradient(rgba(64, 118, 207, 0.7), rgba(64, 118, 207, 0.7)),
                 url('image.png') center/cover no-repeat;
-            color: white;
             padding: 130px 20px;
             text-align: center;
+            color: white;
         }
 
         .hero h1 {
@@ -46,82 +52,103 @@
             font-size: 2.8rem;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-        }
-
-        .btn-order,
-        .btn-pengaduan {
-            background-color: #ffdd57;
-            color: #0d6efd;
+        .btn-order {
+            background-color: #4a8fe7;
+            color: white;
             font-weight: 600;
-            padding: 12px 25px;
+            padding: 12px 30px;
             border-radius: 30px;
+            text-decoration: none;
         }
 
-        .btn-order:hover,
-        .btn-pengaduan:hover {
-            background-color: #ffe477;
-            color: #084298;
+        .btn-order:hover {
+            background-color: #2e6edb;
+            color: #ffffff;
         }
 
         /* Diskon Section */
         .discount {
-            background-color: #f4f8ff;
             padding: 70px 20px;
             text-align: center;
+            background-color: #ffffff;
         }
 
         .discount h2 {
-            color: #0d6efd;
+            color: #0d3b66;
             font-weight: 700;
             margin-bottom: 40px;
         }
 
         .discount .card {
-            transition: transform .3s ease, box-shadow .3s ease;
+            background: #e6f1ff;
             border: none;
-            border-radius: 18px;
+            border-radius: 20px;
+            transition: 0.3s;
         }
 
         .discount .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .discount .discount-badge {
-            background-color: #ff4757;
+        .discount-badge {
+            background: #d64045;
             color: white;
+            border-radius: 20px;
+            padding: 7px 18px;
             font-weight: bold;
-            padding: 8px 15px;
-            border-radius: 25px;
         }
 
         /* Footer */
         footer {
-            background: #2f6df3;
-            color: white;
-            text-align: center;
+            background-color: #b9d7f2;
+            color: #0d3b66;
+            font-weight: 500;
             padding: 18px;
-            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        /* Tombol Kembali */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background: #4a8fe7;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-back:hover {
+            background: #2e6edb;
         }
     </style>
 </head>
 
 <body>
 
+    @include('Dashboard.pelanggan_sidenav')
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand">IVA Laundry</a>
+
             <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon text-white"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a href="#" class="nav-link active">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link active">Beranda</a></li>
                     <li class="nav-item"><a href="{{ route('pesanLaundry') }}" class="nav-link">Pesan Laundry</a></li>
                     <li class="nav-item"><a href="{{ route('lihatdata.index') }}" class="nav-link">Lihat Pesanan</a></li>
                     <li class="nav-item"><a href="{{ route('pengaduan.create') }}" class="nav-link">Buat Pengaduan</a></li>
@@ -131,22 +158,23 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
         <div class="container">
             <h1>Solusi Laundry Bersih, Cepat, & Terpercaya</h1>
             <p>Percayakan pakaian Anda pada layanan laundry terbaik pilihan keluarga!</p>
 
-            <a href="{{ route('pesanLaundry') }}" class="btn btn-order me-2">
+            <a href="{{ route('pesanLaundry') }}" class="btn-order">
                 <i class="bi bi-bag-check"></i> Pesan Laundry
             </a>
         </div>
     </section>
 
-    <!-- Diskon Section -->
-    <section class="discount" id="diskon">
+    <!-- Diskon -->
+    <section class="discount">
         <div class="container">
-            <h2>Promo & Penawaran Khusus 🎉</h2>
+            <h2>Promo & Penawaran Khusus </h2>
+
             <div class="row justify-content-center">
                 <div class="col-md-4 mb-4">
                     <div class="card p-3">
@@ -160,19 +188,17 @@
                     <div class="card p-3">
                         <span class="discount-badge">Gratis Antar</span>
                         <h5 class="mt-3 fw-bold">Wilayah Dalam Radius 3 KM</h5>
-                        <p class="text-muted">Nikmati layanan antar-jemput gratis tanpa minimal order!</p>
+                        <p class="text-muted">Tanpa minimal order!</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 IVA Laundry. Semua Hak Dilindungi.</p>
+        <p>&copy; 2025 IVA Laundry | Semua Hak Dilindungi.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

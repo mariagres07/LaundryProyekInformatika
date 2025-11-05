@@ -79,12 +79,12 @@
             background-color: #1E4FA3;
         }
 
-        /* Tombol Kembali Bulat */
+          /* Tombol Kembali */
         .btn-back {
             position: fixed;
             bottom: 25px;
             left: 25px;
-            background-color: #4273b8;
+            background: #4a8fe7;
             color: white;
             border-radius: 50%;
             width: 50px;
@@ -95,12 +95,11 @@
             font-size: 1.4rem;
             text-decoration: none;
             transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         }
 
         .btn-back:hover {
-            background-color: #2f5c9b;
-            transform: scale(1.1);
+            background: #2e6edb;
         }
     </style>
 </head>
@@ -120,7 +119,7 @@
     </div>
 
     <!-- Tombol Kembali -->
-    <a href="{{ route('dashboard.pelanggan') }}" class="btn-back" title="Kembali">
+    <a href="{{ url()->previous() }}" class="btn-back">
         <i class="bi bi-arrow-left"></i>
     </a>
 
