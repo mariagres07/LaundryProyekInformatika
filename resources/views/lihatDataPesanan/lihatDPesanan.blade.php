@@ -86,7 +86,7 @@
             position: fixed;
             bottom: 25px;
             left: 25px;
-            background-color: #4273b8;
+            background-color: #8ab2d3ff;
             color: white;
             border: none;
             border-radius: 50%;

@@ -129,7 +129,7 @@
   </script>
 
 <div class="text-center my-4">
-   <a href="{{ url()->previous() }}" " 
+   <a href="{{ url()->previous() }}"  
    class="btn btn-secondary" 
    style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
    ⬅ Kembali

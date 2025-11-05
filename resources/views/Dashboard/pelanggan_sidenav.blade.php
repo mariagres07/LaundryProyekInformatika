@@ -35,7 +35,7 @@
 
         /* Navbar */
         .navbar {
-            background: linear-gradient(90deg, #5fa1f2, #79b8ff);
+            background-color: #9ec7e0ff !important;
             color: white;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
@@ -142,7 +142,7 @@
             <a href="{{ url('/pesanLaundry') }}">
                 <i class="bi bi-basket2-fill"></i> Pesan Laundry
             </a>
-            <a href="{{ url('/lihatData') }}">
+            <a href="{{ url('/lihatdata') }}">
                 <i class="bi bi-file-earmark-text-fill"></i> Lihat Data Pesanan
             </a>
             <a href="{{ url('/editprofil') }}">
