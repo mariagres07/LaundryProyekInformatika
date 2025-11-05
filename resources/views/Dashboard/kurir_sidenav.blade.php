@@ -35,7 +35,7 @@
 
         /* Navbar */
         .navbar {
-            background: linear-gradient(90deg, #4b91e2, #79b8ff);
+            background-color: #9ec7e0ff !important;
             color: white;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }

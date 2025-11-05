@@ -225,6 +225,25 @@
             background-color: #007bff;
             cursor: pointer;
         }
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
     </style>
 </head>
 
@@ -235,7 +254,7 @@
     <div class="header-wrapper">
         <div class="header-bg"></div>
         <div class="header-content">
-            Welcome! <br>
+            Pesan Laundry Sekarang! <br>
             <span>{{ $pelanggan['namaPelanggan'] ?? 'User' }}</span>
         </div>
     </div>
@@ -386,5 +405,10 @@
             }
         });
     </script>
+
+    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    
 </body>
 </html>

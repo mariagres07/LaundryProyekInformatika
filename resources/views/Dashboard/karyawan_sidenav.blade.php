@@ -34,7 +34,7 @@
 
         /* Navbar */
         .navbar {
-            background: linear-gradient(90deg, #5fa1f2, #79b8ff);
+            background-color: #9ec7e0ff !important;
             color: white;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
@@ -69,7 +69,7 @@
 
         .offcanvas-header h5 {
             font-weight: 600;
-            color: #1f4e8a;
+            color: #80b7ffd5;
         }
 
         .offcanvas-body a {
@@ -87,7 +87,7 @@
         }
 
         .offcanvas-body a:hover {
-            background: linear-gradient(90deg, #5fa1f2, #79b8ff);
+            background: linear-gradient(90deg, #90c2ffff, #79b8ff);
             color: #fff;
             transform: translateX(6px);
             box-shadow: 0 3px 8px rgba(90, 150, 230, 0.2);
