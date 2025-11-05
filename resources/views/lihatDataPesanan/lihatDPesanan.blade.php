@@ -6,12 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lihat Data Pesanan - IVA Laundry</title>
 
-    @if (session('role') !== 'pelanggan')
-    <script>
-        window.location.href = "{{ route('login.show') }}";
-    </script>
-    @endif
-
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -31,6 +25,34 @@
             margin-bottom: 30px;
         }
 
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 10px;
+        }
+
+        .search-container input[type="date"] {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.95rem;
+        }
+
+        .search-container button {
+            background-color: #4273b8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 14px;
+            transition: 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #315b94;
+        }
+
         .pesanan-card {
             display: flex;
             justify-content: space-between;
@@ -41,11 +63,6 @@
             margin-bottom: 15px;
             transition: all 0.3s ease;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .pesanan-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .pesanan-info h5 {
@@ -110,44 +127,47 @@
 
 <body>
 
-    {{-- Include sidebar --}}
     @include('Dashboard.pelanggan_sidenav')
 
     <div class="container">
         <h2>Lihat Data Pesanan</h2>
 
-        <!-- Contoh Pesanan -->
+        <!-- search -->
+        <form action="{{ route('lihatdata.index') }}" method="GET" class="search-container">
+            <input type="date" name="tanggalPesanan" value="{{ request('tanggalPesanan') }}">
+            <button type="submit" class="btn btn-primary rounded-end-pill px-3">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+
+        <!-- daftar pesanan dari database-->
+        @forelse($pesanan as $p)
         <div class="pesanan-card">
             <div class="pesanan-info">
-                <h5>Maria Petra</h5>
-                <small>01/05/2025</small>
+                <h5>{{ $p->pelanggan->namaPelanggan ?? 'Tidak diketahui' }}</h5>
+                <small>{{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}</small>
             </div>
+
+            @if($p->statusPesanan == 'Menunggu Penjemputan')
             <span class="status status-proses">Proses</span>
-        </div>
-
-        <div class="pesanan-card">
-            <div class="pesanan-info">
-                <h5>Maria Petra</h5>
-                <small>28/04/2025</small>
-            </div>
+            @elseif($p->statusPesanan == 'Menunggu Pengantaran')
             <span class="status status-diantar">Diantar</span>
-        </div>
-
-        <div class="pesanan-card">
-            <div class="pesanan-info">
-                <h5>Maria Petra</h5>
-                <small>24/04/2025</small>
-            </div>
+            @elseif($p->statusPesanan == 'Selesai')
             <span class="status status-selesai">Selesai</span>
+            @else
+            <span class="status">{{ $p->statusPesanan }}</span>
+            @endif
         </div>
+        @empty
+        <p class="text-center text-muted">Belum ada data pesanan.</p>
+        @endforelse
     </div>
 
-    <!--Tombol kembali di pojok kiri bawah -->
+    <!-- tombol kembali -->
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

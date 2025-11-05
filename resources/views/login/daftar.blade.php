@@ -255,12 +255,17 @@
         @csrf
         <div class="form-group">
           <label for="name">Nama Lengkap</label>
-          <input type="text" id="name" name="name" value="{{ old('name') }}" required>
+          <input type="text" id="name" name="namaPelanggan" value="{{ old('name') }}" required>
         </div>
 
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" id="username" name="username" value="{{ old('username') }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Alamat</label>
+          <input type="text" id="name" name="namaPelanggan" value="{{ old('name') }}" required>
         </div>
 
         <div class="form-group">
