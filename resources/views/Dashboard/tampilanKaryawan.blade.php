@@ -8,7 +8,7 @@
 
     @if (session('role') !== 'karyawan')
     <script>
-    window.location.href = "{{ route('login.show') }}";
+        window.location.href = "{{ route('login.show') }}";
     </script>
     @endif
 
@@ -17,65 +17,119 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-        min-height: 100vh;
-    }
+        * {
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
 
-    .hidden {
-        display: none !important;
-    }
+        body {
+            background-color: #eaf6ff;
+            margin: 0;
+            padding: 0;
+        }
 
-    .menu-card {
-        background-color: #ffffff;
-        border-radius: 15px;
-        padding: 30px 20px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s, box-shadow 0.2s;
-        cursor: pointer;
-    }
+        /* ==== HEADER WATER FRAME ==== */
+        .header-wrapper {
+            position: relative;
+            width: 100%;
+            height: 130px;
+            overflow: hidden;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 40px;
+        }
 
-    .menu-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-    }
+        .header-bg {
+            background-image: url('water.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.75);
+        }
 
-    .menu-icon {
-        font-size: 50px;
-        color: #7ba6e0;
-        margin-bottom: 15px;
-    }
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 700;
+            font-size: 34px;
+            text-align: left;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
+        }
 
-    footer {
-        text-align: center;
-        padding: 15px 0;
-        font-weight: 600;
-        color: #2d4b74;
-    }
+        /* ===== WELCOME TEXT ===== */
+        .welcome-text {
+            margin-left: 40px;
+            margin-bottom: 25px;
+            color: #2d4b74;
+            font-size: 22px;
+            font-weight: 600;
+        }
 
-    .logout-btn {
-        background-color: #dce3e8;
-        color: red;
-        font-weight: bold;
-        border-radius: 12px;
-        padding: 8px 20px;
-        border: none;
-        width: 100%;
-        text-align: center;
-        margin-top: 15px;
-    }
+        .hidden {
+            display: none !important;
+        }
 
-    .logout-btn:hover {
-        background-color: #f8d7da;
-        color: #a00;
-    }
+        .menu-card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .menu-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-icon {
+            font-size: 50px;
+            color: #7ba6e0;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            font-weight: 600;
+            color: #2d4b74;
+        }
+
+        .logout-btn {
+            background-color: #dce3e8;
+            color: red;
+            font-weight: bold;
+            border-radius: 12px;
+            padding: 8px 20px;
+            border: none;
+            width: 100%;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .logout-btn:hover {
+            background-color: #f8d7da;
+            color: #a00;
+        }
     </style>
 </head>
 
 <body>
     @include('Dashboard.karyawan_sidenav')
+
+    <!-- HEADER -->
+    <div class="header-wrapper">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            Welcome! <span>{{ session('username') ?? 'Karyawan' }}</span>
+        </div>
+    </div>
 
     <div class="container py-4">
         <!-- Dashboard -->
@@ -92,55 +146,57 @@
                     <h5>Manajemen Laundry</h5>
                 </div>
             </div>
-            {{-- <div class="col-md-3 mb-4">
-                <a href="{{ route('laporan.index') }}" class="text-decoration-none text-dark">
-            <div class="menu-card">
-                <i class="bi bi-list-check menu-icon"></i>
-                <h5>Pesanan</h5>
+            <div class="col-md-3 mb-4">
+                <a href="{{ route('pengaduan.index') }}" class="text-decoration-none text-dark">
+                    <div class="menu-card">
+                        <i class="bi bi-chat-dots menu-icon"></i>
+                        <h5>Pengaduan</h5>
+                    </div>
+                </a>
             </div>
-            </a>
-        </div> --}}
-        <div class="col-md-3 mb-4">
-            <a href="{{ route('pengaduan.index') }}" class="text-decoration-none text-dark">
-                <div class="menu-card">
-                    <i class="bi bi-chat-dots menu-icon"></i>
-                    <h5>Pengaduan</h5>
+
+            <!-- 🔹 Tombol Lihat Data Pesanan -->
+            <div class="col-md-3 mb-4">
+                <a href="{{ url('/lihatdata') }}" class="text-decoration-none text-dark">
+                    <div class="menu-card">
+                        <i class="bi bi-eye-fill menu-icon"></i>
+                        <h5>Lihat Data Pesanan</h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Manajemen Pengguna -->
+        <div id="pengguna" class="hidden row justify-content-center py-4">
+            <div class="col-md-4 mb-4">
+                <div class="menu-card" onclick="window.location='{{ route('karyawan') }}'">
+                    <i class="bi bi-person-badge menu-icon"></i>
+                    <h5>Manajemen Karyawan</h5>
                 </div>
-            </a>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="menu-card" onclick="window.location='{{ route('kurir.index') }}'">
+                    <i class="bi bi-truck menu-icon"></i>
+                    <h5>Manajemen Kurir</h5>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- Manajemen Pengguna -->
-    <div id="pengguna" class="hidden row justify-content-center py-4">
-        <div class="col-md-4 mb-4">
-            <div class="menu-card" onclick="window.location='{{ route('karyawan') }}'">
-                <i class="bi bi-person-badge menu-icon"></i>
-                <h5>Manajemen Karyawan</h5>
+        <!-- Manajemen Laundry -->
+        <div id="laundry" class="hidden row justify-content-center py-4">
+            <div class="col-md-4 mb-4">
+                <div class="menu-card" onclick="window.location='{{ route('layanan.index') }}'">
+                    <i class="bi bi-list-task menu-icon"></i>
+                    <h5>Kelola Layanan</h5>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="menu-card" onclick="window.location='{{ route('laporan.index') }}'">
+                    <i class="bi bi-graph-up menu-icon"></i>
+                    <h5>Lihat Laporan</h5>
+                </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="menu-card" onclick="window.location='{{ route('kurir.index') }}'">
-                <i class="bi bi-truck menu-icon"></i>
-                <h5>Manajemen Kurir</h5>
-            </div>
-        </div>
-    </div>
-
-    <!-- Manajemen Laundry -->
-    <div id="laundry" class="hidden row justify-content-center py-4">
-        <div class="col-md-4 mb-4">
-            <div class="menu-card" onclick="window.location='{{ route('layanan.index') }}'">
-                <i class="bi bi-list-task menu-icon"></i>
-                <h5>Kelola Layanan</h5>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="menu-card" onclick="window.location='{{ route('laporan.index') }}'">
-                <i class="bi bi-graph-up menu-icon"></i>
-                <h5>Lihat Laporan</h5>
-            </div>
-        </div>
-    </div>
     </div>
 
     <!-- Footer -->
@@ -153,18 +209,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
-    // Ambil parameter URL (misalnya 'pengguna' dari ?tab=pengguna)
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialTab = urlParams.get('tab');
+        // Ambil parameter URL (misalnya 'pengguna' dari ?tab=pengguna)
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialTab = urlParams.get('tab');
 
-    if (initialTab === 'pengguna') {
-        showPengguna();
-    } else if (initialTab === 'laundry') {
-        showLaundry();
-    } else {
-        // Default ke Dashboard jika tidak ada parameter atau parameter tidak valid
-        showDashboard();
-    }
+        if (initialTab === 'pengguna') {
+            showPengguna();
+        } else if (initialTab === 'laundry') {
+            showLaundry();
+        } else {
+            // Default ke Dashboard jika tidak ada parameter
+            showDashboard();
+        }
     </script>
 </body>
 
