@@ -2,124 +2,170 @@
 <html lang="id">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Lihat Laporan</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lihat Laporan</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    * {
+      font-family: "Poppins", sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #eaf6ff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ==== HEADER WATER FRAME ==== */
+    .header-wrapper {
+      position: relative;
+      width: 100%;
+      height: 130px;
+      overflow: hidden;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      margin-bottom: 40px;
+    }
+
+    .header-bg {
+      background-image: url('water.jpg');
+      background-size: cover;
+      background-position: center;
+      width: 100%;
+      height: 100%;
+      filter: brightness(0.7);
+    }
+
+    .header-content {
+      position: absolute;
+      top: 50%;
+      left: 40px;
+      transform: translateY(-50%);
+      color: white;
+      font-weight: 700;
+      font-size: 34px;
+      text-align: left;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    /* ==== FILTER DAN KONTEN ==== */
+    .filter-box {
+      margin: 2rem auto;
+      background-color: #ffffff;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .laporan-card {
+      background-color: #deebf0;
+      border-radius: 2rem;
+      padding: 1rem 2rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .laporan-card:hover {
+      transform: scale(1.01);
+    }
+
+    /* ==== TOMBOL KEMBALI ==== */
+    .btn-back {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      background-color: #8ab2d3ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      transition: 0.3s;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-back:hover {
+      background-color: #2d5cb5;
+    }
+  </style>
 </head>
 
-<body class="bg-white">
-    @include('Dashboard.karyawan_sidenav')
+<body>
+  @include('Dashboard.karyawan_sidenav')
 
-    <!-- Header -->
-    <div class="text-center p-4 mb-4"
-        style="background:url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;">
-        <h3 class="fw-bold text-light" style="font-size:3rem; text-shadow:2px 2px 4px #000;">
-            Lihat Laporan
-        </h3>
-    </div>
+  <!-- HEADER -->
+  <div class="header-wrapper">
+    <div class="header-bg"></div>
+    <div class="header-content">Lihat Laporan</div>
+  </div>
 
-    <div class="container">
-
-        <!-- Form Filter Rentang Tanggal -->
-        <form action="{{ route('laporan.index') }}" method="GET" class="mb-4">
-            <div class="row">
-                <!-- Dari Tanggal -->
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Dari Tanggal:</label>
-                    <div class="d-flex gap-2">
-                        <select name="tanggal_awal" class="form-select bg-light">
-                            <option value="">Tanggal</option>
-                            @for ($i = 1; $i <= 31; $i++) <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                        </select>
-                        <select name="bulan_awal" class="form-select bg-light">
-                            <option value="">Bulan</option>
-                            @for ($i = 1; $i <= 12; $i++) <option value="{{ $i }}">
-                                {{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
-                                @endfor
-                        </select>
-                        <select name="tahun_awal" class="form-select bg-light">
-                            <option value="">Tahun</option>
-                            @for ($i = now()->year; $i >= now()->year - 5; $i--)
-                            <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Sampai Tanggal -->
-                <div class="col-md-6">
-                    <label class="form-label fw-bold">Sampai Tanggal:</label>
-                    <div class="d-flex gap-2">
-                        <select name="tanggal_akhir" class="form-select bg-light">
-                            <option value="">Tanggal</option>
-                            @for ($i = 1; $i <= 31; $i++) <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                        </select>
-                        <select name="bulan_akhir" class="form-select bg-light">
-                            <option value="">Bulan</option>
-                            @for ($i = 1; $i <= 12; $i++) <option value="{{ $i }}">
-                                {{ DateTime::createFromFormat('!m', $i)->format('F') }}</option>
-                                @endfor
-                        </select>
-                        <select name="tahun_akhir" class="form-select bg-light">
-                            <option value="">Tahun</option>
-                            @for ($i = now()->year; $i >= now()->year - 5; $i--)
-                            <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                </div>
+  <div class="container">
+    <!-- Filter Rentang Tanggal -->
+    <div class="filter-box">
+      <form action="{{ route('laporan.index') }}" method="GET">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-5">
+            <label class="fw-bold">Dari Tanggal:</label>
+            <input type="date" name="tanggal_awal" class="form-control shadow-sm rounded-pill mt-1"
+              value="{{ request('tanggal_awal') }}">
+          </div>
+          <div class="col-md-7">
+            <label class="fw-bold">Sampai Tanggal:</label>
+            <div class="input-group mt-1">
+              <input type="date" name="tanggal_akhir" class="form-control shadow-sm rounded-start-pill"
+                value="{{ request('tanggal_akhir') }}">
+              <button type="submit" class="btn btn-primary rounded-end-pill px-3">
+                <i class="bi bi-search"></i>
+              </button>
             </div>
-
-            <!-- Tombol Cari -->
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary rounded-pill px-4">
-                    <i class="bi bi-search"></i> Cari
-                </button>
-            </div>
-        </form>
-
-        <!-- Tabel -->
-        <div class="table-responsive">
-            <table class="table table-bordered align-middle text-center">
-                <thead class="table-primary">
-                    <tr>
-                        <th scope="col">Tanggal</th>
-                        <th scope="col">ID Pembayaran</th>
-                        <th scope="col">ID Transaksi</th>
-                        <th scope="col">Harga</th>
-                    </tr>
-                </thead>
-                @forelse($data as $row)
-                <tr>
-                    <td>{{ \Carbon\Carbon::parse($row->tanggalPembayaran)->format('d M Y') }}</td>
-                    <td>{{ $row->idTransaksiPembayaran ?? '-' }}</td>
-                    <td>{{ $row->idDetailTransaksi }}</td>
-                    <td>Rp{{ number_format($row->totalPembayaran, 2, ',', '.') }}</td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4">Tidak ada data</td>
-                </tr>
-                @endforelse
-            </table>
+          </div>
         </div>
+      </form>
 
-        <!-- Tombol kembali -->
-        <div class="mb-3">
-            <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
-                <i class="bi bi-arrow-left"></i> Kembali
-            </a>
+      @forelse ($data as $row)
+      <div class="laporan-card">
+        <div>
+          <h5 class="fw-bold text-primary mb-1">
+            Tanggal: {{ \Carbon\Carbon::parse($row->tanggalPembayaran)->format('d M Y') }}
+          </h5>
+          <p class="mb-0 text-dark">ID Pembayaran: {{ $row->idTransaksiPembayaran ?? '-' }}</p>
+          <p class="mb-0 text-dark">ID Transaksi: {{ $row->idDetailTransaksi }}</p>
         </div>
+        <div>
+          <h5 class="fw-bold text-success">
+            Rp{{ number_format($row->totalPembayaran, 2, ',', '.') }}
+          </h5>
+        </div>
+      </div>
+      @empty
+      <div class="text-center text-muted mt-5">
+        <p>Tidak ada laporan ditemukan.</p>
+      </div>
+      @endforelse
     </div>
+  </div>
 
-    <!-- Bootstrap Icons + JS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/dashboard.js') }}"></script>
+  <!-- Tombol kembali -->
+  <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+    <i class="bi bi-arrow-left"></i>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
