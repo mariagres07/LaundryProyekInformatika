@@ -1,354 +1,414 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pesan Laundry | Iva Laundry</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Laundry</title>
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
 
-  <style>
-    body {
-      background-color: #f7f9fc;
-      font-family: 'Poppins', sans-serif;
-    }
+        body {
+            background-color: #eaf6ff;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Navbar */
-    .navbar {
-      background-color: #7bbde8;
-      padding: 0.8rem 1rem;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
+        /* ==== HEADER WATER FRAME ==== */
+        .header-wrapper {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+        }
 
-    .navbar-brand {
-      color: white !important;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        .header-bg {
+            background-image: url('water.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.8);
+            width: 100%;
+            height: 100%;
+        }
 
-    .navbar-brand img {
-      height: 38px;
-      width: 38px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 30px;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 30px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+        }
 
-    .navbar-toggler {
-      border: none;
-      color: white;
-    }
+        .header-content span {
+            display: block;
+            font-weight: 500;
+            font-size: 22px;
+        }
 
-    .navbar-toggler:focus {
-      box-shadow: none;
-    }
+        /* ==== INPUT ALAMAT ==== */
+        .alamat {
+            display: flex;
+            align-items: center;
+            background-color: #dce9f3;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-    /* Sidebar (Offcanvas) */
-    .offcanvas {
-      background-color: #7ba6e0;
-      color: white;
-      width: 230px !important;
-    }
+        .alamat input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+            color: #444;
+        }
 
-    .offcanvas a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: white;
-      text-decoration: none;
-      padding: 10px 15px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      transition: background-color 0.3s;
-    }
+        .alamat img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
 
-    .offcanvas a:hover {
-      background-color: #5a8cd6;
-    }
+        /* ==== TAB SWITCH ==== */
+        .tab-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #87a9c5;
+            border-radius: 50px;
+            margin: 0 20px 20px;
+            overflow: hidden;
+        }
 
-    .logout-btn {
-      background-color: #f8d7da;
-      color: red;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      padding: 8px;
-      width: 100%;
-    }
+        .tab-button {
+            flex: 1;
+            padding: 12px 0;
+            text-align: center;
+            cursor: pointer;
+            color: black;
+            background: transparent;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
 
-    .logout-btn:hover {
-      background-color: #f1b0b7;
-    }
+        .tab-button.active {
+            background: #dce9f3;
+            border-radius: 50px;
+        }
 
-    /* Konten utama */
-    .main-container {
-      margin: 100px auto;
-      width: 90%;
-      max-width: 900px;
-      background: #fff;
-      border-radius: 15px;
-      padding: 30px 40px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+        /* ==== CARD ==== */
+        .card {
+            background: #dce9f3;
+            border-radius: 30px;
+            margin: 0 20px 20px;
+            padding: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
 
-    .form-label {
-      font-weight: 600;
-      color: #2d4b74;
-    }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            background: #87a9c5;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+        }
 
-    .nav-tabs .nav-link.active {
-      background-color: #7bbde8;
-      color: white;
-      border: none;
-    }
+        /* ==== ITEM KATEGORI ==== */
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e8f0f8;
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
 
-    .nav-tabs .nav-link {
-      border: none;
-      color: #7bbde8;
-      font-weight: 500;
-    }
+        .item .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .list-group-item {
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 12px 20px;
-      font-size: 15px;
-    }
+        .item .left img {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-    .quantity-control button {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-    }
+        .counter {
+            display: flex;
+            align-items: center;
+        }
 
-    .btn-checkout {
-      margin-top: 25px;
-    }
+        .counter button {
+            border: none;
+            background: #87a9c5;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .btn-primary {
-      background-color: #007bff;
-      border: none;
-      padding: 8px 30px;
-    }
+        .counter button:hover {
+            background: #6d90aa;
+        }
 
-    .btn-primary:hover {
-      background-color: #005dc2;
-    }
+        .counter span {
+            margin: 0 10px;
+            font-weight: bold;
+            color: #555;
+        }
 
-    .btn-secondary {
-      background-color: #6c757d;
-      border: none;
-    }
+        /* ==== RADIO GROUP ==== */
+        .radio-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e8f0f8;
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
 
-    .btn-secondary:hover {
-      background-color: #5a6268;
-    }
-  </style>
+        .radio-item .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .radio-item img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* ==== BUTTON PESAN ==== */
+        .btn-pesan {
+            width: 90%;
+            margin: 20px auto;
+            padding: 12px 0;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            background-color: #ccc;
+            color: white;
+            cursor: not-allowed;
+            transition: 0.3s;
+        }
+
+        .btn-pesan.active {
+            background-color: #007bff;
+            cursor: pointer;
+        }
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container-fluid px-3">
-      <div class="d-flex align-items-center">
-        <button class="btn text-white me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-          aria-controls="sidebar">
-          <i class="bi bi-list fs-3"></i>
-        </button>
-        <a class="navbar-brand" href="#">
-          Iva Laundry
-        </a>
-      </div>
-    </div>
-  </nav>
+    @include('Dashboard.pelanggan_sidenav')
 
-  <!-- Sidebar -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+    <!-- ==== HEADER WITH WATER BACKGROUND ==== -->
+    <div class="header-wrapper">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            Pesan Laundry Sekarang! <br>
+            <span>{{ $pelanggan['namaPelanggan'] ?? 'User' }}</span>
+        </div>
     </div>
-    <div class="offcanvas-body d-flex flex-column">
-      <a href="#"><i class="bi bi-house"></i> Dashboard</a>
-      <a href="#"><i class="bi bi-basket2-fill"></i> Pesan Laundry</a>
-      <a href="#"><i class="bi bi-chat-dots"></i> Pengaduan</a>
-      <form method="POST" action="{{ route('logout') }}" class="mt-auto">
-        @csrf
-        <button type="submit" class="logout-btn mt-3">Keluar</button>
-      </form>
+
+    <!-- ==== INPUT ALAMAT ==== -->
+    <div class="alamat">
+        <img src="https://static.vecteezy.com/system/resources/previews/026/122/364/non_2x/pin-icon-location-sign-in-flat-style-isolated-on-isolated-background-navigation-map-gps-concept-vector.jpg" alt="location">
+        <input
+            type="text"
+            id="alamat"
+            name="alamat"
+            placeholder="Masukkan alamat"
+            value="{{ old('alamat', $pelanggan['alamat'] ?? '') }}"
+        >
     </div>
-  </div>
 
-  <!-- Konten -->
-  <div class="main-container">
-    @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <!-- ==== TAB MENU ==== -->
+    <div class="tab-container">
+        <div class="tab-button active" id="tabKategori">Kategori Laundry</div>
+        <div class="tab-button" id="tabLayanan">Jenis Paket</div>
+    </div>
 
-    @if($errors->any())
-    <div class="alert alert-danger">
-      <ul class="mb-0">
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
+    <!-- ==== KATEGORI ==== -->
+    <div class="card tab-content" id="contentKategori">
+        @foreach ($kategoriItems ?? [] as $kategori)
+            @php
+                $nama = strtolower($kategori->namaKategori);
+                if (Str::contains($nama, 'pakaian')) {
+                    $icon = 'pakaian.png';
+                } elseif (Str::contains($nama, 'selimut') || Str::contains($nama, 'seprai')) {
+                    $icon = 'selimut.png';
+                } elseif (Str::contains($nama, 'handuk')) {
+                    $icon = 'handuk.png';
+                } else {
+                    $icon = 'pakaian.png';
+                }
+            @endphp
+
+            <div class="item">
+                <div class="left">
+                    <img src="{{ $icon }}" alt="{{ $kategori->namaKategori }}">
+                    <div>{{ $kategori->namaKategori }}</div>
+                </div>
+                <div class="counter">
+                    <button class="minus">-</button>
+                    <span>0</span>
+                    <button class="plus">+</button>
+                </div>
+            </div>
         @endforeach
-      </ul>
     </div>
-    @endif
 
-    <form method="POST" action="{{ route('checkout') }}">
-      @csrf
-
-      <!-- Alamat -->
-      <div class="mb-3">
-        <label for="alamatPelanggan" class="form-label">
-          <i class="bi bi-geo-alt"></i> Alamat Lengkap
-        </label>
-        <input type="text" class="form-control" id="alamatPelanggan" name="alamat" placeholder="Masukkan alamat Anda"
-          required>
-      </div>
-
-      <div class="text-end mb-4">
-        <button type="button" class="btn btn-success rounded-pill px-4">
-          <i class="bi bi-check2-circle"></i> Simpan Alamat
-        </button>
-      </div>
-
-      <!-- Tabs -->
-      <ul class="nav nav-tabs mb-3 justify-content-center">
-        <li class="nav-item flex-fill text-center">
-          <button class="nav-link active w-100" id="kategori-tab" data-bs-toggle="tab" data-bs-target="#kategori"
-            type="button">Kategori Laundry</button>
-        </li>
-        <li class="nav-item flex-fill text-center">
-          <button class="nav-link w-100" id="paket-tab" data-bs-toggle="tab" data-bs-target="#paket"
-            type="button">Jenis Paket</button>
-        </li>
-      </ul>
-
-      <div class="tab-content">
-        <!-- Kategori -->
-        <div class="tab-pane fade show active" id="kategori">
-          <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center mb-3">
-              <span><i class="bi bi-card-image me-2"></i> Pakaian</span>
-              <div class="btn-group quantity-control">
-                <button type="button" class="btn btn-outline-secondary minus">-</button>
-                <span class="px-3 quantity">0</span>
-                <button type="button" class="btn btn-outline-secondary plus">+</button>
-              </div>
-              <input type="hidden" name="pakaian" value="0" class="quantity-input">
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center mb-3">
-              <span><i class="bi bi-card-image me-2"></i> Seprai / Selimut / Bed Cover</span>
-              <div class="btn-group quantity-control">
-                <button type="button" class="btn btn-outline-secondary minus">-</button>
-                <span class="px-3 quantity">0</span>
-                <button type="button" class="btn btn-outline-secondary plus">+</button>
-              </div>
-              <input type="hidden" name="seprai" value="0" class="quantity-input">
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span><i class="bi bi-card-image me-2"></i> Handuk</span>
-              <div class="btn-group quantity-control">
-                <button type="button" class="btn btn-outline-secondary minus">-</button>
-                <span class="px-3 quantity">0</span>
-                <button type="button" class="btn btn-outline-secondary plus">+</button>
-              </div>
-              <input type="hidden" name="handuk" value="0" class="quantity-input">
-            </li>
-          </ul>
-
-          <div class="text-center btn-checkout">
-            <button class="btn btn-primary rounded-pill px-5" type="submit">Checkout</button>
-          </div>
-        </div>
-
-        <!-- Paket -->
-        <div class="tab-pane fade" id="paket">
-          <div class="mb-4">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="paket" id="paket1" value="Reguler (Fresh Coffee)">
-              <label class="form-check-label" for="paket1"><i class="bi bi-box"></i> Reguler (Fresh Coffee)</label>
+    <!-- ==== LAYANAN ==== -->
+    <div class="card tab-content" id="contentLayanan" style="display:none;">
+        @foreach ($layanans ?? [] as $layanan)
+            <div class="radio-item">
+                <div class="left">
+                    @if(Str::contains(strtolower($layanan->namaLayanan), 'express'))
+                        <img src="Expresslogo.png" alt="express">
+                    @else
+                        <img src="regularlogo.png" alt="regular">
+                    @endif
+                    <div>{{ $layanan->namaLayanan }}</div>
+                </div>
+                <input type="radio" name="layanan" value="{{ $layanan->idLayanan }}">
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="paket" id="paket2" value="Express (Fresh Coffee)">
-              <label class="form-check-label" for="paket2"><i class="bi bi-box"></i> Express (Fresh Coffee)</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="paket" id="paket3" value="Reguler (Vanilla)">
-              <label class="form-check-label" for="paket3"><i class="bi bi-box"></i> Reguler (Vanilla)</label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="paket" id="paket4" value="Express (Vanilla)">
-              <label class="form-check-label" for="paket4"><i class="bi bi-box"></i> Express (Vanilla)</label>
-            </div>
-          </div>
-
-          <div class="text-center btn-checkout">
-            <button class="btn btn-primary rounded-pill px-5" type="submit">Checkout</button>
-          </div>
-        </div>
-      </div>
-    </form>
-
-    <div class="mt-4 text-start">
-      <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
-        <i class="bi bi-arrow-left"></i> Kembali
-      </a>
+        @endforeach
     </div>
-  </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ==== TOMBOL PESAN ==== -->
+    <button id="btnPesan" class="btn-pesan">Pesan Sekarang</button>
 
-  <!-- Script Tombol +/- -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.quantity-control').forEach(function(group) {
-        let minus = group.querySelector('.minus');
-        let plus = group.querySelector('.plus');
-        let quantity = group.querySelector('.quantity');
-        let input = group.parentElement.querySelector('.quantity-input');
+    <script>
+        // === TAB SWITCH ===
+        const tabKategori = document.getElementById('tabKategori');
+        const tabLayanan = document.getElementById('tabLayanan');
+        const contentKategori = document.getElementById('contentKategori');
+        const contentLayanan = document.getElementById('contentLayanan');
 
-        plus.addEventListener('click', function() {
-          let value = parseInt(quantity.textContent);
-          value++;
-          quantity.textContent = value;
-          input.value = value;
+        tabKategori.addEventListener('click', () => {
+            tabKategori.classList.add('active');
+            tabLayanan.classList.remove('active');
+            contentKategori.style.display = 'block';
+            contentLayanan.style.display = 'none';
         });
 
-        minus.addEventListener('click', function() {
-          let value = parseInt(quantity.textContent);
-          if (value > 0) {
-            value--;
-            quantity.textContent = value;
-            input.value = value;
-          }
+        tabLayanan.addEventListener('click', () => {
+            tabLayanan.classList.add('active');
+            tabKategori.classList.remove('active');
+            contentKategori.style.display = 'none';
+            contentLayanan.style.display = 'block';
         });
-      });
-    });
-  </script>
 
-  <button type="button" class="btn btn-success rounded-pill px-4" id="simpanAlamat">
-  <i class="bi bi-check2-circle"></i> Simpan
-</button>
+        // === COUNTER ===
+        const plusButtons = document.querySelectorAll('.plus');
+        const minusButtons = document.querySelectorAll('.minus');
+        let kategoriDipilih = false;
 
-<script>
-  document.getElementById('simpanAlamat').addEventListener('click', function () {
-    document.querySelector('form').submit();
-  });
-</script>
+        plusButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                let span = btn.parentElement.querySelector('span');
+                span.textContent = parseInt(span.textContent) + 1;
+                checkKategori();
+            });
+        });
 
+        minusButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                let span = btn.parentElement.querySelector('span');
+                let val = parseInt(span.textContent);
+                if (val > 0) span.textContent = val - 1;
+                checkKategori();
+            });
+        });
 
+        function checkKategori() {
+            kategoriDipilih = Array.from(document.querySelectorAll('.counter span'))
+                .some(s => parseInt(s.textContent) > 0);
+            checkPesanButton();
+        }
+
+        // === RADIO ===
+        let layananDipilih = false;
+        const radios = document.querySelectorAll('input[name="layanan"]');
+        radios.forEach(r => {
+            r.addEventListener('change', () => {
+                layananDipilih = true;
+                checkPesanButton();
+            });
+        });
+
+        // === BUTTON PESAN ===
+        const btnPesan = document.getElementById('btnPesan');
+        function checkPesanButton() {
+            if (kategoriDipilih && layananDipilih) {
+                btnPesan.classList.add('active');
+                btnPesan.disabled = false;
+            } else {
+                btnPesan.classList.remove('active');
+                btnPesan.disabled = true;
+            }
+        }
+
+        btnPesan.addEventListener('click', () => {
+            if (btnPesan.classList.contains('active')) {
+                alert("Lanjut ke pembayaran...");
+                // window.location.href = '/checkout';
+            }
+        });
+    </script>
+
+    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    
 </body>
-
 </html>

@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Verifikasi Pesanan - Kurir | IVA Laundry</title>
+    <title>Lihat Data Pesanan - IVA Laundry</title>
 
     @if (session('role') !== 'kurir')
     <script>
-    window.location.href = "{{ route('login.show') }}";
+        window.location.href = "{{ route('login.show') }}";
     </script>
     @endif
 
@@ -17,110 +17,153 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-        min-height: 100vh;
-    }
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+            min-height: 100vh;
+        }
 
-    footer {
-        text-align: center;
-        padding: 15px 0;
-        font-weight: 600;
-        color: #2d4b74;
-    }
+        h2 {
+            text-align: center;
+            font-weight: 700;
+            color: #2d4b74;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
 
-    .card {
-        border-radius: 15px;
-    }
+        .pesanan-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #dbe8ec;
+            border-radius: 40px;
+            padding: 18px 25px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    .header-bg {
-        background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
-        border-radius: 15px;
-    }
+        .pesanan-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
 
-    .offcanvas-body a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 15px;
-        margin-bottom: 8px;
-        border-radius: 12px;
-        text-decoration: none;
-        color: #2d4b74;
-        transition: 0.3s;
-    }
+        .pesanan-info h5 {
+            color: #4273b8;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
 
-    .offcanvas-body a:hover {
-        background-color: #7ba6e0;
-        color: #fff;
-    }
+        .pesanan-info small {
+            color: #d65a50;
+            font-weight: 500;
+        }
 
-    .logout-btn {
-        background-color: #dce3e8;
-        color: red;
-        font-weight: bold;
-        border-radius: 12px;
-        padding: 8px 20px;
-        border: none;
-        width: 100%;
-        text-align: center;
-        margin-top: 15px;
-    }
+        .status {
+            padding: 6px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+        }
 
-    .logout-btn:hover {
-        background-color: #f8d7da;
-        color: #a00;
-    }
+        .status-proses {
+            background-color: #f4b400;
+            color: white;
+        }
+
+        .status-diantar {
+            background-color: #64b5f6;
+            color: white;
+        }
+
+        .status-selesai {
+            background-color: #8bc34a;
+            color: white;
+        }
+
+        /* 🔹 Tombol kembali di pojok kiri bawah */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #4273b8;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .btn-back:hover {
+            background-color: #315b94;
+            transform: scale(1.08);
+        }
     </style>
 </head>
 
 <body>
+
+    {{-- Include sidenav untuk kurir --}}
     @include('Dashboard.kurir_sidenav')
 
-    <!-- Header -->
-    <div class="text-center p-4 mb-4 header-bg text-light shadow-sm">
-        <h1 class="fw-bold" style="font-size:3rem; text-shadow:2px 2px 4px #000;">
-            Verifikasi<br>Pesanan
-        </h1>
-    </div>
-
     <div class="container">
+        <h2>Lihat Data Pesanan</h2>
 
-        @foreach($pesanan as $p)
-        <a href="/detailVer/{{ $p->idPesanan }}" class="text-decoration-none text-dark">
-            <div class="card shadow-sm mb-3 border-0">
-                <div class="card-body bg-info-subtle rounded-4">
-                    <!-- Nama pelanggan -->
-                    <h5 class="fw-semibold mb-0">{{ $p->pelanggan->namaPelanggan }}</h5>
-
-                    <!-- Username (ambil sebelum tanda @) -->
-                    <small class="text-muted d-block">
-                        {{ '@' . explode('@', $p->pelanggan->email)[0] }}
-                    </small>
-
-                    <!-- Tanggal selesai -->
-                    <small class="text-danger fw-semibold">
-                        {{ $p->tanggalMasuk ? \Carbon\Carbon::parse($p->tanggalSelesai)->format('d/m/Y') : '-' }}
-                    </small>
-                </div>
+        <!-- Contoh pesanan -->
+        <div class="pesanan-card">
+            <div class="pesanan-info">
+                <h5>Maria Petra</h5>
+                <small>01/05/2025</small>
             </div>
-        </a>
-        @endforeach
-
-        @if($pesanan->isEmpty())
-        <div class="alert alert-info text-center rounded-4">
-            Belum ada pesanan.
+            <span class="status status-proses">Proses</span>
         </div>
-        @endif
 
-        <!-- Tombol kembali -->
-        <div class="mb-3">
-            <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
-                <i class="bi bi-arrow-left"></i> Kembali
-            </a>
+        <div class="pesanan-card">
+            <div class="pesanan-info">
+                <h5>Agus Setiawan</h5>
+                <small>28/04/2025</small>
+            </div>
+            <span class="status status-diantar">Diantar</span>
+        </div>
+
+        <div class="pesanan-card">
+            <div class="pesanan-info">
+                <h5>Sinta Rahayu</h5>
+                <small>24/04/2025</small>
+            </div>
+            <span class="status status-selesai">Selesai</span>
+        </div>
+
+        <div class="pesanan-card">
+            <div class="pesanan-info">
+                <h5>Andi Pratama</h5>
+                <small>23/04/2025</small>
+            </div>
+            <span class="status status-proses">Proses</span>
+        </div>
+
+        <div class="pesanan-card">
+            <div class="pesanan-info">
+                <h5>Nina Dewi</h5>
+                <small>22/04/2025</small>
+            </div>
+            <span class="status status-diantar">Diantar</span>
         </div>
     </div>
+
+    <!--Tombol kembali di pojok kiri bawah -->
+    <a href="{{ route('dashboard.kurir') }}" class="btn-back" title="Kembali">
+        <i class="bi bi-arrow-left"></i>
+    </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

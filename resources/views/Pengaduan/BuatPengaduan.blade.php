@@ -120,39 +120,30 @@
     button {
       border-radius: 8px;
     }
+
+    .btn-back {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      background-color: #8ab2d3ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      transition: 0.3s;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
-
-      <!-- Tombol Toggle Sidebar -->
-      <button class="btn text-white me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-        aria-controls="sidebar">
-        <i class="bi bi-list fs-3"></i>
-      </button>
-
-    </div>
-  </nav>
-
-  <!-- Sidebar Offcanvas -->
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body d-flex flex-column">
-      <a href="#"><i class="bi bi-house"></i> Dashboard</a>
-      <a href="#"><i class="bi bi-basket2-fill"></i> Pesan Laundry</a>
-      <a href="#"><i class="bi bi-chat-dots"></i> Pengaduan</a>
-      <form method="POST" action="{{ route('logout') }}" class="mt-auto">
-        @csrf
-        <button type="submit" class="logout-btn mt-3">Keluar</button>
-      </form>
-    </div>
-  </div>
+  @include('Dashboard.pelanggan_sidenav')
 
   <!-- Konten -->
   <div class="content">
@@ -183,6 +174,11 @@
       </form>
     </div>
   </div>
+
+  <!-- tombol kembali -->
+  <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+    <i class="bi bi-arrow-left"></i>
+  </a>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

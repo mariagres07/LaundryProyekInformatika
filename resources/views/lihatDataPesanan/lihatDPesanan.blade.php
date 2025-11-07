@@ -4,158 +4,205 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pesanan - Kurir | IVA Laundry</title>
-
-    <!--@if (session('role') !== 'kurir')
-    <script>
-    window.location.href = "{{ route('login.show') }}";
-    </script>
-    @endif-->
+    <title>Lihat Data Pesanan - IVA Laundry</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        * {
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-            min-height: 100vh;
+            background-color: #eaf6ff;
+            margin: 0;
+            padding: 0;
         }
 
-        footer {
-            text-align: center;
-            padding: 15px 0;
-            font-weight: 600;
-            color: #2d4b74;
-        }
-
-        .offcanvas-body a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 15px;
-            margin-bottom: 8px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #2d4b74;
-            transition: 0.3s;
-        }
-
-        .offcanvas-body a:hover {
-            background-color: #7ba6e0;
-            color: #fff;
-        }
-
-        .logout-btn {
-            background-color: #dce3e8;
-            color: red;
-            font-weight: bold;
-            border-radius: 12px;
-            padding: 8px 20px;
-            border: none;
+        /* ==== HEADER WATER FRAME ==== */
+        .header-wrapper {
+            position: relative;
             width: 100%;
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .logout-btn:hover {
-            background-color: #f8d7da;
-            color: #a00;
-        }
-
-        .card {
-            border-radius: 15px;
+            height: 130px; /* dipendekkan dari 200px */
+            overflow: hidden;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 40px;
         }
 
         .header-bg {
-            background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
-            border-radius: 15px;
+            background-image: url('water.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.75);
+        }
+
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 700;
+            font-size: 34px;
+            text-align: left;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 700;
+            color: #2d4b74;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 10px;
+        }
+
+        .search-container input[type="date"] {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.95rem;
+        }
+
+        .search-container button {
+            background-color: #4273b8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 14px;
+            transition: 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #315b94;
+        }
+
+        .pesanan-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #dbe8ec;
+            border-radius: 40px;
+            padding: 18px 25px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .pesanan-info h5 {
+            color: #4273b8;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .pesanan-info small {
+            color: #d65a50;
+            font-weight: 500;
+        }
+
+        .status {
+            padding: 6px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+        }
+
+        .status-proses {
+            background-color: #f4b400;
+            color: white;
+        }
+
+        .status-diantar {
+            background-color: #64b5f6;
+            color: white;
+        }
+
+        .status-selesai {
+            background-color: #8bc34a;
+            color: white;
+        }
+
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-back:hover {
+            background-color: #315b94;
+            transform: scale(1.08);
         }
     </style>
 </head>
 
 <body>
 
-    @include('dashboard.kurir_sidenav')
+    @include('Dashboard.pelanggan_sidenav')
 
-    <!-- Header -->
-    <div class="container mt-4">
-        <div class="header-bg text-center py-4 mb-4 shadow-sm">
-            <h2 class="fw-bold text-primary" style="text-shadow:1px 1px white;">Pesanan</h2>
-        </div>
-
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
-
-                <!-- Tombol Toggle Sidebar -->
-                <button class="btn text-white me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-                    aria-controls="sidebar">
-                    <i class="bi bi-list fs-3"></i>
-                </button>
-
-            </div>
-        </nav>
-
-        <!-- Sidebar Offcanvas -->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
-            </div>
-            <div class="offcanvas-body d-flex flex-column">
-                <a href="#"><i class="bi bi-house"></i> Dashboard</a>
-                <a href="#"><i class="bi bi-basket2-fill"></i> Pesan Laundry</a>
-                <a href="#"><i class="bi bi-chat-dots"></i> Pengaduan</a>
-                <form method="POST" action="{{ route('logout') }}" class="mt-auto">
-                    @csrf
-                    <button type="submit" class="logout-btn mt-3">Keluar</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Daftar Pesanan -->
-        @php $adaProses = false; @endphp
-
-        @foreach($pesanan as $p)
-        {{-- @if($p->statusPesanan == 'Menunggu Penjemputan') --}}
-        {{-- @php $adaProses = true; @endphp --}}
-
-        <div class="card shadow-sm mb-3">
-            <div class="card-body d-flex justify-content-between align-items-center bg-info-subtle rounded-3">
-                <div>
-                    <h5 class="mb-0 fw-semibold">{{ $p->pelanggan->namaPelanggan }}</h5>
-                    <small class="text-muted">{{ $p->pelanggan->email }}</small><br>
-                    <small class="text-danger fw-semibold">
-                        {{ $p->tanggalMasuk ? \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') : '-' }}
-                    </small>
-                </div>
-
-                <a href="/lihat-detail/{{ $p->idPesanan }}" class="btn btn-warning fw-semibold rounded-3">
-                    Proses
-                </a>
-            </div>
-        </div>
-        @endif
-        @endforeach
-
-        @unless($adaProses)
-        <div class="alert alert-info text-center rounded-4">
-            Belum ada pesanan yang sedang diproses.
-        </div>
-        @endunless
-
-        <!-- Tombol kembali -->
-        <div class="mb-3">
-            <a href="{{ url()->previous() }}" class="btn btn-secondary rounded-pill px-4">
-                <i class="bi bi-arrow-left"></i> Kembali
-            </a>
+    <!-- HEADER DENGAN BACKGROUND WATER -->
+    <div class="header-wrapper">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            Lihat Data Pesanan
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container">
+
+        <!-- daftar pesanan dari database-->
+        @forelse($pesanan as $p)
+        <div class="pesanan-card">
+            <div class="pesanan-info">
+                <h5>{{ $p->pelanggan->namaPelanggan ?? 'Tidak diketahui' }}</h5>
+                <small>{{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}</small>
+            </div>
+
+            @if($p->statusPesanan == 'Menunggu Penjemputan')
+            <span class="status status-proses">Proses</span>
+            @elseif($p->statusPesanan == 'Menunggu Pengantaran')
+            <span class="status status-diantar">Diantar</span>
+            @elseif($p->statusPesanan == 'Selesai')
+            <span class="status status-selesai">Selesai</span>
+            @else
+            <span class="status">{{ $p->statusPesanan }}</span>
+            @endif
+        </div>
+        @empty
+        <p class="text-center text-muted">Belum ada data pesanan.</p>
+        @endforelse
+    </div>
+
+    <!-- tombol kembali -->
+    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+
 </body>
-
-
 </html>
