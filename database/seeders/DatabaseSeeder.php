@@ -73,11 +73,18 @@ class DatabaseSeeder extends Seeder
             'tanggalMasuk' => now(),
         ]);
 
-        $kategori = KategoriItem::create([
-            'namaKategori' => 'Pakaian',
-            'jumlahItem' => 3,
-            'hargaPerItem' => 5000,
-        ]);
+        $kategoriData = [
+            ['namaKategori' => 'Pakaian', 'jumlahItem' => 3, 'hargaPerItem' => 5000],
+            ['namaKategori' => 'Seprai', 'jumlahItem' => 2, 'hargaPerItem' => 7000],
+            ['namaKategori' => 'Handuk', 'jumlahItem' => 1, 'hargaPerItem' => 6000],
+            ['namaKategori' => 'Jas', 'jumlahItem' => 1, 'hargaPerItem' => 10000],
+        ];
+
+        foreach ($kategoriData as $data) {
+            KategoriItem::create($data);
+        }
+
+        $kategori = KategoriItem::first();
 
         $detail = DetailTransaksi::create([
             'idPesanan' => $pesanan->idPesanan,
