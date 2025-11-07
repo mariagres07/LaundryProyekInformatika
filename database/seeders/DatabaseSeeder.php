@@ -52,12 +52,21 @@ class DatabaseSeeder extends Seeder
             'email' => 'karyawan1@gmail.com',
         ]);
 
-        $layanan = Layanan::create([
-            'namaLayanan' => 'Express(Vanilla)',
-            'hargaPerKg' => 10000,
-            'estimasiHari' => 2,
-        ]);
+        // === Layanan (4 jenis) ===
+        $layananList = [
+            ['namaLayanan' => 'Express (Vanilla)', 'hargaPerKg' => 10000, 'estimasiHari' => 2],
+            ['namaLayanan' => 'Express', 'hargaPerKg' => 9000, 'estimasiHari' => 2],
+            ['namaLayanan' => 'Reguler (Vanilla)', 'hargaPerKg' => 8000, 'estimasiHari' => 4],
+            ['namaLayanan' => 'Reguler', 'hargaPerKg' => 7000, 'estimasiHari' => 4],
+        ];
 
+        foreach ($layananList as $data) {
+            Layanan::create($data);
+        }
+
+        $layanan = Layanan::first();
+
+        // === Pesanan ===
         $pesanan = Pesanan::create([
             'namaPesanan' => 'Pesanan 1',
             'idPelanggan' => $pelanggan->idPelanggan,
