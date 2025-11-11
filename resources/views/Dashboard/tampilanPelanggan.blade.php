@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IVA Laundry </title>
+    <title>IVA Laundry</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,28 +14,6 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f4f9ff;
-        }
-
-        /* Navbar */
-        .navbar {
-            background: #b9d7f2;
-        }
-
-        .navbar-brand {
-            color: #0d3b66 ;
-            font-weight: 600;
-        }
-
-        .navbar-nav .nav-link {
-            color: #0d3b66 !important;
-            font-weight: 500;
-            padding: 8px 12px;
-        }
-
-        .navbar-nav .nav-link.active,
-        .navbar-nav .nav-link:hover {
-            border-bottom: 3px solid #0d3b66;
-            color: #0d3b66 !important;
         }
 
         /* Hero Section */
@@ -137,27 +115,6 @@
 
     @include('Dashboard.pelanggan_sidenav')
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand">IVA Laundry</a>
-
-            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active">Beranda</a></li>
-                    <li class="nav-item"><a href="{{ route('pesanLaundry') }}" class="nav-link">Pesan Laundry</a></li>
-                    <li class="nav-item"><a href="{{ route('lihatdata.index') }}" class="nav-link">Lihat Pesanan</a></li>
-                    <li class="nav-item"><a href="{{ route('pengaduan.create') }}" class="nav-link">Buat Pengaduan</a></li>
-                    <li class="nav-item"><a href="{{ route('pelanggan.edit') }}" class="nav-link">Edit Profil</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <!-- Hero -->
     <section class="hero">
         <div class="container">
@@ -173,7 +130,7 @@
     <!-- Diskon -->
     <section class="discount">
         <div class="container">
-            <h2>Promo & Penawaran Khusus </h2>
+            <h2>Promo & Penawaran Khusus</h2>
 
             <div class="row justify-content-center">
                 <div class="col-md-4 mb-4">

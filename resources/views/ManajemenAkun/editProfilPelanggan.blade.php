@@ -16,16 +16,16 @@
         }
 
         .sidebar {
-            background-color: #64b5f6;
+            background-color: #b9d7f2;
             min-height: 100vh;
-            color: #fff;
+            color: #0d3b66;
             padding-top: 40px;
             position: fixed;
             width: 240px;
         }
 
         .sidebar a {
-            color: #cfd8ef;
+            color: #0d3b66;
             text-decoration: none;
             display: block;
             padding: 12px 20px;
@@ -36,7 +36,7 @@
 
         .sidebar a.active,
         .sidebar a:hover {
-            background-color: #1E4FA3;
+            background-color: #4a8fe7;
             color: #fff;
         }
 
@@ -84,8 +84,9 @@
             position: fixed;
             bottom: 25px;
             left: 25px;
-            background: #4a8fe7;
+            background-color: #8ab2d3ff;
             color: white;
+            border: none;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -93,13 +94,10 @@
             align-items: center;
             justify-content: center;
             font-size: 1.4rem;
-            text-decoration: none;
             transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-        }
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
-        .btn-back:hover {
-            background: #2e6edb;
         }
     </style>
 </head>
@@ -115,14 +113,10 @@
         <a href="{{ route('dashboard.pelanggan') }}">🏠 Dashboard</a>
         <a href="{{ route('pelanggan.edit') }}" class="active">👤 Profile</a>
         <a href="{{ route('lihatdata.index') }}">🧺 Status Laundry</a>
-        <a href="{{ route('logout') }}" style="color:#f8d7da;">🚪 Logout</a>
+        <a href="{{ route('logout') }}" style="color:#d64045;">🚪 Logout</a>
     </div>
 
-    <!-- Tombol Kembali -->
-    <a href="{{ url()->previous() }}" class="btn-back">
-        <i class="bi bi-arrow-left"></i>
-    </a>
-
+    
     <!-- Content -->
     <div class="content">
         <div class="card-custom mt-2">
@@ -158,6 +152,12 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label class="form-label">Alamat</label>
+                        <input type="text" name="alamat" class="form-control"
+                            value="{{ old('alamat', $pelanggan->alamat ?? '') }}" required>
+                    </div>
+
+                    <div class="col-md-6">
                         <label class="form-label">Nomor HP</label>
                         <input type="text" name="noHp" class="form-control"
                             value="{{ old('noHp', $pelanggan->noHp ?? '') }}" required>
@@ -176,7 +176,9 @@
             </form>
         </div>
     </div>
-
+        <a href="{{ url()->previous() }}" class="btn-back">
+        <i class="bi bi-arrow-left"></i>
+       </a>
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
