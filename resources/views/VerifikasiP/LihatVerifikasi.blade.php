@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lihat Data Pesanan - IVA Laundry</title>
+    <title>Verifikasi Pesanan - IVA Laundry</title>
 
     @if (session('role') !== 'kurir')
     <script>
@@ -82,7 +82,7 @@
             color: white;
         }
 
-        /* 🔹 Tombol kembali di pojok kiri bawah */
+        /* Tombol kembali */
         .btn-back {
             position: fixed;
             bottom: 25px;
@@ -107,60 +107,56 @@
             background-color: #315b94;
             transform: scale(1.08);
         }
+
+        .btn-detail {
+            background-color: #2d4b74;
+            color: white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .btn-detail:hover {
+            background-color: #1e3555;
+        }
     </style>
 </head>
 
 <body>
-
-    {{-- Include sidenav untuk kurir --}}
+    {{-- Sidebar kurir --}}
     @include('Dashboard.kurir_sidenav')
 
-    <div class="container">
-        <h2>Verifikasi Pesanan</h2>
+    <div class="container mt-4">
+        <h2>Daftar Pesanan Belum Diverifikasi</h2>
 
-        <!-- Contoh pesanan -->
+        @if (session('success'))
+        <div class="alert alert-success text-center">{{ session('success') }}</div>
+        @endif
+
+        @forelse ($pesanan as $p)
         <div class="pesanan-card">
             <div class="pesanan-info">
-                <h5>Maria Petra</h5>
-                <small>01/05/2025</small>
+                <h5>{{ $p->pelanggan->nama ?? 'Nama tidak diketahui' }}</h5>
+                <small>{{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}</small>
             </div>
-            <span class="status status-proses">Proses</span>
-        </div>
 
-        <div class="pesanan-card">
-            <div class="pesanan-info">
-                <h5>Agus Setiawan</h5>
-                <small>28/04/2025</small>
+            <div class="d-flex align-items-center gap-2">
+                <span class="status status-proses">{{ $p->statusPesanan }}</span>
+                <a href="{{ route('detail', $p->idPesanan) }}" class="btn-detail">
+                    Lihat Detail
+                </a>
             </div>
-            <span class="status status-diantar">Diantar</span>
         </div>
-
-        <div class="pesanan-card">
-            <div class="pesanan-info">
-                <h5>Sinta Rahayu</h5>
-                <small>24/04/2025</small>
-            </div>
-            <span class="status status-selesai">Selesai</span>
+        @empty
+        <div class="alert alert-info text-center mt-4">
+            Tidak ada pesanan yang perlu diverifikasi.
         </div>
-
-        <div class="pesanan-card">
-            <div class="pesanan-info">
-                <h5>Andi Pratama</h5>
-                <small>23/04/2025</small>
-            </div>
-            <span class="status status-proses">Proses</span>
-        </div>
-
-        <div class="pesanan-card">
-            <div class="pesanan-info">
-                <h5>Nina Dewi</h5>
-                <small>22/04/2025</small>
-            </div>
-            <span class="status status-diantar">Diantar</span>
-        </div>
+        @endforelse
     </div>
 
-    <!--Tombol kembali di pojok kiri bawah -->
+    <!-- Tombol kembali -->
     <a href="{{ route('dashboard.kurir') }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>

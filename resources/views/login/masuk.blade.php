@@ -132,6 +132,12 @@
       border: 1px solid #f3b6b0;
     }
 
+    .alert-danger ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
     @media (max-width: 700px) {
       .login-wrapper {
         width: 95%;

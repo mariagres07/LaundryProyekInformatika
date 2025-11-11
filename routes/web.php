@@ -90,7 +90,7 @@ Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('che
 // ===================== LAPORAN DAN VERIFIKASI =====================
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
-Route::get('/lihat-detail/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatDetail');
+Route::get('/lihatdata/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatdata.detail');
 
 Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
 Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
