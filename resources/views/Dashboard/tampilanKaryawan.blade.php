@@ -121,7 +121,6 @@
 </head>
 
 <body>
-    @include('Dashboard.karyawan_sidenav')
 
     <!-- HEADER -->
     <div class="header-wrapper">
@@ -207,7 +206,6 @@
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/dashboard.js') }}"></script>
     <script>
         // Ambil parameter URL (misalnya 'pengguna' dari ?tab=pengguna)
         const urlParams = new URLSearchParams(window.location.search);

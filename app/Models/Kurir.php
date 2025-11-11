@@ -20,13 +20,13 @@ class Kurir extends Model
         'namaKurir',
         'username',
         'noHp',
-        'email',
         'password',
-        'alamat',
         'email',
+        'alamat',
     ];
-  
-    public function pesanan(){
+
+    public function pesanan()
+    {
         return $this->hasMany(Pesanan::class, 'idKurir');
     }
 }

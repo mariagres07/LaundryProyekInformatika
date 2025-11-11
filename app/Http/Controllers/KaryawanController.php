@@ -68,7 +68,7 @@ class KaryawanController extends Controller
 
         $request->validate([
             'namaKaryawan' => 'required|string|max:100',
-            'username'     => 'required|string|max:50',
+            'username'     => 'required|string|max:50|unique:karyawan,username,' . $karyawan->idKaryawan . ',idKaryawan',
             'noHp'         => 'required|string|max:15',
             'email'        => 'required|email',
             'password' => [
@@ -101,7 +101,6 @@ class KaryawanController extends Controller
 
         return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil diperbarui!');
     }
-
     // hapus data
     public function destroy($idKaryawan)
     {
