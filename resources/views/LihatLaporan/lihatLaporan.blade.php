@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lihat Laporan</title>
 
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -22,7 +21,6 @@
       padding: 0;
     }
 
-    /* ==== HEADER WATER FRAME ==== */
     .header-wrapper {
       position: relative;
       width: 100%;
@@ -50,11 +48,9 @@
       color: white;
       font-weight: 700;
       font-size: 34px;
-      text-align: left;
       text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
     }
 
-    /* ==== FILTER DAN KONTEN ==== */
     .filter-box {
       margin: 2rem auto;
       background-color: #ffffff;
@@ -77,9 +73,9 @@
 
     .laporan-card:hover {
       transform: scale(1.01);
+      background-color: #d9e8ff;
     }
 
-    /* ==== TOMBOL KEMBALI ==== */
     .btn-back {
       position: fixed;
       bottom: 25px;
@@ -138,20 +134,22 @@
       </form>
 
       @forelse ($data as $row)
-      <div class="laporan-card">
-        <div>
-          <h5 class="fw-bold text-primary mb-1">
-            Tanggal: {{ \Carbon\Carbon::parse($row->tanggalPembayaran)->format('d M Y') }}
-          </h5>
-          <p class="mb-0 text-dark">ID Pembayaran: {{ $row->idTransaksiPembayaran ?? '-' }}</p>
-          <p class="mb-0 text-dark">ID Transaksi: {{ $row->idDetailTransaksi }}</p>
+      <a href="{{ route('laporan.index') }}">
+        <div class="laporan-card">
+          <div>
+            <h5 class="fw-bold text-primary mb-1">
+              Tanggal: {{ \Carbon\Carbon::parse($row->tanggalPembayaran)->format('d M Y') }}
+            </h5>
+            <p class="mb-0 text-dark">ID Pembayaran: {{ $row->idTransaksiPembayaran ?? '-' }}</p>
+            <p class="mb-0 text-dark">ID Transaksi: {{ $row->idDetailTransaksi }}</p>
+          </div>
+          <div>
+            <h5 class="fw-bold text-success">
+              Rp{{ number_format($row->totalPembayaran, 2, ',', '.') }}
+            </h5>
+          </div>
         </div>
-        <div>
-          <h5 class="fw-bold text-success">
-            Rp{{ number_format($row->totalPembayaran, 2, ',', '.') }}
-          </h5>
-        </div>
-      </div>
+      </a>
       @empty
       <div class="text-center text-muted mt-5">
         <p>Tidak ada laporan ditemukan.</p>
@@ -160,7 +158,6 @@
     </div>
   </div>
 
-  <!-- Tombol kembali -->
   <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
     <i class="bi bi-arrow-left"></i>
   </a>
