@@ -76,7 +76,7 @@
     <div class="container py-4">
         <div id="dashboard" class="row justify-content-center">
             <div class="col-md-4 mb-4">
-                <a href="{{ url('/lihatverifikasi') }}" class="text-decoration-none text-dark">
+                <a href="{{ route('lihatverifikasi.index') }}" class="text-decoration-none text-dark">
                     <div class="menu-card text-center p-4">
                         <i class="bi bi-list-check menu-icon"></i>
                         <h5 class="mt-2">Verifikasi Pesanan</h5>
@@ -85,7 +85,7 @@
             </div>
 
             <div class="col-md-4 mb-4">
-                <a href="{{ url('/lihatdata') }}" class="text-decoration-none text-dark">
+                <a href="{{ route('lihatdata.index') }}" class="text-decoration-none text-dark">
                     <div class="menu-card text-center p-4">
                         <i class="bi bi-list-ul menu-icon"></i>
                         <h5 class="mt-2">Pesanan</h5>

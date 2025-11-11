@@ -4,70 +4,78 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pesanan;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class ClihatPesanan extends Controller
 {
-    // Halaman daftar pesanan
     public function index()
     {
-        $user = Auth::user();
+        $role = Session::get('role');
+        
+        if (!$role) {
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
 
-        // Cek role user
-        if ($user->role === 'pelanggan') {
-            // Pelanggan hanya lihat pesanan miliknya
+        if ($role === 'pelanggan') {
+            $user = Session::get('pelanggan');
             $pesanan = Pesanan::with(['layanan', 'detailTransaksi.kategoriItem'])
                 ->where('idPelanggan', $user->idPelanggan)
                 ->orderBy('tanggalMasuk', 'desc')
                 ->get();
 
-            return view('lihatDataPesanan.pelanggan', compact('pesanan'));
+            return view('lihatDataPesanan.index.pelanggan', compact('pesanan', 'user'));
         }
 
-        if ($user->role === 'kurir') {
-            // Kurir lihat semua pesanan yang menunggu penjemputan
+        if ($role === 'kurir') {
+            $user = Session::get('kurir');
             $pesanan = Pesanan::with(['pelanggan', 'layanan', 'detailTransaksi.kategoriItem'])
-                ->where('statusPesanan', 'Menunggu Penjemputan')
+                ->where('statusPesanan', 'Menunggu Pengantaran')
                 ->orderBy('tanggalMasuk', 'desc')
                 ->get();
 
-            return view('lihatDataPesanan.kurir', compact('pesanan'));
+            return view('lihatDataPesanan.index.kurir', compact('pesanan', 'user'));
         }
 
-        if ($user->role === 'karyawan') {
-            // Karyawan lihat semua pesanan
+        if ($role === 'karyawan') {
+            $user = Session::get('karyawan');
             $pesanan = Pesanan::with(['pelanggan', 'layanan', 'detailTransaksi.kategoriItem'])
                 ->orderBy('tanggalMasuk', 'desc')
                 ->get();
 
-            return view('lihatDataPesanan.karyawan', compact('pesanan'));
+            return view('lihatDataPesanan.index.karyawan', compact('pesanan', 'user'));
         }
 
-        // Kalau role tidak dikenal
-        abort(403, 'Akses ditolak.');
+        return redirect()->route('login.show')->with('error', 'Role tidak valid.');
     }
 
-    // Detail pesanan
     public function lihatDetail($id)
     {
-        $user = Auth::user();
+        $role = Session::get('role');
+        
+        if (!$role) {
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
 
-        // Ambil satu pesanan berdasarkan id
+        $user = Session::get($role); // pelanggan, kurir, atau karyawan
+
+        if (!$user) {
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Ambil data pesanan
         $pesanan = Pesanan::with(['pelanggan', 'layanan', 'detailTransaksi.kategoriItem'])
             ->findOrFail($id);
 
-        // Validasi tambahan (kalau pelanggan, hanya boleh lihat pesanan miliknya)
-        if ($user->role === 'pelanggan' && $pesanan->idPelanggan !== $user->idPelanggan) {
-            abort(403, 'Anda tidak boleh melihat pesanan ini.');
+        // Authorization check
+        if ($role === 'pelanggan' && $pesanan->idPelanggan !== $user->idPelanggan) {
+            abort(403, 'Anda hanya bisa melihat pesanan sendiri.');
         }
 
-        // Pilih view sesuai role
-        if ($user->role === 'kurir') {
-            return view('lihatDataPesanan.detail_kurir', compact('pesanan'));
-        } elseif ($user->role === 'karyawan') {
-            return view('lihatDataPesanan.detail_karyawan', compact('pesanan'));
-        } else {
-            return view('lihatDataPesanan.detail_pelanggan', compact('pesanan'));
+        if ($role === 'kurir' && $pesanan->statusPesanan !== 'Menunggu Pengantaran') {
+            abort(403, 'Kurir hanya bisa melihat pesanan yang menunggu pengantaran.');
         }
+
+        // Return view detail berdasarkan role
+        return view("lihatDataPesanan.detail.{$role}", compact('pesanan', 'user'));
     }
 }

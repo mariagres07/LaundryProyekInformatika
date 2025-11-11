@@ -59,7 +59,6 @@
       font-size: 18px;
     }
 
-    /* ✅ Menyamakan style untuk semua input */
     input[type="text"],
     input[type="email"],
     input[type="password"] {
@@ -72,14 +71,12 @@
       background-color: #fff;
     }
 
-    /* Efek saat fokus */
     input:focus {
       border-color: #7bbde8;
       box-shadow: 0 0 8px rgba(123, 189, 232, 0.4);
       outline: none;
     }
 
-    /* Efek hover */
     input:hover {
       border-color: #9bcdf0;
     }
@@ -135,6 +132,12 @@
       border: 1px solid #f3b6b0;
     }
 
+    .alert-danger ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
     @media (max-width: 700px) {
       .login-wrapper {
         width: 95%;
@@ -161,19 +164,17 @@
     <h2>Masuk</h2>
     <p>Silakan masuk dengan akun Iva Laundry Anda.</p>
 
-    {{-- Pesan sukses --}}
+    <!-- Pesan sukses -->
     @if(session('success'))
     <div class="alert-success">{{ session('success') }}</div>
     @endif
 
-    {{-- Pesan error --}}
+    <!-- Pesan error -->
     @if($errors->any())
     <div class="alert-danger">
-      <ul>
-        @foreach($errors->all() as $err)
-        <li>{{ $err }}</li>
-        @endforeach
-      </ul>
+      @foreach($errors->all() as $err)
+      <p style="margin: 0;">{{ $err }}</p>
+      @endforeach
     </div>
     @endif
 
