@@ -17,7 +17,6 @@
     }
 
     .header {
-        /* PENTING: Ganti 'water.jpg' dengan path gambar Anda, atau gunakan URL online */
         background-image: url('water.jpg');
         background-size: cover;
         background-position: center;
@@ -43,7 +42,6 @@
 
     .btn-custom:hover {
         background-color: #002244;
-        /* Biru lebih tua */
     }
 
     .top-bar {
