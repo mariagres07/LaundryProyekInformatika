@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kurir;
+use Illuminate\Support\Facades\Hash;
 
 class KurirController extends Controller
 {
@@ -28,7 +29,16 @@ class KurirController extends Controller
             'username'  => 'required|string|max:255|unique:kurir,username',
             'noHp'      => 'required|string|max:15',
             'email'     => 'required|email|unique:kurir,email',
-            'password'  => 'required|min:6',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // minimal 8 karakter
+                'regex:/[A-Z]/', // ada huruf besar
+                'regex:/[a-z]/', // ada huruf kecil
+                'regex:/[0-9]/', // ada angka
+                'regex:/[@$!%*?&#]/', // ada simbol spesial
+                'confirmed'
+            ],
             'alamat'    => 'required|string',
         ]);
 
@@ -37,7 +47,7 @@ class KurirController extends Controller
             'username'  => $request->username,
             'noHp'      => $request->noHp,
             'email'     => $request->email,
-            'password'  => bcrypt($request->password),
+            'password'  => Hash::make($request->password),
             'alamat'    => $request->alamat,
         ]);
 
@@ -45,37 +55,45 @@ class KurirController extends Controller
     }
 
     // Halaman form edit kurir
-    public function edit($idKurir)
+    public function edit(Kurir $kurir)
     {
-        $kurir = Kurir::findOrFail($idKurir);
+        // $kurir = Kurir::findOrFail($idKurir);
         return view('ManajemenAkun.editKurir', compact('kurir'));
     }
 
     // Update data kurir
-    public function update(Request $request, $idKurir)
+    public function update(Request $request, Kurir $kurir)
     {
-        $kurir = Kurir::findOrFail($idKurir);
-
         $request->validate([
             'namaKurir' => 'required|string|max:255',
-            'username'  => 'required|string|max:255|unique:kurir,username,' . $idKurir . ',idKurir',
+            'username'  => 'required|string|max:255|unique:kurir,username,' . $kurir->idKurir . ',idKurir',
             'noHp'      => 'required|string|max:15',
-            'email'     => 'required|email|unique:kurir,email,' . $idKurir . ',idKurir',
-            'password'  => 'nullable|min:6',
+            'email'     => 'required|email|unique:kurir,email,' . $kurir->idKurir . ',idKurir',
+            'password'  => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
+            ],
             'alamat'    => 'required|string',
         ]);
 
-        $kurir->namaKurir = $request->namaKurir;
-        $kurir->username  = $request->username;
-        $kurir->noHp      = $request->noHp;
-        $kurir->email     = $request->email;
-        $kurir->alamat    = $request->alamat;
+        $kurir->update([
+            'namaKurir' => $request->namaKurir,
+            'username'  => $request->username,
+            'noHp'      => $request->noHp,
+            'email'     => $request->email,
+            'alamat'    => $request->alamat,
+        ]);
 
+        // Update password jika diisi
         if ($request->filled('password')) {
-            $kurir->password = bcrypt($request->password);
+            $kurir->password = Hash::make($request->password);
+            $kurir->save();
         }
-
-        $kurir->save();
 
         return redirect('/mkurir')->with('success', 'Data kurir berhasil diperbarui!');
     }
@@ -84,8 +102,8 @@ class KurirController extends Controller
     public function hapus($idKurir)
     {
         $kurir = Kurir::findOrFail($idKurir);
+        // jika ada relasi yang mencegah penghapusan, tangani relasi tersebut sebelum delete
         $kurir->delete();
-
         return redirect('/mkurir')->with('success', 'Kurir berhasil dihapus!');
     }
 }

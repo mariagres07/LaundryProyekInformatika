@@ -59,25 +59,29 @@
             <form method="POST" action="{{ url('/mkurir/update/'.$kurir->idKurir) }}">
                 @csrf
                 @method('PUT')
-
                 <div class="mb-3">
                     <label class="form-label">Nama Lengkap *</label>
-                    <input type="text" name="namaKurir" class="form-control" value="{{ $kurir->namaKurir }}" required>
+                    <input type="text" name="namaKurir" class="form-control" value="{{ old('namaKurir', $kurir->namaKurir ?? '') }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Username *</label>
-                    <input type="text" name="username" class="form-control" value="{{ $kurir->username }}" required>
+                    <input type="text" name="username" class="form-control" value="{{ old('username', $kurir->username ?? '') }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">No HP *</label>
-                    <input type="text" name="noHp" class="form-control" value="{{ $kurir->noHp }}" required>
+                    <input type="text" name="noHp" class="form-control" value="{{ old('noHp',$kurir->noHp ?? '') }}" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Email *</label>
-                    <input type="email" name="email" class="form-control" value="{{ $kurir->email }}" required>
+                    <input type="email" name="email" class="form-control 
+                    @error('email') is-invalid @enderror" 
+                    value="{{ old('email', $kurir->email ?? '') }}" required>
+                    @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <ul id="password-rules">
@@ -89,12 +93,13 @@
         </ul>
                 <div class="mb-3">
                     <label class="form-label">Password *</label>
-                    <input type="password" name="password" class="form-control" value="{{ $kurir->password }}" required>
+                    {{-- <input type="password" name="password" class="form-control" value="{{ old('password', $kurir->password }}" required> --}}
+                    <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak diubah">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Alamat *</label>
-                    <textarea name="alamat" class="form-control" rows="3" required>{{ $kurir->alamat }}</textarea>
+                    <textarea name="alamat" class="form-control" rows="3" required>{{ old('alanat', $kurir->alamat ?? '') }}</textarea>
                 </div>
 
                 <div class="d-flex justify-content-between">

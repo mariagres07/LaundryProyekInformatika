@@ -16,62 +16,6 @@
             min-height: 100vh;
         }
 
-        /* Navbar */
-        .navbar {
-            background-color: #7BBDE8;
-        }
-
-        .navbar-brand {
-            color: white !important;
-            font-weight: bold;
-        }
-
-        .navbar-toggler {
-            border: none;
-        }
-
-        .navbar-toggler:focus {
-            box-shadow: none;
-        }
-
-        /* Sidebar */
-        .offcanvas {
-            background-color: #7ba6e0;
-            color: white;
-            width: 230px !important;
-        }
-
-        .offcanvas a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            transition: background-color 0.3s;
-        }
-
-        .offcanvas a:hover {
-            background-color: #5a8cd6;
-        }
-
-        .logout-btn {
-            background-color: #f8d7da;
-            color: red;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            padding: 8px;
-            width: 100%;
-        }
-
-        .logout-btn:hover {
-            background-color: #f1b0b7;
-        }
-
-        /* Konten Utama */
         .content {
             padding: 100px 30px;
             display: flex;
@@ -79,8 +23,7 @@
             align-items: center;
         }
 
-        /* Card Detail */
-        .detail-container {
+        .form-container {
             background: white;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
@@ -89,90 +32,129 @@
             max-width: 1100px;
         }
 
-        .detail-container h3 {
+        .form-container h3 {
             text-align: center;
             color: #2d4b74;
             font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .form-container p.desc {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
             margin-bottom: 25px;
         }
 
-        .badge {
-            font-size: 14px;
-            padding: 6px 10px;
+        .text-label {
+            font-weight: 600;
+            color: #2D4B74;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
             border-radius: 8px;
         }
 
-        .alert {
-            border-radius: 10px;
+        button {
+            border-radius: 8px;
         }
 
-        textarea {
-            border-radius: 8px;
+        /* Tombol kembali */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 
 <body>
+
+    {{-- Sidenav Karyawan --}}
     @include('Dashboard.karyawan_sidenav')
 
-    <!-- Konten -->
     <div class="content">
-        <div class="detail-container">
+        <div class="form-container">
+
             <h3>Detail Pengaduan</h3>
+            <p class="desc">Informasi lengkap mengenai pengaduan dari pelanggan 📄</p>
 
+            <!-- Nama Pelanggan -->
             <div class="mb-3">
-                <h5 class="fw-bold text-primary">{{ $pengaduan->judulPengaduan }}</h5>
-                <p class="text-muted mb-1">
-                    Dari: <strong>{{ $pengaduan->pelanggan->namaPelanggan ?? 'Anonim' }}</strong> |
-                    Tanggal: {{ \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d/m/Y') }}
-                </p>
-                <span
-                    class="badge @if($pengaduan->statusPengaduan == 'Selesai') bg-success @elseif($pengaduan->statusPengaduan == 'Ditanggapi') bg-warning text-dark @else bg-secondary @endif">
-                    {{ $pengaduan->statusPengaduan }}
-                </span>
+                <label class="text-label">Nama Pelanggan:</label>
+                <input type="text" class="form-control" value="{{ $pengaduan->pelanggan->nama ?? '-' }}" readonly>
             </div>
 
-            <div class="mb-4 p-3 bg-light rounded">
-                <p class="mb-0">{{ $pengaduan->deskripsi }}</p>
+            <!-- Judul -->
+            <div class="mb-3">
+                <label class="text-label">Judul Pengaduan:</label>
+                <input type="text" class="form-control" value="{{ $pengaduan->judulPengaduan }}" readonly>
             </div>
 
-            @if(!$pengaduan->tanggapanPengaduan)
-            <form action="{{ route('pengaduan.kirim', $pengaduan->idPengaduan) }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label for="pesan" class="form-label fw-bold">Tanggapan:</label>
-                    <textarea name="pesan" id="pesan" class="form-control" rows="4" required></textarea>
-                </div>
-                <div class="d-flex justify-content-end gap-2">
-                    <button type="submit" class="btn btn-primary px-4">
-                        <i class="bi bi-send"></i> Kirim
-                    </button>
-                    <a href="{{ route('pengaduan.index') }}" class="btn btn-secondary px-4">
-                        <i class="bi bi-arrow-left"></i> Kembali
-                    </a>
-                </div>
-            </form>
-            @else
-            <div class="alert alert-info mt-4">
-                <i class="bi bi-chat-left-quote me-2"></i>
-                <strong>Tanggapan:</strong> {{ $pengaduan->tanggapanPengaduan }}
+            <!-- Deskripsi -->
+            <div class="mb-3">
+                <label class="text-label">Deskripsi Pengaduan:</label>
+                <textarea class="form-control" rows="5" readonly>{{ $pengaduan->isiPengaduan }}</textarea>
             </div>
-            <div class="text-end mt-3">
-                <a href="{{ route('pengaduan.index') }}" class="btn btn-secondary px-4">
-                    <i class="bi bi-arrow-left"></i> Kembali
+
+            <!-- Tanggal -->
+            <div class="mb-3">
+                <label class="text-label">Tanggal Pengaduan:</label>
+                <input type="text" class="form-control"
+                    value="{{ $pengaduan->created_at ? $pengaduan->created_at->format('d M Y, H:i') : '-' }}" readonly>
+            </div>
+
+            <!-- Lampiran -->
+            @if($pengaduan->lampiran)
+            <div class="mb-3">
+                <label class="text-label">Lampiran:</label><br>
+                <a href="{{ asset('storage/pengaduan/' . $pengaduan->lampiran) }}" target="_blank"
+                    class="btn btn-info btn-sm">
+                    <i class="bi bi-file-earmark"></i> Lihat Lampiran
                 </a>
             </div>
             @endif
+
+            <!-- Form tanggapan SELALU tampil -->
+            <form action="{{ route('pengaduan.kirim', $pengaduan->idPengaduan) }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label class="text-label" for="tanggapan">Tanggapi Pengaduan *</label>
+                    <textarea name="tanggapan" id="tanggapan" rows="4" class="form-control" required
+                        placeholder="Tuliskan tanggapan di sini...">{{ old('tanggapan', $pengaduan->tanggapanPengaduan) }}</textarea>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-5 py-2">
+                        <i class="bi bi-send"></i> Kirim Tanggapan
+                    </button>
+                </div>
+            </form>
+
         </div>
     </div>
 
-    <!-- tombol kembali -->
+    <!-- Tombol Kembali -->
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

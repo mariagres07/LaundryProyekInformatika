@@ -32,6 +32,8 @@ class RegisterController extends Controller
                     'regex:/[@$!%*?&#]/', // ada simbol spesial
                     'confirmed'
                 ],
+                'alamat' => 'nullable|string|max:500',
+                'noHp' => 'nullable|string|max:13',
             ],
             [
                 'password.min' => 'Password minimal 8 karakter.',
@@ -48,8 +50,8 @@ class RegisterController extends Controller
             'username'       => $validated['username'],
             'email'          => $validated['email'],
             'password'       => Hash::make($validated['password']),
-            'alamat'         => '',
-            'noHp'           => '',
+            'alamat'         => $validated['alamat'],
+            'noHp'           => $validated['noHp'],
             'otp'            => $otp,
             'otp_expires_at' => now()->addMinutes(5),
             'is_verified'    => false,

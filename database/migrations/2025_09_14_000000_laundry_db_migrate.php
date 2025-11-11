@@ -32,7 +32,7 @@ return new class extends Migration
             $table->dateTime('otp_expires_at')->nullable();
             $table->boolean('is_verified')->default(false);
             $table->string('alamat')->nullable();
-            $table->string('noHp')->nullable();
+            $table->string('noHp', 13)->nullable();
         });
 
         Schema::create('karyawan', function (Blueprint $table) {

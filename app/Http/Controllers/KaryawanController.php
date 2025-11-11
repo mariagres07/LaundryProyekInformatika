@@ -29,7 +29,16 @@ class KaryawanController extends Controller
             'username'     => 'required|string|max:50|unique:karyawan,username',
             'noHp'         => 'required|string|max:15',
             'email'        => 'required|email|unique:karyawan,email',
-            'password'     => 'required|string|min:6',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // minimal 8 karakter
+                'regex:/[A-Z]/', // ada huruf besar
+                'regex:/[a-z]/', // ada huruf kecil
+                'regex:/[0-9]/', // ada angka
+                'regex:/[@$!%*?&#]/', // ada simbol spesial
+                'confirmed'
+            ],
             'alamat'       => 'required|string'
         ]);
 
@@ -46,29 +55,31 @@ class KaryawanController extends Controller
     }
 
     // Form edit
-    public function edit($id)
+    public function edit(Karyawan $karyawan)
     {
-        $karyawan = Karyawan::findOrFail($id);
         return view('ManajemenAkun.editKaryawan', compact('karyawan'));
     }
 
     //  Update data
-    public function update(Request $request, $id)
+    public function update(Request $request, Karyawan $karyawan)
     {
-        $karyawan = Karyawan::findOrFail($id);
-
         $request->validate([
             'namaKaryawan' => 'required|string|max:100',
-            'username'     => 'required|string|max:50',
+            'username'     => 'required|string|max:50|unique:karyawan,username,' . $karyawan->idKaryawan . ',idKaryawan',
             'noHp'         => 'required|string|max:15',
-            'email'        => 'required|email',
+            'email'        => 'required|email|unique:karyawan,email,' . $karyawan->idKaryawan . ',idKaryawan',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
+                'confirmed'
+            ],
             'alamat'       => 'required|string'
         ]);
-
-        // Jika user mengganti password
-        if ($request->filled('password')) {
-            $karyawan->password = Hash::make($request->password);
-        }
 
         $karyawan->update([
             'namaKaryawan' => $request->namaKaryawan,
@@ -78,15 +89,17 @@ class KaryawanController extends Controller
             'alamat'       => $request->alamat,
         ]);
 
-        $karyawan->save();
+        // ✅ Update password hanya jika diisi
+        if ($request->filled('password')) {
+            $karyawan->password = Hash::make($request->password);
+            $karyawan->save();
+        }
 
         return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil diperbarui!');
     }
-
     // hapus data
-    public function destroy($id)
+    public function destroy(Karyawan $karyawan)
     {
-        $karyawan = Karyawan::findOrFail($id);
         $karyawan->delete();
 
         return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil dihapus!');
