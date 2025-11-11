@@ -28,7 +28,16 @@ class KurirController extends Controller
             'username'  => 'required|string|max:255|unique:kurir,username',
             'noHp'      => 'required|string|max:15',
             'email'     => 'required|email|unique:kurir,email',
-            'password'  => 'required|min:6',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // minimal 8 karakter
+                'regex:/[A-Z]/', // ada huruf besar
+                'regex:/[a-z]/', // ada huruf kecil
+                'regex:/[0-9]/', // ada angka
+                'regex:/[@$!%*?&#]/', // ada simbol spesial
+                'confirmed'
+            ],
             'alamat'    => 'required|string',
         ]);
 
