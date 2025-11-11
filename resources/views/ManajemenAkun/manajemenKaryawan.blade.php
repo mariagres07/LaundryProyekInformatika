@@ -10,62 +10,86 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    body {
-        margin: 0;
-        background-color: #f4f7f6;
-        font-family: Arial, sans-serif;
-    }
+        body {
+            margin: 0;
+            background-color: #f4f7f6;
+            font-family: Arial, sans-serif;
+        }
 
-    .header {
-        /* PENTING: Ganti 'water.jpg' dengan path gambar Anda, atau gunakan URL online */
-        background-image: url('water.jpg');
-        background-size: cover;
-        background-position: center;
-        padding: 30px;
-        color: white;
-        font-size: 36px;
-        font-weight: bold;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    }
+        .header {
+            /* PENTING: Ganti 'water.jpg' dengan path gambar Anda, atau gunakan URL online */
+            background-image: url('water.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 30px;
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
 
-    .btn-custom {
-        background-color: #003366;
-        /* Biru tua */
-        color: white;
-        border-radius: 30px;
-        padding: 10px 30px;
-        font-size: 16px;
-        font-weight: bold;
-        margin: 5px;
-        border: none;
-        transition: background-color 0.3s;
-    }
+        .btn-custom {
+            background-color: #003366;
+            /* Biru tua */
+            color: white;
+            border-radius: 30px;
+            padding: 10px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 5px;
+            border: none;
+            transition: background-color 0.3s;
+        }
 
-    .btn-custom:hover {
-        background-color: #002244;
-        /* Biru lebih tua */
-    }
+        .btn-custom:hover {
+            background-color: #002244;
+            /* Biru lebih tua */
+        }
 
-    .top-bar {
-        background-color: #5dade2;
-        /* Biru muda */
-        padding: 15px;
-        border-radius: 5px 5px 0 0;
-        text-align: center;
-    }
+        /* ==== TOMBOL KEMBALI ==== */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Style untuk baris yang aktif/dipilih */
-    tr.table-active {
-        background-color: #d6eaf8 !important;
-        /* Biru sangat muda */
-        cursor: pointer;
-    }
+        .btn-back:hover {
+            background-color: #2d5cb5;
+        }
 
-    /* Style saat mouse hover di baris tabel */
-    tbody tr:hover {
-        background-color: #eaf2f8;
-        cursor: pointer;
-    }
+        .top-bar {
+            background-color: #5dade2;
+            /* Biru muda */
+            padding: 15px;
+            border-radius: 5px 5px 0 0;
+            text-align: center;
+        }
+
+        /* Style untuk baris yang aktif/dipilih */
+        tr.table-active {
+            background-color: #d6eaf8 !important;
+            /* Biru sangat muda */
+            cursor: pointer;
+        }
+
+        /* Style saat mouse hover di baris tabel */
+        tbody tr:hover {
+            background-color: #eaf2f8;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -116,58 +140,63 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-    let selectedRow = null;
+        let selectedRow = null;
 
-    // FUNGSI: Memilih baris tabel saat diklik
-    document.querySelectorAll("#karyawanTable tbody tr").forEach(row => {
-        row.addEventListener("click", () => {
-            // Hapus class 'table-active' dari semua baris
-            document.querySelectorAll("#karyawanTable tbody tr").forEach(r => r.classList.remove(
-                "table-active"));
-            // Tambahkan class 'table-active' ke baris yang diklik
-            row.classList.add("table-active");
-            // Simpan baris yang dipilih
-            selectedRow = row;
-        });
-    });
-
-    // FUNGSI: Tombol Edit
-    document.getElementById("btnEdit").addEventListener("click", () => {
-        if (selectedRow) {
-            const idKaryawan = selectedRow.getAttribute("data-id");
-            // Arahkan ke halaman edit dengan ID karyawan yang dipilih
-            window.location.href = `/karyawan/edit/${idKaryawan}`;
-        } else {
-            alert("Pilih dulu karyawan yang ingin diedit.");
-        }
-    });
-
-    // FUNGSI: Tombol Hapus
-    document.getElementById("btnHapus").addEventListener("click", () => {
-        if (selectedRow) {
-            const idKaryawan = selectedRow.getAttribute("data-id");
-            if (confirm("Yakin ingin menghapus karyawan ini?")) {
-                const form = document.getElementById("hapusForm");
-                // Atur action form sesuai ID karyawan yang dipilih
-                form.action = `/karyawan/hapus/${idKaryawan}`;
-                form.submit();
-            }
-        } else {
-            alert("Pilih dulu karyawan yang ingin dihapus.");
-        }
-    });
-
-    // FUNGSI: Pencarian langsung (live search)
-    document.getElementById("searchInput").addEventListener("keyup", function() {
-        const keyword = this.value.toLowerCase();
+        // FUNGSI: Memilih baris tabel saat diklik
         document.querySelectorAll("#karyawanTable tbody tr").forEach(row => {
-            const rowText = row.textContent.toLowerCase();
-            // Tampilkan baris jika cocok dengan keyword, sembunyikan jika tidak
-            row.style.display = rowText.includes(keyword) ? "" : "none";
+            row.addEventListener("click", () => {
+                // Hapus class 'table-active' dari semua baris
+                document.querySelectorAll("#karyawanTable tbody tr").forEach(r => r.classList.remove(
+                    "table-active"));
+                // Tambahkan class 'table-active' ke baris yang diklik
+                row.classList.add("table-active");
+                // Simpan baris yang dipilih
+                selectedRow = row;
+            });
         });
-    });
+
+        // FUNGSI: Tombol Edit
+        document.getElementById("btnEdit").addEventListener("click", () => {
+            if (selectedRow) {
+                const idKaryawan = selectedRow.getAttribute("data-id");
+                // Arahkan ke halaman edit dengan ID karyawan yang dipilih
+                window.location.href = `/karyawan/edit/${idKaryawan}`;
+            } else {
+                alert("Pilih dulu karyawan yang ingin diedit.");
+            }
+        });
+
+        // FUNGSI: Tombol Hapus
+        document.getElementById("btnHapus").addEventListener("click", () => {
+            if (selectedRow) {
+                const idKaryawan = selectedRow.getAttribute("data-id");
+                if (confirm("Yakin ingin menghapus karyawan ini?")) {
+                    const form = document.getElementById("hapusForm");
+                    // Atur action form sesuai ID karyawan yang dipilih
+                    form.action = `/karyawan/hapus/${idKaryawan}`;
+                    form.submit();
+                }
+            } else {
+                alert("Pilih dulu karyawan yang ingin dihapus.");
+            }
+        });
+
+        // FUNGSI: Pencarian langsung (live search)
+        document.getElementById("searchInput").addEventListener("keyup", function() {
+            const keyword = this.value.toLowerCase();
+            document.querySelectorAll("#karyawanTable tbody tr").forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                // Tampilkan baris jika cocok dengan keyword, sembunyikan jika tidak
+                row.style.display = rowText.includes(keyword) ? "" : "none";
+            });
+        });
     </script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
+
+    <!-- Tombol kembali -->
+    <a href="javascript:history.back()" class="btn-back" title="Kembali">
+        <i class="bi bi-arrow-left"></i>
+    </a>
 
 </body>
 
