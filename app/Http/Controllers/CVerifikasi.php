@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
-use App\Models\Layanan;
 
 class CVerifikasi extends Controller
 {
@@ -30,30 +29,45 @@ class CVerifikasi extends Controller
 
     public function perhitungan(Request $request, $id)
     {
-        $pesanan = Pesanan::with('detailTransaksi.kategoriItem')->findOrFail($id);
+        // $pesanan = Pesanan::with('detailTransaksi.kategoriItem')->findOrFail($id);
+
+        // Simpan berat barang yang diinputkan user
+        // $pesanan->beratBarang = $request->beratBarang;
+
+        // $totalHarga = 0;
+
+        // foreach ($pesanan->detailTransaksi as $detail) {
+        //     $kategori = $detail->kategoriItem->namaKategori;
+        //     $jumlah = $detail->jumlahItem;
+
+        //     if ($kategori == 'Pakaian') {
+        //         $totalHarga += $pesanan->beratBarang * $kategori->hargaKategori;
+        //     } 
+        //     else {
+        //         $totalHarga += $jumlah * $kategori->hargaKategori;
+        //     }
+        // }
+        // Update total harga dan status pesanan
+        //     $pesanan->update([
+        //         'totalHarga'    => $totalHarga,
+        //         'statusPesanan' => 'Menunggu Pembayaran', // update status setelah konfirmasi
+        //     ]);
+
+        //     return redirect()->back()->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
+        // }
+
+        // Ambil data pesanan berdasarkan ID
+        $pesanan = Pesanan::findOrFail($id);
 
         // Simpan berat barang yang diinputkan user
         $pesanan->beratBarang = $request->beratBarang;
 
-        $totalHarga = 0;
+        // Update status pesanan (tanpa menghitung total harga)
+        $pesanan->statusPesanan = 'Menunggu Pembayaran';
 
-        foreach ($pesanan->detailTransaksi as $detail) {
-            $kategori = $detail->kategoriItem->namaKategori;
-            $jumlah = $detail->jumlahItem;
+        // Simpan perubahan
+        $pesanan->save();
 
-            if ($kategori == 'Pakaian') {
-                $totalHarga += $pesanan->beratBarang * $kategori->hargaKategori;
-            } 
-            else {
-                $totalHarga += $jumlah * $kategori->hargaKategori;
-            }
-        }
-        // Update total harga dan status pesanan
-            $pesanan->update([
-                'totalHarga'    => $totalHarga,
-                'statusPesanan' => 'Menunggu Pembayaran', // update status setelah konfirmasi
-            ]);
-
-            return redirect()->back()->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
-        }
+        return redirect()->back()->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
+    }
 }
