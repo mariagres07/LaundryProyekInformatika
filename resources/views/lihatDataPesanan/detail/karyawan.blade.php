@@ -9,75 +9,75 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-        min-height: 100vh;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+            min-height: 100vh;
+        }
 
-    .header-bg {
-        background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
-        border-radius: 15px;
-        padding: 25px 20px;
-        margin: 15px;
-        color: white;
-        position: relative;
-    }
+        .header-bg {
+            background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
+            border-radius: 15px;
+            padding: 25px 20px;
+            margin: 15px;
+            color: white;
+            position: relative;
+        }
 
-    .header-bg::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.4);
-        border-radius: 15px;
-    }
+        .header-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+        }
 
-    .header-content {
-        position: relative;
-        z-index: 1;
-    }
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
 
-    .info-card {
-        background: white;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border-left: 5px solid #28a745;
-    }
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #28a745;
+        }
 
-    .action-card {
-        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 15px;
-        border: 2px solid #2196f3;
-    }
+        .action-card {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px;
+            border: 2px solid #2196f3;
+        }
 
-    .btn-update {
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s;
-    }
+        .btn-update {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
 
-    .btn-update:hover {
-        background: #218838;
-        transform: scale(1.05);
-    }
+        .btn-update:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
 
-    .status-select {
-        border: 2px solid #007bff;
-        border-radius: 8px;
-        padding: 8px 12px;
-        font-weight: 600;
-    }
+        .status-select {
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-weight: 600;
+        }
     </style>
 </head>
 

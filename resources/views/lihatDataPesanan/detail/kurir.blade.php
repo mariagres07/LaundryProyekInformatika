@@ -9,81 +9,81 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-        min-height: 100vh;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+            min-height: 100vh;
+        }
 
-    .header-bg {
-        background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
-        border-radius: 15px;
-        padding: 25px 20px;
-        margin: 15px;
-        color: white;
-        position: relative;
-    }
+        .header-bg {
+            background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
+            border-radius: 15px;
+            padding: 25px 20px;
+            margin: 15px;
+            color: white;
+            position: relative;
+        }
 
-    .header-bg::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.4);
-        border-radius: 15px;
-    }
+        .header-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+        }
 
-    .header-content {
-        position: relative;
-        z-index: 1;
-    }
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
 
-    .info-card {
-        background: white;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 15px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border-left: 5px solid #ffc107;
-    }
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #ffc107;
+        }
 
-    .delivery-card {
-        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 15px;
-        border: 2px solid #ffc107;
-    }
+        .delivery-card {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px;
+            border: 2px solid #ffc107;
+        }
 
-    .btn-deliver {
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 10px;
-        font-weight: 600;
-        transition: all 0.3s;
-    }
+        .btn-deliver {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
 
-    .btn-deliver:hover {
-        background: #218838;
-        transform: scale(1.05);
-    }
+        .btn-deliver:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
 
-    .status-badge {
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: 600;
-    }
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
 
-    .status-ready {
-        background-color: #fff3cd;
-        color: #856404;
-        border: 2px solid #ffc107;
-    }
+        .status-ready {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
     </style>
 </head>
 
