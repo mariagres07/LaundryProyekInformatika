@@ -37,32 +37,66 @@
 
                 <div class="mb-3">
                     <label class="form-label">Nama Lengkap *</label>
-                    <input type="text" name="namaKaryawan" class="form-control" required>
+                    {{-- <input type="text" name="namaKaryawan" class="form-control" required> --}}
+                     <input type="text" name="namaKaryawan" class="form-control"
+                           value="{{ old('namaKaryawan') }}" required>
+                    @error('namaKaryawan')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Username *</label>
-                    <input type="text" name="username" class="form-control" required>
+                    {{-- <input type="text" name="username" class="form-control" required> --}}
+                    <input type="text" name="username" class="form-control"
+                           value="{{ old('username') }}" required>
+                    @error('username')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">No HP *</label>
-                    <input type="text" name="noHp" class="form-control" required>
+                    {{-- <input type="text" name="noHp" class="form-control" required> --}}
+                     <input type="text" name="noHp" class="form-control"
+                           value="{{ old('noHp') }}" required>
+                    @error('noHp')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Email *</label>
-                    <input type="email" name="email" class="form-control" required>
+                    {{-- <input type="email" name="email" class="form-control" required> --}}
+                    <input type="email" name="email" class="form-control"
+                           value="{{ old('email') }}" required>
+                    @error('email')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Password *</label>
-                    <input type="password" name="password" class="form-control" required>
+                    {{-- <input type="password" name="password" class="form-control" required> --}}
+                     <input type="password" name="password" class="form-control" required>
+                    @error('password')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                {{-- Konfirmasi Password --}}
+                <div class="mb-3">
+                    <label class="form-label">Konfirmasi Password *</label>
+                    <input type="password" name="password_confirmation" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Alamat *</label>
-                    <textarea name="alamat" class="form-control" rows="3" required></textarea>
+                    {{-- <textarea name="alamat" class="form-control" rows="3" required></textarea> --}}
+                    <textarea name="alamat" class="form-control" rows="3" required>{{ old('alamat') }}</textarea>
+                    @error('alamat')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <button type="submit" class="btn btn-primary">Simpan</button>

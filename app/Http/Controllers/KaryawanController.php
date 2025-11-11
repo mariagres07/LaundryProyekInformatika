@@ -55,30 +55,27 @@ class KaryawanController extends Controller
     }
 
     // Form edit
-    public function edit($idKaryawan)
+    public function edit(Karyawan $karyawan)
     {
-        $karyawan = Karyawan::findOrFail($idKaryawan);
         return view('ManajemenAkun.editKaryawan', compact('karyawan'));
     }
 
     //  Update data
-    public function update(Request $request, $idKaryawan)
+    public function update(Request $request, Karyawan $karyawan)
     {
-        $karyawan = Karyawan::findOrFail($idKaryawan);
-
         $request->validate([
             'namaKaryawan' => 'required|string|max:100',
-            'username'     => 'required|string|max:50',
+            'username'     => 'required|string|max:50|unique:karyawan,username,' . $karyawan->idKaryawan . ',idKaryawan',
             'noHp'         => 'required|string|max:15',
-            'email'        => 'required|email',
+            'email'        => 'required|email|unique:karyawan,email,' . $karyawan->idKaryawan . ',idKaryawan',
             'password' => [
-                'required',
+                'nullable',
                 'string',
-                'min:8', // minimal 8 karakter
-                'regex:/[A-Z]/', // ada huruf besar
-                'regex:/[a-z]/', // ada huruf kecil
-                'regex:/[0-9]/', // ada angka
-                'regex:/[@$!%*?&#]/', // ada simbol spesial
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
                 'confirmed'
             ],
             'alamat'       => 'required|string'
@@ -92,20 +89,17 @@ class KaryawanController extends Controller
             'alamat'       => $request->alamat,
         ]);
 
-        // Jika user mengganti password
+        // ✅ Update password hanya jika diisi
         if ($request->filled('password')) {
             $karyawan->password = Hash::make($request->password);
+            $karyawan->save();
         }
-
-        $karyawan->save();
 
         return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil diperbarui!');
     }
-
     // hapus data
-    public function destroy($idKaryawan)
+    public function destroy(Karyawan $karyawan)
     {
-        $karyawan = Karyawan::findOrFail($idKaryawan);
         $karyawan->delete();
 
         return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil dihapus!');
