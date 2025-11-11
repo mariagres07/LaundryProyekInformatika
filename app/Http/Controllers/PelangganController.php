@@ -10,21 +10,21 @@ class PelangganController extends Controller
 {
     public function edit()
     {
-       // Ambil ID pelanggan dari session
-    $id = session('idPelanggan');
+        // Ambil ID pelanggan dari session
+        $id = session('idPelanggan');
 
-    // Jika session kosong, redirect ke login dengan pesan error
-    if (!$id) {
-        return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
-    }
+        // Jika session kosong, redirect ke login dengan pesan error
+        if (!$id) {
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
 
-    // Ambil data pelanggan dari database
-    $pelanggan = Pelanggan::find($id);
+        // Ambil data pelanggan dari database
+        $pelanggan = Pelanggan::find($id);
 
-    // Jika data pelanggan tidak ditemukan, redirect kembali dengan error
-    if (!$pelanggan) {
-        return redirect()->back()->with('error', 'Data pelanggan tidak ditemukan.');
-    }
+        // Jika data pelanggan tidak ditemukan, redirect kembali dengan error
+        if (!$pelanggan) {
+            return redirect()->back()->with('error', 'Data pelanggan tidak ditemukan.');
+        }
 
         // Kirim data ke view
         // return view('ManajemenAkun.editProfilPelanggan', compact('pelanggan'));
@@ -40,7 +40,16 @@ class PelangganController extends Controller
             'username' => 'required|string|max:255|unique:pelanggan,username,' . $id . ',idPelanggan',
             'noHp' => 'required|string|max:15',
             'email' => 'required|email|unique:pelanggan,email,' . $id . ',idPelanggan',
-            'password' => 'nullable|min:6',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // minimal 8 karakter
+                'regex:/[A-Z]/', // ada huruf besar
+                'regex:/[a-z]/', // ada huruf kecil
+                'regex:/[0-9]/', // ada angka
+                'regex:/[@$!%*?&#]/', // ada simbol spesial
+                'confirmed'
+            ],
         ]);
 
         $pelanggan = Pelanggan::find($id);
