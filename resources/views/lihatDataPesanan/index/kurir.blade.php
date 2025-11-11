@@ -19,12 +19,14 @@
         }
 
         .header-bg {
-            background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
+            background-image: url("{{ asset('water.jpg') }}");
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-size: cover;
             border-radius: 15px;
             padding: 30px 20px;
             margin-bottom: 25px;
             color: white;
-            text-align: center;
             position: relative;
         }
 
@@ -42,8 +44,9 @@
         .header-content {
             position: relative;
             z-index: 1;
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-align: left;
         }
 
         .pesanan-card {
@@ -53,29 +56,15 @@
             margin-bottom: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
-            transition: transform 0.2s, box-shadow 0.2s;
             border-left: 5px solid #ffc107;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .pesanan-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .pesanan-info {
-            flex: 1;
-        }
-
-        .pesanan-info h5 {
-            margin: 0;
-            color: #2d4b74;
-            font-weight: 600;
-        }
-
-        .pesanan-info small {
-            color: #6c757d;
         }
 
         .delivery-info {
@@ -98,14 +87,28 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
-            text-transform: uppercase;
-            margin-right: 10px;
         }
 
         .status-ready {
             background-color: #fff3cd;
             color: #856404;
             border: 1px solid #ffeaa7;
+        }
+
+        .btn-detail {
+            background: #2d4b74;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .btn-deliver {
+            background: #28a745;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
         }
 
         .btn-back {
@@ -122,73 +125,7 @@
             justify-content: center;
             text-decoration: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            transition: all 0.3s;
-        }
-
-        .btn-back:hover {
-            background: #1e3a5c;
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .btn-deliver {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: 600;
-        }
-
-        .btn-deliver:hover {
-            background: #218838;
-            color: white;
-            text-decoration: none;
-        }
-
-        .btn-detail {
-            background: #2d4b74;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            margin-right: 8px;
-        }
-
-        .btn-detail:hover {
-            background: #1e3a5c;
-            color: white;
-            text-decoration: none;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6c757d;
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #dee2e6;
-        }
-
-        .priority-badge {
-            background: #dc3545;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            margin-left: 8px;
+            z-index: 10000;
         }
     </style>
 </head>
@@ -198,6 +135,7 @@
     @include('Dashboard.kurir_sidenav')
 
     <div class="container mt-4">
+
         <!-- HEADER -->
         <div class="header-bg">
             <div class="header-content">
@@ -205,67 +143,58 @@
             </div>
         </div>
 
-        <!-- DAFTAR PESANAN -->
+        <!-- LIST PESANAN -->
         @forelse($pesanan as $p)
         <div class="pesanan-card">
             <div class="pesanan-info">
-                <h5>
-                    Pesanan #{{ $p->no_pesanan ?? $p->idPesanan }}
-                    @if($p->is_priority)
-                    <span class="priority-badge">PRIORITAS</span>
-                    @endif
-                </h5>
+                <h5>Pesanan #{{ $p->no_pesanan ?? $p->idPesanan }}</h5>
+
                 <div class="delivery-info">
                     <i class="bi bi-person me-1"></i>
-                    <strong>{{ $p->pelanggan->namaPelanggan ?? 'Tidak diketahui' }}</strong>
-                    • {{ $p->pelanggan->noHp ?? '-' }}
+                    <strong>{{ $p->pelanggan->namaPelanggan }}</strong> • {{ $p->pelanggan->noHp }}
                 </div>
+
                 <div class="address-info">
                     <i class="bi bi-geo-alt me-1"></i>
-                    {{ $p->pelanggan->alamat ?? 'Alamat tidak tersedia' }}
+                    {{ $p->pelanggan->alamat }}
                 </div>
+
                 <small>
                     <i class="bi bi-calendar3 me-1"></i>
                     {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}
-                    • {{ $p->layanan->namaLayanan ?? 'Layanan Reguler' }}
-                    • Rp {{ number_format($p->total_harga ?? 0, 0, ',', '.') }}
+                    • {{ $p->layanan->namaLayanan }}
+                    • Rp {{ number_format($p->total_harga, 0, ',', '.') }}
                 </small>
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <!-- STATUS PESANAN -->
                 <span class="status status-ready">Ready Diantar</span>
 
-                <!-- TOMBOL AKSI -->
-                <a href="{{ route('lihatdata.detail', $p->idPesanan) }}" class="btn-detail">
-                    <i class="bi bi-eye me-1"></i>Detail
+                <a href="{{ route('kurir.detail', $p->idPesanan) }}" class="btn-detail">
+                    <i class="bi bi-eye"></i> Detail
                 </a>
-                <form action="{{ route('pesanan.update-status', $p->idPesanan) }}" method="POST" class="d-inline">
+
+                <form action="{{ route('pesanan.update-status', $p->idPesanan) }}" method="POST">
                     @csrf
                     <input type="hidden" name="statusPesanan" value="Sudah Diantar">
-                    <button type="submit" class="btn-deliver"
-                        onclick="return confirm('Konfirmasi pesanan sudah diantar?')">
-                        <i class="bi bi-check-circle me-1"></i>Sudah Diantar
+                    <button class="btn-deliver" onclick="return confirm('Konfirmasi pesanan sudah diantar?')">
+                        <i class="bi bi-check-circle"></i> Sudah Diantar
                     </button>
                 </form>
             </div>
         </div>
         @empty
-        <div class="empty-state">
-            <i class="bi bi-check-circle"></i>
-            <h5>Tidak ada pesanan untuk diantar</h5>
-            <p>Semua pesanan sudah terkirim atau sedang diproses</p>
+        <div class="text-center mt-5">
+            <i class="bi bi-inbox" style="font-size:3rem;color:#d1d1d1;"></i>
+            <h5 class="mt-3">Tidak ada pesanan untuk diantar</h5>
         </div>
         @endforelse
     </div>
 
-    <!-- TOMBOL KEMBALI -->
-    <a href="{{ url('/dashboard-kurir') }}" class="btn-back" title="Kembali ke Dashboard">
+    <!-- BUTTON BACK -->
+    <a href="javascript:history.back()" class="btn-back">
         <i class="bi bi-arrow-left"></i>
     </a>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
