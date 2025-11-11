@@ -148,20 +148,20 @@
         </div>
 
         <div class="offcanvas-body d-flex flex-column">
-            <a href="{{ url('/dashboardKaryawan') }}">
+            <a href="{{ url('/tampilanKaryawan') }}">
                 <i class="bi bi-house"></i> Dashboard
             </a>
-            <a href="{{ url('/manajemenPengguna') }}">
+            <a href="{{ url('/pengguna') }}">
                 <i class="bi bi-people"></i> Manajemen Pengguna
             </a>
-            <a href="{{ url('/manajemenLaundry') }}">
+            <a href="{{ url('/laundry') }}">
                 <i class="bi bi-basket2-fill"></i> Manajemen Laundry
             </a>
             <a href="{{ url('/lihatDataPesanan') }}">
                 <i class="bi bi-list-check"></i> Lihat Data Pesanan
             </a>
             <!-- Pengaduan dengan ikon pesan warna hitam polos -->
-            <a href="{{ url('/manajemenLaundry') }}" class="pengaduan">
+            <a href="{{ url('/pengaduan') }}" class="pengaduan">
                 <i class="bi bi-chat-dots-fill"></i> Pengaduan
             </a>
             <form method="POST" action="{{ route('logout') }}">
