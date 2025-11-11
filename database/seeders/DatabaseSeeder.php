@@ -66,6 +66,7 @@ class DatabaseSeeder extends Seeder
 
         $layanan = Layanan::first();
 
+        // === Pesanan ===
         $pesanan = Pesanan::create([
             'namaPesanan' => 'Pesanan 1',
             'idPelanggan' => $pelanggan->idPelanggan,
