@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Detail Pesanan Saya - IVA Laundry</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -16,47 +18,56 @@
         }
 
         .container-small {
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
         }
 
-        .header-bg {
-            background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
-            border-radius: 15px;
-            padding: 25px 20px;
-            margin-bottom: 20px;
-            color: white;
+        /* HEADER */
+        .header-wrapper {
             position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
         }
 
-        .header-bg::before {
-            content: '';
+        .header-bg-img {
+            background: url('/images/water.jpg') no-repeat center/cover;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.65);
+        }
+
+        .header-content-left {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            color: white;
+            z-index: 2;
+            text-align: left;
         }
 
-        .header-content {
-            position: relative;
-            z-index: 1;
+        .header-content-left h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
 
+        .header-content-left span {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* CARD STYLE */
         .info-card,
         .status-card {
             background: white;
             border-radius: 15px;
             padding: 20px;
-            margin-bottom: 15px;
+            margin-top: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .progress-bar-custom {
-            height: 8px;
-            border-radius: 4px;
         }
 
         .status-badge {
@@ -66,24 +77,9 @@
             font-weight: 600;
         }
 
-        .status-menunggu {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        .status-diproses {
-            background-color: #cce7ff;
-            color: #004085;
-        }
-
-        .status-diantar {
-            background-color: #d1ecf1;
-            color: #0c5460;
-        }
-
-        .status-selesai {
-            background-color: #d4edda;
-            color: #155724;
+        .progress-bar-custom {
+            height: 8px;
+            border-radius: 4px;
         }
 
         .btn-back {
@@ -100,29 +96,20 @@
             justify-content: center;
             text-decoration: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            transition: all 0.3s;
+            z-index: 2000;
         }
 
         .btn-back:hover {
             background: #1e3a5c;
-            color: white;
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
-        /* Box bantuan */
         .help-box {
             position: fixed;
             bottom: 20px;
             right: 20px;
             text-align: right;
-            z-index: 1000;
-        }
-
-        .help-text {
-            font-size: 0.8rem;
-            color: #555;
-            margin-bottom: 5px;
+            z-index: 2000;
         }
 
         .btn-help {
@@ -145,19 +132,19 @@
 
     @include('Dashboard.pelanggan_sidenav')
 
-    <div class="container-small mt-3">
+    <!-- HEADER -->
+    <div class="header-wrapper">
+        <div class="header-bg-img"></div>
 
-        <!-- Header -->
-        <div class="header-bg">
-            <div class="header-content">
-                <h4 class="fw-bold mb-0">
-                    <i class="bi bi-clipboard-check"></i> Detail Pesanan Saya
-                </h4>
-                <p class="mb-0">Pesanan #{{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</p>
-            </div>
+        <div class="header-content-left">
+            <h2>Detail Pesanan</h2>
+            <span>Pesanan #{{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</span>
         </div>
+    </div>
 
-        <!-- Status Progress -->
+    <div class="container-small mt-4">
+
+        <!-- STATUS PROGRESS -->
         <div class="status-card">
 
             @php
@@ -172,16 +159,15 @@
 
             $currentStatus = $pesanan->statusPesanan ?? $statuses[0];
             $currentIndex = array_search($currentStatus, $statuses);
-            if($currentIndex === false) {
-            $currentIndex = 0;
-            }
+            if ($currentIndex === false) $currentIndex = 0;
+
             $progress = (($currentIndex + 1) / count($statuses)) * 100;
             @endphp
 
-            <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="fw-bold text-primary mb-0">Status Pesanan</h5>
 
-                <span class="status-badge 
+                <span class="status-badge
             @if($currentStatus == 'Menunggu Penjemputan' || $currentStatus == 'Menunggu Pembayaran') status-menunggu
             @elseif($currentStatus == 'Diproses') status-diproses
             @elseif($currentStatus == 'Menunggu Pengantaran' || $currentStatus == 'Sudah Diantar') status-diantar
@@ -196,23 +182,20 @@
             </div>
         </div>
 
-
-        <!-- Informasi Pesanan -->
+        <!-- INFORMASI PESANAN -->
         <div class="info-card">
             <h5 class="fw-bold text-primary mb-3">
                 <i class="bi bi-info-circle"></i> Informasi Pesanan
             </h5>
 
-            <div class="row">
-                <div class="col-12 mb-3">
-                    <strong class="text-primary">Tanggal Masuk:</strong><br>
-                    {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y H:i') }}
-                </div>
+            <div class="mb-3">
+                <strong class="text-primary">Tanggal Masuk:</strong><br>
+                {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y H:i') }}
+            </div>
 
-                <div class="col-12 mb-3">
-                    <strong class="text-primary">Paket Layanan:</strong><br>
-                    {{ $pesanan->layanan->namaLayanan ?? '-' }}
-                </div>
+            <div class="mb-3">
+                <strong class="text-primary">Paket Layanan:</strong><br>
+                {{ $pesanan->layanan->namaLayanan ?? '-' }}
             </div>
 
             <strong class="text-primary">Item Laundry:</strong><br>
@@ -220,15 +203,15 @@
                 @forelse($pesanan->detailTransaksi as $detail)
                 <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded mb-2">
                     <span>{{ $detail->kategoriItem->namaKategori ?? 'Kategori' }}</span>
-                    <span class="badge bg-primary">{{ $detail->kategoriItem->jumlahItem ?? '0' }} pcs</span>
+                    <span class="badge bg-primary">{{ $detail->jumlahItem ?? '0' }} pcs</span>
                 </div>
                 @empty
-                <div class="text-muted p-2">Tidak ada detail item</div>
+                <div class="text-muted p-2">Tidak ada item</div>
                 @endforelse
             </div>
         </div>
 
-        <!-- Informasi Biaya -->
+        <!-- RINCIAN BIAYA -->
         <div class="info-card">
             <h5 class="fw-bold text-primary mb-3">
                 <i class="bi bi-cash-coin"></i> Rincian Biaya
@@ -256,14 +239,13 @@
 
     </div>
 
-    <!-- Floating Tombol Kembali -->
-    <a href="{{ url('/dashboard') }}" class="btn-back" title="Kembali">
+    <!-- TOMBOL KEMBALI -->
+    <a href="javascript:history.back()" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 
-    <!-- Floating Bantuan -->
+    <!-- BANTUAN -->
     <div class="help-box">
-        <div class="help-text">Butuh bantuan?</div>
         <a href="https://wa.me/6281234567890" target="_blank" class="btn-help">Hubungi CS</a>
     </div>
 

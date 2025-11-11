@@ -16,37 +16,48 @@
             background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
             min-height: 100vh;
             padding-bottom: 80px;
-            /* Untuk hindari overlap dengan tombol */
         }
 
-        .header-bg {
-            background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
-            border-radius: 15px;
-            padding: 30px 20px;
-            margin-bottom: 25px;
-            color: white;
-            text-align: center;
+        /* ==== HEADER WRAPPER ==== */
+        .header-wrapper {
             position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
         }
 
-        .header-bg::before {
-            content: '';
+        .header-bg-img {
+            background: url('/images/water.jpg') no-repeat center/cover;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.7);
+        }
+
+        /* TITLE LEFT */
+        .header-content-left {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            color: white;
+            z-index: 2;
+            text-align: left;
         }
 
-        .header-content {
-            position: relative;
-            z-index: 1;
-            font-size: 1.5rem;
-            font-weight: 600;
+        .header-content-left h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
 
+        .header-content-left span {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        /* ==== CARD PESANAN ==== */
         .pesanan-card {
             background: white;
             border-radius: 15px;
@@ -54,19 +65,15 @@
             margin-bottom: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
-            transition: transform 0.2s, box-shadow 0.2s;
             border-left: 5px solid #007bff;
+            transition: .2s;
         }
 
         .pesanan-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .pesanan-info {
-            flex: 1;
         }
 
         .pesanan-info h5 {
@@ -75,52 +82,40 @@
             font-weight: 600;
         }
 
-        .pesanan-info small {
-            color: #6c757d;
-        }
-
-        .pesanan-detail {
-            color: #007bff;
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
         .status {
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-proses {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-
-        .status-diantar {
-            background-color: #cce7ff;
-            color: #004085;
-            border: 1px solid #b3d7ff;
-        }
-
-        .status-selesai {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
         }
 
         .status-menunggu {
-            background-color: #f8d7da;
+            background: #f8d7da;
             color: #721c24;
-            border: 1px solid #f5c6cb;
         }
 
         .status-diproses {
-            background-color: #d1ecf1;
+            background: #d1ecf1;
             color: #0c5460;
-            border: 1px solid #bee5eb;
+        }
+
+        .status-diantar {
+            background: #cce7ff;
+            color: #004085;
+        }
+
+        .status-selesai {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .btn-detail {
+            background: #2d4b74;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-decoration: none;
         }
 
         .btn-back {
@@ -135,46 +130,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            transition: all 0.3s;
-        }
-
-        .btn-back:hover {
-            background: #1e3a5c;
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .btn-detail {
-            background: #2d4b74;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-detail:hover {
-            background: #1e3a5c;
-            color: white;
-            text-decoration: none;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6c757d;
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #dee2e6;
         }
     </style>
 </head>
@@ -183,69 +138,78 @@
 
     @include('Dashboard.pelanggan_sidenav')
 
-    <div class="container mt-4">
-        <!-- HEADER -->
-        <div class="header-bg">
-            <div class="header-content">
-                <i class="bi bi-list-check me-2"></i>Data Pesanan Saya
-            </div>
-        </div>
+    <!-- HEADER -->
+    <div class="header-wrapper">
+        <div class="header-bg-img"></div>
 
-        <!-- DAFTAR PESANAN -->
+        <div class="header-content-left">
+            <h2>Data Pesanan</h2>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container mt-4">
+
         @forelse($pesanan as $p)
         <div class="pesanan-card">
+
             <div class="pesanan-info">
                 <h5>Pesanan #{{ $p->no_pesanan ?? $p->idPesanan }}</h5>
                 <small>
                     <i class="bi bi-calendar3 me-1"></i>
                     {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}
                 </small>
+
                 <div class="pesanan-detail">
-                    <i class="bi bi-info-circle me-1"></i>
                     {{ $p->layanan->namaLayanan ?? 'Layanan Reguler' }} -
                     Rp {{ number_format($p->total_harga ?? 0, 0, ',', '.') }}
                 </div>
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <!-- STATUS PESANAN -->
                 @if($p->statusPesanan == 'Menunggu Penjemputan')
                 <span class="status status-menunggu">Menunggu Penjemputan</span>
+
                 @elseif($p->statusPesanan == 'Menunggu Pembayaran')
                 <span class="status status-menunggu">Menunggu Pembayaran</span>
+
                 @elseif($p->statusPesanan == 'Diproses')
                 <span class="status status-diproses">Diproses</span>
+
                 @elseif($p->statusPesanan == 'Menunggu Pengantaran')
                 <span class="status status-diantar">Menunggu Diantar</span>
+
                 @elseif($p->statusPesanan == 'Sudah Diantar')
                 <span class="status status-diantar">Sudah Diantar</span>
+
                 @elseif($p->statusPesanan == 'Selesai')
                 <span class="status status-selesai">Selesai</span>
+
                 @else
                 <span class="status">{{ $p->statusPesanan }}</span>
                 @endif
 
-                <!-- TOMBOL DETAIL -->
                 <a href="{{ route('lihatdata.detail', $p->idPesanan) }}" class="btn-detail">
-                    <i class="bi bi-eye me-1"></i>Detail
+                    <i class="bi bi-eye me-1"></i> Detail
                 </a>
             </div>
+
         </div>
         @empty
-        <div class="empty-state">
-            <i class="bi bi-inbox"></i>
-            <h5>Belum ada data pesanan</h5>
-            <p>Silakan membuat pesanan laundry terlebih dahulu</p>
+
+        <div class="text-center mt-5">
+            <i class="bi bi-inbox" style="font-size:3rem;color:#d1d1d1;"></i>
+            <h5 class="mt-3">Belum ada data pesanan</h5>
         </div>
+
         @endforelse
     </div>
 
-    <!-- TOMBOL KEMBALI -->
-    <a href="{{ url('/dashboard') }}" class="btn-back" title="Kembali ke Dashboard">
+    <!-- Floating Tombol Kembali -->
+    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
