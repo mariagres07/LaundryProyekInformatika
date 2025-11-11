@@ -11,45 +11,67 @@
 
     <style>
         body {
-            background-color: #f5f7fb;
+            background: url('water.jpg') center/cover fixed;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Overlay biru langit semi-transparan agar teks tetap jelas */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(185, 215, 242, 0.9); /* #b9d7f2 dengan opacity 0.9 */
+            z-index: -1;
+        }
+
+        /* Offcanvas Sidebar */
+        .offcanvas {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(90, 150, 230, 0.2);
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .offcanvas-header h5 {
+            font-weight: 600;
+            color: #2d4b74;
+        }
+
+        .offcanvas-body a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            color: #2d4b74;
+            transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
         }
 
-        .sidebar {
-            background-color: #b9d7f2;
-            min-height: 100vh;
-            color: #0d3b66;
-            padding-top: 40px;
-            position: fixed;
-            width: 240px;
-        }
-
-        .sidebar a {
-            color: #0d3b66;
-            text-decoration: none;
-            display: block;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin: 5px 15px;
-            transition: 0.3s;
-        }
-
-        .sidebar a.active,
-        .sidebar a:hover {
-            background-color: #4a8fe7;
+        .offcanvas-body a:hover {
+            background: linear-gradient(90deg, #5fa1f2, #79b8ff);
             color: #fff;
+            transform: translateX(6px);
+            box-shadow: 0 3px 8px rgba(90, 150, 230, 0.2);
         }
 
         .content {
-            margin-left: 260px;
             padding: 40px;
         }
 
         .card-custom {
             border-radius: 15px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.95);
             padding: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
         }
 
         .title {
@@ -79,7 +101,7 @@
             background-color: #1E4FA3;
         }
 
-          /* Tombol Kembali */
+        /* Tombol Kembali */
         .btn-back {
             position: fixed;
             bottom: 25px;
@@ -97,26 +119,53 @@
             transition: 0.3s;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="text-center mb-4">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="60" class="mb-2" alt="User Icon">
-            <h5>{{ $pelanggan->namaPelanggan ?? 'Pelanggan' }}</h5>
+    <!-- Navbar untuk trigger offcanvas -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm">
+        <div class="container-fluid">
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+                aria-controls="sidebar">
+                <i class="bi bi-list"></i>
+            </button>
+            <span class="navbar-brand mb-0 h1">IVA Laundry</span>
         </div>
-        <a href="{{ route('dashboard.pelanggan') }}">🏠 Dashboard</a>
-        <a href="{{ route('pelanggan.edit') }}" class="active">👤 Profile</a>
-        <a href="{{ route('lihatdata.index') }}">🧺 Status Laundry</a>
-        <a href="{{ route('logout') }}" style="color:#d64045;">🚪 Logout</a>
+    </nav>
+
+    <!-- Offcanvas Sidebar -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <a href="{{ route('dashboard.pelanggan') }}">
+                <i class="bi bi-house-door me-2"></i> Dashboard
+            </a>
+            <a href="{{ route('pelanggan.edit') }}" class="active">
+                <i class="bi bi-person-circle me-2"></i> Edit Profil
+            </a>
+            <a href="{{ route('lihatdata.index') }}">
+                <i class="bi bi-bag me-2"></i> Status Laundry
+            </a>
+            <a href="{{ route('pengaduan.create') }}">
+                <i class="bi bi-chat-left-text me-2"></i> Buat Pengaduan
+            </a>
+
+            <!-- Tombol KELUAR - Rata Tengah, Warna Merah, Lebar Penuh -->
+            <form method="POST" action="{{ route('logout') }}" class="mt-3">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger w-100 py-2 fw-bold" style="border-radius: 12px;">
+                    KELUAR
+                </button>
+            </form>
+        </div>
     </div>
 
-    
     <!-- Content -->
     <div class="content">
         <div class="card-custom mt-2">
@@ -176,10 +225,12 @@
             </form>
         </div>
     </div>
-        <a href="{{ url()->previous() }}" class="btn-back">
+
+    <a href="{{ url()->previous() }}" class="btn-back">
         <i class="bi bi-arrow-left"></i>
-       </a>
-    <!-- Bootstrap -->
+    </a>
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

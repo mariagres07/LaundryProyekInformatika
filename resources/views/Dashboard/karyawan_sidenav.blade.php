@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IVA Laundry - Karyawan</title>
+    <title>IVA Laundry</title>
 
     <!-- Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -136,7 +136,7 @@
                 aria-controls="sidebarKaryawan">
                 <i class="bi bi-list"></i>
             </button>
-            <span class="navbar-brand mb-0 h1">IVA Laundry - Karyawan</span>
+            <span class="navbar-brand mb-0 h1">IVA Laundry</span>
         </div>
     </nav>
 
