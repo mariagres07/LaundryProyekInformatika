@@ -116,7 +116,7 @@
     @include('Dashboard.kurir_sidenav')
 
     <div class="container">
-        <h2>Lihat Data Pesanan</h2>
+        <h2>Verifikasi Pesanan</h2>
 
         <!-- Contoh pesanan -->
         <div class="pesanan-card">
