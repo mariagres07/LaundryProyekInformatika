@@ -60,4 +60,36 @@ class Pesanan extends Model
     {
         return $this->hasMany(Pengaduan::class, 'idPesanan', 'idPesanan');
     }
+
+    public function ubahStatus($statusBaru)
+    {
+        // Daftar status valid untuk menjaga konsistensi data
+        $statusValid = [
+            'Menunggu Penjemputan',
+            'Sedang Diproses',
+            'Menunggu Pengantaran',
+            'Selesai',
+            'Dibatalkan',
+        ];
+
+        if (!in_array($statusBaru, $statusValid)) {
+            throw new \InvalidArgumentException('Status pesanan tidak valid.');
+        }
+
+        $statusLama = $this->statusPesanan;
+
+        // Update status
+        $this->statusPesanan = $statusBaru;
+        $this->save();
+
+        // (Opsional) Simpan log perubahan status
+        if (method_exists($this, 'logStatus')) {
+            $this->logStatus()->create([
+                'statusLama' => $statusLama,
+                'statusBaru' => $statusBaru,
+                'idKaryawan' => auth()->user()->idKaryawan ?? null, // kalau ada autentikasi Laravel
+                'waktuPerubahan' => now(),
+            ]);
+        }
+    }
 }

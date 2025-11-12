@@ -11,7 +11,7 @@ class ClihatPesanan extends Controller
     public function index()
     {
         $role = Session::get('role');
-        
+
         if (!$role) {
             return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
         }
@@ -51,7 +51,7 @@ class ClihatPesanan extends Controller
     public function lihatDetail($id)
     {
         $role = Session::get('role');
-        
+
         if (!$role) {
             return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
         }
@@ -77,5 +77,33 @@ class ClihatPesanan extends Controller
 
         // Return view detail berdasarkan role
         return view("lihatDataPesanan.detail.{$role}", compact('pesanan', 'user'));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $role = Session::get('role');
+
+        // Pastikan hanya karyawan yang boleh meng-update
+        if ($role !== 'karyawan') {
+            abort(403, 'Hanya karyawan yang dapat memperbarui status pesanan.');
+        }
+
+        $user = Session::get('karyawan');
+
+        if (!$user) {
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Validasi input status
+        $validated = $request->validate([
+            'statusPesanan' => 'required|string|in:Menunggu Pengantaran,Sedang Diproses,Selesai,Dibatalkan',
+        ]);
+
+        // Cari pesanan dan update
+        $pesanan = Pesanan::findOrFail($id);
+        $pesanan->statusPesanan = $validated['statusPesanan'];
+        $pesanan->save();
+
+        return redirect()->route('lihatPesanan.index')->with('success', 'Status pesanan berhasil diperbarui.');
     }
 }

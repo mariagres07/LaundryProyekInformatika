@@ -20,7 +20,6 @@
             padding: 100px 30px;
             display: flex;
             justify-content: center;
-            align-items: center;
         }
 
         .form-container {
@@ -30,20 +29,6 @@
             padding: 40px;
             width: 85%;
             max-width: 1100px;
-        }
-
-        .form-container h3 {
-            text-align: center;
-            color: #2d4b74;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .form-container p.desc {
-            text-align: center;
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 25px;
         }
 
         .text-label {
@@ -60,7 +45,6 @@
             border-radius: 8px;
         }
 
-        /* Tombol kembali */
         .btn-back {
             position: fixed;
             bottom: 25px;
@@ -75,7 +59,6 @@
             align-items: center;
             justify-content: center;
             font-size: 1.4rem;
-            transition: 0.3s;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
@@ -84,77 +67,71 @@
 
 <body>
 
-    {{-- Sidenav Karyawan --}}
     @include('Dashboard.karyawan_sidenav')
 
     <div class="content">
         <div class="form-container">
 
             <h3>Detail Pengaduan</h3>
-            <p class="desc">Informasi lengkap mengenai pengaduan dari pelanggan 📄</p>
 
-            <!-- Nama Pelanggan -->
             <div class="mb-3">
-                <label class="text-label">Nama Pelanggan:</label>
-                <input type="text" class="form-control" value="{{ $pengaduan->pelanggan->nama ?? '-' }}" readonly>
+                <label class="text-label">ID Pengaduan:</label>
+                <input type="text" class="form-control" value="{{ $pengaduan->idPengaduan }}" readonly>
             </div>
 
-            <!-- Judul -->
+            <div class="mb-3">
+                <label class="text-label">Nama Pelanggan:</label>
+                <input type="text" class="form-control" value="{{ $pengaduan->pelanggan->nama ?? 'Tidak diketahui' }}" readonly>
+            </div>
+
             <div class="mb-3">
                 <label class="text-label">Judul Pengaduan:</label>
                 <input type="text" class="form-control" value="{{ $pengaduan->judulPengaduan }}" readonly>
             </div>
 
-            <!-- Deskripsi -->
             <div class="mb-3">
-                <label class="text-label">Deskripsi Pengaduan:</label>
-                <textarea class="form-control" rows="5" readonly>{{ $pengaduan->isiPengaduan }}</textarea>
+                <label class="text-label">Isi Pengaduan:</label>
+                <textarea class="form-control" rows="5" readonly>{{ $pengaduan->deskripsi }}</textarea>
             </div>
 
-            <!-- Tanggal -->
             <div class="mb-3">
                 <label class="text-label">Tanggal Pengaduan:</label>
                 <input type="text" class="form-control"
-                    value="{{ $pengaduan->created_at ? $pengaduan->created_at->format('d M Y, H:i') : '-' }}" readonly>
+                    value="{{ $pengaduan->tanggalPengaduan ? \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d M Y') : '-' }}"
+                    readonly>
             </div>
 
-            <!-- Lampiran -->
-            @if($pengaduan->lampiran)
+            @if($pengaduan->media)
             <div class="mb-3">
                 <label class="text-label">Lampiran:</label><br>
-                <a href="{{ asset('storage/pengaduan/' . $pengaduan->lampiran) }}" target="_blank"
+                <a href="{{ asset('storage/pengaduan/' . $pengaduan->media) }}" target="_blank"
                     class="btn btn-info btn-sm">
                     <i class="bi bi-file-earmark"></i> Lihat Lampiran
                 </a>
             </div>
             @endif
 
-            <!-- Form tanggapan SELALU tampil -->
             <form action="{{ route('pengaduan.kirim', $pengaduan->idPengaduan) }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label class="text-label" for="tanggapan">Tanggapi Pengaduan *</label>
-                    <textarea name="tanggapan" id="tanggapan" rows="4" class="form-control" required
-                        placeholder="Tuliskan tanggapan di sini...">{{ old('tanggapan', $pengaduan->tanggapanPengaduan) }}</textarea>
+                    <label class="text-label">Tanggapan</label>
+                    <textarea name="pesan" class="form-control" rows="4" required placeholder="Tuliskan tanggapan di sini...">{{ old('pesan', $pengaduan->tanggapanPengaduan) }}</textarea>
                 </div>
 
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary px-5 py-2">
-                        <i class="bi bi-send"></i> Kirim Tanggapan
-                    </button>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('pengaduan.index') }}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+                    <button type="submit" class="btn btn-success"><i class="bi bi-send"></i> Kirim Tanggapan</button>
                 </div>
             </form>
 
         </div>
     </div>
 
-    <!-- Tombol Kembali -->
-    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+    <a href="{{ url()->previous() }}" class="btn-back">
         <i class="bi bi-arrow-left"></i>
     </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>
