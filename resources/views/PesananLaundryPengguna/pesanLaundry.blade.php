@@ -401,8 +401,8 @@ use Illuminate\Support\Str;
 
         btnPesan.addEventListener('click', () => {
             if (btnPesan.classList.contains('active')) {
-                alert("/detailPesanan/{id}");
-                
+                alert("Lanjut ke pembayaran...");
+                // window.location.href = '/checkout';
             }
         });
     </script>
