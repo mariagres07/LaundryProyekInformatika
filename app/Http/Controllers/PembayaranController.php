@@ -41,11 +41,38 @@ class PembayaranController extends Controller
         $totalHarga =  $pesanan->beratBarang * $layanan->hargaPerKg;
 
         // Kirim data ke view
-        return view('PesananLaundryPengguna.Pembayaran', [
-            'pelanggan' => $user,
-            'pesanan' => $pesanan,
-            'layanan' => $layanan,
-            'totalHarga' => $totalHarga,
+        return view('PesananLaundryPengguna.Pembayaran', compact('pesanan', 'layanan', 'totalHarga'));
+    }
+
+    // ===================== PROSES PEMBAYARAN (UPLOAD BUKTI) =====================
+    public function prosesPembayaran(Request $request, $idPesanan)
+    {
+        $user = session('pelanggan');
+        if (!$user || session('role') !== 'pelanggan') {
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $pesanan = Pesanan::where('idPesanan', $idPesanan)
+            ->where('idPelanggan', $user['idPelanggan'])
+            ->first();
+
+        if (!$pesanan) {
+            return redirect()->route('pesanLaundry.index')->with('error', 'Pesanan tidak ditemukan.');
+        }
+
+        // Validasi upload bukti pembayaran
+        $validated = $request->validate([
+            'buktiPembayaran' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        // Simpan bukti pembayaran ke storage/app/public/bukti
+        $path = $request->file('buktiPembayaran')->store('bukti', 'public');
+
+        // Update status pesanan dan simpan path bukti
+        $pesanan->buktiPembayaran = $path;
+        $pesanan->statusPembayaran = 'Lunas';
+        $pesanan->save();
+
+        return redirect()->route('pesanLaundry.index')->with('success', 'Pembayaran berhasil dikonfirmasi!');
     }
 }

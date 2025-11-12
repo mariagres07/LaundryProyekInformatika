@@ -117,6 +117,31 @@
             background-color: #f8d7da;
             color: #a00;
         }
+
+        /* === Tombol Kembali (Floating Button) === */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-back:hover {
+            background-color: #6fa2cc;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -153,8 +178,6 @@
                     </div>
                 </a>
             </div>
-
-            <!-- 🔹 Tombol Lihat Data Pesanan -->
             <div class="col-md-3 mb-4">
                 <a href="{{ url('/lihatdata') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
@@ -179,6 +202,11 @@
                     <h5>Manajemen Kurir</h5>
                 </div>
             </div>
+
+            <!-- Tombol kembali -->
+            <button class="btn-back" onclick="showDashboard()" title="Kembali ke Dashboard">
+                <i class="bi bi-arrow-left"></i>
+            </button>
         </div>
 
         <!-- Manajemen Laundry -->
@@ -195,6 +223,11 @@
                     <h5>Lihat Laporan</h5>
                 </div>
             </div>
+
+            <!-- Tombol kembali -->
+            <button class="btn-back" onclick="showDashboard()" title="Kembali ke Dashboard">
+                <i class="bi bi-arrow-left"></i>
+            </button>
         </div>
     </div>
 
@@ -207,7 +240,26 @@
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Ambil parameter URL (misalnya 'pengguna' dari ?tab=pengguna)
+        // === Fungsi Navigasi ===
+        function showDashboard() {
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('pengguna').classList.add('hidden');
+            document.getElementById('laundry').classList.add('hidden');
+        }
+
+        function showPengguna() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('pengguna').classList.remove('hidden');
+            document.getElementById('laundry').classList.add('hidden');
+        }
+
+        function showLaundry() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('pengguna').classList.add('hidden');
+            document.getElementById('laundry').classList.remove('hidden');
+        }
+
+        // === Deteksi tab dari URL ===
         const urlParams = new URLSearchParams(window.location.search);
         const initialTab = urlParams.get('tab');
 
@@ -216,10 +268,8 @@
         } else if (initialTab === 'laundry') {
             showLaundry();
         } else {
-            // Default ke Dashboard jika tidak ada parameter
             showDashboard();
         }
     </script>
 </body>
-
 </html>

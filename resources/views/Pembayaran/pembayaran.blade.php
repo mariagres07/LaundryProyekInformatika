@@ -71,7 +71,7 @@
             <div class="date-text">{{ \Carbon\Carbon::now()->format('d/m/Y') }}</div>
         </div>
 
-        <p>Lakukan pembayaran dengan scan kode di samping atau salin kode pembayaran berikut:</p>
+        <p>Lakukan pembayaran dengan menyalin kode pembayaran berikut:</p>
 
         <div class="row align-items-center">
             <div class="col-md-6">
@@ -96,6 +96,18 @@
             <p><strong>Berat Barang:</strong> {{ $pesanan->beratBarang }} kg</p>
             <p><strong>Total Harga:</strong> Rp {{ number_format($totalHarga, 0, ',', '.') }}</p>
         </div>
+
+        <form action="{{ route('pembayaran.proses', $pesanan->idPesanan) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="mb-3">
+        <label for="buktiPembayaran" class="form-label fw-semibold">Upload Bukti Pembayaran</label>
+        <input type="file" name="buktiPembayaran" id="buktiPembayaran" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success w-100 mt-2">
+        <i class="bi bi-upload"></i> Konfirmasi Pembayaran
+    </button>
+</form>
+
 
         <div class="text-center mt-4">
             <a href="{{ route('pesanLaundry.index') }}" class="btn btn-outline-secondary">Kembali</a>
