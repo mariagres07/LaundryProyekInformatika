@@ -8,7 +8,7 @@
 
     @if (session('role') !== 'karyawan')
     <script>
-        window.location.href = "{{ route('login.show') }}";
+    window.location.href = "{{ route('login.show') }}";
     </script>
     @endif
 
@@ -156,7 +156,8 @@
     </div>
 
     <div class="container py-4">
-        <!-- Dashboard -->
+
+        <!-- === Dashboard === -->
         <div id="dashboard" class="row justify-content-center">
             <div class="col-md-3 mb-4">
                 <div class="menu-card" onclick="showPengguna()">
@@ -164,12 +165,14 @@
                     <h5>Manajemen Pengguna</h5>
                 </div>
             </div>
+
             <div class="col-md-3 mb-4">
                 <div class="menu-card" onclick="showLaundry()">
                     <i class="bi bi-basket menu-icon"></i>
                     <h5>Manajemen Laundry</h5>
                 </div>
             </div>
+
             <div class="col-md-3 mb-4">
                 <a href="{{ route('pengaduan.index') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
@@ -178,6 +181,7 @@
                     </div>
                 </a>
             </div>
+
             <div class="col-md-3 mb-4">
                 <a href="{{ url('/lihatdata') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
@@ -188,7 +192,7 @@
             </div>
         </div>
 
-        <!-- Manajemen Pengguna -->
+        <!-- === Manajemen Pengguna === -->
         <div id="pengguna" class="hidden row justify-content-center py-4">
             <div class="col-md-4 mb-4">
                 <div class="menu-card" onclick="window.location='{{ route('karyawan') }}'">
@@ -196,6 +200,7 @@
                     <h5>Manajemen Karyawan</h5>
                 </div>
             </div>
+
             <div class="col-md-4 mb-4">
                 <div class="menu-card" onclick="window.location='{{ route('kurir.index') }}'">
                     <i class="bi bi-truck menu-icon"></i>
@@ -209,7 +214,7 @@
             </button>
         </div>
 
-        <!-- Manajemen Laundry -->
+        <!-- === Manajemen Laundry === -->
         <div id="laundry" class="hidden row justify-content-center py-4">
             <div class="col-md-4 mb-4">
                 <div class="menu-card" onclick="window.location='{{ route('layanan.index') }}'">
@@ -217,6 +222,7 @@
                     <h5>Kelola Layanan</h5>
                 </div>
             </div>
+
             <div class="col-md-4 mb-4">
                 <div class="menu-card" onclick="window.location='{{ route('laporan.index') }}'">
                     <i class="bi bi-graph-up menu-icon"></i>
@@ -229,6 +235,7 @@
                 <i class="bi bi-arrow-left"></i>
             </button>
         </div>
+
     </div>
 
     <!-- Footer -->
@@ -239,6 +246,8 @@
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Base URL untuk digunakan di file JS -->
     <script>
         // === Fungsi Navigasi ===
         function showDashboard() {
@@ -271,5 +280,9 @@
             showDashboard();
         }
     </script>
+
+    <!-- File JS utama -->
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+
 </body>
 </html>

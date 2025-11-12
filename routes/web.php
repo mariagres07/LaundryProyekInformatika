@@ -15,6 +15,8 @@ use App\Http\Controllers\TanggapiPengaduanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\registerController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PembayaranController;
+
 
 // Route untuk halaman utama (landing page)
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
@@ -63,8 +65,9 @@ Route::post('/kurir/konfirmasi-berat/{idPesanan}', [KurirController::class, 'kon
     ->name('kurir.konfirmasiBerat');
 
 // ===================== PEMBAYARAN =====================
-// Route::get('/pembayaran/{idPesanan}', [PembayaranController::class, 'showForm'])->name('pembayaran.form');
-// Route::post('/pembayaran/{idPesanan}', [PembayaranController::class, 'prosesPembayaran'])->name('pembayaran.proses');
+Route::get('/pembayaran/{idPesanan}', [PembayaranController::class, 'index'])->name('pembayaran.index');
+Route::post('/pembayaran/{idPesanan}', [PembayaranController::class, 'prosesPembayaran'])->name('pembayaran.proses');
+Route::get('/pembayaran/success', [PembayaranController::class, 'success'])->name('pembayaran.success');
 
 // ===================== SELESAIKAN PESANAN =====================
 Route::post('/pesanan/{id}/selesai', [CVerifikasi::class, 'selesaikan'])->name('pesanan.selesai');

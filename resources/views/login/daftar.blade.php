@@ -265,7 +265,7 @@
 
         <div class="form-group">
           <label for="name">Alamat</label>
-          <input type="text" id="name" name="namaPelanggan" value="{{ old('name') }}" required>
+          <input type="text" id="name" name="alamat" value="{{ old('alamat') }}" required>
         </div>
 
         <div class="form-group">
@@ -275,7 +275,7 @@
 
         <div class="form-group">
           <label for="no_hp">No. HP</label>
-          <input type="tel" id="no_hp" name="no_hp" value="{{ old('no_hp') }}" required>
+          <input type="tel" id="noHp" name="noHp" value="{{ old('noHp') }}" required>
         </div>
 
         <ul id="password-rules">

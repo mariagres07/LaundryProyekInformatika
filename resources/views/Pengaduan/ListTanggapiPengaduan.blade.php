@@ -11,7 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        /* SAMA seperti Form Pengaduan */
         body {
             background-color: #f7f9fc;
             min-height: 100vh;
@@ -41,7 +40,6 @@
             font-size: 28px;
         }
 
-        /* Card item styling */
         .card-item {
             border-radius: 12px;
             padding: 20px;
@@ -70,7 +68,6 @@
             background-color: #4CAF50;
         }
 
-        /* Tombol back SAMA */
         .btn-back {
             position: fixed;
             bottom: 25px;
@@ -95,49 +92,55 @@
 
 <body>
 
-    {{-- sidenav KARYAWAN --}}
     @include('Dashboard.karyawan_sidenav')
 
     <div class="content">
         <div class="container-box">
-
             <h3 class="header-title">Data Pengaduan</h3>
 
-            @foreach ($pengaduans as $p)
+            @forelse ($pengaduans as $p)
             <div class="card-item">
-
                 <h5>
                     Pengaduan dari:
                     <strong>{{ $p->pelanggan->nama ?? 'Tidak diketahui' }}</strong>
                 </h5>
 
-                <p class="mb-1">
-                    <strong>Tanggal:</strong>
-                    {{ $p->created_at ? $p->created_at->format('d M Y H:i') : '-' }}
+                <p class="mb-1"><strong>Tanggal:</strong>
+                    {{ $p->tanggalPengaduan ? \Carbon\Carbon::parse($p->tanggalPengaduan)->format('d M Y') : '-' }}
                 </p>
 
-                <p>
-                    <strong>Isi Pengaduan:</strong><br>
-                    {{ $p->isiPengaduan ?? '-' }}
-                </p>
+                <p class="mb-1"><strong>Judul Pengaduan:</strong> {{ $p->judulPengaduan ?? '-' }}</p>
 
-                <span class="badge-status 
-          @if($p->statusPengaduan == 'Menunggu') badge-menunggu
-          @elseif($p->statusPengaduan == 'Ditanggapi') badge-ditanggapi
-          @elseif($p->statusPengaduan == 'Selesai') badge-selesai
-          @endif">
+                <p><strong>Isi Pengaduan:</strong><br>{{ $p->deskripsi ?? '-' }}</p>
+
+                <span class="badge-status
+                    @if($p->statusPengaduan == 'Menunggu') badge-menunggu
+                    @elseif($p->statusPengaduan == 'Ditanggapi') badge-ditanggapi
+                    @elseif($p->statusPengaduan == 'Selesai') badge-selesai
+                    @endif">
                     {{ $p->statusPengaduan ?? '-' }}
                 </span>
 
-                <br><br>
+                @if($p->media)
+                <p class="mt-2">
+                    <a href="{{ asset('storage/pengaduan/' . $p->media) }}" target="_blank"
+                        class="btn btn-outline-info btn-sm">
+                        <i class="bi bi-file-earmark"></i> Lihat Lampiran
+                    </a>
+                </p>
+                @endif
 
-                <a href="{{ route('pengaduan.show', $p->idPengaduan) }}"
-                    class="btn btn-primary btn-sm">
-                    Lihat Detail
+                <br>
+                <a href="{{ route('pengaduan.show', $p->idPengaduan) }}" class="btn btn-primary btn-sm">
+                    Lihat Detail / Tanggapi
                 </a>
-
             </div>
-            @endforeach
+            @empty
+            <div class="text-center text-muted mt-4">
+                <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                <p class="mt-2">Belum ada data pengaduan yang tersedia.</p>
+            </div>
+            @endforelse
 
         </div>
     </div>
@@ -147,7 +150,6 @@
     </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>

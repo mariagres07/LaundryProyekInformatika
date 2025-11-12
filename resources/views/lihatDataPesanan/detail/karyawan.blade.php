@@ -9,65 +9,65 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            font-family: "Poppins", sans-serif;
-            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-            min-height: 100vh;
-        }
+    body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+        min-height: 100vh;
+    }
 
-        .container-custom {
-            max-width: 700px;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+    .container-custom {
+        max-width: 700px;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-        h2 {
-            color: #2d4b74;
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-align: center;
-        }
+    h2 {
+        color: #2d4b74;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-align: center;
+    }
 
-        .text-label {
-            color: #2d4b74;
-            font-weight: 600;
-        }
+    .text-label {
+        color: #2d4b74;
+        font-weight: 600;
+    }
 
-        .btn-primary {
-            background-color: #2d4b74;
-            border: none;
-        }
+    .btn-primary {
+        background-color: #2d4b74;
+        border: none;
+    }
 
-        .btn-primary:hover {
-            background-color: #1e3a5c;
-        }
+    .btn-primary:hover {
+        background-color: #1e3a5c;
+    }
 
-        /* Tombol kembali di kiri bawah */
-        .btn-back {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #2d4b74;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            transition: all 0.3s;
-        }
+    /* Tombol kembali di kiri bawah */
+    .btn-back {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: #2d4b74;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transition: all 0.3s;
+    }
 
-        .btn-back:hover {
-            background: #1e3a5c;
-            color: white;
-            transform: scale(1.1);
-        }
+    .btn-back:hover {
+        background: #1e3a5c;
+        color: white;
+        transform: scale(1.1);
+    }
     </style>
 </head>
 
@@ -117,8 +117,8 @@
             <div class="mb-3">
                 <label class="form-label text-label">Berat Barang (kg)</label>
                 <input type="number" step="0.1" name="beratBarang"
-                    value="{{ old('beratBarang', $pesanan->beratBarang) }}"
-                    class="form-control rounded-3" placeholder="Masukkan berat (kg)" required>
+                    value="{{ old('beratBarang', $pesanan->beratBarang) }}" class="form-control rounded-3"
+                    placeholder="Masukkan berat (kg)" required>
             </div>
 
             <div class="text-end">
@@ -129,10 +129,11 @@
         </form>
     </div>
 
-    <!-- Tombol kembali di kiri bawah -->
-    <a href="{{ url('/dashboard') }}" class="btn-back" title="Kembali ke Dashboard">
+    <!-- Tombol Kembali ke Dashboard -->
+    <a href="javascript:void(0)" class="btn-back" title="Kembali ke Dashboard" onclick="showDashboard()">
         <i class="bi bi-arrow-left"></i>
     </a>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
