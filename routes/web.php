@@ -65,8 +65,9 @@ Route::post('/kurir/konfirmasi-berat/{idPesanan}', [KurirController::class, 'kon
     ->name('kurir.konfirmasiBerat');
 
 // ===================== PEMBAYARAN =====================
-Route::post('/pembayaran/{idPesanan}', [PembayaranController::class, 'prosesPembayaran'])->name('pembayaran.proses');
 Route::get('/pembayaran/{idPesanan}', [PembayaranController::class, 'index'])->name('pembayaran.index');
+Route::post('/pembayaran/{idPesanan}', [PembayaranController::class, 'prosesPembayaran'])->name('pembayaran.proses');
+Route::get('/pembayaran/success', [PembayaranController::class, 'success'])->name('pembayaran.success');
 
 // ===================== SELESAIKAN PESANAN =====================
 Route::post('/pesanan/{id}/selesai', [CVerifikasi::class, 'selesaikan'])->name('pesanan.selesai');
