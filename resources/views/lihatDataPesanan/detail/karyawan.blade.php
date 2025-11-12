@@ -129,11 +129,10 @@
         </form>
     </div>
 
-    <!-- Tombol Kembali ke Dashboard -->
-    <a href="javascript:void(0)" class="btn-back" title="Kembali ke Dashboard" onclick="showDashboard()">
+    <!-- Tombol kembali di kiri bawah -->
+    <a href="{{ url('/dashboard') }}" class="btn-back" title="Kembali ke Dashboard">
         <i class="bi bi-arrow-left"></i>
     </a>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
