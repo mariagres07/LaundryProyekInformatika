@@ -7,19 +7,57 @@
     <title>Dashboard Kurir - IVA Laundry</title>
 
     @if (session('role') !== 'kurir')
-    <script>
-        window.location.href = "{{ route('login.show') }}";
-    </script>
+        <script>
+            window.location.href = "{{ route('login.show') }}";
+        </script>
     @endif
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        * {
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-            min-height: 100vh;
+            background-color: #eaf6ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ==== HEADER WATER FRAME ==== */
+        .header-wrapper {
+            position: relative;
+            width: 100%;
+            height: 130px;
+            overflow: hidden;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 40px;
+        }
+
+        .header-bg {
+            background-image: url('water.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.75);
+        }
+
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 700;
+            font-size: 34px;
+            text-align: left;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
         }
 
         .menu-card {
@@ -50,57 +88,74 @@
             color: #2d4b74;
         }
 
-        .logout-btn {
-            background-color: #dce3e8;
-            color: red;
-            font-weight: bold;
-            border-radius: 12px;
-            padding: 8px 20px;
+        /* === Tombol Kembali (Floating Button) === */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3;
+            color: white;
             border: none;
-            width: 100%;
-            text-align: center;
-            margin-top: 15px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
         }
 
-        .logout-btn:hover {
-            background-color: #f8d7da;
-            color: #a00;
+        .btn-back:hover {
+            background-color: #6fa2cc;
+            transform: scale(1.1);
         }
     </style>
 </head>
 
 <body>
 
+    <!-- HEADER -->
+    <div class="header-wrapper">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            Welcome! <span>{{ session('username') ?? 'Kurir' }}</span>
+        </div>
+    </div>
 
-    <!-- Content -->
+    <!-- DASHBOARD MENU -->
     <div class="container py-4">
         <div id="dashboard" class="row justify-content-center">
             <div class="col-md-4 mb-4">
                 <a href="{{ route('lihatverifikasi.index') }}" class="text-decoration-none text-dark">
-                    <div class="menu-card text-center p-4">
+                    <div class="menu-card">
                         <i class="bi bi-list-check menu-icon"></i>
-                        <h5 class="mt-2">Verifikasi Pesanan</h5>
+                        <h5>Verifikasi Pesanan</h5>
                     </div>
                 </a>
             </div>
 
             <div class="col-md-4 mb-4">
                 <a href="{{ route('lihatdata.index') }}" class="text-decoration-none text-dark">
-                    <div class="menu-card text-center p-4">
+                    <div class="menu-card">
                         <i class="bi bi-list-ul menu-icon"></i>
-                        <h5 class="mt-2">Pesanan</h5>
+                        <h5>Lihat Pesanan</h5>
                     </div>
                 </a>
             </div>
         </div>
-
-        <footer>
-            <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
-            <i class="bi bi-whatsapp text-success"></i> iva.laundry
-        </footer>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <!-- FOOTER -->
+    <footer>
+        <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
+        <i class="bi bi-whatsapp text-success"></i> iva.laundry
+    </footer>
 
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>
