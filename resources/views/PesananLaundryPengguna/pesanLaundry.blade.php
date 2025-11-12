@@ -398,12 +398,33 @@
             }
         }
 
-        btnPesan.addEventListener('click', () => {
-            if (btnPesan.classList.contains('active')) {
-                alert("/detailPesanan/{id}");
-                
-            }
-        });
+        btnPesan.addEventListener('click', async () => {
+    if (!btnPesan.classList.contains('active')) return;
+
+    // Ambil data kategori & layanan
+    const kategori = Array.from(document.querySelectorAll('.counter span'))
+        .map((s, i) => parseInt(s.textContent) > 0 ? i : null)
+        .filter(i => i !== null);
+
+    const layanan = document.querySelector('input[name="layanan"]:checked').value;
+
+    // POST ke backend
+    const response = await fetch('/pesanLaundry', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+        body: JSON.stringify({kategori, layanan})
+    });
+
+    const data = await response.json();
+
+    if(data.success && data.idPesanan){
+        window.location.href = `/detailPesanan/${data.idPesanan}`;
+    } else {
+        alert('Gagal membuat pesanan');
+    }
+});
+
+
     </script>
 
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
