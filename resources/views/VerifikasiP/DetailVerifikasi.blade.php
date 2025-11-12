@@ -34,6 +34,37 @@
         .btn-primary:hover {
             background-color: #1e3658;
         }
+
+        /* ===== TOMBOl KEMBALI BARU (SESUAI PERMINTAAN) ===== */
+        .btn-kembali {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3; /* Warna biru muda seperti permintaan */
+            color: white;
+            border: none;
+            border-radius: 8px; /* Sudut sedikit melengkung */
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 8px; /* Jarak antara teks dan ikon */
+        }
+
+        .btn-kembali:hover {
+            background-color: #7aa5c5; /* Biru lebih gelap saat hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-kembali i {
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 
@@ -121,14 +152,12 @@
             </div>
         </div>
 
-        <!-- Tombol kembali -->
-        <div class="mt-4">
-            <a href="{{ route('lihatverifikasi.index') }}" class="btn btn-secondary">Kembali</a>
-            <i class="bi bi-arrow-left"></i> Kembali
-            </a>
-        </div>
-
     </div>
+
+    <!-- Tombol Kembali Baru (Hanya Satu) -->
+    <a href="{{ route('lihatverifikasi.index') }}" class="btn-kembali">
+        <i class="bi bi-arrow-left"></i> Kembali
+    </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

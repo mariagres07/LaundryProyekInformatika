@@ -1,9 +1,10 @@
 @php
-    use Illuminate\Support\Str;
+use Illuminate\Support\Str;
 @endphp
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,7 +66,7 @@
             border-radius: 20px;
             padding: 10px 20px;
             margin: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .alamat input {
@@ -117,7 +118,7 @@
             border-radius: 30px;
             margin: 0 20px 20px;
             padding: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .card-header {
@@ -153,7 +154,7 @@
             border-radius: 10px;
             background: white;
             padding: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .counter {
@@ -225,6 +226,7 @@
             background-color: #007bff;
             cursor: pointer;
         }
+
         .btn-back {
             position: fixed;
             bottom: 25px;
@@ -243,7 +245,6 @@
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-
     </style>
 </head>
 
@@ -267,8 +268,7 @@
             id="alamat"
             name="alamat"
             placeholder="Masukkan alamat"
-            value="{{ old('alamat', $pelanggan['alamat'] ?? '') }}"
-        >
+            value="{{ old('alamat', $pelanggan['alamat'] ?? '') }}">
     </div>
 
     <!-- ==== TAB MENU ==== -->
@@ -280,47 +280,47 @@
     <!-- ==== KATEGORI ==== -->
     <div class="card tab-content" id="contentKategori">
         @foreach ($kategoriItems ?? [] as $kategori)
-            @php
-                $nama = strtolower($kategori->namaKategori);
-                if (Str::contains($nama, 'pakaian')) {
-                    $icon = 'pakaian.png';
-                } elseif (Str::contains($nama, 'selimut') || Str::contains($nama, 'seprai')) {
-                    $icon = 'selimut.png';
-                } elseif (Str::contains($nama, 'handuk')) {
-                    $icon = 'handuk.png';
-                } else {
-                    $icon = 'pakaian.png';
-                }
-            @endphp
+        @php
+        $nama = strtolower($kategori->namaKategori);
+        if (Str::contains($nama, 'pakaian')) {
+        $icon = 'pakaian.png';
+        } elseif (Str::contains($nama, 'selimut') || Str::contains($nama, 'seprai')) {
+        $icon = 'selimut.png';
+        } elseif (Str::contains($nama, 'handuk')) {
+        $icon = 'handuk.png';
+        } else {
+        $icon = 'pakaian.png';
+        }
+        @endphp
 
-            <div class="item">
-                <div class="left">
-                    <img src="{{ $icon }}" alt="{{ $kategori->namaKategori }}">
-                    <div>{{ $kategori->namaKategori }}</div>
-                </div>
-                <div class="counter">
-                    <button class="minus">-</button>
-                    <span>0</span>
-                    <button class="plus">+</button>
-                </div>
+        <div class="item">
+            <div class="left">
+                <img src="{{ $icon }}" alt="{{ $kategori->namaKategori }}">
+                <div>{{ $kategori->namaKategori }}</div>
             </div>
+            <div class="counter">
+                <button class="minus">-</button>
+                <span>0</span>
+                <button class="plus">+</button>
+            </div>
+        </div>
         @endforeach
     </div>
 
     <!-- ==== LAYANAN ==== -->
     <div class="card tab-content" id="contentLayanan" style="display:none;">
         @foreach ($layanans ?? [] as $layanan)
-            <div class="radio-item">
-                <div class="left">
-                    @if(Str::contains(strtolower($layanan->namaLayanan), 'express'))
-                        <img src="Expresslogo.png" alt="express">
-                    @else
-                        <img src="regularlogo.png" alt="regular">
-                    @endif
-                    <div>{{ $layanan->namaLayanan }}</div>
-                </div>
-                <input type="radio" name="layanan" value="{{ $layanan->idLayanan }}">
+        <div class="radio-item">
+            <div class="left">
+                @if(Str::contains(strtolower($layanan->namaLayanan), 'express'))
+                <img src="Expresslogo.png" alt="express">
+                @else
+                <img src="regularlogo.png" alt="regular">
+                @endif
+                <div>{{ $layanan->namaLayanan }}</div>
             </div>
+            <input type="radio" name="layanan" value="{{ $layanan->idLayanan }}">
+        </div>
         @endforeach
     </div>
 
@@ -388,6 +388,7 @@
 
         // === BUTTON PESAN ===
         const btnPesan = document.getElementById('btnPesan');
+
         function checkPesanButton() {
             if (kategoriDipilih && layananDipilih) {
                 btnPesan.classList.add('active');
@@ -409,6 +410,7 @@
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
-    
+
 </body>
+
 </html>

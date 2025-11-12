@@ -8,7 +8,7 @@
 
     @if (session('role') !== 'karyawan')
     <script>
-    window.location.href = "{{ route('login.show') }}";
+        window.location.href = "{{ route('login.show') }}";
     </script>
     @endif
 
@@ -17,121 +17,131 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    * {
-        font-family: "Poppins", sans-serif;
-        box-sizing: border-box;
-    }
+        * {
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
 
-    body {
-        background-color: #eaf6ff;
-        margin: 0;
-        padding: 0;
-    }
+        body {
+            background-color: #eaf6ff;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* ==== HEADER ==== */
-    .header-wrapper {
-        position: relative;
-        width: 100%;
-        height: 130px;
-        overflow: hidden;
-        border-bottom-left-radius: 40px;
-        border-bottom-right-radius: 40px;
-        margin-bottom: 40px;
-    }
+        /* ==== HEADER WATER FRAME ==== */
+        .header-wrapper {
+            position: relative;
+            width: 100%;
+            height: 130px;
+            overflow: hidden;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            margin-bottom: 40px;
+        }
 
-    .header-bg {
-        background-image: url('{{ asset('images/water.jpg') }}');
-        background-size: cover;
-        background-position: center;
-        width: 100%;
-        height: 100%;
-        filter: brightness(0.75);
-    }
+        .header-bg {
+            background-image: url('water.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.75);
+        }
 
-    .header-content {
-        position: absolute;
-        top: 50%;
-        left: 40px;
-        transform: translateY(-50%);
-        color: white;
-        font-weight: 700;
-        font-size: 34px;
-        text-align: left;
-        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
-    }
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 700;
+            font-size: 34px;
+            text-align: left;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
+        }
 
-    .hidden {
-        display: none !important;
-    }
+        /* ===== WELCOME TEXT ===== */
+        .welcome-text {
+            margin-left: 40px;
+            margin-bottom: 25px;
+            color: #2d4b74;
+            font-size: 22px;
+            font-weight: 600;
+        }
 
-    /* ==== MENU CARD ==== */
-    .menu-card {
-        background-color: #ffffff;
-        border-radius: 15px;
-        padding: 30px 20px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s, box-shadow 0.2s;
-        cursor: pointer;
-    }
+        .hidden {
+            display: none !important;
+        }
 
-    .menu-card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-    }
+        .menu-card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
 
-    .menu-icon {
-        font-size: 50px;
-        color: #7ba6e0;
-        margin-bottom: 15px;
-    }
+        .menu-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+        }
 
-    footer {
-        text-align: center;
-        padding: 15px 0;
-        font-weight: 600;
-        color: #2d4b74;
-    }
+        .menu-icon {
+            font-size: 50px;
+            color: #7ba6e0;
+            margin-bottom: 15px;
+        }
 
-    .logout-btn {
-        background-color: #dce3e8;
-        color: red;
-        font-weight: bold;
-        border-radius: 12px;
-        padding: 8px 20px;
-        border: none;
-        width: 100%;
-        text-align: center;
-        margin-top: 15px;
-    }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            font-weight: 600;
+            color: #2d4b74;
+        }
 
-    .logout-btn:hover {
-        background-color: #f8d7da;
-        color: #a00;
-    }
+        .logout-btn {
+            background-color: #dce3e8;
+            color: red;
+            font-weight: bold;
+            border-radius: 12px;
+            padding: 8px 20px;
+            border: none;
+            width: 100%;
+            text-align: center;
+            margin-top: 15px;
+        }
 
-    .btn-back {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        background: #2d4b74;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 2000;
-        transition: transform 0.2s, background 0.2s;
-    }
+        .logout-btn:hover {
+            background-color: #f8d7da;
+            color: #a00;
+        }
 
-    .btn-back:hover {
-        background: #1e3a5c;
-        transform: scale(1.08);
-    }
+        /* === Tombol Kembali (Floating Button) === */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-back:hover {
+            background-color: #6fa2cc;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -146,8 +156,7 @@
     </div>
 
     <div class="container py-4">
-
-        <!-- === Dashboard === -->
+        <!-- Dashboard -->
         <div id="dashboard" class="row justify-content-center">
             <div class="col-md-3 mb-4">
                 <div class="menu-card" onclick="showPengguna()">
@@ -155,14 +164,12 @@
                     <h5>Manajemen Pengguna</h5>
                 </div>
             </div>
-
             <div class="col-md-3 mb-4">
                 <div class="menu-card" onclick="showLaundry()">
                     <i class="bi bi-basket menu-icon"></i>
                     <h5>Manajemen Laundry</h5>
                 </div>
             </div>
-
             <div class="col-md-3 mb-4">
                 <a href="{{ route('pengaduan.index') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
@@ -171,7 +178,6 @@
                     </div>
                 </a>
             </div>
-
             <div class="col-md-3 mb-4">
                 <a href="{{ url('/lihatdata') }}" class="text-decoration-none text-dark">
                     <div class="menu-card">
@@ -182,7 +188,7 @@
             </div>
         </div>
 
-        <!-- === Manajemen Pengguna === -->
+        <!-- Manajemen Pengguna -->
         <div id="pengguna" class="hidden row justify-content-center py-4">
             <div class="col-md-4 mb-4">
                 <div class="menu-card" onclick="window.location='{{ route('karyawan') }}'">
@@ -190,7 +196,6 @@
                     <h5>Manajemen Karyawan</h5>
                 </div>
             </div>
-
             <div class="col-md-4 mb-4">
                 <div class="menu-card" onclick="window.location='{{ route('kurir.index') }}'">
                     <i class="bi bi-truck menu-icon"></i>
@@ -198,14 +203,13 @@
                 </div>
             </div>
 
-            <!-- Tombol Kembali ke Dashboard -->
-            <a href="javascript:void(0)" class="btn-back" title="Kembali ke Dashboard" onclick="showDashboard()">
+            <!-- Tombol kembali -->
+            <button class="btn-back" onclick="showDashboard()" title="Kembali ke Dashboard">
                 <i class="bi bi-arrow-left"></i>
-            </a>
-
+            </button>
         </div>
 
-        <!-- === Manajemen Laundry === -->
+        <!-- Manajemen Laundry -->
         <div id="laundry" class="hidden row justify-content-center py-4">
             <div class="col-md-4 mb-4">
                 <div class="menu-card" onclick="window.location='{{ route('layanan.index') }}'">
@@ -213,7 +217,6 @@
                     <h5>Kelola Layanan</h5>
                 </div>
             </div>
-
             <div class="col-md-4 mb-4">
                 <div class="menu-card" onclick="window.location='{{ route('laporan.index') }}'">
                     <i class="bi bi-graph-up menu-icon"></i>
@@ -221,12 +224,11 @@
                 </div>
             </div>
 
-            <!-- Tombol Kembali ke Dashboard -->
-            <a href="javascript:void(0)" class="btn-back" title="Kembali ke Dashboard" onclick="showDashboard()">
+            <!-- Tombol kembali -->
+            <button class="btn-back" onclick="showDashboard()" title="Kembali ke Dashboard">
                 <i class="bi bi-arrow-left"></i>
-            </a>
+            </button>
         </div>
-
     </div>
 
     <!-- Footer -->
@@ -237,15 +239,37 @@
 
     <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Base URL untuk digunakan di file JS -->
     <script>
-    const baseUrl = "{{ url('') }}";
+        // === Fungsi Navigasi ===
+        function showDashboard() {
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('pengguna').classList.add('hidden');
+            document.getElementById('laundry').classList.add('hidden');
+        }
+
+        function showPengguna() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('pengguna').classList.remove('hidden');
+            document.getElementById('laundry').classList.add('hidden');
+        }
+
+        function showLaundry() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('pengguna').classList.add('hidden');
+            document.getElementById('laundry').classList.remove('hidden');
+        }
+
+        // === Deteksi tab dari URL ===
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialTab = urlParams.get('tab');
+
+        if (initialTab === 'pengguna') {
+            showPengguna();
+        } else if (initialTab === 'laundry') {
+            showLaundry();
+        } else {
+            showDashboard();
+        }
     </script>
-
-    <!-- File JS utama -->
-    <script src="{{ asset('js/dashboard.js') }}"></script>
-
 </body>
-
 </html>

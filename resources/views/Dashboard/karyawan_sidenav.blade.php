@@ -151,7 +151,7 @@
             <a href="{{ url('/tampilanKaryawan') }}">
                 <i class="bi bi-house"></i> Dashboard
             </a>
-            <a href="{{ url('/pengguna') }}">
+            <a href="{{ url('/karyawan') }}"> <!-- Gunakan PATH yang sesuai -->
                 <i class="bi bi-people"></i> Manajemen Pengguna
             </a>
             <a href="{{ url('/laundry') }}">
