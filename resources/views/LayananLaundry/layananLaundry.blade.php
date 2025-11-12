@@ -5,10 +5,11 @@
   <title>Kelola Layanan</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+
   <style>
     body {
       background-color: #ffffff;
-      font-family: sans-serif;
+      font-family: "Poppins", sans-serif;
     }
 
     .background-header {
@@ -138,8 +139,36 @@
       margin: 0 auto;
       border: none;
     }
+
+    /* Tombol kembali gaya bulat di pojok kiri bawah */
+    .btn-back {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      background-color: #8ab2d3;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      transition: 0.3s;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      text-decoration: none;
+    }
+
+    .btn-back:hover {
+      background-color: #6fa2cc;
+      transform: scale(1.1);
+      color: white;
+    }
   </style>
 </head>
+
 <body class="p-4">
 
 @include('Dashboard.karyawan_sidenav')
@@ -229,7 +258,7 @@
       <form id="formPaket" class="service-item d-none mt-3" method="POST" action="{{ route('layanan.store') }}">
         @csrf
         <div class="service-left">
-          <img src="/default.png" alt="Tambah">
+          <img src="/selimut.png" alt="Tambah">
           <input name="namaLayanan" class="form-control border-0" placeholder="Masukkan nama paket" required>
         </div>
         <input name="hargaPerKg" type="number" min="0" class="form-control price-input" placeholder="Harga per Kg" required>
@@ -242,6 +271,11 @@
     <div id="btnShowInput" class="input-btn">INPUT</div>
   </div>
 </div>
+
+<!-- 🔹 Tombol kembali bundar -->
+<a href="{{ url()->previous() }}" class="btn-back" title="Kembali ke Dashboard">
+  <i class="bi bi-arrow-left"></i>
+</a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -260,16 +294,6 @@
     }
   });
 </script>
-
-<div class="text-center my-4">
-  <a href="{{ url()->previous() }}" 
-     class="btn btn-primary rounded-pill shadow" 
-     style="position: fixed; bottom: 25px; right: 25px;">
-     ⬅
-  </a>
-</div>
-
-<script src="{{ asset('js/dashboard.js') }}"></script>
 
 </body>
 </html>
