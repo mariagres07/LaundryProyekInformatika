@@ -9,60 +9,60 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            font-family: "Poppins", sans-serif;
-            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-            min-height: 100vh;
-        }
+    body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+        min-height: 100vh;
+    }
 
-        .container-custom {
-            max-width: 700px;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+    .container-custom {
+        max-width: 700px;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-        h2 {
-            color: #2d4b74;
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-align: center;
-        }
+    h2 {
+        color: #2d4b74;
+        font-weight: 700;
+        margin-bottom: 25px;
+        text-align: center;
+    }
 
-        .text-label {
-            color: #2d4b74;
-            font-weight: 600;
-        }
+    .text-label {
+        color: #2d4b74;
+        font-weight: 600;
+    }
 
-        .btn-primary {
-            background-color: #2d4b74;
-            border: none;
-        }
+    .btn-primary {
+        background-color: #2d4b74;
+        border: none;
+    }
 
-        .btn-primary:hover {
-            background-color: #1e3a5c;
-        }
+    .btn-primary:hover {
+        background-color: #1e3a5c;
+    }
 
-        /* Tombol kembali di kiri bawah */
-        .btn-back {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background-color: #8ab2d3ff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            transition: 0.3s;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+    /* Tombol kembali di kiri bawah */
+    .btn-back {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        background-color: #8ab2d3ff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        transition: 0.3s;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
     </style>
 </head>
 
