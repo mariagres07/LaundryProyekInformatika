@@ -60,10 +60,6 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .btn-back:hover {
-      background-color: #2d5cb5;
-    }
-
     .top-bar {
       background-color: #5dade2;
       padding: 20px;
@@ -163,7 +159,7 @@
   <script src="{{ asset('js/dashboard.js') }}"></script>
 
   <!-- Tombol kembali -->
-  <a href="javascript:history.back()" class="btn-back" title="Kembali">
+  <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
     <i class="bi bi-arrow-left"></i>
   </a>
 

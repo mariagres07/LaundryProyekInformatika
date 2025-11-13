@@ -119,7 +119,6 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('pengaduan.index') }}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
                     <button type="submit" class="btn btn-success"><i class="bi bi-send"></i> Kirim Tanggapan</button>
                 </div>
             </form>
