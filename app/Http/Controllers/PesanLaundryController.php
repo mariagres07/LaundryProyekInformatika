@@ -7,19 +7,17 @@ use App\Models\Pesanan;
 use App\Models\Pelanggan;
 use App\Models\KategoriItem;
 use App\Models\Layanan;
-use Illuminate\Support\Facades\DB;
 
 class PesanLaundryController extends Controller
 {
-    // 🔹 Halaman utama untuk pelanggan memesan laundry
+    // 🔹 Halaman utama pemesanan laundry
     public function index()
     {
-        $user = session('pelanggan'); // Ambil data pelanggan dari session
+        $user = session('pelanggan');
         if (!$user || session('role') !== 'pelanggan') {
             return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Ambil kategori & layanan dari database
         $kategoriItems = KategoriItem::select('idKategoriItem', 'namaKategori')->get();
         $layanans = Layanan::select('idLayanan', 'namaLayanan')->get();
 
@@ -30,39 +28,33 @@ class PesanLaundryController extends Controller
         ]);
     }
 
-    // 🔹 Menerima data AJAX dari tombol "Pesan Sekarang"
+    // 🔹 Menerima data dari fetch() (AJAX)
     public function store(Request $request)
     {
         $user = session('pelanggan');
-
         if (!$user || session('role') !== 'pelanggan') {
             return response()->json(['success' => false, 'message' => 'Silakan login terlebih dahulu.'], 401);
         }
 
-        // Validasi input
+        // Validasi
         $data = $request->validate([
             'kategori' => 'required|array',
-            'layanan' => 'required',
+            'layanan'  => 'required',
+            'alamat'   => 'nullable|string|max:255',
         ]);
 
-        // Ambil data kategori dan layanan dari database
-        $kategoriItems = KategoriItem::select('idKategoriItem', 'namaKategori')->get();
+        // Ambil layanan
         $layanan = Layanan::find($data['layanan']);
-
         if (!$layanan) {
             return response()->json(['success' => false, 'message' => 'Layanan tidak ditemukan.']);
         }
 
-        // Konversi array index kategori ke nama kolom
-        $kategoriCounts = ['pakaian' => 0, 'seprai' => 0, 'handuk' => 0];
-        foreach ($data['kategori'] as $index) {
-            $nama = strtolower($kategoriItems[$index]->namaKategori ?? '');
-            if (str_contains($nama, 'pakaian')) $kategoriCounts['pakaian']++;
-            elseif (str_contains($nama, 'seprai')) $kategoriCounts['seprai']++;
-            elseif (str_contains($nama, 'handuk')) $kategoriCounts['handuk']++;
-        }
+        // Ambil jumlah kategori (urutannya sama dengan di view)
+        $pakaian = $data['kategori'][0] ?? 0;
+        $seprai  = $data['kategori'][1] ?? 0;
+        $handuk  = $data['kategori'][2] ?? 0;
 
-        // Estimasi waktu (express = 1 hari, regular = 3 hari)
+        // Tentukan estimasi waktu berdasarkan paket
         $paket = strtolower($layanan->namaLayanan);
         $estimasiHari = str_contains($paket, 'express') ? 1 : 3;
 
@@ -74,11 +66,11 @@ class PesanLaundryController extends Controller
             'idKurir'        => null,
             'idKaryawan'     => null,
             'statusPesanan'  => 'Menunggu Penjemputan',
-            'alamat'         => $user['alamat'] ?? 'Belum diisi',
+            'alamat'         => $data['alamat'] ?? $user['alamat'] ?? 'Belum diisi',
             'paket'          => $layanan->namaLayanan,
-            'pakaian'        => $kategoriCounts['pakaian'],
-            'seprai'         => $kategoriCounts['seprai'],
-            'handuk'         => $kategoriCounts['handuk'],
+            'pakaian'        => $pakaian,
+            'seprai'         => $seprai,
+            'handuk'         => $handuk,
             'beratBarang'    => null,
             'tanggalMasuk'   => now(),
             'tanggalSelesai' => now()->addDays($estimasiHari),
@@ -91,7 +83,7 @@ class PesanLaundryController extends Controller
         ]);
     }
 
-    // 🔹 Detail pesanan
+    // 🔹 Detail pesanan pelanggan
     public function detail($id)
     {
         $user = session('pelanggan');
