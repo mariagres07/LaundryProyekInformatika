@@ -87,6 +87,7 @@ Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('lay
 
 // ===================== PESAN LAUNDRY =====================
 Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry');
+Route::post('/pesanLaundry', [PesanLaundryController::class, 'store'])->name('pesanLaundry.store');
 Route::get('/detailPesanan/{id}', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 

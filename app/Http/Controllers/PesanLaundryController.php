@@ -6,26 +6,101 @@ use Illuminate\Http\Request;
 use App\Models\Pesanan;
 use App\Models\Pelanggan;
 use App\Models\KategoriItem;
-use App\Models\Layanan;     
+use App\Models\Layanan;
 
 class PesanLaundryController extends Controller
 {
     public function index()
     {
-        $user = session('pelanggan'); // Ambil data pelanggan dari session
+        $user = session('pelanggan');
         if (!$user || session('role') !== 'pelanggan') {
             return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // 🔹 Ambil data kategori dan layanan dari database
         $kategoriItems = KategoriItem::select('idKategoriItem', 'namaKategori')->get();
         $layanans = Layanan::select('idLayanan', 'namaLayanan')->get();
 
-        // 🔹 Kirim data pelanggan + kategori + layanan ke view
         return view('PesananLaundryPengguna.PesanLaundry', [
             'pelanggan' => $user,
             'kategoriItems' => $kategoriItems,
             'layanans' => $layanans,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $user = session('pelanggan');
+        if (!$user || session('role') !== 'pelanggan') {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $data = $request->json()->all();
+        
+        // Validasi data
+        if (!isset($data['kategori']) || !isset($data['layanan'])) {
+            return response()->json(['success' => false, 'message' => 'Data tidak lengkap'], 400);
+        }
+
+        // Ambil alamat dari input atau gunakan alamat user
+        $alamatInput = document.getElementById('alamat').value;
+        $alamat = !empty($alamatInput) ? $alamatInput : ($user['alamat'] ?? 'Alamat tidak diisi');
+
+        // Ambil data layanan
+        $layanan = Layanan::find($data['layanan']);
+        if (!$layanan) {
+            return response()->json(['success' => false, 'message' => 'Layanan tidak ditemukan'], 404);
+        }
+
+        // Ambil semua kategori items untuk mapping
+        $kategoriItems = KategoriItem::all();
+        
+        // Inisialisasi jumlah untuk setiap kategori
+        $pakaian = 0;
+        $seprai = 0;
+        $handuk = 0;
+
+        // Map kategori index ke quantity
+        foreach ($data['kategori'] as $index) {
+            if (isset($kategoriItems[$index])) {
+                $namaKategori = strtolower($kategoriItems[$index]->namaKategori);
+                
+                if (str_contains($namaKategori, 'pakaian')) {
+                    $pakaian = 1; // atau quantity yang sesuai
+                } elseif (str_contains($namaKategori, 'seprai')) {
+                    $seprai = 1;
+                } elseif (str_contains($namaKategori, 'handuk')) {
+                    $handuk = 1;
+                }
+            }
+        }
+
+        // Hitung estimasi hari
+        $paket = strtolower($layanan->namaLayanan);
+        $estimasiHari = str_contains($paket, 'express') ? 1 : 3;
+
+        // Buat pesanan
+        $pesanan = Pesanan::create([
+            'namaPesanan'    => 'Pesanan ' . $user['namaPelanggan'],
+            'idPelanggan'    => $user['idPelanggan'],
+            'idLayanan'      => $data['layanan'],
+            'idKurir'        => null,
+            'idKaryawan'     => null,
+            'statusPesanan'  => 'Menunggu Penjemputan',
+            'alamat'         => $alamat,
+            'paket'          => $layanan->namaLayanan,
+            'pakaian'        => $pakaian,
+            'seprai'         => $seprai,
+            'handuk'         => $handuk,
+            'beratBarang'    => null,
+            'tanggalMasuk'   => now(),
+            'tanggalSelesai' => now()->addDays($estimasiHari),
+            'totalHarga'     => 0, // Tambahkan logic perhitungan harga sesuai kebutuhan
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'idPesanan' => $pesanan->idPesanan,
+            'message' => 'Pesanan berhasil dibuat'
         ]);
     }
 
