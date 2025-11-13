@@ -328,62 +328,103 @@ use Illuminate\Support\Str;
     <button id="btnPesan" class="btn-pesan">Pesan Sekarang</button>
 
     <script>
-        // === TAB SWITCH ===
-        const tabKategori = document.getElementById('tabKategori');
-        const tabLayanan = document.getElementById('tabLayanan');
-        const contentKategori = document.getElementById('contentKategori');
-        const contentLayanan = document.getElementById('contentLayanan');
+    // === TAB SWITCH ===
+    const tabKategori = document.getElementById('tabKategori');
+    const tabLayanan = document.getElementById('tabLayanan');
+    const contentKategori = document.getElementById('contentKategori');
+    const contentLayanan = document.getElementById('contentLayanan');
 
-        tabKategori.addEventListener('click', () => {
-            tabKategori.classList.add('active');
-            tabLayanan.classList.remove('active');
-            contentKategori.style.display = 'block';
-            contentLayanan.style.display = 'none';
+    tabKategori.addEventListener('click', () => {
+        tabKategori.classList.add('active');
+        tabLayanan.classList.remove('active');
+        contentKategori.style.display = 'block';
+        contentLayanan.style.display = 'none';
+    });
+
+    tabLayanan.addEventListener('click', () => {
+        tabLayanan.classList.add('active');
+        tabKategori.classList.remove('active');
+        contentKategori.style.display = 'none';
+        contentLayanan.style.display = 'block';
+    });
+
+    // === COUNTER ===
+    const plusButtons = document.querySelectorAll('.plus');
+    const minusButtons = document.querySelectorAll('.minus');
+    let kategoriDipilih = false;
+
+    plusButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            let span = btn.parentElement.querySelector('span');
+            span.textContent = parseInt(span.textContent) + 1;
+            checkKategori();
         });
+    });
 
-        tabLayanan.addEventListener('click', () => {
-            tabLayanan.classList.add('active');
-            tabKategori.classList.remove('active');
-            contentKategori.style.display = 'none';
-            contentLayanan.style.display = 'block';
+    minusButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            let span = btn.parentElement.querySelector('span');
+            let val = parseInt(span.textContent);
+            if (val > 0) span.textContent = val - 1;
+            checkKategori();
         });
+    });
 
-        // === COUNTER ===
-        const plusButtons = document.querySelectorAll('.plus');
-        const minusButtons = document.querySelectorAll('.minus');
-        let kategoriDipilih = false;
+    function checkKategori() {
+        kategoriDipilih = Array.from(document.querySelectorAll('.counter span'))
+            .some(s => parseInt(s.textContent) > 0);
+        checkPesanButton();
+    }
 
-        plusButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                let span = btn.parentElement.querySelector('span');
-                span.textContent = parseInt(span.textContent) + 1;
-                checkKategori();
-            });
-        });
-
-        minusButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                let span = btn.parentElement.querySelector('span');
-                let val = parseInt(span.textContent);
-                if (val > 0) span.textContent = val - 1;
-                checkKategori();
-            });
-        });
-
-        function checkKategori() {
-            kategoriDipilih = Array.from(document.querySelectorAll('.counter span'))
-                .some(s => parseInt(s.textContent) > 0);
+    // === RADIO ===
+    let layananDipilih = false;
+    const radios = document.querySelectorAll('input[name="layanan"]');
+    radios.forEach(r => {
+        r.addEventListener('change', () => {
+            layananDipilih = true;
             checkPesanButton();
-        }
+        });
+    });
 
-        // === RADIO ===
-        let layananDipilih = false;
-        const radios = document.querySelectorAll('input[name="layanan"]');
-        radios.forEach(r => {
-            r.addEventListener('change', () => {
-                layananDipilih = true;
-                checkPesanButton();
-            });
+    // === BUTTON PESAN ===
+    const btnPesan = document.getElementById('btnPesan');
+
+    function checkPesanButton() {
+        if (kategoriDipilih && layananDipilih) {
+            btnPesan.classList.add('active');
+            btnPesan.disabled = false;
+        } else {
+            btnPesan.classList.remove('active');
+            btnPesan.disabled = true;
+        }
+    }
+
+    // === KIRIM PESAN KE BACKEND ===
+    btnPesan.addEventListener('click', async () => {
+        if (!btnPesan.classList.contains('active')) return;
+
+        // Ambil jumlah tiap kategori
+        const kategori = Array.from(document.querySelectorAll('.counter span')).map(s => parseInt(s
+            .textContent));
+
+        // Ambil layanan yang dipilih
+        const layanan = document.querySelector('input[name="layanan"]:checked').value;
+
+        // Ambil alamat dari input
+        const alamat = document.getElementById('alamat').value;
+
+        // Kirim ke backend
+        const response = await fetch('/pesanLaundry', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                kategori,
+                layanan,
+                alamat
+            })
         });
 
         // === BUTTON PESAN ===
