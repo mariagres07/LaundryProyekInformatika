@@ -11,240 +11,240 @@ use Illuminate\Support\Str;
     <title>Pesan Laundry</title>
 
     <style>
-        * {
-            font-family: "Poppins", sans-serif;
-            box-sizing: border-box;
-        }
+    * {
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+    }
 
-        body {
-            background-color: #eaf6ff;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        background-color: #eaf6ff;
+        margin: 0;
+        padding: 0;
+    }
 
-        /* ==== HEADER WATER FRAME ==== */
-        .header-wrapper {
-            position: relative;
-            width: 100%;
-            height: 180px;
-            overflow: hidden;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-        }
+    /* ==== HEADER WATER FRAME ==== */
+    .header-wrapper {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
 
-        .header-bg {
-            background-image: url('water.jpg');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.8);
-            width: 100%;
-            height: 100%;
-        }
+    .header-bg {
+        background-image: url('water.jpg');
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.8);
+        width: 100%;
+        height: 100%;
+    }
 
-        .header-content {
-            position: absolute;
-            top: 50%;
-            left: 30px;
-            transform: translateY(-50%);
-            color: white;
-            font-weight: bold;
-            font-size: 30px;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-        }
+    .header-content {
+        position: absolute;
+        top: 50%;
+        left: 30px;
+        transform: translateY(-50%);
+        color: white;
+        font-weight: bold;
+        font-size: 30px;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    }
 
-        .header-content span {
-            display: block;
-            font-weight: 500;
-            font-size: 22px;
-        }
+    .header-content span {
+        display: block;
+        font-weight: 500;
+        font-size: 22px;
+    }
 
-        /* ==== INPUT ALAMAT ==== */
-        .alamat {
-            display: flex;
-            align-items: center;
-            background-color: #dce9f3;
-            border-radius: 20px;
-            padding: 10px 20px;
-            margin: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    /* ==== INPUT ALAMAT ==== */
+    .alamat {
+        display: flex;
+        align-items: center;
+        background-color: #dce9f3;
+        border-radius: 20px;
+        padding: 10px 20px;
+        margin: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        .alamat input {
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 100%;
-            padding: 5px;
-            font-size: 16px;
-            color: #444;
-        }
+    .alamat input {
+        border: none;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        padding: 5px;
+        font-size: 16px;
+        color: #444;
+    }
 
-        .alamat img {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-        }
+    .alamat img {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+    }
 
-        /* ==== TAB SWITCH ==== */
-        .tab-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #87a9c5;
-            border-radius: 50px;
-            margin: 0 20px 20px;
-            overflow: hidden;
-        }
+    /* ==== TAB SWITCH ==== */
+    .tab-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #87a9c5;
+        border-radius: 50px;
+        margin: 0 20px 20px;
+        overflow: hidden;
+    }
 
-        .tab-button {
-            flex: 1;
-            padding: 12px 0;
-            text-align: center;
-            cursor: pointer;
-            color: black;
-            background: transparent;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
+    .tab-button {
+        flex: 1;
+        padding: 12px 0;
+        text-align: center;
+        cursor: pointer;
+        color: black;
+        background: transparent;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
 
-        .tab-button.active {
-            background: #dce9f3;
-            border-radius: 50px;
-        }
+    .tab-button.active {
+        background: #dce9f3;
+        border-radius: 50px;
+    }
 
-        /* ==== CARD ==== */
-        .card {
-            background: #dce9f3;
-            border-radius: 30px;
-            margin: 0 20px 20px;
-            padding: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
+    /* ==== CARD ==== */
+    .card {
+        background: #dce9f3;
+        border-radius: 30px;
+        margin: 0 20px 20px;
+        padding: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            background: #87a9c5;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 30px;
-            font-weight: bold;
-        }
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        background: #87a9c5;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        font-weight: bold;
+    }
 
-        /* ==== ITEM KATEGORI ==== */
-        .item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #e8f0f8;
-            border-radius: 30px;
-            padding: 10px 20px;
-            margin-top: 10px;
-        }
+    /* ==== ITEM KATEGORI ==== */
+    .item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #e8f0f8;
+        border-radius: 30px;
+        padding: 10px 20px;
+        margin-top: 10px;
+    }
 
-        .item .left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .item .left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-        .item .left img {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            background: white;
-            padding: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    .item .left img {
+        width: 45px;
+        height: 45px;
+        border-radius: 10px;
+        background: white;
+        padding: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        .counter {
-            display: flex;
-            align-items: center;
-        }
+    .counter {
+        display: flex;
+        align-items: center;
+    }
 
-        .counter button {
-            border: none;
-            background: #87a9c5;
-            color: white;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+    .counter button {
+        border: none;
+        background: #87a9c5;
+        color: white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
-        .counter button:hover {
-            background: #6d90aa;
-        }
+    .counter button:hover {
+        background: #6d90aa;
+    }
 
-        .counter span {
-            margin: 0 10px;
-            font-weight: bold;
-            color: #555;
-        }
+    .counter span {
+        margin: 0 10px;
+        font-weight: bold;
+        color: #555;
+    }
 
-        /* ==== RADIO GROUP ==== */
-        .radio-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #e8f0f8;
-            border-radius: 30px;
-            padding: 10px 20px;
-            margin-top: 10px;
-        }
+    /* ==== RADIO GROUP ==== */
+    .radio-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #e8f0f8;
+        border-radius: 30px;
+        padding: 10px 20px;
+        margin-top: 10px;
+    }
 
-        .radio-item .left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .radio-item .left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-        .radio-item img {
-            width: 30px;
-            height: 30px;
-        }
+    .radio-item img {
+        width: 30px;
+        height: 30px;
+    }
 
-        /* ==== BUTTON PESAN ==== */
-        .btn-pesan {
-            width: 90%;
-            margin: 20px auto;
-            padding: 12px 0;
-            border: none;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: bold;
-            display: block;
-            background-color: #ccc;
-            color: white;
-            cursor: not-allowed;
-            transition: 0.3s;
-        }
+    /* ==== BUTTON PESAN ==== */
+    .btn-pesan {
+        width: 90%;
+        margin: 20px auto;
+        padding: 12px 0;
+        border: none;
+        border-radius: 30px;
+        font-size: 18px;
+        font-weight: bold;
+        display: block;
+        background-color: #ccc;
+        color: white;
+        cursor: not-allowed;
+        transition: 0.3s;
+    }
 
-        .btn-pesan.active {
-            background-color: #007bff;
-            cursor: pointer;
-        }
+    .btn-pesan.active {
+        background-color: #007bff;
+        cursor: pointer;
+    }
 
-        .btn-back {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background-color: #8ab2d3ff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            transition: 0.3s;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+    .btn-back {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        background-color: #8ab2d3ff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        transition: 0.3s;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
     </style>
 </head>
 
@@ -262,12 +262,9 @@ use Illuminate\Support\Str;
 
     <!-- ==== INPUT ALAMAT ==== -->
     <div class="alamat">
-        <img src="https://static.vecteezy.com/system/resources/previews/026/122/364/non_2x/pin-icon-location-sign-in-flat-style-isolated-on-isolated-background-navigation-map-gps-concept-vector.jpg" alt="location">
-        <input
-            type="text"
-            id="alamat"
-            name="alamat"
-            placeholder="Masukkan alamat"
+        <img src="https://static.vecteezy.com/system/resources/previews/026/122/364/non_2x/pin-icon-location-sign-in-flat-style-isolated-on-isolated-background-navigation-map-gps-concept-vector.jpg"
+            alt="location">
+        <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat"
             value="{{ old('alamat', $pelanggan['alamat'] ?? '') }}">
     </div>
 
@@ -427,25 +424,14 @@ use Illuminate\Support\Str;
             })
         });
 
-        // === BUTTON PESAN ===
-        const btnPesan = document.getElementById('btnPesan');
+        const data = await response.json();
 
-        function checkPesanButton() {
-            if (kategoriDipilih && layananDipilih) {
-                btnPesan.classList.add('active');
-                btnPesan.disabled = false;
-            } else {
-                btnPesan.classList.remove('active');
-                btnPesan.disabled = true;
-            }
+        if (data.success && data.idPesanan) {
+            window.location.href = `/detailPesanan/${data.idPesanan}`;
+        } else {
+            alert('Gagal membuat pesanan');
         }
-
-        btnPesan.addEventListener('click', () => {
-            if (btnPesan.classList.contains('active')) {
-                alert("Lanjut ke pembayaran...");
-                // window.location.href = '/checkout';
-            }
-        });
+    });
     </script>
 
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
