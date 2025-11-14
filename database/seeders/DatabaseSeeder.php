@@ -54,10 +54,10 @@ class DatabaseSeeder extends Seeder
 
         // === Layanan (4 jenis) ===
         $layananList = [
-            ['namaLayanan' => 'Express (Vanilla)', 'hargaPerKg' => 10000, 'estimasiHari' => 2],
-            ['namaLayanan' => 'Express', 'hargaPerKg' => 9000, 'estimasiHari' => 2],
-            ['namaLayanan' => 'Reguler (Vanilla)', 'hargaPerKg' => 8000, 'estimasiHari' => 4],
-            ['namaLayanan' => 'Reguler', 'hargaPerKg' => 7000, 'estimasiHari' => 4],
+            ['namaLayanan' => 'Express (Vanilla)', 'hargaPerKg' => 10000, 'estimasiHari' => 3],
+            ['namaLayanan' => 'Express', 'hargaPerKg' => 9000, 'estimasiHari' => 3],
+            ['namaLayanan' => 'Reguler (Vanilla)', 'hargaPerKg' => 8000, 'estimasiHari' => 5],
+            ['namaLayanan' => 'Reguler', 'hargaPerKg' => 7000, 'estimasiHari' => 5],
         ];
 
         foreach ($layananList as $data) {

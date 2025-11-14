@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Karyawan;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Pesanan;
 
 class KaryawanController extends Controller
 {
@@ -108,5 +109,14 @@ class KaryawanController extends Controller
         $karyawan->delete();
 
         return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil dihapus!');
+    }
+
+    public function selesai($id)
+    {
+        $pesanan = Pesanan::findOrFail($id);
+        $pesanan->statusPesanan = 'Menunggu Pembayaran';
+        $pesanan->save();
+
+        return back()->with('success', 'Laundry selesai, menunggu pembayaran pelanggan.');
     }
 }

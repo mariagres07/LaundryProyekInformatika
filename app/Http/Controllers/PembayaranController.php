@@ -71,6 +71,7 @@ class PembayaranController extends Controller
         // Update status pesanan dan simpan path bukti
         $pesanan->buktiPembayaran = $path;
         $pesanan->statusPembayaran = 'Lunas';
+        $pesanan->statusPesanan = 'Menunggu Pengantaran';
         $pesanan->save();
 
         return redirect()->route('pesanLaundry.index')->with('success', 'Pembayaran berhasil dikonfirmasi!');

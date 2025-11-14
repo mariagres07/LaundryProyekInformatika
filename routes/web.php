@@ -51,6 +51,8 @@ Route::post('/karyawan/store', [KaryawanController::class, 'store'])->name('kary
 Route::get('/karyawan/edit/{karyawan}', [KaryawanController::class, 'edit'])->name('karyawan.edit');
 Route::put('/karyawan/update/{karyawan}', [KaryawanController::class, 'update'])->name('karyawan.update');
 Route::delete('/karyawan/hapus/{karyawan}', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
+Route::post('/karyawan/pesanan/{id}/selesai', [KaryawanController::class, 'selesai'])->name('karyawan.pesanan.selesai');
+
 
 // ===================== KURIR =====================
 Route::get('/mkurir', [KurirController::class, 'index'])->name('kurir.index');
@@ -59,6 +61,11 @@ Route::post('/mkurir/store', [KurirController::class, 'store']);
 Route::get('/mkurir/edit/{idKurir}', [KurirController::class, 'edit']);
 Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
+
+// ===================== PENGANTARAN SELESAI (KURIR) =====================
+Route::post('/kurir/pesanan/{id}/selesai-antar', [KurirController::class, 'selesaiAntar'])
+    ->name('kurir.pesanan.selesaiAntar');
+
 
 // ===================== KONFIRMASI BERAT (KURIR) =====================
 Route::post('/kurir/konfirmasi-berat/{idPesanan}', [KurirController::class, 'konfirmasiBerat'])
@@ -70,7 +77,7 @@ Route::post('/pembayaran/{idPesanan}', [PembayaranController::class, 'prosesPemb
 Route::get('/pembayaran/success', [PembayaranController::class, 'success'])->name('pembayaran.success');
 
 // ===================== SELESAIKAN PESANAN =====================
-Route::post('/pesanan/{id}/selesai', [CVerifikasi::class, 'selesaikan'])->name('pesanan.selesai');
+// Route::post('/pesanan/{id}/selesai', [CVerifikasi::class, 'selesaikan'])->name('pesanan.selesai');
 
 // ===================== LAYANAN =====================
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');

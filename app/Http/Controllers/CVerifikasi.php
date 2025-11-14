@@ -56,14 +56,23 @@ class CVerifikasi extends Controller
         //     return redirect()->back()->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
         // }
 
+        $request->validate([
+            'beratBarang' => 'required|numeric|min:1'
+        ]);
+
         // Ambil data pesanan berdasarkan ID
         $pesanan = Pesanan::findOrFail($id);
+
+        // Jika sudah diverifikasi, tidak boleh ditimbang ulang
+        if ($pesanan->beratBarang !== null) {
+            return back()->with('error', 'Pesanan sudah diverifikasi sebelumnya.');
+        }
 
         // Simpan berat barang yang diinputkan user
         $pesanan->beratBarang = $request->beratBarang;
 
         // Update status pesanan (tanpa menghitung total harga)
-        $pesanan->statusPesanan = 'Menunggu Pembayaran';
+        $pesanan->statusPesanan = 'Diproses';
 
         // Simpan perubahan
         $pesanan->save();
