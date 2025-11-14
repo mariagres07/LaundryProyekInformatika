@@ -10,6 +10,7 @@ use App\Models\Layanan;
 
 class PesanLaundryController extends Controller
 {
+    // 🔹 Halaman utama pemesanan laundry
     public function index()
     {
         $user = session('pelanggan');
@@ -106,43 +107,59 @@ class PesanLaundryController extends Controller
 
     public function checkout(Request $request)
     {
-        $request->validate([
-            'namaPesanan' => 'required',
-            'idLayanan'  => 'required',
-            'alamat'      => 'required',
-            'paket'       => 'required',
-        ]);
-
         $user = session('pelanggan');
         if (!$user || session('role') !== 'pelanggan') {
-            return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login sebagai pelanggan terlebih dahulu.']);
+            return response()->json(['success' => false, 'message' => 'Silakan login terlebih dahulu.'], 401);
         }
 
-        $paket = strtolower($request->input('paket', 'reguler'));
+        // Validasi
+        $data = $request->validate([
+            'kategori' => 'required|array',
+            'layanan'  => 'required',
+            'alamat'   => 'nullable|string|max:255',
+        ]);
+
+        // Ambil layanan
+        $layanan = Layanan::find($data['layanan']);
+        if (!$layanan) {
+            return response()->json(['success' => false, 'message' => 'Layanan tidak ditemukan.']);
+        }
+
+        // Ambil jumlah kategori (urutannya sama dengan di view)
+        $pakaian = $data['kategori'][0] ?? 0;
+        $seprai  = $data['kategori'][1] ?? 0;
+        $handuk  = $data['kategori'][2] ?? 0;
+
+        // Tentukan estimasi waktu berdasarkan paket
+        $paket = strtolower($layanan->namaLayanan);
         $estimasiHari = str_contains($paket, 'express') ? 1 : 3;
 
+        // Simpan ke database
         $pesanan = Pesanan::create([
             'namaPesanan'    => 'Pesanan ' . $user['namaPelanggan'],
             'idPelanggan'    => $user['idPelanggan'],
-            'idLayanan'      => $request->idLayanan,
+            'idLayanan'      => $layanan->idLayanan,
             'idKurir'        => null,
             'idKaryawan'     => null,
             'statusPesanan'  => 'Menunggu Penjemputan',
-            'alamat'         => $request->alamat,
-            'paket'          => $request->paket,
-            'pakaian'        => (int) $request->pakaian,
-            'seprai'         => (int) $request->seprai,
-            'handuk'         => (int) $request->handuk,
+            'alamat'         => $data['alamat'] ?? $user['alamat'] ?? 'Belum diisi',
+            'paket'          => $layanan->namaLayanan,
+            'pakaian'        => $pakaian,
+            'seprai'         => $seprai,
+            'handuk'         => $handuk,
             'beratBarang'    => null,
             'tanggalMasuk'   => now(),
             'tanggalSelesai' => now()->addDays($estimasiHari),
             'totalHarga'     => null,
         ]);
 
-        return redirect()->route('detailPesanan', ['id' => $pesanan->idPesanan])
-            ->with('success', 'Pesanan berhasil dibuat! Silakan tunggu penjemputan oleh kurir.');
+        return response()->json([
+            'success' => true,
+            'idPesanan' => $pesanan->idPesanan,
+        ]);
     }
 
+    // 🔹 Detail pesanan pelanggan
     public function detail($id)
     {
         $user = session('pelanggan');
