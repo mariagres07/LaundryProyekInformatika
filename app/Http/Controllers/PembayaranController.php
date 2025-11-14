@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pesanan;
 use App\Models\Layanan;
+use Midtrans\Snap;
+use Midtrans\Config;
 
 class PembayaranController extends Controller
 {
@@ -41,7 +43,34 @@ class PembayaranController extends Controller
         $totalHarga =  $pesanan->beratBarang * $layanan->hargaPerKg;
 
         // Kirim data ke view
-        return view('PesananLaundryPengguna.Pembayaran', compact('pesanan', 'layanan', 'totalHarga'));
+        // return view('PesananLaundryPengguna.Pembayaran', compact('pesanan', 'layanan', 'totalHarga'));
+
+        // ========== Tambahkan konfigurasi Midtrans ==========
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        // Buat parameter transaksi
+        $params = [
+            'transaction_details' => [
+                'order_id' => $pesanan->idPesanan,
+                'gross_amount' => $totalHarga,
+            ],
+            'customer_details' => [
+                'first_name' => $user['namaLengkap'] ?? 'Pelanggan',
+                'email' => $user['email'] ?? 'user@example.com',
+            ],
+        ];
+
+        // Dapatkan Snap Token
+        $snapToken = Snap::getSnapToken($params);
+
+        // Kirim ke view
+        return view(
+            'PesananLaundryPengguna.Pembayaran',
+            compact('pesanan', 'layanan', 'totalHarga', 'snapToken')
+        );
     }
 
     // ===================== PROSES PEMBAYARAN (UPLOAD BUKTI) =====================
@@ -74,5 +103,10 @@ class PembayaranController extends Controller
         $pesanan->save();
 
         return redirect()->route('pesanLaundry.index')->with('success', 'Pembayaran berhasil dikonfirmasi!');
+    }
+
+    public function success()
+    {
+        return view('Pembayaran.PembayaranSukses');
     }
 }

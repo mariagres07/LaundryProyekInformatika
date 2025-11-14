@@ -103,6 +103,42 @@
         <label for="buktiPembayaran" class="form-label fw-semibold">Upload Bukti Pembayaran</label>
         <input type="file" name="buktiPembayaran" id="buktiPembayaran" class="form-control" required>
     </div>
+
+    <hr>
+<div class="text-center mt-3">
+    <h5 class="mb-3">Atau Bayar Langsung dengan Midtrans</h5>
+    <button id="pay-button" class="btn btn-primary w-100">
+        <i class="bi bi-credit-card"></i> Bayar dengan Midtrans
+    </button>
+</div>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ config('midtrans.client_key') }}"></script>
+
+<script type="text/javascript">
+    document.getElementById('pay-button').onclick = function () {
+        window.snap.pay('{{ $snapToken }}', {
+            onSuccess: function(result){
+                alert("Pembayaran berhasil!");
+                console.log(result);
+                window.location.href = "{{ route('pembayaran.success') }}";
+            },
+            onPending: function(result){
+                alert("Menunggu pembayaran...");
+                console.log(result);
+            },
+            onError: function(result){
+                alert("Pembayaran gagal!");
+                console.log(result);
+            },
+            onClose: function(){
+                alert('Kamu menutup popup tanpa menyelesaikan pembayaran.');
+            }
+        });
+    };
+</script>
+
+
     <button type="submit" class="btn btn-success w-100 mt-2">
         <i class="bi bi-upload"></i> Konfirmasi Pembayaran
     </button>
