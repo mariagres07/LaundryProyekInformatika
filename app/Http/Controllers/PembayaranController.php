@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pesanan;
 use App\Models\Layanan;
+use App\Models\DetailTransaksi;
+use App\Models\TransaksiPembayaran;
 
 class PembayaranController extends Controller
 {
@@ -65,18 +67,43 @@ class PembayaranController extends Controller
         }
 
         // Validasi upload bukti pembayaran
-        $validated = $request->validate([
+        $request->validate([
             'buktiPembayaran' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // Simpan bukti pembayaran ke storage/app/public/bukti
+        // SIMPAN FILE DULU (INI YANG KAMU LUPA)
         $path = $request->file('buktiPembayaran')->store('bukti', 'public');
 
-        // Update status pesanan dan simpan path bukti
-        $pesanan->buktiPembayaran = $path;
-        $pesanan->statusPembayaran = 'Lunas';
-        $pesanan->statusPesanan = 'Menunggu Pengantaran';
+        // Ambil detail transaksi terkait pesanan
+        $detail = DetailTransaksi::where('idPesanan', $idPesanan)->first();
+
+        if (!$detail) {
+            return redirect()->route('pesanLaundry.index')
+                ->with('error', 'Detail transaksi tidak ditemukan.');
+        }
+
+        // Hitung totalHarga ulang
+        $layanan = Layanan::find($pesanan->idLayanan);
+        $total = $pesanan->beratBarang * $layanan->hargaPerKg;
+
+        // Simpan totalHarga ke tabel pesanan jika belum
+        $pesanan->totalHarga = $total;
         $pesanan->save();
+
+        // Buat transaksi pembayaran
+        TransaksiPembayaran::create([
+            'idDetailTransaksi' => $detail->idDetailTransaksi,
+            'metodePembayaran' => 'Transfer',
+            'tanggalPembayaran' => now(),
+            'totalPembayaran' => $pesanan->totalHarga,
+            'buktiPembayaran' => $path,
+        ]);
+
+        // Update pesanan hanya status saja
+        $pesanan->update([
+            'statusPembayaran' => 'Lunas',
+            'statusPesanan' => 'Menunggu Pengantaran'
+        ]);
 
         return redirect()->route('pesanLaundry.index')
             ->with('success', 'Pembayaran berhasil dikonfirmasi!');

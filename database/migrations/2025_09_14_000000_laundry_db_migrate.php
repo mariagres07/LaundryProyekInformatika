@@ -104,6 +104,7 @@ return new class extends Migration
             $table->string('metodePembayaran');
             $table->date('tanggalPembayaran');
             $table->decimal('totalPembayaran', 12, 2);
+            $table->string('buktiPembayaran')->nullable();
         });
 
         Schema::create('pengaduan', function (Blueprint $table) {

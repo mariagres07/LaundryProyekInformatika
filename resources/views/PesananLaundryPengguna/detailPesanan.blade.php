@@ -197,7 +197,7 @@
         </div>
 
         <div class="text-center">
-            <a href="{{ route('pesanLaundry') }}" class="btn btn-primary px-4">
+            <a href="{{ route('pesanLaundry.index') }}" class="btn btn-primary px-4">
                 <i class="bi bi-arrow-left"></i> Kembali ke Beranda
             </a>
         </div>
