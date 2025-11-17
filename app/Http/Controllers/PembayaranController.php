@@ -21,7 +21,8 @@ class PembayaranController extends Controller
             ->first();
 
         if (!$pesanan) {
-            return redirect()->route('pesanLaundry.index')->with('error', 'Pesanan tidak ditemukan.');
+            return redirect()->route('pesanLaundry.index')
+                ->with('error', 'Pesanan tidak ditemukan.');
         }
 
         // Cek apakah pesanan sudah diverifikasi (sudah ada beratBarang)
@@ -34,14 +35,15 @@ class PembayaranController extends Controller
         $layanan = Layanan::where('idLayanan', $pesanan->idLayanan)->first();
 
         if (!$layanan) {
-            return redirect()->route('pesanLaundry.index')->with('error', 'Layanan terkait tidak ditemukan.');
+            return redirect()->route('pesanLaundry.index')
+                ->with('error', 'Layanan terkait tidak ditemukan.');
         }
 
         // Hitung total harga
         $totalHarga =  $pesanan->beratBarang * $layanan->hargaPerKg;
 
         // Kirim data ke view
-        return view('PesananLaundryPengguna.Pembayaran', compact('pesanan', 'layanan', 'totalHarga'));
+        return view('Pembayaran.pembayaran', compact('pesanan', 'layanan', 'totalHarga'));
     }
 
     // ===================== PROSES PEMBAYARAN (UPLOAD BUKTI) =====================
@@ -49,7 +51,8 @@ class PembayaranController extends Controller
     {
         $user = session('pelanggan');
         if (!$user || session('role') !== 'pelanggan') {
-            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->route('login.show')
+                ->with('error', 'Silakan login terlebih dahulu.');
         }
 
         $pesanan = Pesanan::where('idPesanan', $idPesanan)
@@ -57,7 +60,8 @@ class PembayaranController extends Controller
             ->first();
 
         if (!$pesanan) {
-            return redirect()->route('pesanLaundry.index')->with('error', 'Pesanan tidak ditemukan.');
+            return redirect()->route('pesanLaundry.index')
+                ->with('error', 'Pesanan tidak ditemukan.');
         }
 
         // Validasi upload bukti pembayaran
@@ -74,6 +78,7 @@ class PembayaranController extends Controller
         $pesanan->statusPesanan = 'Menunggu Pengantaran';
         $pesanan->save();
 
-        return redirect()->route('pesanLaundry.index')->with('success', 'Pembayaran berhasil dikonfirmasi!');
+        return redirect()->route('pesanLaundry.index')
+            ->with('success', 'Pembayaran berhasil dikonfirmasi!');
     }
 }

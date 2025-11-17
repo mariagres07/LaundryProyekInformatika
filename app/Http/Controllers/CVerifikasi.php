@@ -77,6 +77,7 @@ class CVerifikasi extends Controller
         // Simpan perubahan
         $pesanan->save();
 
-        return redirect()->back()->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
+        return redirect()->back()
+            ->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
     }
 }

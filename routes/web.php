@@ -93,7 +93,7 @@ Route::put('/layanan/{id}', [LayananController::class, 'update'])->name('layanan
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
 // ===================== PESAN LAUNDRY =====================
-Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry');
+Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry.index');
 Route::post('/pesanLaundry', [PesanLaundryController::class, 'store'])->name('pesanLaundry.store');
 Route::get('/detailPesanan/{id}', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
