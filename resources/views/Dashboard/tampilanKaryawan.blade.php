@@ -7,9 +7,9 @@
     <title>Dashboard Karyawan - IVA Laundry</title>
 
     @if (session('role') !== 'karyawan')
-        <script>
-            window.location.href = "{{ route('login.show') }}";
-        </script>
+    <script>
+        window.location.href = "{{ route('login.show') }}";
+    </script>
     @endif
 
     <!-- Bootstrap -->
