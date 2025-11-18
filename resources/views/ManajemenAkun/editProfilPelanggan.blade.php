@@ -90,11 +90,8 @@
         }
 
         .btn-primary {
-            background-color: #2F65B9;
-            border: none;
-            padding: 10px 20px;
-            font-weight: 500;
-            border-radius: 8px;
+            background-color: #8ab2d3ff !important;
+            border-color: #8ab2d3ff !important;
         }
 
         .btn-primary:hover {
@@ -124,27 +121,7 @@
 </head>
 
 <body>
-
-    <!-- Navbar untuk trigger offcanvas -->
-    <!-- Navbar sesuai gambar -->
-<nav class="navbar navbar-expand-lg" style="background-color: #b0cbe6; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <!-- Tombol Hamburger -->
-        <button class="btn btn-light d-flex align-items-center justify-content-center"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#sidebar"
-                aria-controls="sidebar"
-                style="width: 50px; height: 50px; border-radius: 8px; padding: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <i class="bi bi-list" style="font-size: 1.5rem; color: #2d4b74;"></i>
-        </button>
-
-        <!-- Judul IVA Laundry -->
-        <span class="navbar-brand mb-0 h1 text-white fw-bold" style="font-size: 1.3rem;">
-            IVA Laundry
-        </span>
-    </div>
-</nav>
+    @include('Dashboard.pelanggan_sidenav')
 
     <!-- Offcanvas Sidebar -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
@@ -230,7 +207,7 @@
                 </div>
 
                 <div class="text-end mt-4">
-                    <button type="submit" class="btn btn-primary">💾 Simpan Perubahan</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 </div>
             </form>
         </div>
