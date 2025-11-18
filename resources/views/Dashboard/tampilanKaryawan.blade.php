@@ -32,7 +32,7 @@
         .header-wrapper {
             position: relative;
             width: 100%;
-            height: 130px;
+            height: 175px;
             overflow: hidden;
             border-bottom-left-radius: 40px;
             border-bottom-right-radius: 40px;
@@ -129,12 +129,17 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
             z-index: 2000;
         }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            font-weight: 600;
+            color: #2d4b74;
+        }
     </style>
 </head>
 
 <body>
-
-    @include('Dashboard.karyawan_sidenav')
+@include('Dashboard.karyawan_sidenav')
 
     <!-- HEADER -->
     <div class="header-wrapper">
@@ -258,6 +263,11 @@
         else showDashboard();
     </script>
 
+    <!-- FOOTER -->
+    <footer>
+        <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
+        <i class="bi bi-whatsapp text-success"></i> iva.laundry
+    </footer>
 </body>
 
 </html>

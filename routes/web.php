@@ -101,11 +101,10 @@ Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
 Route::post('/verifikasi/perhitungan/{id}', [CVerifikasi::class, 'perhitungan'])->name('verifikasi.perhitungan');
 
 // ===================== DASHBOARD =====================
-Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('dashboard.karyawan');
+//Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('dashboard.karyawan');
 Route::get('/tampilanKaryawan', function () {
     return view('Dashboard.tampilanKaryawan');
 })->name('karyawan.dashboard');
-
 
 Route::get('/tampilanKurir', [Cdashboard::class, 'tampilanKurir'])->name('dashboard.kurir');
 Route::get('/tampilanPelanggan', [Cdashboard::class, 'tampilanPelanggan'])->name('dashboard.pelanggan');

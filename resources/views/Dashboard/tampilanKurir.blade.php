@@ -32,7 +32,7 @@
     .header-wrapper {
         position: relative;
         width: 100%;
-        height: 130px;
+        height: 175px;
         overflow: hidden;
         border-bottom-left-radius: 40px;
         border-bottom-right-radius: 40px;
@@ -116,8 +116,6 @@
 </head>
 
 <body>
-
-    @include('Dashboard.kurir_sidenav')
     <!-- HEADER -->
     <div class="header-wrapper">
         <div class="header-bg"></div>
