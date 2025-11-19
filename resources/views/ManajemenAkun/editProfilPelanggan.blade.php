@@ -27,7 +27,6 @@
             background: rgba(185, 215, 242, 0.9); /* #b9d7f2 dengan opacity 0.9 */
             z-index: -1;
         }
-
         /* Offcanvas Sidebar */
         .offcanvas {
             background: rgba(255, 255, 255, 0.85);

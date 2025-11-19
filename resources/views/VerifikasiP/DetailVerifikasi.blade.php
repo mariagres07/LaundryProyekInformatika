@@ -13,13 +13,19 @@
             font-family: "Poppins", sans-serif;
         }
 
+        
         .header-bg {
-            background: url('https://i.ibb.co/Nn6g8jV/water-bg.jpg') no-repeat center/cover;
-            padding: 2rem;
-            color: #0d6efd;
-            text-shadow: 1px 1px white;
-            border-radius: 0 0 30px 30px;
-        }
+    background-image: url('{{ asset("water.jpg") }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 3rem 2rem;
+    border-radius: 0 0 30px 30px;
+    color: white;
+    font-weight: 700;
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    }
 
         .form-label {
             font-weight: 600;
@@ -40,20 +46,19 @@
             position: fixed;
             bottom: 25px;
             left: 25px;
-            background-color: #8ab2d3;
+            background-color: #8ab2d3ff;
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .btn-kembali:hover {
@@ -80,80 +85,68 @@
 
     <div class="container mb-5">
 
-        <!-- Alert jika sukses -->
         @if(session('success'))
         <div class="alert alert-success rounded-4">{{ session('success') }}</div>
         @endif
 
-        <!-- Detail Pesanan -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body">
 
-                <!-- Nama -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Nama Pelanggan</div>
                     <div class="col-md-8">: {{ $pesanan->pelanggan->namaPelanggan ?? '-' }}</div>
                 </div>
 
-                <!-- Kategori Item -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Kategori Item</div>
                     <div class="col-md-8">:
                         @php
                         $kategori = [
-                        'Paket' => $pesanan->paket,
-                        'Pakaian' => $pesanan->pakaian,
-                        'Seprai' => $pesanan->seprai,
-                        'Handuk' => $pesanan->handuk,
+                            'Paket' => $pesanan->paket,
+                            'Pakaian' => $pesanan->pakaian,
+                            'Seprai' => $pesanan->seprai,
+                            'Handuk' => $pesanan->handuk,
                         ];
                         @endphp
 
                         @foreach($kategori as $nama => $jumlah)
-                        @if($jumlah !== null && $jumlah > 0)
-                        {{ $nama }} : {{ $jumlah }} <br>
-                        @endif
+                            @if($jumlah !== null && $jumlah > 0)
+                                {{ $nama }} : {{ $jumlah }} <br>
+                            @endif
                         @endforeach
                     </div>
                 </div>
 
-                <!-- Layanan -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Layanan / Pewangi</div>
                     <div class="col-md-8">: {{ $pesanan->layanan->namaLayanan ?? '-' }}</div>
                 </div>
 
-                <!-- Alamat -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Alamat</div>
                     <div class="col-md-8">: {{ $pesanan->pelanggan->alamat ?? '-' }}</div>
                 </div>
 
-                <!-- Nomor HP -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Nomor HP</div>
                     <div class="col-md-8">: {{ $pesanan->pelanggan->noHp ?? '-' }}</div>
                 </div>
 
-                <!-- Tanggal Masuk -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Tanggal Masuk</div>
                     <div class="col-md-8">: {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y') }}</div>
                 </div>
 
-                <!-- Status -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Status Saat Ini</div>
-                    <div class="col-md-8">:
-                        <span class="badge bg-warning text-dark">
-                            {{ $pesanan->statusPesanan ?? 'Belum Diketahui' }}
-                        </span>
+                    <div class="col-md-8">
+                        : <span class="badge bg-warning text-dark">{{ $pesanan->statusPesanan ?? 'Belum Diketahui' }}</span>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <!-- Form input berat -->
         <div class="card shadow-sm border-0">
             <div class="card-body">
                 <form action="{{ route('verifikasi.perhitungan', $pesanan->idPesanan) }}" method="POST">
@@ -170,23 +163,20 @@
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-primary px-4">
-                            Verifikasi Pesanan
-                        </button>
+                        <button type="submit" class="btn btn-primary px-4">Verifikasi Pesanan</button>
                     </div>
+
                 </form>
             </div>
         </div>
-
     </div>
 
     <!-- Tombol Kembali -->
     <a href="{{ route('lihatverifikasi.index') }}" class="btn-kembali">
-        <i class="bi bi-arrow-left"></i> Kembali
+        <i class="bi bi-arrow-left"></i>
     </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
