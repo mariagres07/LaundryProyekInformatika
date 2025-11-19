@@ -12,109 +12,109 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-    body {
-        min-height: 100vh;
-        font-family: 'Poppins', sans-serif;
-        background: #f9f9f9;
-        padding-bottom: 80px;
-        /* supaya konten tidak tertutup tombol fixed */
-    }
-
-    /* Sidebar */
-    .offcanvas-body a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 15px;
-        margin-bottom: 8px;
-        border-radius: 12px;
-        text-decoration: none;
-        color: #2d4b74;
-        transition: 0.3s;
-    }
-
-    .offcanvas-body a:hover {
-        background-color: #7ba6e0;
-        color: #fff;
-    }
-
-    .logout-btn {
-        background-color: #dce3e8;
-        color: red;
-        font-weight: bold;
-        border-radius: 12px;
-        padding: 8px 20px;
-        border: none;
-        width: 100%;
-        margin-top: 15px;
-    }
-
-    .logout-btn:hover {
-        background-color: #f8d7da;
-        color: #a00;
-    }
-
-    /* Main container */
-    .main-container {
-        max-width: 700px;
-        margin: 40px auto;
-        padding: 30px;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-    }
-
-    .card-header {
-        font-weight: bold;
-        font-size: 1.1rem;
-    }
-
-    .list-group-item strong {
-        display: block;
-        margin-bottom: 8px;
-    }
-
-    .text-center a.btn {
-        margin-top: 20px;
-    }
-
-    /* Tombol kembali fixed */
-    .btn-back {
-        position: fixed;
-        bottom: 25px;
-        left: 25px;
-        background-color: #0d6efd;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-        transition: 0.3s;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        z-index: 1055;
-        /* pastikan di atas offcanvas */
-    }
-
-    .btn-back:hover {
-        background-color: #0056b3;
-        transform: scale(1.1);
-    }
-
-    /* Responsive: tombol tetap terlihat di mobile */
-    @media (max-width: 576px) {
-        .btn-back {
-            bottom: 20px;
-            left: 20px;
-            width: 45px;
-            height: 45px;
-            font-size: 1.2rem;
+        body {
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: #f9f9f9;
+            padding-bottom: 80px;
+            /* supaya konten tidak tertutup tombol fixed */
         }
-    }
+
+        /* Sidebar */
+        .offcanvas-body a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #2d4b74;
+            transition: 0.3s;
+        }
+
+        .offcanvas-body a:hover {
+            background-color: #7ba6e0;
+            color: #fff;
+        }
+
+        .logout-btn {
+            background-color: #dce3e8;
+            color: red;
+            font-weight: bold;
+            border-radius: 12px;
+            padding: 8px 20px;
+            border: none;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .logout-btn:hover {
+            background-color: #f8d7da;
+            color: #a00;
+        }
+
+        /* Main container */
+        .main-container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .list-group-item strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .text-center a.btn {
+            margin-top: 20px;
+        }
+
+        /* Tombol kembali fixed */
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1055;
+            /* pastikan di atas offcanvas */
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* Responsive: tombol tetap terlihat di mobile */
+        @media (max-width: 576px) {
+            .btn-back {
+                bottom: 20px;
+                left: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 
@@ -194,12 +194,6 @@
                 </ul>
 
             </div>
-        </div>
-
-        <div class="text-center">
-            <a href="{{ route('pesanLaundry.index') }}" class="btn btn-primary px-4">
-                <i class="bi bi-arrow-left"></i> Kembali ke Beranda
-            </a>
         </div>
 
     </div>
