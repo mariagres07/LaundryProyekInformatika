@@ -15,8 +15,7 @@ class PesanLaundryController extends Controller
     {
         $user = session('pelanggan');
         if (!$user || session('role') !== 'pelanggan') {
-            return redirect()->route('login.show')
-                ->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
         }
 
         $kategoriItems = KategoriItem::select('idKategoriItem', 'namaKategori')->get();
@@ -89,8 +88,7 @@ class PesanLaundryController extends Controller
     {
         $user = session('pelanggan');
         if (!$user || session('role') !== 'pelanggan') {
-            return redirect()->route('login.show')
-                ->withErrors(['auth' => 'Silakan login sebagai pelanggan terlebih dahulu.']);
+            return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login sebagai pelanggan terlebih dahulu.']);
         }
 
         $pesanan = Pesanan::with('pelanggan')
