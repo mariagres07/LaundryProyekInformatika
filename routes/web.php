@@ -95,6 +95,8 @@ Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('che
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
 Route::get('/lihatdata/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatdata.detail');
+Route::post('/lihatdata/update-status/{id}', [ClihatPesanan::class, 'updateStatus'])
+    ->name('update.status');
 
 Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
 Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
