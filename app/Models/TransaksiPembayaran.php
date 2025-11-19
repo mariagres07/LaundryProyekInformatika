@@ -18,9 +18,11 @@ class TransaksiPembayaran extends Model
         'metodePembayaran',
         'tanggalPembayaran',
         'totalPembayaran',
+        'buktiPembayaran',
+        'kodePembayaran',
     ];
 
-    public function pesanan()
+    public function detailTransaksi()
     {
         return $this->belongsTo(DetailTransaksi::class, 'idDetailTransaksi');
     }

@@ -7,9 +7,9 @@
     <title>Dashboard Kurir - IVA Laundry</title>
 
     @if (session('role') !== 'kurir')
-        <script>
-            window.location.href = "{{ route('login.show') }}";
-        </script>
+    <script>
+    window.location.href = "{{ route('login.show') }}";
+    </script>
     @endif
 
     <!-- Bootstrap -->
@@ -17,106 +17,107 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        * {
-            font-family: "Poppins", sans-serif;
-            box-sizing: border-box;
-        }
+    * {
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+    }
 
-        body {
-            background-color: #eaf6ff;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        background-color: #eaf6ff;
+        margin: 0;
+        padding: 0;
+    }
 
-        /* ==== HEADER WATER FRAME ==== */
-        .header-wrapper {
-            position: relative;
-            width: 100%;
-            height: 130px;
-            overflow: hidden;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            margin-bottom: 40px;
-        }
+    /* ==== HEADER WATER FRAME ==== */
+    .header-wrapper {
+        position: relative;
+        width: 100%;
+        height: 130px;
+        overflow: hidden;
+        border-bottom-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+        margin-bottom: 40px;
+    }
 
-        .header-bg {
-            background-image: url('water.jpg');
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 100%;
-            filter: brightness(0.75);
-        }
+    .header-bg {
+        background-image: url('water.jpg');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+        filter: brightness(0.75);
+    }
 
-        .header-content {
-            position: absolute;
-            top: 50%;
-            left: 40px;
-            transform: translateY(-50%);
-            color: white;
-            font-weight: 700;
-            font-size: 34px;
-            text-align: left;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
-        }
+    .header-content {
+        position: absolute;
+        top: 50%;
+        left: 40px;
+        transform: translateY(-50%);
+        color: white;
+        font-weight: 700;
+        font-size: 34px;
+        text-align: left;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
+    }
 
-        .menu-card {
-            background-color: #ffffff;
-            border-radius: 15px;
-            padding: 30px 20px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
+    .menu-card {
+        background-color: #ffffff;
+        border-radius: 15px;
+        padding: 30px 20px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+    }
 
-        .menu-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-        }
+    .menu-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    }
 
-        .menu-icon {
-            font-size: 50px;
-            color: #7ba6e0;
-            margin-bottom: 15px;
-        }
+    .menu-icon {
+        font-size: 50px;
+        color: #7ba6e0;
+        margin-bottom: 15px;
+    }
 
-        footer {
-            text-align: center;
-            padding: 15px 0;
-            font-weight: 600;
-            color: #2d4b74;
-        }
+    footer {
+        text-align: center;
+        padding: 15px 0;
+        font-weight: 600;
+        color: #2d4b74;
+    }
 
-        /* === Tombol Kembali (Floating Button) === */
-        .btn-back {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background-color: #8ab2d3;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            transition: 0.3s;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-        }
+    /* === Tombol Kembali (Floating Button) === */
+    .btn-back {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        background-color: #8ab2d3;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        transition: 0.3s;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
 
-        .btn-back:hover {
-            background-color: #6fa2cc;
-            transform: scale(1.1);
-        }
+    .btn-back:hover {
+        background-color: #6fa2cc;
+        transform: scale(1.1);
+    }
     </style>
 </head>
 
 <body>
 
+    @include('Dashboard.kurir_sidenav')
     <!-- HEADER -->
     <div class="header-wrapper">
         <div class="header-bg"></div>
@@ -158,4 +159,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

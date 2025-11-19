@@ -11,126 +11,131 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+        min-height: 100vh;
+        padding-bottom: 80px;
+    }
 
-        /* ==== HEADER WRAPPER ==== */
-        .header-wrapper {
-            position: relative;
-            width: 100%;
-            height: 180px;
-            overflow: hidden;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-        }
+    /* ==== HEADER WRAPPER ==== */
+    .header-wrapper {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
 
-        .header-bg-img {
-            background: url('/images/water.jpg') no-repeat center/cover;
-            width: 100%;
-            height: 100%;
-            filter: brightness(0.7);
-        }
+    .header-bg-img {
+        background: url('/images/water.jpg') no-repeat center/cover;
+        width: 100%;
+        height: 100%;
+        filter: brightness(0.7);
+    }
 
-        /* TITLE LEFT */
-        .header-content-left {
-            position: absolute;
-            top: 50%;
-            left: 40px;
-            transform: translateY(-50%);
-            color: white;
-            z-index: 2;
-            text-align: left;
-        }
+    /* TITLE LEFT */
+    .header-content-left {
+        position: absolute;
+        top: 50%;
+        left: 40px;
+        transform: translateY(-50%);
+        color: white;
+        z-index: 2;
+        text-align: left;
+    }
 
-        .header-content-left h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
+    .header-content-left h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
 
-        .header-content-left span {
-            font-size: 1.2rem;
-            font-weight: 400;
-        }
+    .header-content-left span {
+        font-size: 1.2rem;
+        font-weight: 400;
+    }
 
-        /* ==== CARD PESANAN ==== */
-        .pesanan-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 5px solid #007bff;
-            transition: .2s;
-        }
+    /* ==== CARD PESANAN ==== */
+    .pesanan-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 5px solid #007bff;
+        transition: .2s;
+    }
 
-        .pesanan-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
+    .pesanan-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
-        .pesanan-info h5 {
-            margin: 0;
-            color: #2d4b74;
-            font-weight: 600;
-        }
+    .pesanan-info h5 {
+        margin: 0;
+        color: #2d4b74;
+        font-weight: 600;
+    }
 
-        .status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
+    .status {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
 
-        .status-menunggu {
-            background: #f8d7da;
-            color: #721c24;
-        }
+    .status-menunggu {
+        background: #f8d7da;
+        color: #721c24;
+    }
 
-        .status-diproses {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
+    .status-diproses {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
 
-        .status-diantar {
-            background: #cce7ff;
-            color: #004085;
-        }
+    .status-diantar {
+        background: #cce7ff;
+        color: #004085;
+    }
 
-        .status-selesai {
-            background: #d4edda;
-            color: #155724;
-        }
+    .status-selesai {
+        background: #d4edda;
+        color: #155724;
+    }
 
-        .btn-detail {
-            background: #2d4b74;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-        }
+    .btn-detail {
+        background: #2d4b74;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+    }
 
-        .btn-back {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #2d4b74;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .btn-back {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        background-color: #8ab2d3ff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        transition: 0.3s;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
     </style>
 </head>
 
@@ -205,13 +210,10 @@
         @endforelse
     </div>
 
-    <!-- Floating Tombol Kembali -->
-    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+    <a href="javascript:history.back()" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>

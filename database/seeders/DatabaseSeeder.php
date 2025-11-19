@@ -16,6 +16,7 @@ use App\Models\DetailTransaksi;
 use App\Models\TransaksiPembayaran;
 use App\Models\Pengaduan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -54,10 +55,10 @@ class DatabaseSeeder extends Seeder
 
         // === Layanan (4 jenis) ===
         $layananList = [
-            ['namaLayanan' => 'Express (Vanilla)', 'hargaPerKg' => 10000, 'estimasiHari' => 2],
-            ['namaLayanan' => 'Express', 'hargaPerKg' => 9000, 'estimasiHari' => 2],
-            ['namaLayanan' => 'Reguler (Vanilla)', 'hargaPerKg' => 8000, 'estimasiHari' => 4],
-            ['namaLayanan' => 'Reguler', 'hargaPerKg' => 7000, 'estimasiHari' => 4],
+            ['namaLayanan' => 'Express (Vanilla)', 'hargaPerKg' => 10000, 'estimasiHari' => 3],
+            ['namaLayanan' => 'Express', 'hargaPerKg' => 9000, 'estimasiHari' => 3],
+            ['namaLayanan' => 'Reguler (Vanilla)', 'hargaPerKg' => 8000, 'estimasiHari' => 5],
+            ['namaLayanan' => 'Reguler', 'hargaPerKg' => 7000, 'estimasiHari' => 5],
         ];
 
         foreach ($layananList as $data) {
@@ -75,7 +76,7 @@ class DatabaseSeeder extends Seeder
             'idKaryawan' => $karyawan->idKaryawan,
             'statusPesanan' => 'Menunggu Penjemputan',
             'alamat' => 'Jl. Pelanggan No. 1',
-            'paket' => 'Paket A',
+            // 'paket' => 'Paket A',
             'pakaian' => 3,
             'seprai' => 2,
             'handuk' => 1,
@@ -103,10 +104,11 @@ class DatabaseSeeder extends Seeder
 
         TransaksiPembayaran::create([
             'idDetailTransaksi' => $detail->idDetailTransaksi,
-            'metodePembayaran' => 'Transfer Bank',
             'tanggalPembayaran' => now(),
             'totalPembayaran' => 15000,
+            'kodePembayaran' => strtoupper(Str::random(6)),
         ]);
+
         Pengaduan::create([
             'idPelanggan' => $pelanggan->idPelanggan,
             'idPesanan' => $pesanan->idPesanan,

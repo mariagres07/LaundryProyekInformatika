@@ -45,7 +45,8 @@ class ClihatPesanan extends Controller
             return view('lihatDataPesanan.index.karyawan', compact('pesanan', 'user'));
         }
 
-        return redirect()->route('login.show')->with('error', 'Role tidak valid.');
+        return redirect()->route('login.show')
+            ->with('error', 'Role tidak valid.');
     }
 
     public function lihatDetail($id)
@@ -53,13 +54,15 @@ class ClihatPesanan extends Controller
         $role = Session::get('role');
 
         if (!$role) {
-            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->route('login.show')
+                ->with('error', 'Silakan login terlebih dahulu.');
         }
 
         $user = Session::get($role); // pelanggan, kurir, atau karyawan
 
         if (!$user) {
-            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->route('login.show')
+                ->with('error', 'Silakan login terlebih dahulu.');
         }
 
         // Ambil data pesanan
@@ -91,7 +94,8 @@ class ClihatPesanan extends Controller
         $user = Session::get('karyawan');
 
         if (!$user) {
-            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->route('login.show')
+                ->with('error', 'Silakan login terlebih dahulu.');
         }
 
         // Validasi input status
@@ -104,6 +108,7 @@ class ClihatPesanan extends Controller
         $pesanan->statusPesanan = $validated['statusPesanan'];
         $pesanan->save();
 
-        return redirect()->route('lihatPesanan.index')->with('success', 'Status pesanan berhasil diperbarui.');
+        return redirect()->route('lihatPesanan.index')
+            ->with('success', 'Status pesanan berhasil diperbarui.');
     }
 }

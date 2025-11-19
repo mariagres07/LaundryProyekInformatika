@@ -76,17 +76,19 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="payment-code" id="kodePembayaran">
-                    {{ $pesanan->idPesanan }}
+                    {{-- {{ $pesanan->idPesanan }} --}}
+                    {{ $kodePembayaran }}
                 </div>
                 <button class="copy-btn w-100" onclick="salinKode()">
                     <i class="bi bi-clipboard"></i> SALIN KODE
                 </button>
             </div>
-            <div class="col-md-6 text-center mt-3 mt-md-0">
-                <div class="qr-box d-inline-block">
-                    {!! QrCode::size(150)->generate($pesanan->idPesanan) !!}
-                </div>
-            </div>
+            {{-- QR CODE --}}
+            {{-- <div class="col-md-6 text-center mt-3 mt-md-0"> --}}
+                {{-- <div class="qr-box d-inline-block"> --}}
+                    {{-- {!! QrCode::size(150)->generate($pesanan->idPesanan) !!} --}}
+                {{-- </div> --}}
+            {{-- </div> --}}
         </div>
 
         <hr>
