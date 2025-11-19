@@ -183,23 +183,32 @@
             </div>
         </div>
 
-        <!-- FINAL KATEGORI ITEM (SEJAJAR, TIDAK DOUBLE) -->
+        <!-- KATEGORI ITEM - FIX -->
         <div class="row mb-2">
             <div class="col-sm-5 text-label">Kategori Item</div>
             <div class="col-sm-7 data-value">
                 :
-                @if($pesanan->detailTransaksi->isEmpty())
-                -
-                @else
+
                 @php
+                if ($pesanan->detailTransaksi->isEmpty()) {
+                echo '-';
+                } else {
                 $kategoriList = $pesanan->detailTransaksi->map(function ($d) {
-                return ($d->kategoriItem->namaKategori ?? 'Tidak diketahui')
-                . ' (' . ($d->jumlahItem ?? 0) . ' pcs)';
-                })->join(', ');
+
+                $namaKategori = $d->kategoriItem->namaKategori
+                ?? $d->kategori_item
+                ?? $d->kategori
+                ?? 'Tidak diketahui';
+
+                $jumlah = $d->jumlahItem ?? $d->jumlah ?? 0;
+
+                return $namaKategori . " ({$jumlah} pcs)";
+                })->unique()->join(', ');
+
+                echo $kategoriList ?: '-';
+                }
                 @endphp
 
-                {{ $kategoriList }}
-                @endif
             </div>
         </div>
 
