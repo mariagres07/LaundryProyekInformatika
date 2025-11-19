@@ -35,15 +35,15 @@
             background-color: #1e3658;
         }
 
-        /* ===== TOMBOl KEMBALI BARU (SESUAI PERMINTAAN) ===== */
+        /* Tombol kembali */
         .btn-kembali {
             position: fixed;
             bottom: 25px;
             left: 25px;
-            background-color: #8ab2d3; /* Warna biru muda seperti permintaan */
+            background-color: #8ab2d3;
             color: white;
             border: none;
-            border-radius: 8px; /* Sudut sedikit melengkung */
+            border-radius: 8px;
             padding: 10px 20px;
             font-size: 1rem;
             font-weight: 600;
@@ -53,11 +53,11 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
             display: flex;
             align-items: center;
-            gap: 8px; /* Jarak antara teks dan ikon */
+            gap: 8px;
         }
 
         .btn-kembali:hover {
-            background-color: #7aa5c5; /* Biru lebih gelap saat hover */
+            background-color: #7aa5c5;
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
@@ -66,6 +66,7 @@
             font-size: 1.2rem;
         }
     </style>
+
 </head>
 
 <body>
@@ -87,47 +88,68 @@
         <!-- Detail Pesanan -->
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body">
+
+                <!-- Nama -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Nama Pelanggan</div>
                     <div class="col-md-8">: {{ $pesanan->pelanggan->namaPelanggan ?? '-' }}</div>
                 </div>
 
+                <!-- Kategori Item -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Kategori Item</div>
                     <div class="col-md-8">:
-                        @foreach($pesanan->detailTransaksi as $detail)
-                        {{ $detail->kategoriItem->namaKategori ?? '-' }} :
-                        {{ $detail->jumlahItem ?? '-' }} <br>
+                        @php
+                        $kategori = [
+                        'Paket' => $pesanan->paket,
+                        'Pakaian' => $pesanan->pakaian,
+                        'Seprai' => $pesanan->seprai,
+                        'Handuk' => $pesanan->handuk,
+                        ];
+                        @endphp
+
+                        @foreach($kategori as $nama => $jumlah)
+                        @if($jumlah !== null && $jumlah > 0)
+                        {{ $nama }} : {{ $jumlah }} <br>
+                        @endif
                         @endforeach
                     </div>
                 </div>
 
+                <!-- Layanan -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Layanan / Pewangi</div>
                     <div class="col-md-8">: {{ $pesanan->layanan->namaLayanan ?? '-' }}</div>
                 </div>
 
+                <!-- Alamat -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Alamat</div>
                     <div class="col-md-8">: {{ $pesanan->pelanggan->alamat ?? '-' }}</div>
                 </div>
 
+                <!-- Nomor HP -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Nomor HP</div>
                     <div class="col-md-8">: {{ $pesanan->pelanggan->noHp ?? '-' }}</div>
                 </div>
 
+                <!-- Tanggal Masuk -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Tanggal Masuk</div>
                     <div class="col-md-8">: {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y') }}</div>
                 </div>
 
+                <!-- Status -->
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Status Saat Ini</div>
-                    <div class="col-md-8">
-                        : <span class="badge bg-warning text-dark">{{ $pesanan->statusPesanan ?? 'Belum Diketahui' }}</span>
+                    <div class="col-md-8">:
+                        <span class="badge bg-warning text-dark">
+                            {{ $pesanan->statusPesanan ?? 'Belum Diketahui' }}
+                        </span>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -136,17 +158,21 @@
             <div class="card-body">
                 <form action="{{ route('verifikasi.perhitungan', $pesanan->idPesanan) }}" method="POST">
                     @csrf
+
                     <div class="row mb-3">
                         <div class="col-md-4 form-label">Berat Barang (kg)</div>
                         <div class="col-md-8">
-                            <input type="number" step="0.1" class="form-control" name="beratBarang"
+                            <input type="number" step="0.1" class="form-control"
+                                name="beratBarang"
                                 value="{{ old('beratBarang', $pesanan->beratBarang) }}"
                                 placeholder="Masukkan berat cucian (kg)" required>
                         </div>
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-primary px-4">Verifikasi Pesanan</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            Verifikasi Pesanan
+                        </button>
                     </div>
                 </form>
             </div>
@@ -154,12 +180,13 @@
 
     </div>
 
-    <!-- Tombol Kembali Baru (Hanya Satu) -->
+    <!-- Tombol Kembali -->
     <a href="{{ route('lihatverifikasi.index') }}" class="btn-kembali">
         <i class="bi bi-arrow-left"></i> Kembali
     </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
