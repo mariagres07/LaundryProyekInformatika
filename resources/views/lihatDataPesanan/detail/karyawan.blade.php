@@ -10,117 +10,116 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-        min-height: 100vh;
-    }
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+            min-height: 100vh;
+        }
 
-    .container-custom {
-        max-width: 800px;
-        background: white;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+        .container-custom {
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-    h2 {
-        color: #2d4b74;
-        font-weight: 700;
-        margin-bottom: 25px;
-        text-align: center;
-    }
+        h2 {
+            color: #2d4b74;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+        }
 
-    .text-label {
-        color: #2d4b74;
-        font-weight: 600;
-    }
+        .text-label {
+            color: #2d4b74;
+            font-weight: 600;
+        }
 
-    .data-value {
-        color: #495057;
-    }
+        .data-value {
+            color: #495057;
+        }
 
-    .status-badge {
-        padding: 5px 10px;
-        border-radius: 15px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        display: inline-block;
-    }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+        }
 
-    /* Status Styles */
-    .status-menunggu-penjemputan {
-        background-color: #fff3cd;
-        color: #856404;
-        border: 1px solid #ffeaa7;
-    }
+        .status-menunggu-penjemputan {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
 
-    .status-menunggu-pembayaran {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
+        .status-menunggu-pembayaran {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
-    .status-diproses,
-    .status-sedang-diproses {
-        background-color: #d1ecf1;
-        color: #0c5460;
-        border: 1px solid #bee5eb;
-    }
+        .status-diproses,
+        .status-sedang-diproses {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
 
-    .status-menunggu-pengantaran {
-        background-color: #cce7ff;
-        color: #004085;
-        border: 1px solid #b3d7ff;
-    }
+        .status-menunggu-pengantaran {
+            background-color: #cce7ff;
+            color: #004085;
+            border: 1px solid #b3d7ff;
+        }
 
-    .status-sudah-diantar {
-        background-color: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
+        .status-sudah-diantar {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
 
-    .status-selesai {
-        background-color: #28a745;
-        color: white;
-        border: 1px solid #218838;
-    }
+        .status-selesai {
+            background-color: #28a745;
+            color: white;
+            border: 1px solid #218838;
+        }
 
-    .status-dibatalkan {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
+        .status-dibatalkan {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
-    .btn-primary {
-        background-color: #2d4b74;
-        border: none;
-    }
+        .btn-primary {
+            background-color: #2d4b74;
+            border: none;
+        }
 
-    .btn-primary:hover {
-        background-color: #1e3a5c;
-    }
+        .btn-primary:hover {
+            background-color: #1e3a5c;
+        }
 
-    .btn-back {
-        position: fixed;
-        bottom: 25px;
-        left: 25px;
-        background-color: #8ab2d3ff;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-        transition: 0.3s;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        text-decoration: none;
-    }
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -155,7 +154,7 @@
         <div class="row mb-2">
             <div class="col-sm-5 text-label">Tanggal Masuk</div>
             <div class="col-sm-7 data-value">
-                : {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d F Y H:i') }}
+                : {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d F Y') }}
             </div>
         </div>
 
@@ -180,10 +179,11 @@
             <div class="col-sm-5 text-label">Paket Layanan</div>
             <div class="col-sm-7 data-value">
                 : {{ $pesanan->layanan->namaLayanan ?? '-' }}
-                ({{ $pesanan->layanan->hargaLayanan ?? '0' }}/kg)
+                (Rp {{ number_format($pesanan->layanan->hargaLayanan ?? 0, 0, ',', '.') }})
             </div>
         </div>
 
+        <!-- FINAL KATEGORI ITEM (SEJAJAR, TIDAK DOUBLE) -->
         <div class="row mb-2">
             <div class="col-sm-5 text-label">Kategori Item</div>
             <div class="col-sm-7 data-value">
@@ -191,15 +191,14 @@
                 @if($pesanan->detailTransaksi->isEmpty())
                 -
                 @else
-                <ul class="mt-2 list-unstyled">
-                    @foreach($pesanan->detailTransaksi as $detail)
-                    <li>
-                        <i class="bi bi-tag me-1"></i>
-                        {{ $detail->kategoriItem->namaKategori ?? 'Tidak diketahui' }}
-                        ({{ $detail->jumlahItem ?? '0' }} pcs)
-                    </li>
-                    @endforeach
-                </ul>
+                @php
+                $kategoriList = $pesanan->detailTransaksi->map(function ($d) {
+                return ($d->kategoriItem->namaKategori ?? 'Tidak diketahui')
+                . ' (' . ($d->jumlahItem ?? 0) . ' pcs)';
+                })->join(', ');
+                @endphp
+
+                {{ $kategoriList }}
                 @endif
             </div>
         </div>
@@ -208,13 +207,6 @@
             <div class="col-sm-5 text-label">Berat Barang (kg)</div>
             <div class="col-sm-7 data-value">
                 : {{ $pesanan->beratBarang ?? 'Belum terverifikasi' }} kg
-            </div>
-        </div>
-
-        <div class="row mb-2">
-            <div class="col-sm-5 text-label">Total Harga</div>
-            <div class="col-sm-7 data-value">
-                : Rp {{ number_format($pesanan->total_harga ?? 0, 0, ',', '.') }}
             </div>
         </div>
 
@@ -229,17 +221,13 @@
                 <label for="statusPesanan" class="form-label text-label">Pilih Status Baru</label>
                 <select name="statusPesanan" id="statusPesanan" class="form-select rounded-3" required>
                     <option value="">-- Pilih Status --</option>
-                    <option value="Menunggu Penjemputan" @selected($pesanan->statusPesanan == 'Menunggu
-                        Penjemputan')>Menunggu Penjemputan</option>
-                    <option value="Menunggu Pembayaran" @selected($pesanan->statusPesanan == 'Menunggu
-                        Pembayaran')>Menunggu Pembayaran (Setelah Penjemputan)</option>
-                    <option value="Diproses" @selected($pesanan->statusPesanan == 'Diproses')>Diproses</option>
-                    <option value="Menunggu Pengantaran" @selected($pesanan->statusPesanan == 'Menunggu
-                        Pengantaran')>Menunggu Pengantaran</option>
-                    <option value="Sudah Diantar" @selected($pesanan->statusPesanan == 'Sudah Diantar')>Sudah Diantar
-                    </option>
-                    <option value="Selesai" @selected($pesanan->statusPesanan == 'Selesai')>Selesai</option>
-                    <option value="Dibatalkan" @selected($pesanan->statusPesanan == 'Dibatalkan')>Dibatalkan</option>
+                    <option value="Menunggu Penjemputan" @selected($pesanan->statusPesanan=='Menunggu Penjemputan')>Menunggu Penjemputan</option>
+                    <option value="Menunggu Pembayaran" @selected($pesanan->statusPesanan=='Menunggu Pembayaran')>Menunggu Pembayaran (Setelah Penjemputan)</option>
+                    <option value="Diproses" @selected($pesanan->statusPesanan=='Diproses')>Diproses</option>
+                    <option value="Menunggu Pengantaran" @selected($pesanan->statusPesanan=='Menunggu Pengantaran')>Menunggu Pengantaran</option>
+                    <option value="Sudah Diantar" @selected($pesanan->statusPesanan=='Sudah Diantar')>Sudah Diantar</option>
+                    <option value="Selesai" @selected($pesanan->statusPesanan=='Selesai')>Selesai</option>
+                    <option value="Dibatalkan" @selected($pesanan->statusPesanan=='Dibatalkan')>Dibatalkan</option>
                 </select>
 
                 @error('statusPesanan')
