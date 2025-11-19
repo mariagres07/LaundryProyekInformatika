@@ -164,7 +164,7 @@
             <h1>Solusi Laundry Bersih, Cepat, & Terpercaya</h1>
             <p>Percayakan pakaian Anda pada layanan laundry terbaik pilihan keluarga!</p>
 
-            <a href="{{ route('pesanLaundry') }}" class="btn-order">
+            <a href="{{ route('pesanLaundry.index') }}" class="btn-order">
                 <i class="bi bi-bag-check"></i> Pesan Laundry
             </a>
         </div>

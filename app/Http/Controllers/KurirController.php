@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kurir;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Pesanan;
 
 class KurirController extends Controller
 {
@@ -105,5 +106,20 @@ class KurirController extends Controller
         // jika ada relasi yang mencegah penghapusan, tangani relasi tersebut sebelum delete
         $kurir->delete();
         return redirect('/mkurir')->with('success', 'Kurir berhasil dihapus!');
+    }
+
+    public function antarSelesai($id)
+    {
+        $pesanan = Pesanan::findOrFail($id);
+
+        // Harus pastikan status saat ini menunggu pengantaran
+        if ($pesanan->statusPesanan !== 'Menunggu Pengantaran') {
+            return back()->with('error', 'Pesanan belum bisa diselesaikan.');
+        }
+
+        $pesanan->statusPesanan = 'Selesai';
+        $pesanan->save();
+
+        return back()->with('success', 'Pesanan berhasil diantar dan selesai.');
     }
 }

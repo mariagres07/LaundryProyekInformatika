@@ -104,10 +104,37 @@
             @if($pengaduan->media)
             <div class="mb-3">
                 <label class="text-label">Lampiran:</label><br>
-                <a href="{{ asset('storage/pengaduan/' . $pengaduan->media) }}" target="_blank"
+                {{-- <a href="{{ asset('storage/pengaduan/' . $pengaduan->media) }}" target="_blank"
                     class="btn btn-info btn-sm">
                     <i class="bi bi-file-earmark"></i> Lihat Lampiran
-                </a>
+                </a> --}}
+                @if ($pengaduan->media)
+    @php
+        // Lokasi 1: public/images/mediaPengaduan
+        $publicPath = public_path('images/mediaPengaduan/' . $pengaduan->media);
+        $publicUrl = asset('images/mediaPengaduan/' . $pengaduan->media);
+
+        // Lokasi 2: storage/app/public/pengaduan
+        $storageUrl = asset('storage/' . $pengaduan->media);
+
+        // Tentukan mana yang ada filenya
+        $finalUrl = file_exists($publicPath) ? $publicUrl : $storageUrl;
+    @endphp
+
+    <div class="mb-3">
+        <label class="text-label">Lampiran:</label><br>
+
+        {{-- Jika gambar tampilkan langsung --}}
+        @if(Str::endsWith($pengaduan->media, ['jpg','jpeg','png','gif']))
+            <img src="{{ $finalUrl }}" alt="Lampiran" class="img-thumbnail mt-2" style="max-width: 300px;">
+        @else
+            <a href="{{ $finalUrl }}" target="_blank" class="btn btn-info btn-sm">
+                <i class="bi bi-file-earmark"></i> Lihat Lampiran
+            </a>
+        @endif
+    </div>
+@endif
+
             </div>
             @endif
 

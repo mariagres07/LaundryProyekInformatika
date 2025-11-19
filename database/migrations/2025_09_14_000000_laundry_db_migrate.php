@@ -101,9 +101,10 @@ return new class extends Migration
         Schema::create('transaksiPembayaran', function (Blueprint $table) {
             $table->id('idTransaksiPembayaran');
             $table->foreignId('idDetailTransaksi')->constrained('detailTransaksi', 'idDetailTransaksi')->onDelete('cascade');
-            $table->string('metodePembayaran');
-            $table->date('tanggalPembayaran');
+            $table->dateTime('tanggalPembayaran');
             $table->decimal('totalPembayaran', 12, 2);
+            $table->string('buktiPembayaran')->nullable();
+            $table->string('kodePembayaran', 6)->unique();
         });
 
         Schema::create('pengaduan', function (Blueprint $table) {

@@ -396,73 +396,45 @@ use Illuminate\Support\Str;
         }
     }
 
-    // HANYA SATU EVENT LISTENER UNTUK btnPesan
+    // === KIRIM PESAN KE BACKEND ===
     btnPesan.addEventListener('click', async () => {
         if (!btnPesan.classList.contains('active')) return;
 
+        // Ambil jumlah tiap kategori
+        const kategori = Array.from(document.querySelectorAll('.counter span')).map(s => parseInt(s
+            .textContent));
+
+        // Ambil layanan yang dipilih
+        const layanan = document.querySelector('input[name="layanan"]:checked').value;
+
         // Ambil alamat dari input
-        const alamatInput = document.getElementById('alamat');
-        const alamat = alamatInput.value.trim();
+        const alamat = document.getElementById('alamat').value;
 
-        // Validasi alamat
-        if (!alamat) {
-            alert('Silakan masukkan alamat pengambilan laundry');
-            alamatInput.focus();
-            return;
-        }
-
-        // Ambil data kategori dengan quantity yang dipilih
-        const kategoriDipilih = [];
-        const counterSpans = document.querySelectorAll('.counter span');
-
-        counterSpans.forEach((span, index) => {
-            const quantity = parseInt(span.textContent);
-            if (quantity > 0) {
-                kategoriDipilih.push(index);
-            }
+        // Kirim ke backend
+        const response = await fetch('/pesanLaundry', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                kategori,
+                layanan,
+                alamat
+            })
         });
 
-        // Validasi minimal satu kategori dipilih
-        if (kategoriDipilih.length === 0) {
-            alert('Silakan pilih minimal satu kategori laundry');
-            return;
-        }
+        const data = await response.json();
 
-        const layananRadio = document.querySelector('input[name="layanan"]:checked');
-        if (!layananRadio) {
-            alert('Silakan pilih jenis paket layanan');
-            return;
-        }
-        const layanan = layananRadio.value;
-
-        // POST ke backend
-        try {
-            const response = await fetch('/pesanLaundry', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    kategori: kategoriDipilih,
-                    layanan: layanan,
-                    alamat: alamat
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.success && data.idPesanan) {
-                window.location.href = `/detailPesanan/${data.idPesanan}`;
-            } else {
-                alert('Gagal membuat pesanan: ' + (data.message || 'Unknown error'));
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat memproses pesanan');
+        if (data.success && data.idPesanan) {
+            window.location.href = `/detailPesanan/${data.idPesanan}`;
+        } else {
+            alert('Gagal membuat pesanan');
         }
     });
     </script>
+
+
 
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>

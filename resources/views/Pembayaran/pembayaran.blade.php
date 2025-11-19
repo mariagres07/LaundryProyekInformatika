@@ -66,6 +66,21 @@
 
 <body>
     <div class="payment-card">
+
+        {{-- FLASH MESSAGE (TAMBAHAN) --}}
+        @if(session('success'))
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle"></i> {{ session('success') }}
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="alert alert-danger">
+            <i class="bi bi-x-circle"></i> {{ session('error') }}
+        </div>
+        @endif
+        {{-- END FLASH MESSAGE --}}
+
         <div class="d-flex justify-content-between">
             <h4 class="fw-bold text-primary">Pembayaran</h4>
             <div class="date-text">{{ \Carbon\Carbon::now()->format('d/m/Y') }}</div>
@@ -76,17 +91,19 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="payment-code" id="kodePembayaran">
-                    {{ $pesanan->idPesanan }}
+                    {{-- {{ $pesanan->idPesanan }} --}}
+                    {{ $kodePembayaran }}
                 </div>
                 <button class="copy-btn w-100" onclick="salinKode()">
                     <i class="bi bi-clipboard"></i> SALIN KODE
                 </button>
             </div>
-            <div class="col-md-6 text-center mt-3 mt-md-0">
-                <div class="qr-box d-inline-block">
-                    {!! QrCode::size(150)->generate($pesanan->idPesanan) !!}
-                </div>
-            </div>
+            {{-- QR CODE --}}
+            {{-- <div class="col-md-6 text-center mt-3 mt-md-0"> --}}
+            {{-- <div class="qr-box d-inline-block"> --}}
+            {{-- {!! QrCode::size(150)->generate($pesanan->idPesanan) !!} --}}
+            {{-- </div> --}}
+            {{-- </div> --}}
         </div>
 
         <hr>
@@ -98,16 +115,15 @@
         </div>
 
         <form action="{{ route('pembayaran.proses', $pesanan->idPesanan) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <div class="mb-3">
-        <label for="buktiPembayaran" class="form-label fw-semibold">Upload Bukti Pembayaran</label>
-        <input type="file" name="buktiPembayaran" id="buktiPembayaran" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-success w-100 mt-2">
-        <i class="bi bi-upload"></i> Konfirmasi Pembayaran
-    </button>
-</form>
-
+            @csrf
+            <div class="mb-3">
+                <label for="buktiPembayaran" class="form-label fw-semibold">Upload Bukti Pembayaran</label>
+                <input type="file" name="buktiPembayaran" id="buktiPembayaran" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100 mt-2">
+                <i class="bi bi-upload"></i> Konfirmasi Pembayaran
+            </button>
+        </form>
 
         <div class="text-center mt-4">
             <a href="{{ route('pesanLaundry.index') }}" class="btn btn-outline-secondary">Kembali</a>

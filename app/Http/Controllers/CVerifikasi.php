@@ -68,14 +68,23 @@ class CVerifikasi extends Controller
     // Pakaian = berat × harga
     $totalPakaian = $berat * $hargaPakaian;
 
-    // Sprei = jumlah × harga
-    $totalSprei = $jumlahSprei * $hargaSprei;
+        $request->validate([
+            'beratBarang' => 'required|numeric|min:1'
+        ]);
 
-    // Handuk = jumlah × harga
-    $totalHanduk = $jumlahHanduk * $hargaHanduk;
+        // Ambil data pesanan berdasarkan ID
+        $pesanan = Pesanan::findOrFail($id);
 
-    // Total harga keseluruhan
-    $totalHarga = $totalPakaian + $totalSprei + $totalHanduk;
+        // Jika sudah diverifikasi, tidak boleh ditimbang ulang
+        if ($pesanan->beratBarang !== null) {
+            return back()->with('error', 'Pesanan sudah diverifikasi sebelumnya.');
+        }
+
+        // Simpan berat barang yang diinputkan user
+        $pesanan->beratBarang = $request->beratBarang;
+
+        // Update status pesanan (tanpa menghitung total harga)
+        $pesanan->statusPesanan = 'Diproses';
 
     // Simpan hasil ke DB
     $pesanan->update([
@@ -84,7 +93,9 @@ class CVerifikasi extends Controller
         'statusPesanan' => 'Menunggu Pembayaran'
     ]);
 
-    return redirect()->back()->with('success', 'Perhitungan berhasil diperbarui!');
+        return redirect()->back()
+            ->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
+    }
 }
 
 }

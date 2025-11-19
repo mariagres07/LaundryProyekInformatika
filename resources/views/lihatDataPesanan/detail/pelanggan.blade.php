@@ -250,6 +250,9 @@
                 <span class="text-success">
                     Rp {{ number_format(($pesanan->totalHarga + $pesanan->biaya_pengantaran) ?? 0, 0, ',', '.') }}
                 </span>
+                <a href="{{ url('pembayaran/'.($pesanan->idPesanan ?? $pesanan->id)) }}" class="btn btn-primary btn-sm ms-3">
+                    <i class="bi bi-credit-card me-1"></i> Lanjut ke Pembayaran
+                </a>
             </div>
         </div>
 
@@ -262,7 +265,7 @@
 
     <!-- BANTUAN -->
     <div class="help-box">
-        <a href="https://wa.me/6281234567890" target="_blank" class="btn-help">Hubungi CS</a>
+        <a href="https://wa.me/6283840554803" target="_blank" class="btn-help">Hubungi CS</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
