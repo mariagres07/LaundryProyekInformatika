@@ -88,7 +88,7 @@ return new class extends Migration
             $table->id('idKategoriItem');
             $table->string('namaKategori');
             $table->integer('jumlahItem')->default(0);
-            $table->decimal('hargaPerItem', 10, 2);
+            $table->decimal('hargaPerItem', 10, 2)->default(0);
         });
 
         Schema::create('detailTransaksi', function (Blueprint $table) {
