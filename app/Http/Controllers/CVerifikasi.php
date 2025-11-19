@@ -97,5 +97,3 @@ class CVerifikasi extends Controller
             ->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
     }
 }
-
-}
