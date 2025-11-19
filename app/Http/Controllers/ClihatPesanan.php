@@ -104,6 +104,6 @@ class ClihatPesanan extends Controller
         $pesanan->statusPesanan = $validated['statusPesanan'];
         $pesanan->save();
 
-        return redirect()->route('lihatPesanan.index')->with('success', 'Status pesanan berhasil diperbarui.');
+        return redirect()->route('lihatdata.index')->with('success', 'Status pesanan berhasil diperbarui.');
     }
 }
