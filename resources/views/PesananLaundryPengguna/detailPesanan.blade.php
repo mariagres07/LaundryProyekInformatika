@@ -79,26 +79,24 @@
     }
 
     /* Tombol kembali fixed */
-    .btn-back {
-        position: fixed;
-        bottom: 25px;
-        left: 25px;
-        background-color: #0d6efd;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-        transition: 0.3s;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        z-index: 1055;
-        /* pastikan di atas offcanvas */
-    }
+    .btn-kembali {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
     .btn-back:hover {
         background-color: #0056b3;
