@@ -19,6 +19,7 @@ class TransaksiPembayaran extends Model
         'tanggalPembayaran',
         'totalPembayaran',
         'buktiPembayaran',
+        'kodePembayaran',
     ];
 
     public function detailTransaksi()

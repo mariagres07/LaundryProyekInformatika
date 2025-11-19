@@ -44,8 +44,14 @@ class PembayaranController extends Controller
         // Hitung total harga
         $totalHarga =  $pesanan->beratBarang * $layanan->hargaPerKg;
 
+        $detail = DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->first();
+
+        $kodePembayaran = TransaksiPembayaran::where('idDetailTransaksi', $detail->idDetailTransaksi)
+            ->value('kodePembayaran');
+
+
         // Kirim data ke view
-        return view('Pembayaran.pembayaran', compact('pesanan', 'layanan', 'totalHarga'));
+        return view('Pembayaran.pembayaran', compact('pesanan', 'layanan', 'totalHarga', 'kodePembayaran'));
     }
 
     // ===================== PROSES PEMBAYARAN (UPLOAD BUKTI) =====================
@@ -90,13 +96,17 @@ class PembayaranController extends Controller
         $pesanan->totalHarga = $total;
         $pesanan->save();
 
+        // Generate kode pembayaran 6 digit
+        $kode = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
         // Buat transaksi pembayaran
         TransaksiPembayaran::create([
             'idDetailTransaksi' => $detail->idDetailTransaksi,
-            'metodePembayaran' => 'Transfer',
+            // 'metodePembayaran' => 'Transfer',
             'tanggalPembayaran' => now(),
             'totalPembayaran' => $pesanan->totalHarga,
             'buktiPembayaran' => $path,
+            'kodePembayaran' => $kode,
         ]);
 
         // Update pesanan hanya status saja
