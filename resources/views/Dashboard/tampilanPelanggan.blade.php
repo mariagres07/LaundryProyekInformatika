@@ -38,7 +38,13 @@
             margin: 0;
         }
 
-        .top-navbar .profile-icon {
+        .top-navbar .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Space between icons */
+        }
+
+        .top-navbar .nav-icon {
             font-size: 1.5rem;
             cursor: pointer;
             color: white;
@@ -153,9 +159,17 @@
     <!-- Top Navigation Bar -->
     <nav class="top-navbar">
         <h3 class="title">IVA Laundry</h3>
-        <a href="{{ route('pelanggan.edit') }}" class="profile-icon">
-            <i class="bi bi-person-circle"></i>
-        </a>
+        <div class="nav-icons">
+            <a href="{{ route('pelanggan.edit') }}" class="nav-icon">
+                <i class="bi bi-person-circle"></i>
+            </a>
+            <a href="{{ route('logout') }}" class="nav-icon" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </div>
     </nav>
 
     <!-- Hero -->
