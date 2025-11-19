@@ -190,8 +190,9 @@
 
             <div class="mb-3">
                 <strong class="text-primary">Tanggal Masuk:</strong><br>
-                {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y H:i') }}
+                {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y') }}
             </div>
+
 
             <div class="mb-3">
                 <strong class="text-primary">Paket Layanan:</strong><br>
