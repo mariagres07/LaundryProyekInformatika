@@ -47,7 +47,7 @@ class LoginController extends Controller
         if ($karyawan && Hash::check($request->password, $karyawan->password)) {
             Session::put('karyawan', $karyawan);
             Session::put('role', 'karyawan');
-            return redirect()->route('dashboard.karyawan');
+            return redirect()->route('karyawan.dashboard');
         }
 
         // Jika tidak cocok dengan siapa pun

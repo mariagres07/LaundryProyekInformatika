@@ -87,7 +87,7 @@
             position: fixed;
             bottom: 25px;
             left: 25px;
-            background-color: #4273b8;
+            background-color: #8ab2d3ff;
             color: white;
             border: none;
             border-radius: 50%;
@@ -100,7 +100,6 @@
             transition: 0.3s;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 100;
         }
 
         .btn-back:hover {
@@ -138,7 +137,7 @@
         @forelse ($pesanan as $p)
         <div class="pesanan-card">
             <div class="pesanan-info">
-                <h5>{{ $p->pelanggan->nama ?? 'Nama tidak diketahui' }}</h5>
+                <h5>{{ $p->pelanggan->nama ?? 'Pelanggan 1' }}</h5>
                 <small>{{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}</small>
             </div>
 

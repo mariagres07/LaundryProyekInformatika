@@ -14,13 +14,42 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f4f9ff;
+            margin-top: 60px; /* Add space for fixed top navbar */
+        }
+        
+        /* Top Navigation Bar */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #abcfecff; /* Primary blue color */
+            color: white;
+            padding: 15px 20px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-navbar .title {
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin: 0;
+        }
+
+        .top-navbar .profile-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            text-decoration: none;
         }
 
         /* Hero Section */
         .hero {
             background: linear-gradient(rgba(64, 118, 207, 0.7), rgba(64, 118, 207, 0.7)),
                 url('image.png') center/cover no-repeat;
-            padding: 130px 20px;
+            padding: 150px 20px 130px; /* Increased top padding to account for navbar */
             text-align: center;
             color: white;
         }
@@ -37,6 +66,8 @@
             padding: 12px 30px;
             border-radius: 30px;
             text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
         }
 
         .btn-order:hover {
@@ -44,37 +75,61 @@
             color: #ffffff;
         }
 
-        /* Diskon Section */
-        .discount {
+        /* Order Data Section */
+        .order-data {
             padding: 70px 20px;
             text-align: center;
             background-color: #ffffff;
         }
 
-        .discount h2 {
+        .order-data h2 {
             color: #0d3b66;
             font-weight: 700;
             margin-bottom: 40px;
         }
 
-        .discount .card {
+        .order-data .card {
             background: #e6f1ff;
             border: none;
             border-radius: 20px;
             transition: 0.3s;
+            margin-bottom: 20px;
         }
 
-        .discount .card:hover {
+        .order-data .card:hover {
             transform: translateY(-8px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
-        .discount-badge {
-            background: #d64045;
+        .btn-view-orders {
+            background-color: #4a8fe7;
             color: white;
-            border-radius: 20px;
-            padding: 7px 18px;
-            font-weight: bold;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-view-orders:hover {
+            background-color: #2e6edb;
+            color: #ffffff;
+        }
+
+        .btn-complaint {
+            background-color: #d64045;
+            color: white;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .btn-complaint:hover {
+            background-color: #b02a2f;
+            color: #ffffff;
         }
 
         /* Footer */
@@ -86,24 +141,6 @@
             text-align: center;
         }
 
-        /* Tombol Kembali */
-        .btn-back {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background: #4a8fe7;
-            color: white;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            text-decoration: none;
-            transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-        }
 
         .btn-back:hover {
             background: #2e6edb;
@@ -113,7 +150,13 @@
 
 <body>
 
-    @include('Dashboard.pelanggan_sidenav')
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar">
+        <h3 class="title">IVA Laundry</h3>
+        <a href="{{ route('pelanggan.edit') }}" class="profile-icon">
+            <i class="bi bi-person-circle"></i>
+        </a>
+    </nav>
 
     <!-- Hero -->
     <section class="hero">
@@ -127,25 +170,29 @@
         </div>
     </section>
 
-    <!-- Diskon -->
-    <section class="discount">
+    <!-- Order Data Section -->
+    <section class="order-data">
         <div class="container">
-            <h2>Promo & Penawaran Khusus</h2>
+            <h2>Lihat Data Pesanan & Buat Pengaduan</h2>
 
             <div class="row justify-content-center">
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3">
-                        <span class="discount-badge">Diskon 20%</span>
-                        <h5 class="mt-3 fw-bold">Cuci Setrika Minimal 5 Kg</h5>
-                        <p class="text-muted">Potongan harga spesial untuk transaksi di atas 5 Kg.</p>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-4">
+                        <h4 class="fw-bold text-primary"><i class="bi bi-clipboard-check me-2"></i>Lihat Data Pesanan</h4>
+                        <p class="text-muted">Lacak status dan riwayat pesanan laundry Anda.</p>
+                        <a href="{{ route('lihatdata.index') }}" class="btn-view-orders">
+                            <i class="bi bi-eye me-2"></i>Lihat Pesanan
+                        </a>
                     </div>
                 </div>
 
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3">
-                        <span class="discount-badge">Gratis Antar</span>
-                        <h5 class="mt-3 fw-bold">Wilayah Dalam Radius 3 KM</h5>
-                        <p class="text-muted">Tanpa minimal order!</p>
+                <div class="col-md-6 mb-4">
+                    <div class="card p-4">
+                        <h4 class="fw-bold text-danger"><i class="bi bi-chat-dots me-2"></i>Buat Pengaduan</h4>
+                        <p class="text-muted">Sampaikan keluhan atau masukan Anda kepada kami.</p>
+                        <a href="{{ route('pengaduan.create') }}" class="btn-complaint">
+                            <i class="bi bi-pencil me-2"></i>Buat Pengaduan
+                        </a>
                     </div>
                 </div>
             </div>
@@ -158,4 +205,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

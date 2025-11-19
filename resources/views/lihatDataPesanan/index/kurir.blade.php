@@ -174,7 +174,7 @@
                     <i class="bi bi-eye"></i> Detail
                 </a>
 
-                <form action="{{ route('pesanan.update-status', $p->idPesanan) }}" method="POST">
+                <form action="{{ route('update.status', $p->idPesanan) }}" method="POST">
                     @csrf
                     <input type="hidden" name="statusPesanan" value="Sudah Diantar">
                     <button class="btn-deliver" onclick="return confirm('Konfirmasi pesanan sudah diantar?')">
