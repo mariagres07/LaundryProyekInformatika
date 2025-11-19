@@ -179,7 +179,7 @@
             <div class="col-sm-5 text-label">Paket Layanan</div>
             <div class="col-sm-7 data-value">
                 : {{ $pesanan->layanan->namaLayanan ?? '-' }}
-                (Rp {{ number_format($pesanan->layanan->hargaLayanan ?? 0, 0, ',', '.') }})
+                (Rp {{ number_format($pesanan->totalHarga ?? 0, 0, ',', '.') }})
             </div>
         </div>
 
