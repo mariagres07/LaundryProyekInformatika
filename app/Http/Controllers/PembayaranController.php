@@ -46,6 +46,14 @@ class PembayaranController extends Controller
 
         $detail = DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->first();
 
+        // Jika belum ada detailTransaksi → otomatis buat
+        if (!$detail) {
+            $detail = DetailTransaksi::create([
+                'idPesanan' => $pesanan->idPesanan,
+                'idKategoriItem' => 1, // Default kategori pakaian (sesuaikan dengan database)
+                'jumlahKategori' => $pesanan->pakaian ?? 0,
+            ]);
+        }
         $kodePembayaran = TransaksiPembayaran::where('idDetailTransaksi', $detail->idDetailTransaksi)
             ->value('kodePembayaran');
 
@@ -89,12 +97,14 @@ class PembayaranController extends Controller
         }
 
         // Hitung totalHarga ulang
-        $layanan = Layanan::find($pesanan->idLayanan);
-        $total = $pesanan->beratBarang * $layanan->hargaPerKg;
+        // $layanan = Layanan::find($pesanan->idLayanan);
+        // $total = $pesanan->totalHarga + $layanan->hargaPerKg;
 
         // Simpan totalHarga ke tabel pesanan jika belum
-        $pesanan->totalHarga = $total;
-        $pesanan->save();
+        // $pesanan->totalHarga = $total;
+        // $pesanan->save();
+
+        $total = $pesanan->totalHarga;
 
         // Generate kode pembayaran 6 digit
         $kode = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
@@ -104,7 +114,7 @@ class PembayaranController extends Controller
             'idDetailTransaksi' => $detail->idDetailTransaksi,
             // 'metodePembayaran' => 'Transfer',
             'tanggalPembayaran' => now(),
-            'totalPembayaran' => $pesanan->totalHarga,
+            'totalPembayaran' => $total,
             'buktiPembayaran' => $path,
             'kodePembayaran' => $kode,
         ]);
