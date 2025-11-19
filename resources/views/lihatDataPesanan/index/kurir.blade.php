@@ -11,122 +11,122 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to bottom, #f9f9f9 0%, #e7eef7 100%);
+        min-height: 100vh;
+        padding-bottom: 80px;
+    }
 
-        .header-bg {
-            background-image: url("{{ asset('water.jpg') }}");
-            background-repeat: no-repeat;
-            background-position: left center;
-            background-size: cover;
-            border-radius: 15px;
-            padding: 30px 20px;
-            margin-bottom: 25px;
-            color: white;
-            position: relative;
-        }
+    .header-bg {
+        background-image: url("{{ asset('water.jpg') }}");
+        background-repeat: no-repeat;
+        background-position: left center;
+        background-size: cover;
+        border-radius: 15px;
+        padding: 30px 20px;
+        margin-bottom: 25px;
+        color: white;
+        position: relative;
+    }
 
-        .header-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-        }
+    .header-bg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 15px;
+    }
 
-        .header-content {
-            position: relative;
-            z-index: 1;
-            font-size: 1.7rem;
-            font-weight: 700;
-            text-align: left;
-        }
+    .header-content {
+        position: relative;
+        z-index: 1;
+        font-size: 1.7rem;
+        font-weight: 700;
+        text-align: left;
+    }
 
-        .pesanan-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 5px solid #ffc107;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+    .pesanan-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 5px solid #ffc107;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-        .pesanan-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
+    .pesanan-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 
-        .delivery-info {
-            color: #495057;
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
+    .delivery-info {
+        color: #495057;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
 
-        .address-info {
-            background: #f8f9fa;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-top: 8px;
-            font-size: 0.85rem;
-            border-left: 3px solid #ffc107;
-        }
+    .address-info {
+        background: #f8f9fa;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-top: 8px;
+        font-size: 0.85rem;
+        border-left: 3px solid #ffc107;
+    }
 
-        .status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
+    .status {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
 
-        .status-ready {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
+    .status-ready {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+    }
 
-        .btn-detail {
-            background: #2d4b74;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-        }
+    .btn-detail {
+        background: #2d4b74;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        text-decoration: none;
+    }
 
-        .btn-deliver {
-            background: #28a745;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: none;
-        }
+    .btn-deliver {
+        background: #28a745;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        border: none;
+    }
 
-        .btn-back {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #2d4b74;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 10000;
-        }
+    .btn-back {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: #2d4b74;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 10000;
+    }
     </style>
 </head>
 
@@ -170,7 +170,7 @@
             <div class="d-flex align-items-center gap-3">
                 <span class="status status-ready">Ready Diantar</span>
 
-                <a href="{{ route('kurir.detail', $p->idPesanan) }}" class="btn-detail">
+                <a href="{{ route('lihatdata.detail', $p->idPesanan) }}" class="btn-detail">
                     <i class="bi bi-eye"></i> Detail
                 </a>
 
