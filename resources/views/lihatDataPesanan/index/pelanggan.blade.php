@@ -164,7 +164,7 @@
         <div class="pesanan-card">
 
             <div class="pesanan-info">
-                <h5>Pesanan #{{ $p->no_pesanan ?? $p->idPesanan }}</h5>
+                <h5>Pesanan {{ $p->no_pesanan ?? $p->idPesanan }}</h5>
                 <small>
                     <i class="bi bi-calendar3 me-1"></i>
                     {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}
@@ -172,7 +172,7 @@
 
                 <div class="pesanan-detail">
                     {{ $p->layanan->namaLayanan ?? 'Layanan Reguler' }} -
-                    Rp {{ number_format($p->total_harga ?? 0, 0, ',', '.') }}
+                    Rp {{ number_format($p->totalHarga ?? 0, 0, ',', '.') }}
                 </div>
             </div>
 

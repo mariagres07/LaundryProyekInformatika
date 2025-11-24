@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\DetailTransaksi;
+use App\Models\KategoriItem;
+use App\Models\Layanan;
 
 class CVerifikasi extends Controller
 {
@@ -37,23 +39,18 @@ class CVerifikasi extends Controller
         return view('VerifikasiP.DetailVerifikasi', compact('pesanan'));
     }
 
-    /**
-     * Melakukan perhitungan total harga dan menyimpan berat barang.
-     *
-     * Aturan:
-     * - Pakaian: dihitung berdasarkan berat (kg) * hargaPerItem (dari kategori_item)
-     * - Seprai & Handuk (dan kategori lain selain Pakaian): dihitung per pcs * hargaPerItem
-     */
-    public function perhitungan(Request $request, $id)
+    public function perhitungan(Request $request, $idPesanan)
     {
+        // Ambil data pesanan berdasarkan id
+        $pesanan = Pesanan::findOrFail($idPesanan);
+        $layanan = Layanan::find($pesanan->idLayanan);
+
 
         $request->validate([
             'beratBarang' => 'required|numeric|min:1'
         ]);
 
-        // Ambil data pesanan berdasarkan id
-        $pesanan = Pesanan::findOrFail($id);
-
+        // Cek apakah pesanan sudah diverifikasi sebelumnya
         if ($pesanan->beratBarang !== null) {
             return back()->with('error', 'Pesanan sudah diverifikasi sebelumnya.');
         }
@@ -61,19 +58,20 @@ class CVerifikasi extends Controller
         // BERAT pakaian dari input verifikator
         $berat = floatval($request->beratBarang);
 
-        // Ambil harga dari tabel kategoriitem (nama tabel sesuai database kamu)
-        // $hargaPakaian = DB::table('kategoriitem')->where('namaKategori', 'Pakaian')->value('hargaPerItem');
-        // $hargaSprei   = DB::table('kategoriitem')->where('namaKategori', 'Seprai')->value('hargaPerItem');
-        // $hargaHanduk  = DB::table('kategoriitem')->where('namaKategori', 'Handuk')->value('hargaPerItem');
-
         // Ambil harga kategori
-        $kategoriPakaian = \App\Models\KategoriItem::where('namaKategori', 'Pakaian')->first();
-        $kategoriSprei   = \App\Models\KategoriItem::where('namaKategori', 'Seprai')->first();
-        $kategoriHanduk  = \App\Models\KategoriItem::where('namaKategori', 'Handuk')->first();
+        $kategoriPakaian = KategoriItem::where('namaKategori', 'Pakaian')->first();
+        $kategoriSprei   = KategoriItem::where('namaKategori', 'Seprai/selimt/Bed Cover')->first();
+        $kategoriHanduk  = KategoriItem::where('namaKategori', 'Handuk')->first();
+
+        // Ambil harga per item dengan Null Check (agar tidak error jika kategori tidak ditemukan)
+        $hargaPakaian = $kategoriPakaian ? $kategoriPakaian->hargaPerItem : 0;
+        $hargaSprei   = $kategoriSprei ? $kategoriSprei->hargaPerItem : 0;
+        $hargaHanduk  = $kategoriHanduk ? $kategoriHanduk->hargaPerItem : 0;
+
         // Hitung total
-        $totalPakaian = $berat * $kategoriPakaian->hargaPerItem;
-        $totalSprei   = $pesanan->seprai * $kategoriSprei->hargaPerItem;
-        $totalHanduk  = $pesanan->handuk * $kategoriHanduk->hargaPerItem;
+        $totalPakaian = $berat * $hargaPakaian;
+        $totalSprei   = $pesanan->seprai * $hargaSprei;
+        $totalHanduk  = $pesanan->handuk * $hargaHanduk;
 
         $totalHarga = $totalPakaian + $totalSprei + $totalHanduk;
 
@@ -83,63 +81,28 @@ class CVerifikasi extends Controller
             'totalHarga' => $totalHarga,
             'statusPesanan' => 'Menunggu Pembayaran'
         ]);
-        // Ambil jumlah item dari tabel pesanan
-        // $jumlahPakaian = $pesanan->pakaian; // Pakaian dihitung berdasarkan berat
-        // $jumlahSprei   = $pesanan->seprai;
-        // $jumlahHanduk  = $pesanan->handuk;
 
-        // Berat pakaian yang diinput verifikator
-        // $berat = floatval($request->beratBarang);
-
-        // ============================
-        //      PROSES PERHITUNGAN
-        // ============================
-
-        // Pakaian = berat × harga
-        // $totalPakaian = $berat * $hargaPakaian;
-        // $totalSprei   = $jumlahSprei * $hargaSprei;
-        // $totalHanduk  = $jumlahHanduk * $hargaHanduk;
-
-        // Total keseluruhan
-        // $totalHarga = $totalPakaian + $totalSprei + $totalHanduk;
-
-        // $request->validate([
-        //     'beratBarang' => 'required|numeric|min:1'
+        // // Hapus detail transaksi lama (jika ada) untuk menghindari duplikasi
+        // DetailTransaksi::create([
+        //     'idPesanan' => $pesanan->idPesanan,
+        //     'idKategoriItem' => $kategoriPakaian->idKategoriItem,
+        //     'jumlahKategori' => $berat,
         // ]);
 
-        // Ambil data pesanan berdasarkan ID
-        // $pesanan = Pesanan::findOrFail($id);
+        // ✅ HAPUS DetailTransaksi yang duplikat!
+        DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->delete();
 
-        // Jika sudah diverifikasi, tidak boleh ditimbang ulang
-        // if ($pesanan->beratBarang !== null) {
-        //     return back()->with('error', 'Pesanan sudah diverifikasi sebelumnya.');
-        // }
-
-        // Simpan berat barang yang diinputkan user
-        // $pesanan->beratBarang = $request->beratBarang;
-
-        // Update status pesanan (tanpa menghitung total harga)
-        // $pesanan->statusPesanan = 'Diproses';
-
-        // Simpan hasil ke DB
-        // $pesanan->update([
-        //     'beratBarang' => $berat,
-        //     'totalHarga'  => $totalHarga,
-        //     'statusPesanan' => 'Menunggu Pembayaran'
-        // ]);
-
-        // $kategoriPakaian = \App\Models\KategoriItem::where('namaKategori', 'Pakaian')->first();
-        // $kategoriSprei   = \App\Models\KategoriItem::where('namaKategori', 'Seprai')->first();
-        // $kategoriHanduk  = \App\Models\KategoriItem::where('namaKategori', 'Handuk')->first();
-
-        DetailTransaksi::create([
-            'idPesanan' => $pesanan->idPesanan,
-            'idKategoriItem' => $kategoriPakaian->idKategoriItem,
-            'jumlahKategori' => $berat,
-        ]);
+        // Pakaian (Hanya dibuat jika kategoriPakaian ditemukan)
+        if ($kategoriPakaian) {
+            DetailTransaksi::create([
+                'idPesanan' => $pesanan->idPesanan,
+                'idKategoriItem' => $kategoriPakaian->idKategoriItem,
+                'jumlahKategori' => $berat,
+            ]);
+        }
 
         // Seprai (jika ada)
-        if ($pesanan->seprai > 0) {
+        if ($pesanan->seprai > 0 && $kategoriSprei) {
             DetailTransaksi::create([
                 'idPesanan' => $pesanan->idPesanan,
                 'idKategoriItem' => $kategoriSprei->idKategoriItem,
@@ -148,7 +111,7 @@ class CVerifikasi extends Controller
         }
 
         // Handuk (jika ada)
-        if ($pesanan->handuk > 0) {
+        if ($pesanan->handuk > 0 && $kategoriHanduk) {
             DetailTransaksi::create([
                 'idPesanan' => $pesanan->idPesanan,
                 'idKategoriItem' => $kategoriHanduk->idKategoriItem,

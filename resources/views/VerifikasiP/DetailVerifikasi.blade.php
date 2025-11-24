@@ -88,7 +88,18 @@
         @if(session('success'))
         <div class="alert alert-success rounded-4">{{ session('success') }}</div>
         @endif
-
+        @if(session('error'))
+        <div class="alert alert-danger rounded-4">{{ session('error') }}</div>
+        @endif
+        @if($errors->any())
+        <div class="alert alert-danger rounded-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body">
 
@@ -102,9 +113,9 @@
                     <div class="col-md-8">:
                         @php
                         $kategori = [
-                            'Paket' => $pesanan->paket,
+                            // 'Paket' => $pesanan->paket,
                             'Pakaian' => $pesanan->pakaian,
-                            'Seprai' => $pesanan->seprai,
+                            'Seprai/Seprai/Bed Cover' => $pesanan->seprai,
                             'Handuk' => $pesanan->handuk,
                         ];
                         @endphp
@@ -140,9 +151,29 @@
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Status Saat Ini</div>
                     <div class="col-md-8">
-                        : <span class="badge bg-warning text-dark">{{ $pesanan->statusPesanan ?? 'Belum Diketahui' }}</span>
+                        : 
+                         {{-- Logika badge --}}
+                        @php
+                            $badgeClass = match($pesanan->statusPesanan) {
+                                'Menunggu Penjemputan' => 'bg-info',
+                                'Menunggu Pembayaran' => 'bg-warning text-dark',
+                                default => 'bg-secondary'
+                            };
+                        @endphp
+                        <span class="badge bg-warning text-dark">{{ $pesanan->statusPesanan ?? 'Belum Diketahui' }}</span>
                     </div>
                 </div>
+
+                 @if ($pesanan->beratBarang)
+                <div class="row mb-2 border-top pt-3 mt-3">
+                    <div class="col-md-4 form-label">Berat Terverifikasi</div>
+                    <div class="col-md-8">: <span class="fw-bold text-success">{{ $pesanan->beratBarang }} kg</span></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4 form-label">Total Harga</div>
+                    <div class="col-md-8">: <span class="fw-bold text-success">Rp {{ number_format($pesanan->totalHarga, 0, ',', '.') }}</span></div>
+                </div>
+                @endif
 
             </div>
         </div>
