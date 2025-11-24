@@ -55,10 +55,10 @@ class DatabaseSeeder extends Seeder
 
         // === Layanan (4 jenis) ===
         $layananList = [
-            ['namaLayanan' => 'Express (Vanilla)', 'hargaPerKg' => 10000, 'estimasiHari' => 3],
-            ['namaLayanan' => 'Express (Strawberry) ', 'hargaPerKg' => 9000, 'estimasiHari' => 3],
-            ['namaLayanan' => 'Reguler (Vanilla)', 'hargaPerKg' => 8000, 'estimasiHari' => 5],
-            ['namaLayanan' => 'Reguler (Strawberry)', 'hargaPerKg' => 7000, 'estimasiHari' => 5],
+            ['namaLayanan' => 'Express (Vanilla)', 'hargaPerKg' => 8000, 'estimasiHari' => 2],
+            ['namaLayanan' => 'Express (Fresh Coffee) ', 'hargaPerKg' => 8000, 'estimasiHari' => 2],
+            ['namaLayanan' => 'Reguler (Vanilla)', 'hargaPerKg' => 5000, 'estimasiHari' => 4],
+            ['namaLayanan' => 'Reguler (Fresh Coffee)', 'hargaPerKg' => 5000, 'estimasiHari' => 4],
         ];
 
         foreach ($layananList as $data) {
@@ -76,7 +76,6 @@ class DatabaseSeeder extends Seeder
             'idKaryawan' => $karyawan->idKaryawan,
             'statusPesanan' => 'Menunggu Penjemputan',
             'alamat' => 'Jl. Pelanggan No. 1',
-            // 'paket' => 'Paket A',
             'pakaian' => 3,
             'seprai' => 2,
             'handuk' => 1,
@@ -85,9 +84,8 @@ class DatabaseSeeder extends Seeder
 
         $kategoriData = [
             ['namaKategori' => 'Pakaian', 'jumlahItem' => 3, 'hargaPerItem' => 5000],
-            ['namaKategori' => 'Seprai', 'jumlahItem' => 2, 'hargaPerItem' => 7000],
+            ['namaKategori' => 'Seprai/Selimut/Bed Cover', 'jumlahItem' => 2, 'hargaPerItem' => 7000],
             ['namaKategori' => 'Handuk', 'jumlahItem' => 1, 'hargaPerItem' => 6000],
-            ['namaKategori' => 'Jas', 'jumlahItem' => 1, 'hargaPerItem' => 10000],
         ];
 
         foreach ($kategoriData as $data) {
