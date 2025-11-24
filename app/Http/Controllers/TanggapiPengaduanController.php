@@ -9,69 +9,75 @@ use Illuminate\Support\Facades\Log;
 class TanggapiPengaduanController extends Controller
 {
     //Tampilkan daftar pengaduan
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            $pengaduans = Pengaduan::with('pelanggan')->get();
-            return view('Pengaduan.ListTanggapiPengaduan', compact('pengaduans'));
-        } catch (\Exception $e) {
-            Log::error("Gagal memuat daftar pengaduan: " . $e->getMessage());
-            return back()->with('error', 'Gagal memuat daftar pengaduan.');
-        }
+        $search = $request->input('search');
+        $filterStatus = $request->input('status', 'all');
+
+        // daftar status yang ditampilkan di dropdown (sesuaikan jika perlu)
+        $statuses = [
+            'all' => 'Semua',
+            'Belum Ditanggapi' => 'Belum Ditanggapi',
+            'Ditanggapi' => 'Ditanggapi',
+        ];
+
+        $pengaduan = Pengaduan::query()
+            ->when($search, function ($q) use ($search) {
+                $q->where('idPesanan', 'like', "%{$search}%")
+                    ->orWhere('deskripsi', 'like', "%{$search}%")
+                    ->orWhere('judulPengaduan', 'like', "%{$search}%");
+            })
+            ->when($filterStatus && $filterStatus !== 'all', function ($q) use ($filterStatus) {
+                $q->where('statusPengaduan', $filterStatus);
+            })
+            ->orderBy('idPengaduan', 'desc')
+            ->paginate(10)
+            ->appends($request->only(['search', 'status']));
+
+        return view('Pengaduan.ListTanggapiPengaduan', compact('pengaduan', 'search', 'filterStatus', 'statuses'));
     }
 
     //Tampilkan detail pengaduan dan form tanggapan
-    public function show(string $idPengaduan)
+    public function show($idPengaduan)
     {
-        try {
-            $pengaduan = Pengaduan::with('pelanggan')->findOrFail($idPengaduan);
-            return view('Pengaduan.DetailTanggapiPengaduan', compact('pengaduan'));
-        } catch (\Exception $e) {
-            Log::error("Gagal memuat detail pengaduan: " . $e->getMessage());
-            return redirect()->route('pengaduan.index')->with('error', 'Pengaduan tidak ditemukan.');
-        }
-    }
-
-    public function kirimTanggapan(Request $request, string $idPengaduan)
-{
-    $request->validate([
-        'pesan' => 'required|string|max:1000',
-    ]);
-
-    // ✅ Tambahkan log di sini
-    Log::info('Menerima tanggapan:', [
-        'id' => $idPengaduan,
-        'pesan' => $request->input('pesan')
-    ]);
-
-    try {
         $pengaduan = Pengaduan::findOrFail($idPengaduan);
-        $pengaduan->tanggapanPengaduan = $request->input('pesan');
-        $pengaduan->statusPengaduan = 'Ditanggapi';
-        $pengaduan->save();
-
-        return redirect()->route('pengaduan.show', $idPengaduan)
-            ->with('success', 'Tanggapan berhasil dikirim!');
-    } catch (\Exception $e) {
-        Log::error("Gagal mengirim tanggapan: " . $e->getMessage());
-        return back()->with('error', 'Terjadi kesalahan saat menyimpan tanggapan.');
+        return view('Pengaduan.detailTanggapiPengaduan', compact('pengaduan'));
     }
-}
 
+    // Form tanggapi pengaduan
+    public function edit($idPengaduan)
+    {
+        $pengaduan = Pengaduan::findOrFail($idPengaduan);
+        return view('Pengaduan.detailTanggapiPengaduan', compact('pengaduan'));
+    }
+
+    public function kirimTanggapan(Request $request, $idPengaduan)
+    {
+        $request->validate([
+            'tanggapan' => 'required|string'
+        ]);
+
+        $pengaduan = Pengaduan::findOrFail($idPengaduan);
+
+        // update status menjadi 'Ditanggapi'
+        $pengaduan->update([
+            'tanggapan' => $request->tanggapan,
+            'statusPengaduan' => 'Ditanggapi'
+        ]);
+
+        return redirect()->route('pengaduan.index')
+            ->with('success', 'Pengaduan berhasil ditanggapi!');
+    }
 
     //Tandai pengaduan telah selesai
-    public function selesai(string $idPengaduan)
+    public function selesaikan($idPengaduan)
     {
-        try {
-            $pengaduan = Pengaduan::findOrFail($idPengaduan);
-            $pengaduan->statusPengaduan = 'Selesai';
-            $pengaduan->save();
+        $pengaduan = Pengaduan::findOrFail($idPengaduan);
+        $pengaduan->update([
+            'statusPengaduan' => 'Selesai'
+        ]);
 
-            return redirect()->route('pengaduan.index')
-                ->with('success', 'Pengaduan telah ditandai sebagai selesai.');
-        } catch (\Exception $e) {
-            Log::error("Gagal menyelesaikan pengaduan: " . $e->getMessage());
-            return back()->with('error', 'Gagal menandai pengaduan sebagai selesai.');
-        }
+        return redirect()->route('pengaduan.index')
+            ->with('success', 'Pengaduan berhasil diselesaikan!');
     }
 }
