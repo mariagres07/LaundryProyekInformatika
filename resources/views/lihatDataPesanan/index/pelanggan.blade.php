@@ -109,6 +109,11 @@
         color: #155724;
     }
 
+    .status-lunas {
+    background: #fff3cd;      /* kuning pastel */
+    color: #856404;           /* coklat gelap */
+    }
+
     .btn-detail {
         background: #2d4b74;
         color: white;
@@ -186,6 +191,9 @@
 
                 @elseif($p->statusPesanan == 'Sudah Diantar')
                 <span class="status status-diantar">Sudah Diantar</span>
+
+                @elseif($p->statusPesanan == 'Lunas')
+                <span class="status status-lunas">Lunas</span>
 
                 @elseif($p->statusPesanan == 'Selesai')
                 <span class="status status-selesai">Selesai</span>

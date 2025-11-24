@@ -115,25 +115,46 @@
     <div class="filter-box">
       <form action="{{ route('laporan.index') }}" method="GET">
         <div class="row g-3 align-items-end">
-          <div class="col-md-5">
-            <label class="fw-bold">Dari Tanggal:</label>
-            <input type="date" name="tanggal_awal" class="form-control shadow-sm rounded-pill mt-1"
-              value="{{ request('tanggal_awal') }}">
+
+           {{-- INPUT TANGGAL AWAL --}}
+          <div class="col-md-5 col-12">
+            <label for="tanggal_awal_input" class="fw-bold">Dari Tanggal:</label>
+            <input type="date" id="tanggal_awal_input" name="tanggal_awal" class="form-control shadow-sm rounded-pill mt-1 
+              @error('tanggal_awal') is-invalid @enderror"
+              value="{{ old('tanggal_awal', $tanggalAwal ?? request('tanggal_awal')) }}" required>
+            
+            {{-- Menampilkan error spesifik untuk tanggal_awal --}}
+            @error('tanggal_awal')
+              <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
           </div>
-          <div class="col-md-7">
-            <label class="fw-bold">Sampai Tanggal:</label>
-            <div class="input-group mt-1">
-              <input type="date" name="tanggal_akhir" class="form-control shadow-sm rounded-start-pill"
-                value="{{ request('tanggal_akhir') }}">
-              <button type="submit" class="btn btn-primary rounded-end-pill px-3">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
+
+          {{-- INPUT TANGGAL AKHIR --}}
+          <div class="col-md-5 col-12">
+            <label for="tanggal_akhir_input" class="fw-bold">Sampai Tanggal:</label>
+            <input type="date" id="tanggal_akhir_input" name="tanggal_akhir" class="form-control shadow-sm rounded-pill mt-1 
+              @error('tanggal_akhir') is-invalid @enderror"
+              value="{{ old('tanggal_akhir', $tanggalAkhir ?? request('tanggal_akhir')) }}" required> 
+            
+              {{-- Menampilkan error spesifik untuk tanggal_akhir --}}
+            @error('tanggal_akhir')
+              <div class="invalid-feedback d-block">{{ $message }}</div>
+            @enderror
+          </div>
+          
+          {{-- TOMBOL SEARCH (2 kolom terpisah) --}}
+          <div class="col-md-2 col-12">
+            <button type="submit" class="btn btn-primary w-100 shadow-sm rounded-pill" style="background-color: #2d5cb5; border-color: #2d5cb5;">
+                <i class="bi bi-search"></i> <span class="d-md-none">Cari</span>
+            </button>
           </div>
         </div>
       </form>
+    </div>
 
-      @forelse ($data as $row)
+    <!-- Daftar Laporan -->
+    @forelse ($data as $row)
+    <div class="laporan-list">
       <a href="{{ route('laporan.index') }}">
         <div class="laporan-card">
           <div>
@@ -149,13 +170,13 @@
             </h5>
           </div>
         </div>
-      </a>
-      @empty
-      <div class="text-center text-muted mt-5">
-        <p>Tidak ada laporan ditemukan.</p>
-      </div>
-      @endforelse
     </div>
+
+    @empty
+    <div class="text-center text-muted mt-5">
+      <p>Tidak ada laporan ditemukan.</p>
+    </div>
+  @endforelse
   </div>
 
   <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
