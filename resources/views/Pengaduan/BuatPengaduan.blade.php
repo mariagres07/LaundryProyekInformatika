@@ -91,9 +91,34 @@
       </div>
       @endif
 
+      <form method="GET" action="{{ route('pengaduan.create') }}" class="mb-3">
+    <label for="tanggal">Filter Tanggal Pesanan</label>
+    <input type="date" name="tanggal" id="tanggal" 
+           value="{{ $tanggal }}" class="form-control" onchange="this.form.submit()">
+</form>
+
+
       {{-- ✅ Form Pengaduan --}}
       <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+
+        <div class="mb-3">
+  <label for="idPesanan" class="form-label fw-semibold">Pilih Pesanan *</label>
+  <select name="idPesanan" id="idPesanan" class="form-control" required>
+      <option value="">-- Pilih Pesanan Selesai --</option>
+
+      @foreach ($pesanan as $p)
+      <option value="{{ $p->idPesanan }}">
+          Pesanan #{{ $p->idPesanan }} - {{ $p->created_at->format('d-m-Y') }}
+      </option>
+      @endforeach
+
+      @if($pesanan->isEmpty())
+      <option disabled>Tidak ada pesanan selesai</option>
+      @endif
+
+  </select>
+</div>
 
         <div class="mb-3">
           <label for="judul" class="form-label fw-semibold">Judul Pengaduan *</label>

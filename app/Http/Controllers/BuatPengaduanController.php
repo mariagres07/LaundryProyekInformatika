@@ -4,12 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pengaduan;
+use App\Models\Pesanan;
 
 class BuatPengaduanController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        return view('Pengaduan.BuatPengaduan');
+        $user = session('pelanggan');
+
+        // Ambil tanggal dari form (optional)
+        $tanggal = $request->input('tanggal');
+
+        $pesanan = Pesanan::where('idPelanggan', $user->idPelanggan)
+            ->where('statusPesanan', 'Selesai')   // ⬅ WAJIB untuk syarat bikin pengaduan
+            ->when($tanggal, function ($q) use ($tanggal) {
+                $q->whereDate('created_at', $tanggal);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('Pengaduan.BuatPengaduan', compact('pesanan', 'tanggal'));
     }
 
     public function store(Request $request)
@@ -20,14 +34,24 @@ class BuatPengaduanController extends Controller
                 ->with('pesan', 'Pengaduan dibatalkan');
         }
 
-        // Upload file media
-        $filePathMedia = null;
-        if ($request->hasFile('media')) {
-            $file = $request->file('media');
-            $filename = time() . '-' . $file->getClientOriginalName();
-            $file->move(public_path('images/mediaPengaduan'), $filename);
-            $filePathMedia = $filename;
-        }
+        // // Upload file media
+        // $filePathMedia = null;
+
+        // if ($request->hasFile('media')) {
+        //     $file = $request->file('media');
+        //     $filename = time() . '-' . $file->getClientOriginalName();
+        //     $file->move(public_path('images/mediaPengaduan'), $filename);
+        //     $filePathMedia = $filename;
+        // }
+
+        // Validasi
+        $request->validate([
+            'idPesanan' => 'required|exists:pesanan,idPesanan',
+            'judul' => 'required',
+            'deskripsi' => 'required',
+        ]);
+
+        $user = session('pelanggan');
 
         // Upload file lampiran
         $filePathLampiran = null;
@@ -37,11 +61,12 @@ class BuatPengaduanController extends Controller
 
         // Simpan ke database
         Pengaduan::create([
-            'idPelanggan'      => 1,
-            'idPesanan'        => 1,
+            'idPelanggan'      => $user->idPelanggan,
+            'idPesanan'        => $request->idPesanan,
             'judulPengaduan'   => $request->judul,
             'deskripsi'        => $request->deskripsi,
-            'media'            => $filePathMedia ?? $filePathLampiran,
+            'media'            => $filePathLampiran,
+            'statusPengaduan'   => 'Belum Ditanggapi',
             'tanggalPengaduan' => now()->format('Y-m-d')
         ]);
 
