@@ -56,13 +56,12 @@ return new class extends Migration
 
         Schema::create('pesanan', function (Blueprint $table) {
             $table->id('idPesanan');
-            $table->string('namaPesanan');
             $table->foreignId('idPelanggan')->constrained('pelanggan', 'idPelanggan')->onDelete('cascade');
             $table->foreignId('idLayanan')->constrained('layanan', 'idLayanan')->onDelete('cascade');
             $table->foreignId('idKurir')->nullable()->constrained('kurir', 'idKurir')->onDelete('cascade');
             $table->foreignId('idKaryawan')->nullable()->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
             $table->enum('statusPesanan', [
-                'Menunggu Penjemputan',
+                'Menunggu Verifikasi',
                 'Menunggu Pembayaran',
                 'Diproses',
                 'Menunggu Pengantaran',

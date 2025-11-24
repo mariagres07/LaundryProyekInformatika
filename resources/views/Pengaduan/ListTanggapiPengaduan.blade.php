@@ -153,7 +153,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h6 class="mb-2">
-                            <strong>ID Pesanan:</strong> #{{ $p->idPesanan ?? '-' }}
+                            <strong>ID Pesanan:</strong> {{ $p->idPesanan ?? '-' }}
                         </h6>
                         <p class="mb-1"><strong>Judul:</strong> {{ $p->judulPengaduan ?? '-' }}</p>
                         <p class="mb-2"><strong>Deskripsi:</strong> {{ Str::limit($p->deskripsi ?? '-', 100) }}</p>

@@ -74,11 +74,6 @@
 
             <h3 class="section-title"><i class="bi bi-chat-left-dots"></i> Detail Pengaduan</h3>
 
-            <div class="mb-3">
-                <label class="text-label">ID Pengaduan:</label>
-                <input type="text" class="form-control" value="{{ $pengaduan->idPengaduan }}" readonly>
-            </div>
-
             {{-- Flash Messages --}}
             @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -88,6 +83,16 @@
             @endif
 
             {{-- Info Pengaduan (Read-only) --}}
+            <div class="mb-3">
+                <label class="text-label">Judul Pengaduan:</label>
+                <input type="text" class="form-control" value="{{ $pengaduan->judulPengaduan ?? '-' }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="text-label">Tanggal Pengaduan:</label>
+                <input type="text" class="form-control"
+                    value="{{ $pengaduan->tanggalPengaduan ? \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d M Y') : '-' }}"
+                    readonly>
+            </div>
             <div class="mb-3">
                 <label class="text-label">ID Pengaduan:</label>
                 <input type="text" class="form-control" value="{{ $pengaduan->idPengaduan }}" readonly>
@@ -99,21 +104,11 @@
             </div>
 
             <div class="mb-3">
-                <label class="text-label">Judul Pengaduan:</label>
-                <input type="text" class="form-control" value="{{ $pengaduan->judulPengaduan ?? '-' }}" readonly>
-            </div>
-
-            <div class="mb-3">
                 <label class="text-label">Deskripsi Pengaduan:</label>
                 <textarea class="form-control" rows="5" readonly>{{ $pengaduan->deskripsi ?? '-' }}</textarea>
             </div>
 
-            <div class="mb-3">
-                <label class="text-label">Tanggal Pengaduan:</label>
-                <input type="text" class="form-control"
-                    value="{{ $pengaduan->tanggalPengaduan ? \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d M Y') : '-' }}"
-                    readonly>
-            </div>
+            
 
             {{-- Status Badge --}}
             <div class="mb-3">
@@ -137,11 +132,6 @@
             @if($pengaduan->media)
             <div class="mb-3">
                 <label class="text-label">Lampiran:</label><br>
-                {{-- <a href="{{ asset('storage/pengaduan/' . $pengaduan->media) }}" target="_blank"
-                    class="btn btn-info btn-sm">
-                    <i class="bi bi-file-earmark"></i> Lihat Lampiran
-                </a> --}}
-                {{-- @if ($pengaduan->media) --}}
     @php
         // Lokasi 1: public/images/mediaPengaduan
         $publicPath = public_path('images/mediaPengaduan/' . $pengaduan->media);
