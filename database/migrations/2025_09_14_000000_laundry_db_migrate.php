@@ -67,7 +67,7 @@ return new class extends Migration
                 'Menunggu Pengantaran',
                 'Sudah Diantar',
                 'Selesai'
-            ])->default('Menunggu Penjemputan');
+            ])->default('Menunggu Verifikasi');
             $table->string('alamat')->nullable();
             $table->string('paket')->nullable();
             $table->integer('pakaian')->default(0);

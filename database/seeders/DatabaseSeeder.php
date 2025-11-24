@@ -69,12 +69,11 @@ class DatabaseSeeder extends Seeder
 
         // === Pesanan ===
         $pesanan = Pesanan::create([
-            'namaPesanan' => 'Pesanan 1',
             'idPelanggan' => $pelanggan->idPelanggan,
             'idLayanan' => $layanan->idLayanan,
             'idKurir' => $kurir->idKurir,
             'idKaryawan' => $karyawan->idKaryawan,
-            'statusPesanan' => 'Menunggu Penjemputan',
+            'statusPesanan' => 'Menunggu Verifikasi',
             'alamat' => 'Jl. Pelanggan No. 1',
             'pakaian' => 3,
             'seprai' => 2,
