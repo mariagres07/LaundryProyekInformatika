@@ -19,50 +19,19 @@
             position: relative;
         }
 
-        /* Overlay biru langit semi-transparan agar teks tetap jelas */
         body::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(185, 215, 242, 0.9); /* #b9d7f2 dengan opacity 0.9 */
+            background: rgba(185, 215, 242, 0.9);
             z-index: -1;
         }
-        /* Offcanvas Sidebar */
+
         .offcanvas {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             border-right: 1px solid rgba(90, 150, 230, 0.2);
             box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .offcanvas-header h5 {
-            font-weight: 600;
-            color: #2d4b74;
-        }
-
-        .offcanvas-body a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 15px;
-            margin-bottom: 8px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 500;
-            color: #2d4b74;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .offcanvas-body a:hover {
-            background: linear-gradient(90deg, #5fa1f2, #79b8ff);
-            color: #fff;
-            transform: translateX(6px);
-            box-shadow: 0 3px 8px rgba(90, 150, 230, 0.2);
-        }
-
-        .content {
-            padding: 40px;
         }
 
         .card-custom {
@@ -73,31 +42,20 @@
             backdrop-filter: blur(5px);
         }
 
-        .title {
-            font-weight: 600;
-            color: #2F65B9;
-            font-size: 24px;
-        }
-
         .profile-pic {
-            width: 100px;
-            height: 100px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             border: 3px solid #64b5f6;
             object-fit: cover;
-            margin-bottom: 15px;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        .btn-primary {
-            background-color: #8ab2d3ff !important;
-            border-color: #8ab2d3ff !important;
+        .profile-pic:hover {
+            opacity: 0.7;
         }
 
-        .btn-primary:hover {
-            background-color: #1E4FA3;
-        }
-
-        /* Tombol Kembali */
         .btn-back {
             position: fixed;
             bottom: 25px;
@@ -112,9 +70,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.4rem;
-            transition: 0.3s;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -122,51 +78,37 @@
 <body>
     @include('Dashboard.pelanggan_sidenav')
 
-    <!-- Offcanvas Sidebar -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body d-flex flex-column">
-            <a href="{{ route('dashboard.pelanggan') }}">
-                <i class="bi bi-house-door me-2"></i> Dashboard
-            </a>
-            <a href="{{ route('pelanggan.edit') }}" class="active">
-                <i class="bi bi-person-circle me-2"></i> Edit Profil
-            </a>
-            <a href="{{ route('lihatdata.index') }}">
-                <i class="bi bi-bag me-2"></i> Status Laundry
-            </a>
-            <a href="{{ route('pengaduan.create') }}">
-                <i class="bi bi-chat-left-text me-2"></i> Buat Pengaduan
-            </a>
-
-            <!-- Tombol KELUAR - Rata Tengah, Warna Merah, Lebar Penuh -->
-            <form method="POST" action="{{ route('logout') }}" class="mt-3">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger w-100 py-2 fw-bold" style="border-radius: 12px;">
-                    KELUAR
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Content -->
+    <!-- ====== Content ====== -->
     <div class="content">
         <div class="card-custom mt-2">
-            <h3 class="title mb-3">Edit Profil</h3>
+            <h3 class="title mb-3" style="color:#2F65B9;">Edit Profil</h3>
 
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <div class="text-center">
-                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="profile-pic" alt="Profile Picture">
+            <!-- ==== Upload Foto Profil ==== -->
+            <div class="text-center mb-3">
+
+                <!-- Input File (disembunyikan) -->
+                <input type="file" id="uploadFoto" name="foto" accept="image/*" class="d-none">
+
+                <!-- Foto Profil yang bisa diklik -->
+                <label for="uploadFoto">
+                    <img id="previewFoto"
+                         src="{{ $pelanggan->foto 
+                                ? asset('storage/foto_pelanggan/'.$pelanggan->foto)
+                                : 'https://cdn-icons-png.flaticon.com/512/149/149071.png' }}"
+                         class="profile-pic"
+                         alt="Foto Profil">
+                </label>
+
             </div>
 
-            <form action="{{ route('pelanggan.update') }}" method="POST" class="mt-3">
+            <!-- ====== Form ====== -->
+            <form action="{{ route('pelanggan.update') }}" method="POST" enctype="multipart/form-data" class="mt-3">
                 @csrf
+
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Nama Lengkap</label>
@@ -212,11 +154,23 @@
         </div>
     </div>
 
+    <!-- Tombol Kembali -->
     <a href="{{ url()->previous() }}" class="btn-back">
         <i class="bi bi-arrow-left"></i>
     </a>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ==== Script Preview Foto ==== -->
+    <script>
+        document.getElementById('uploadFoto').addEventListener('change', function(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('previewFoto').src = event.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        });
+    </script>
 </body>
 </html>
