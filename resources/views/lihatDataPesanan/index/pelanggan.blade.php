@@ -109,6 +109,11 @@
         color: #155724;
     }
 
+    .status-lunas {
+    background: #fff3cd;      /* kuning pastel */
+    color: #856404;           /* coklat gelap */
+    }
+
     .btn-detail {
         background: #2d4b74;
         color: white;
@@ -159,7 +164,7 @@
         <div class="pesanan-card">
 
             <div class="pesanan-info">
-                <h5>Pesanan #{{ $p->no_pesanan ?? $p->idPesanan }}</h5>
+                <h5>Pesanan {{ $p->no_pesanan ?? $p->idPesanan }}</h5>
                 <small>
                     <i class="bi bi-calendar3 me-1"></i>
                     {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}
@@ -167,7 +172,7 @@
 
                 <div class="pesanan-detail">
                     {{ $p->layanan->namaLayanan ?? 'Layanan Reguler' }} -
-                    Rp {{ number_format($p->total_harga ?? 0, 0, ',', '.') }}
+                    Rp {{ number_format($p->totalHarga ?? 0, 0, ',', '.') }}
                 </div>
             </div>
 
@@ -186,6 +191,9 @@
 
                 @elseif($p->statusPesanan == 'Sudah Diantar')
                 <span class="status status-diantar">Sudah Diantar</span>
+
+                @elseif($p->statusPesanan == 'Lunas')
+                <span class="status status-lunas">Lunas</span>
 
                 @elseif($p->statusPesanan == 'Selesai')
                 <span class="status status-selesai">Selesai</span>

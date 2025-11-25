@@ -10,7 +10,7 @@ class LayananController extends Controller
 {
     public function index()
     {
-        $this->seedDefaultData();
+        // $this->seedDefaultData();
 
         $categories = KategoriItem::all();
         $pakets = Layanan::all();
@@ -53,12 +53,12 @@ class LayananController extends Controller
     {
         $request->validate([
             'namaKategori' => 'required|string|max:100',
-            'harga' => 'nullable|numeric|min:0',
+            'hargaPerItem' => 'nullable|numeric|min:0',
         ]);
 
         KategoriItem::create([
             'namaKategori' => $request->namaKategori,
-            'harga' => $request->harga ?? null,
+            'hargaPerItem' => $request->hargaPerItem ?? null,
         ]);
 
         return redirect()->route('layanan.index')->with('success', 'Kategori berhasil ditambahkan');
@@ -68,13 +68,13 @@ class LayananController extends Controller
     {
         $request->validate([
             'namaKategori' => 'required|string|max:100',
-            'harga' => 'nullable|numeric|min:0',
+            'hargaPerItem' => 'nullable|numeric|min:0',
         ]);
 
         $kategori = KategoriItem::findOrFail($id);
         $kategori->update([
             'namaKategori' => $request->namaKategori,
-            'harga' => $request->harga ?? null,
+            'hargaPerItem' => $request->hargaPerItem ?? null,
         ]);
 
         return redirect()->route('layanan.index')->with('success', 'Kategori berhasil diperbarui');
@@ -141,10 +141,10 @@ class LayananController extends Controller
         }
 
         $defaultPakets = [
-            ['namaLayanan' => 'Regular (Fresh Coffe)', 'hargaPerKg' => 8000, 'estimasiHari' => 2],
-            ['namaLayanan' => 'Express (Fresh Coffe)', 'hargaPerKg' => 10000, 'estimasiHari' => 1],
-            ['namaLayanan' => 'Regular (Vanila)', 'hargaPerKg' => 8000, 'estimasiHari' => 2],
-            ['namaLayanan' => 'Express (Vanila)', 'hargaPerKg' => 10000, 'estimasiHari' => 1],
+            ['namaLayanan' => 'Reguler (Fresh Coffee)', 'hargaPerKg' => 5000, 'estimasiHari' => 2],
+            ['namaLayanan' => 'Express (Fresh Coffee)', 'hargaPerKg' => 8000, 'estimasiHari' => 1],
+            ['namaLayanan' => 'Reguler (Vanila)', 'hargaPerKg' => 5000, 'estimasiHari' => 2],
+            ['namaLayanan' => 'Express (Vanila)', 'hargaPerKg' => 8000, 'estimasiHari' => 1],
         ];
 
         foreach ($defaultPakets as $paket) {

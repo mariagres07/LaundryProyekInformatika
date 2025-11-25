@@ -141,35 +141,40 @@
     </nav>
 
     <!-- Sidebar Offcanvas -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarKaryawan" aria-labelledby="sidebarKaryawanLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="sidebarKaryawanLabel">Menu</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-
-        <div class="offcanvas-body d-flex flex-column">
-            <a href="{{ url('/tampilanKaryawan') }}">
-                <i class="bi bi-house"></i> Dashboard
-            </a>
-            <a href="{{ url('/karyawan') }}"> <!-- Gunakan PATH yang sesuai -->
-                <i class="bi bi-people"></i> Manajemen Pengguna
-            </a>
-            <a href="{{ url('/laundry') }}">
-                <i class="bi bi-basket2-fill"></i> Manajemen Laundry
-            </a>
-            <a href="{{ url('/lihatDataPesanan') }}">
-                <i class="bi bi-list-check"></i> Lihat Data Pesanan
-            </a>
-            <!-- Pengaduan dengan ikon pesan warna hitam polos -->
-            <a href="{{ url('/pengaduan') }}" class="pengaduan">
-                <i class="bi bi-chat-dots-fill"></i> Pengaduan
-            </a>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="logout-btn">KELUAR</button>
-            </form>
-        </div>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarKaryawan" aria-labelledby="sidebarKaryawanLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarKaryawanLabel">Menu</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+
+    <div class="offcanvas-body d-flex flex-column">
+        <a href="{{ route('karyawan.dashboard') }}">
+            <i class="bi bi-house"></i> Dashboard
+        </a>
+
+        <a href="{{ route('karyawan.dashboard', ['tab' => 'pengguna']) }}">
+            <i class="bi bi-people"></i> Manajemen Pengguna
+        </a>
+
+        <a href="{{ route('karyawan.dashboard', ['tab' => 'laundry']) }}">
+            <i class="bi bi-basket2-fill"></i> Manajemen Laundry
+        </a>
+
+        <a href="{{ url('/lihatdata') }}">
+            <i class="bi bi-list-check"></i> Lihat Data Pesanan
+        </a>
+
+        <a href="{{ url('/pengaduan') }}" class="pengaduan">
+            <i class="bi bi-chat-dots-fill"></i> Pengaduan
+        </a>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="logout-btn">KELUAR</button>
+        </form>
+    </div>
+</div>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -33,6 +33,7 @@ return new class extends Migration
             $table->boolean('is_verified')->default(false);
             $table->string('alamat')->nullable();
             $table->string('noHp', 13)->nullable();
+            $table->timestamps();
         });
 
         Schema::create('karyawan', function (Blueprint $table) {
@@ -55,40 +56,36 @@ return new class extends Migration
 
         Schema::create('pesanan', function (Blueprint $table) {
             $table->id('idPesanan');
-            $table->string('namaPesanan');
             $table->foreignId('idPelanggan')->constrained('pelanggan', 'idPelanggan')->onDelete('cascade');
             $table->foreignId('idLayanan')->constrained('layanan', 'idLayanan')->onDelete('cascade');
             $table->foreignId('idKurir')->nullable()->constrained('kurir', 'idKurir')->onDelete('cascade');
             $table->foreignId('idKaryawan')->nullable()->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
-            // $table->boolean('statusPesanan');
-
-            // gunakan enum agar lebih jelas tahapannya
             $table->enum('statusPesanan', [
-                'Menunggu Penjemputan',
+                'Menunggu Verifikasi',
                 'Menunggu Pembayaran',
                 'Diproses',
                 'Menunggu Pengantaran',
                 'Sudah Diantar',
                 'Selesai'
-            ])->default('Menunggu Penjemputan');
-
+            ])->default('Menunggu Verifikasi');
             $table->string('alamat')->nullable();
             $table->string('paket')->nullable();
             $table->integer('pakaian')->default(0);
             $table->integer('seprai')->default(0);
             $table->integer('handuk')->default(0);
-            // nullable agar tidak error sebelum ditimbang
             $table->decimal('beratBarang', 8, 2)->nullable();
             $table->date('tanggalMasuk');
             $table->date('tanggalSelesai')->nullable();
             $table->decimal('totalHarga', 12, 2)->nullable();
+            $table->timestamps();
         });
 
         Schema::create('kategoriItem', function (Blueprint $table) {
             $table->id('idKategoriItem');
             $table->string('namaKategori');
             $table->integer('jumlahItem')->default(0);
-            $table->decimal('hargaPerItem', 10, 2);
+            $table->decimal('hargaPerItem', 10, 2)->default(0);
+            $table->timestamps();
         });
 
         Schema::create('detailTransaksi', function (Blueprint $table) {
@@ -96,6 +93,7 @@ return new class extends Migration
             $table->foreignId('idPesanan')->constrained('pesanan', 'idPesanan')->onDelete('cascade');
             $table->foreignId('idKategoriItem')->constrained('kategoriItem', 'idKategoriItem')->onDelete('cascade');
             $table->integer('jumlahKategori')->default(0);
+            $table->timestamps();
         });
 
         Schema::create('transaksiPembayaran', function (Blueprint $table) {
@@ -105,6 +103,7 @@ return new class extends Migration
             $table->decimal('totalPembayaran', 12, 2);
             $table->string('buktiPembayaran')->nullable();
             $table->string('kodePembayaran', 6)->unique();
+            $table->timestamps();
         });
 
         Schema::create('pengaduan', function (Blueprint $table) {
@@ -117,6 +116,7 @@ return new class extends Migration
             $table->string('media');
             $table->string('statusPengaduan')->default('Belum Ditanggapi');
             $table->string('tanggapanPengaduan')->nullable();
+            $table->timestamps();
         });
 
         // Schema::create('password_reset_tokens', function (Blueprint $table) {

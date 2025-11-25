@@ -102,13 +102,19 @@ Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('che
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
 Route::get('/lihatdata/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatdata.detail');
+Route::post('/lihatdata/update-status/{id}', [ClihatPesanan::class, 'updateStatus'])
+    ->name('update.status');
 
 Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
 Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
 Route::post('/verifikasi/perhitungan/{id}', [CVerifikasi::class, 'perhitungan'])->name('verifikasi.perhitungan');
 
 // ===================== DASHBOARD =====================
-Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('dashboard.karyawan');
+//Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('dashboard.karyawan');
+Route::get('/tampilanKaryawan', function () {
+    return view('Dashboard.tampilanKaryawan');
+})->name('karyawan.dashboard');
+
 Route::get('/tampilanKurir', [Cdashboard::class, 'tampilanKurir'])->name('dashboard.kurir');
 Route::get('/tampilanPelanggan', [Cdashboard::class, 'tampilanPelanggan'])->name('dashboard.pelanggan');
 
@@ -119,6 +125,7 @@ Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('peng
 
 // Tanggapi Pengaduan
 Route::get('/pengaduan', [TanggapiPengaduanController::class, 'index'])->name('pengaduan.index');
-Route::get('/pengaduan/{id}', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
-Route::post('/pengaduan/{id}/kirim', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
-Route::post('/pengaduan/{id}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
+Route::get('/pengaduan/{idPengaduan}/detail', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
+Route::get('/pengaduan/{idPengaduan}/edit', [TanggapiPengaduanController::class, 'edit'])->name('pengaduan.edit');
+Route::post('/pengaduan/{idPengaduan}/kirim', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
+Route::post('/pengaduan/{idPengaduan}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');

@@ -4,78 +4,120 @@ namespace App\Http\Controllers;
 
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use App\Models\DetailTransaksi;
+use App\Models\KategoriItem;
+use App\Models\Layanan;
 
 class CVerifikasi extends Controller
 {
+    /**
+     * Menampilkan list pesanan yang perlu diverifikasi (belum ada berat)
+     */
     public function index()
     {
-        // Ambil data pesanan + relasi pelanggan
+        // Jika kamu punya cek role, bisa ditambahkan di sini (optional)
+        // $role = Session::get('role'); if($role !== 'verifikator') abort(403);
+
         $pesanan = Pesanan::with('pelanggan')
-            ->whereNull('beratBarang')
+            ->whereNull('beratBarang') // sesuai kode sebelumnya kamu pakai kolom beratBarang
             ->orderBy('tanggalMasuk', 'desc')
             ->get();
 
         return view('VerifikasiP.LihatVerifikasi', compact('pesanan'));
     }
 
+    /**
+     * Menampilkan detail pesanan untuk verifikasi
+     */
     public function detail($id)
     {
-        // Ambil data pesanan dengan relasi yang diperlukan
         $pesanan = Pesanan::with(['pelanggan', 'layanan', 'detailTransaksi.kategoriItem'])
             ->findOrFail($id);
 
         return view('VerifikasiP.DetailVerifikasi', compact('pesanan'));
     }
 
-    public function perhitungan(Request $request, $id)
+    public function perhitungan(Request $request, $idPesanan)
     {
-        // $pesanan = Pesanan::with('detailTransaksi.kategoriItem')->findOrFail($id);
+        // Ambil data pesanan berdasarkan id
+        $pesanan = Pesanan::findOrFail($idPesanan);
+        $layanan = Layanan::find($pesanan->idLayanan);
 
-        // Simpan berat barang yang diinputkan user
-        // $pesanan->beratBarang = $request->beratBarang;
-
-        // $totalHarga = 0;
-
-        // foreach ($pesanan->detailTransaksi as $detail) {
-        //     $kategori = $detail->kategoriItem->namaKategori;
-        //     $jumlah = $detail->jumlahItem;
-
-        //     if ($kategori == 'Pakaian') {
-        //         $totalHarga += $pesanan->beratBarang * $kategori->hargaKategori;
-        //     } 
-        //     else {
-        //         $totalHarga += $jumlah * $kategori->hargaKategori;
-        //     }
-        // }
-        // Update total harga dan status pesanan
-        //     $pesanan->update([
-        //         'totalHarga'    => $totalHarga,
-        //         'statusPesanan' => 'Menunggu Pembayaran', // update status setelah konfirmasi
-        //     ]);
-
-        //     return redirect()->back()->with('success', 'Verifikasi pemesanan berhasil dilakukan.');
-        // }
 
         $request->validate([
             'beratBarang' => 'required|numeric|min:1'
         ]);
 
-        // Ambil data pesanan berdasarkan ID
-        $pesanan = Pesanan::findOrFail($id);
-
-        // Jika sudah diverifikasi, tidak boleh ditimbang ulang
+        // Cek apakah pesanan sudah diverifikasi sebelumnya
         if ($pesanan->beratBarang !== null) {
             return back()->with('error', 'Pesanan sudah diverifikasi sebelumnya.');
         }
 
-        // Simpan berat barang yang diinputkan user
-        $pesanan->beratBarang = $request->beratBarang;
+        // BERAT pakaian dari input verifikator
+        $berat = floatval($request->beratBarang);
 
-        // Update status pesanan (tanpa menghitung total harga)
-        $pesanan->statusPesanan = 'Diproses';
+        // Ambil harga kategori
+        $kategoriPakaian = KategoriItem::where('namaKategori', 'Pakaian')->first();
+        $kategoriSprei   = KategoriItem::where('namaKategori', 'Seprai/selimt/Bed Cover')->first();
+        $kategoriHanduk  = KategoriItem::where('namaKategori', 'Handuk')->first();
 
-        // Simpan perubahan
-        $pesanan->save();
+        // Ambil harga per item dengan Null Check (agar tidak error jika kategori tidak ditemukan)
+        $hargaPakaian = $kategoriPakaian ? $kategoriPakaian->hargaPerItem : 0;
+        $hargaSprei   = $kategoriSprei ? $kategoriSprei->hargaPerItem : 0;
+        $hargaHanduk  = $kategoriHanduk ? $kategoriHanduk->hargaPerItem : 0;
+
+        // Hitung total
+        $totalPakaian = $berat * $hargaPakaian;
+        $totalSprei   = $pesanan->seprai * $hargaSprei;
+        $totalHanduk  = $pesanan->handuk * $hargaHanduk;
+
+        $totalHarga = $totalPakaian + $totalSprei + $totalHanduk;
+
+        // Update pesanan
+        $pesanan->update([
+            'beratBarang' => $berat,
+            'totalHarga' => $totalHarga,
+            'statusPesanan' => 'Menunggu Pembayaran'
+        ]);
+
+        // // Hapus detail transaksi lama (jika ada) untuk menghindari duplikasi
+        // DetailTransaksi::create([
+        //     'idPesanan' => $pesanan->idPesanan,
+        //     'idKategoriItem' => $kategoriPakaian->idKategoriItem,
+        //     'jumlahKategori' => $berat,
+        // ]);
+
+        // ✅ HAPUS DetailTransaksi yang duplikat!
+        DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->delete();
+
+        // Pakaian (Hanya dibuat jika kategoriPakaian ditemukan)
+        if ($kategoriPakaian) {
+            DetailTransaksi::create([
+                'idPesanan' => $pesanan->idPesanan,
+                'idKategoriItem' => $kategoriPakaian->idKategoriItem,
+                'jumlahKategori' => $berat,
+            ]);
+        }
+
+        // Seprai (jika ada)
+        if ($pesanan->seprai > 0 && $kategoriSprei) {
+            DetailTransaksi::create([
+                'idPesanan' => $pesanan->idPesanan,
+                'idKategoriItem' => $kategoriSprei->idKategoriItem,
+                'jumlahKategori' => $pesanan->seprai,
+            ]);
+        }
+
+        // Handuk (jika ada)
+        if ($pesanan->handuk > 0 && $kategoriHanduk) {
+            DetailTransaksi::create([
+                'idPesanan' => $pesanan->idPesanan,
+                'idKategoriItem' => $kategoriHanduk->idKategoriItem,
+                'jumlahKategori' => $pesanan->handuk,
+            ]);
+        }
 
         return redirect()->back()
             ->with('success', 'Verifikasi pemesanan berhasil dilakukan.');

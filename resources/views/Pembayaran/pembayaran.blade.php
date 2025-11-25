@@ -111,7 +111,7 @@
         <div class="mt-3">
             <p><strong>Layanan:</strong> {{ $layanan->namaLayanan }}</p>
             <p><strong>Berat Barang:</strong> {{ $pesanan->beratBarang }} kg</p>
-            <p><strong>Total Harga:</strong> Rp {{ number_format($totalHarga, 0, ',', '.') }}</p>
+            <p><strong>Total Harga:</strong> Rp {{ number_format($pesanan->totalHarga, 0, ',', '.') }}</p>
         </div>
 
         <form action="{{ route('pembayaran.proses', $pesanan->idPesanan) }}" method="POST" enctype="multipart/form-data">

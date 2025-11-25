@@ -202,7 +202,7 @@
               <img src="/{{ $c->icon ?? 'default.png' }}" alt="{{ $c->namaKategori }}">
               <input name="namaKategori" type="text" class="name-input form-control border-0" value="{{ $c->namaKategori }}" required>
             </div>
-            <input name="hargaPerItem" type="number" min="0" class="price-input form-control" value="{{ $c->hargaPerItem ?? 0 }}" required>
+            <input name="hargaPerKg" type="number" min="0" class="price-input form-control" value="{{ $c->hargaPerItem ?? 0 }}" required>
             <button type="submit" class="update-btn">Simpan</button>
           </form>
 
@@ -224,7 +224,7 @@
           <img src="/default.png" alt="Tambah">
           <input name="namaKategori" class="form-control border-0" placeholder="Masukkan nama kategori" required>
         </div>
-        <input name="hargaPerItem" type="number" min="0" class="form-control price-input" placeholder="Harga per item" required>
+        <input name="hargaPerItem" type="number" min="0" class="form-control price-input" placeholder="Harga per kg" required>
         <button type="submit" class="btn btn-success">Simpan</button>
       </form>
     </div>
@@ -240,7 +240,7 @@
             <img src="/{{ $p->icon ?? 'default.png' }}" alt="{{ $p->namaLayanan }}">
             <input name="namaLayanan" type="text" class="name-input form-control border-0" value="{{ $p->namaLayanan }}" required>
           </div>
-          <input name="hargaPerKg" type="number" min="0" class="price-input form-control" value="{{ $p->hargaPerKg }}" required>
+          <input name="hargaLayanan" type="number" min="0" class="price-input form-control" value="{{ $p->hargaPerKg }}" required>
           <button type="submit" class="update-btn">Simpan</button>
         </form>
 
@@ -261,7 +261,7 @@
           <img src="/selimut.png" alt="Tambah">
           <input name="namaLayanan" class="form-control border-0" placeholder="Masukkan nama paket" required>
         </div>
-        <input name="hargaPerKg" type="number" min="0" class="form-control price-input" placeholder="Harga per Kg" required>
+        <input name="hargaPerKg" type="number" min="0" class="form-control price-input" placeholder="Harga paket" required>
         <button type="submit" class="btn btn-success">Simpan</button>
       </form>
     </div>

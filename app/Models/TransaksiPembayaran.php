@@ -15,11 +15,14 @@ class TransaksiPembayaran extends Model
 
     protected $fillable = [
         'idDetailTransaksi',
-        'metodePembayaran',
         'tanggalPembayaran',
         'totalPembayaran',
         'buktiPembayaran',
         'kodePembayaran',
+    ];
+
+    protected $casts = [
+        'tanggalPembayaran' => 'datetime',
     ];
 
     public function detailTransaksi()
