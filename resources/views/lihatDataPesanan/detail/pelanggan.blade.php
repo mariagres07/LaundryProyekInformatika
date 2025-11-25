@@ -238,11 +238,6 @@
                 <span>Rp {{ number_format($pesanan->totalHarga ?? 0, 0, ',', '.') }}</span>
             </div>
 
-            <div class="d-flex justify-content-between mb-2">
-                <span>Biaya Pengantaran:</span>
-                <span>Rp {{ number_format($pesanan->biaya_pengantaran ?? 0, 0, ',', '.') }}</span>
-            </div>
-
             <hr>
 
             <div class="d-flex justify-content-between fw-bold fs-5">

@@ -125,6 +125,7 @@ Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('peng
 
 // Tanggapi Pengaduan
 Route::get('/pengaduan', [TanggapiPengaduanController::class, 'index'])->name('pengaduan.index');
-Route::get('/pengaduan/{id}', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
-Route::post('/pengaduan/{id}/kirim', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
-Route::post('/pengaduan/{id}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
+Route::get('/pengaduan/{idPengaduan}/detail', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
+Route::get('/pengaduan/{idPengaduan}/edit', [TanggapiPengaduanController::class, 'edit'])->name('pengaduan.edit');
+Route::post('/pengaduan/{idPengaduan}/kirim', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
+Route::post('/pengaduan/{idPengaduan}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
