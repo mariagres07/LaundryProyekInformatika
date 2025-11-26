@@ -201,10 +201,7 @@
 
             <strong class="text-primary">Item Laundry:</strong><br>
             <div class="row mb-2">
-                <div class="col-sm-5 text-label">Kategori Item</div>
                 <div class="col-sm-7 data-value">
-                    :
-
                     @php
                     // Ambil kolom kategori dari tabel pesanan
                     $items = [
@@ -222,24 +219,12 @@
                     ? $filtered->join(', ')
                     : '-';
                     @endphp
-
                 </div>
             </div>
         </div>
 
         <!-- RINCIAN BIAYA -->
         <div class="info-card">
-            <h5 class="fw-bold text-primary mb-3">
-                <i class="bi bi-cash-coin"></i> Rincian Biaya
-            </h5>
-
-            <div class="d-flex justify-content-between mb-2">
-                <span>Subtotal:</span>
-                <span>Rp {{ number_format($pesanan->totalHarga ?? 0, 0, ',', '.') }}</span>
-            </div>
-
-            <hr>
-
             <div class="d-flex justify-content-between fw-bold fs-5">
                 <span>Total:</span>
                 <span class="text-success">
@@ -250,7 +235,6 @@
                 </a>
             </div>
         </div>
-
     </div>
 
     <!-- TOMBOL KEMBALI -->
@@ -264,7 +248,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>
