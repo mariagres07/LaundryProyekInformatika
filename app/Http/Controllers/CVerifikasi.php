@@ -82,13 +82,6 @@ class CVerifikasi extends Controller
             'statusPesanan' => 'Menunggu Pembayaran'
         ]);
 
-        // // Hapus detail transaksi lama (jika ada) untuk menghindari duplikasi
-        // DetailTransaksi::create([
-        //     'idPesanan' => $pesanan->idPesanan,
-        //     'idKategoriItem' => $kategoriPakaian->idKategoriItem,
-        //     'jumlahKategori' => $berat,
-        // ]);
-
         // ✅ HAPUS DetailTransaksi yang duplikat!
         DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->delete();
 

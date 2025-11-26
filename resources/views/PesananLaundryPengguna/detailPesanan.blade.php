@@ -149,7 +149,7 @@
 
 <body>
 
-    @include('Dashboard.karyawan_sidenav')
+    @include('Dashboard.pelanggan_sidenav')
 
     <!-- ==== HEADER ==== -->
     <div class="header-wrapper">
@@ -167,6 +167,7 @@
         </div>
         @endif
 
+        {{-- CARD RINGKASAN PESANAN AWAL --}}
         <div class="card mb-4 shadow-sm">
             <div class="card-header bg-primary text-white">
                 <i class="bi bi-receipt"></i> Ringkasan Pesanan
@@ -209,16 +210,97 @@
                         <span>{{ $hari }} Hari</span>
                     </li>
 
+                   {{-- === MODIFIKASI BERAT DAN HARGA (KONDISIONAL) === --}}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>Total Harga</span>
-                        <span>Rp {{ number_format($pesanan->totalHarga ?? 0, 0, ',', '.') }}</span>
+                        <span>Berat Barang</span>
+                        <span>
+                            @if (!is_null($pesanan->beratBarang))
+                                **{{ $pesanan->beratBarang }} kg**
+                            @else
+                                <span class="badge bg-secondary">Menunggu Verifikasi</span>
+                            @endif
+                        </span>
                     </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Total Harga (Estimasi/Final)</span>
+                        <span>
+                            @if (!is_null($pesanan->totalHarga) && !is_null($pesanan->beratBarang))
+                                **Rp {{ number_format($pesanan->totalHarga, 0, ',', '.') }}**
+                            @else
+                                <span class="badge bg-secondary">Menunggu Verifikasi</span>
+                            @endif
+                        </span>
+                    </li>
+                    {{-- === END MODIFIKASI BERAT DAN HARGA (KONDISIONAL) === --}}                    
                 </ul>
             </div>
         </div>
+        {{-- END CARD RINGKASAN PESANAN AWAL --}}
+
+       {{-- === CARD STATUS VERIFIKASI & AKSI PEMBAYARAN === --}}
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-success text-white">
+        <i class="bi bi-info-circle"></i> Status Verifikasi & Tagihan
     </div>
 
-    <!-- Tombol Kembali -->
+    <div class="card-body">
+
+        {{-- ===========================
+            BELUM DIVERIFIKASI
+        ============================ --}}
+        @if ($pesanan->statusPesanan === 'Menunggu Pembayaran')
+            <div class="alert alert-warning text-center">
+                <h5 class="alert-heading fw-bold">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    Menunggu Verifikasi Kurir
+                </h5>
+                <p class="mb-0">Kurir belum menimbang barang Anda.</p>
+            </div>
+
+            <button class="btn btn-secondary w-100 mt-3" disabled>
+                <i class="bi bi-clock-history"></i> Pembayaran Belum Tersedia
+            </button>
+
+
+        {{-- ===========================
+            SUDAH DIVERIFIKASI, SIAP BAYAR
+        ============================ --}}
+        @elseif ($pesanan->statusPesanan === 'Menunggu Pembayaran')
+            <div class="alert alert-info text-center">
+                <strong>Verifikasi selesai!</strong> Total harga sudah dihitung.
+            </div>
+
+            <a href="{{ route('pembayaran.index', $pesanan->idPesanan) }}"
+               class="btn btn-primary w-100 mt-3 fs-5 py-2">
+                <i class="bi bi-credit-card"></i> BAYAR SEKARANG
+            </a>
+
+
+        {{-- ===========================
+            SUDAH LUNAS
+        ============================ --}}
+        @elseif ($pesanan->statusPesanan === 'Sudah Dibayar') 
+            <div class="alert alert-success text-center">
+                <strong>Pembayaran Lunas</strong>
+            </div>
+
+            <button class="btn btn-success w-100 mt-3" disabled>
+                <i class="bi bi-check-circle"></i> Pembayaran Sudah Lunas
+            </button>
+
+        @else
+            {{-- ANTISIPASI STATUS TAK DIKENAL --}}
+            <div class="alert alert-secondary text-center">
+                Status pesanan: {{ $pesanan->statusPesanan }}
+            </div>
+        @endif
+
+    </div>
+</div>
+{{-- === END CARD STATUS VERIFIKASI & AKSI PEMBAYARAN === --}}
+
+
     <a href="javascript:history.back()" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>

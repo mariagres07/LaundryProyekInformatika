@@ -7,6 +7,8 @@ use App\Models\Pesanan;
 use App\Models\Pelanggan;
 use App\Models\KategoriItem;
 use App\Models\Layanan;
+use App\Models\Karyawan;
+use App\Models\Kurir;
 
 class PesanLaundryController extends Controller
 {
@@ -58,13 +60,19 @@ class PesanLaundryController extends Controller
         $paket = strtolower($layanan->namaLayanan);
         $estimasiHari = str_contains($paket, 'express') ? 1 : 3;
 
+        $kurir = Kurir::inRandomOrder()->first(); // Pilih kurir acak
+        $karyawan = Karyawan::inRandomOrder()->first(); // Pilih karyawan
+
+        if (!$kurir || !$karyawan) {
+            return response()->json(['success' => false, 'message' => 'Kurir atau karyawan tidak tersedia.']);
+        }
         // Simpan ke database
         $pesanan = Pesanan::create([
-            'namaPesanan'    => 'Pesanan ' . $user['namaPelanggan'],
+            // 'namaPelanggan'    => 'Pesanan ' . $user['namaPelanggan'],
             'idPelanggan'    => $user['idPelanggan'],
             'idLayanan'      => $layanan->idLayanan,
-            'idKurir'        => null,
-            'idKaryawan'     => null,
+            'idKurir'        => $kurir->idKurir,
+            'idKaryawan'     => $karyawan->idKaryawan,
             'statusPesanan'  => 'Menunggu Penjemputan',
             'alamat'         => $data['alamat'] ?? $user['alamat'] ?? 'Belum diisi',
             'paket'          => $layanan->namaLayanan,

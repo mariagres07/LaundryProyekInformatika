@@ -189,7 +189,7 @@
             </h5>
 
             <div class="mb-3">
-                <strong class="text-primary">Tanggal Masuk:</strong><br>
+                <strong class="text-primary">Tanggal:</strong><br>
                 {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y') }}
             </div>
 

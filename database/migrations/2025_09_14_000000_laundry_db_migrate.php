@@ -62,6 +62,7 @@ return new class extends Migration
             $table->foreignId('idKaryawan')->nullable()->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
             $table->enum('statusPesanan', [
                 'Menunggu Verifikasi',
+                'Menunggu Penjemputan',
                 'Menunggu Pembayaran',
                 'Diproses',
                 'Menunggu Pengantaran',
