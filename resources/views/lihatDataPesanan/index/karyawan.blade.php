@@ -207,22 +207,22 @@
         <div class="pesanan-card">
             <div class="pesanan-info">
                 <h5>
-                    Pesanan #{{ $p->no_pesanan ?? $p->idPesanan }}
+                    Pesanan {{ $p->no_pesanan ?? $p->idPesanan }}
                     @if($p->statusPesanan == 'Menunggu Penjemputan' || $p->statusPesanan == 'Menunggu Pembayaran')
-                    <span class="badge-new">BARU</span>
+                    {{-- <span class="badge-new">BARU</span> --}}
                     @endif
                 </h5>
                 <div class="customer-info">
                     <i class="bi bi-person me-1"></i>
                     {{ $p->pelanggan->namaPelanggan ?? 'Tidak diketahui' }}
-                    • {{ $p->pelanggan->noHp ?? '-' }}
+                    {{-- {{ $p->pelanggan->noHp ?? '-' }} --}}
                 </div>
-                <small>
-                    <i class="bi bi-calendar3 me-1"></i>
-                    {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y H:i') }}
-                    • {{ $p->layanan->namaLayanan ?? 'Layanan Reguler' }}
-                    • Rp {{ number_format($p->total_harga ?? 0, 0, ',', '.') }}
-                </small>
+                {{-- <small> --}}
+                    {{-- <i class="bi bi-calendar3 me-1"></i> --}}
+                    {{-- {{ Carbon::parse($p->tanggalMasuk)->format('d/m/Y H:i') }} --}}
+                    {{-- {{ $p->layanan->namaLayanan ?? 'Layanan Reguler' }} --}}
+                    {{-- Rp {{ number_format($p->totalPembayaran ?? 0, 0, ',', '.') }} --}}
+                {{-- </small> --}}
             </div>
 
             <div class="d-flex align-items-center gap-3">

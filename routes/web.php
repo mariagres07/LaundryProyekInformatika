@@ -32,7 +32,6 @@ Route::post('/daftar', [registerController::class, 'register'])->name('register.
 Route::get('/otp', [registerController::class, 'showOtp'])->name('otp.show');
 Route::post('/otp', [registerController::class, 'verifyOtp'])->name('otp.verify');
 
-// Route::get('/berhasil', [LoginController::class, 'success'])->name('success');
 Route::get('/berhasil', [registerController::class, 'success'])->name('success');
 
 // ========LOGOUT========
@@ -53,7 +52,6 @@ Route::put('/karyawan/update/{karyawan}', [KaryawanController::class, 'update'])
 Route::delete('/karyawan/hapus/{karyawan}', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
 Route::post('/karyawan/pesanan/{id}/selesai', [KaryawanController::class, 'selesai'])->name('karyawan.pesanan.selesai');
 
-
 // ===================== KURIR =====================
 Route::get('/mkurir', [KurirController::class, 'index'])->name('kurir.index');
 Route::get('/mkurir/input', [KurirController::class, 'create']);
@@ -63,21 +61,15 @@ Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
 // ===================== PENGANTARAN SELESAI (KURIR) =====================
-Route::post('/kurir/pesanan/{id}/selesai-antar', [KurirController::class, 'selesaiAntar'])
-    ->name('kurir.pesanan.selesaiAntar');
-
+Route::post('/kurir/pesanan/{id}/selesai-antar', [KurirController::class, 'selesaiAntar'])->name('kurir.pesanan.selesaiAntar');
 
 // ===================== KONFIRMASI BERAT (KURIR) =====================
-Route::post('/kurir/konfirmasi-berat/{idPesanan}', [KurirController::class, 'konfirmasiBerat'])
-    ->name('kurir.konfirmasiBerat');
+Route::post('/kurir/konfirmasi-berat/{idPesanan}', [KurirController::class, 'konfirmasiBerat'])->name('kurir.konfirmasiBerat');
 
 // ===================== PEMBAYARAN =====================
 Route::get('/pembayaran/{idPesanan}', [PembayaranController::class, 'index'])->name('pembayaran.index');
 Route::post('/pembayaran/{idPesanan}', [PembayaranController::class, 'prosesPembayaran'])->name('pembayaran.proses');
 Route::get('/pembayaran/success', [PembayaranController::class, 'success'])->name('pembayaran.success');
-
-// ===================== SELESAIKAN PESANAN =====================
-// Route::post('/pesanan/{id}/selesai', [CVerifikasi::class, 'selesaikan'])->name('pesanan.selesai');
 
 // ===================== LAYANAN =====================
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
@@ -98,19 +90,18 @@ Route::post('/pesanLaundry', [PesanLaundryController::class, 'store'])->name('pe
 Route::get('/detailPesanan/{id}', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
-// ===================== LAPORAN DAN VERIFIKASI =====================
+// ===================== LAPORAN =====================
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
 Route::get('/lihatdata/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatdata.detail');
-Route::post('/lihatdata/update-status/{id}', [ClihatPesanan::class, 'updateStatus'])
-    ->name('update.status');
+Route::post('/lihatdata/update-status/{id}', [ClihatPesanan::class, 'updateStatus'])->name('update.status');
 
+// ===================== VERIFIKASI =====================
 Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
 Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
 Route::post('/verifikasi/perhitungan/{id}', [CVerifikasi::class, 'perhitungan'])->name('verifikasi.perhitungan');
 
 // ===================== DASHBOARD =====================
-//Route::get('/tampilanKaryawan', [Cdashboard::class, 'tampilanKaryawan'])->name('dashboard.karyawan');
 Route::get('/tampilanKaryawan', function () {
     return view('Dashboard.tampilanKaryawan');
 })->name('karyawan.dashboard');

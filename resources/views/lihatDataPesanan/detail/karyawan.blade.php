@@ -129,7 +129,7 @@
 
     <div class="container my-5 container-custom">
 
-        <h2>Detail Pesanan #{{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</h2>
+        <h2>Detail Pesanan {{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</h2>
 
         @if(session('success'))
         <div class="alert alert-success rounded-3">{{ session('success') }}</div>
@@ -152,7 +152,7 @@
         </div>
 
         <div class="row mb-2">
-            <div class="col-sm-5 text-label">Tanggal Masuk</div>
+            <div class="col-sm-5 text-label">Tanggal</div>
             <div class="col-sm-7 data-value">
                 : {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d F Y') }}
             </div>
@@ -179,7 +179,6 @@
             <div class="col-sm-5 text-label">Paket Layanan</div>
             <div class="col-sm-7 data-value">
                 : {{ $pesanan->layanan->namaLayanan ?? '-' }}
-                (Rp {{ number_format($pesanan->totalHarga ?? 0, 0, ',', '.') }})
             </div>
         </div>
 
@@ -199,7 +198,7 @@
                 }
 
                 if ($pesanan->seprai > 0) {
-                $items[] = "Seprai ({$pesanan->seprai} pcs)";
+                $items[] = "Seprai/Handuk/Bed Cover ({$pesanan->seprai} pcs)";
                 }
 
                 echo !empty($items) ? implode(', ', $items) : '-';
@@ -210,8 +209,14 @@
 
         <div class="row mb-2">
             <div class="col-sm-5 text-label">Berat Barang (kg)</div>
+            <div class="col-sm-7 data-value">: {{ $pesanan->beratBarang ?? 'Belum terverifikasi' }} 
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-sm-5 text-label">Total Pembayaran</div>
             <div class="col-sm-7 data-value">
-                : {{ $pesanan->beratBarang ?? 'Belum terverifikasi' }} kg
+                : Rp {{ number_format($pesanan->totalPembayaran ?? 0, 0, ',', '.') }}
             </div>
         </div>
 
@@ -226,15 +231,11 @@
                 <label for="statusPesanan" class="form-label text-label">Pilih Status Baru</label>
                 <select name="statusPesanan" id="statusPesanan" class="form-select rounded-3" required>
                     <option value="">-- Pilih Status --</option>
-                    <option value="Menunggu Penjemputan" @selected($pesanan->statusPesanan=='Menunggu
-                        Penjemputan')>Menunggu Penjemputan</option>
-                    <option value="Menunggu Pembayaran" @selected($pesanan->statusPesanan=='Menunggu
-                        Pembayaran')>Menunggu Pembayaran (Setelah Penjemputan)</option>
+                    {{-- <option value="Menunggu Penjemputan" @selected($pesanan->statusPesanan=='MenungguPenjemputan')>Menunggu Penjemputan</option> --}}
+                    {{-- <option value="Menunggu Pembayaran" @selected($pesanan->statusPesanan=='Menunggu Pembayaran')>Menunggu Pembayaran</option> --}}
                     <option value="Diproses" @selected($pesanan->statusPesanan=='Diproses')>Diproses</option>
-                    <option value="Menunggu Pengantaran" @selected($pesanan->statusPesanan=='Menunggu
-                        Pengantaran')>Menunggu Pengantaran</option>
-                    <option value="Sudah Diantar" @selected($pesanan->statusPesanan=='Sudah Diantar')>Sudah Diantar
-                    </option>
+                    <option value="Menunggu Pengantaran" @selected($pesanan->statusPesanan=='MenungguPengantaran')>Menunggu Pengantaran</option>
+                    {{-- <option value="Sudah Diantar" @selected($pesanan->statusPesanan=='Sudah Diantar')>Sudah Diantar</option> --}}
                     <option value="Selesai" @selected($pesanan->statusPesanan=='Selesai')>Selesai</option>
                     <option value="Dibatalkan" @selected($pesanan->statusPesanan=='Dibatalkan')>Dibatalkan</option>
                 </select>
