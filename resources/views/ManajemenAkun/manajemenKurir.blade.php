@@ -22,7 +22,7 @@
       color: white;
       font-size: 36px;
       font-weight: bold;
-      text-align: center;
+      text-align: left;
       text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
     }
 

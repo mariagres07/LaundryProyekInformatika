@@ -99,7 +99,7 @@
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
                 <input type="text" id="searchInput" class="form-control"
-                    placeholder="Cari berdasarkan nama, username, atau No HP...">
+                    placeholder="Cari karyawan...">
             </div>
         </div>
 
