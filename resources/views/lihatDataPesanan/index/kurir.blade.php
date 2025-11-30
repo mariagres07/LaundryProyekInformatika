@@ -161,26 +161,16 @@
 
                 <small>
                     <i class="bi bi-calendar3 me-1"></i>
-                    {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}
-                    • {{ $p->layanan->namaLayanan }}
-                    • Rp {{ number_format($p->total_harga, 0, ',', '.') }}
+                    {{ \Carbon\Carbon::parse($p->tanggalSelesai)->format('d/m/Y') }}
                 </small>
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <span class="status status-ready">Ready Diantar</span>
+                <span class="status status-ready">Menunggu Diantar</span>
 
                 <a href="{{ route('lihatdata.detail', $p->idPesanan) }}" class="btn-detail">
                     <i class="bi bi-eye"></i> Detail
                 </a>
-
-                <form action="{{ route('update.status', $p->idPesanan) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="statusPesanan" value="Sudah Diantar">
-                    <button class="btn-deliver" onclick="return confirm('Konfirmasi pesanan sudah diantar?')">
-                        <i class="bi bi-check-circle"></i> Sudah Diantar
-                    </button>
-                </form>
             </div>
         </div>
         @empty

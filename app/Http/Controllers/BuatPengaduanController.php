@@ -8,24 +8,43 @@ use App\Models\Pesanan;
 
 class BuatPengaduanController extends Controller
 {
-    public function create(Request $request)
-    {
-        $user = session('pelanggan');
+    public function create(Request $request, $idPesanan = null){
+    $user = session('pelanggan');
 
-        // Ambil tanggal dari form (optional)
-        $tanggal = $request->input('tanggal');
+    // Jika datang dari DETAIL PESANAN
+    if ($idPesanan) {
 
-        $pesanan = Pesanan::where('idPelanggan', $user->idPelanggan)
-            ->where('statusPesanan', 'Selesai')   // ⬅ WAJIB untuk syarat bikin pengaduan
-            ->when($tanggal, function ($q) use ($tanggal) {
-                $q->whereDate('created_at', $tanggal);
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $pesanan = Pesanan::where('idPesanan', $idPesanan)
+            ->where('idPelanggan', $user->idPelanggan)
+            ->first();
 
-        return view('Pengaduan.BuatPengaduan', compact('pesanan', 'tanggal'));
+        return view('Pengaduan.BuatPengaduan', [
+            'mode' => 'langsung',   // ← mode tanpa dropdown
+            'pesananSingle' => $pesanan,
+            'pesanan' => collect(), // agar tidak error di blade
+            'tanggal' => null
+        ]);
     }
 
+    // Jika datang dari halaman BUAT PENGADUAN BIASA
+    $tanggal = $request->input('tanggal');
+
+    $pesanan = Pesanan::where('idPelanggan', $user->idPelanggan)
+        ->where('statusPesanan', 'Selesai')
+        ->when($tanggal, function ($q) use ($tanggal) {
+            $q->whereDate('tanggalMasuk', $tanggal);
+        })
+        ->orderBy('tanggalMasuk', 'desc')
+        ->get();
+
+    return view('Pengaduan.BuatPengaduan', [
+        'mode' => 'pilih', // ← mode dropdown
+        'pesanan' => $pesanan,
+        'pesananSingle' => null,
+        'tanggal' => $tanggal
+    ]);
+    }
+    
     public function store(Request $request)
     {
         // Kalau klik tombol TIDAK

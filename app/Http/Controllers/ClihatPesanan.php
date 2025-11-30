@@ -83,32 +83,36 @@ class ClihatPesanan extends Controller
     }
 
     public function updateStatus(Request $request, $id)
-    {
-        $role = Session::get('role');
+{
+    $role = Session::get('role');
 
-        // Pastikan hanya karyawan yang boleh meng-update
-        if ($role !== 'karyawan') {
-            abort(403, 'Hanya karyawan yang dapat memperbarui status pesanan.');
-        }
-
-        $user = Session::get('karyawan');
-
-        if (!$user) {
-            return redirect()->route('login.show')
-                ->with('error', 'Silakan login terlebih dahulu.');
-        }
-
-        // Validasi input status
-        $validated = $request->validate([
-            'statusPesanan' => 'required|string|in:Menunggu Pengantaran,Sedang Diproses,Selesai,Dibatalkan',
-        ]);
-
-        // Cari pesanan dan update
-        $pesanan = Pesanan::findOrFail($id);
-        $pesanan->statusPesanan = $validated['statusPesanan'];
-        $pesanan->save();
-
-        return redirect()->route('lihatPesanan.index')
-            ->with('success', 'Status pesanan berhasil diperbarui.');
+    if ($role !== 'karyawan' && $role !== 'kurir') {
+        abort(403, 'Hanya Karyawan dan Kurir yang dapat memperbarui status pesanan.');
     }
+
+    $user = Session::get($role);
+    if (!$user) {
+        return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+    }
+
+    // Validasi input status
+    $validated = $request->validate([
+        'statusPesanan' => 'required|string|in:Diproses,Menunggu Pengantaran,Sudah Diantar,Selesai'
+    ]);
+
+    // Cari pesanan
+    $pesanan = Pesanan::findOrFail($id);
+
+    // Kurir hanya boleh ubah dari "Menunggu Pengantaran" ke "Sudah Diantar"
+    if ($role === 'kurir' && $pesanan->statusPesanan !== 'Menunggu Pengantaran') {
+        abort(403, 'Kurir hanya bisa mengantarkan pesanan yang menunggu pengantaran.');
+    }
+
+    $pesanan->statusPesanan = $validated['statusPesanan'];
+    $pesanan->save();
+
+    return redirect()->route('lihatdata.index' . $role)
+        ->with('success', 'Status pesanan berhasil diperbarui.');
+}
+
 }

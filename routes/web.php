@@ -112,6 +112,8 @@ Route::get('/tampilanPelanggan', [Cdashboard::class, 'tampilanPelanggan'])->name
 // ===================== PENGADUAN =====================
 // Buat Pengaduan
 Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name('pengaduan.create');
+Route::get('/pengaduan/buat/{idPesanan}', [BuatPengaduanController::class, 'create'])
+    ->name('pengaduan.create.with-id');
 Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
 
 // Tanggapi Pengaduan
