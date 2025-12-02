@@ -144,8 +144,9 @@
 
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Alamat</div>
-                    <div class="col-md-8">: {{ $pesanan->pelanggan->alamat ?? '-' }}</div>
+                    <div class="col-md-8">: {{ $pesanan->alamat ?? '-' }}</div>
                 </div>
+
 
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Nomor HP</div>
