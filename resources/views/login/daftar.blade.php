@@ -254,27 +254,27 @@
       <form action="{{ route('register.process') }}" method="POST">
         @csrf
         <div class="form-group">
-          <label for="name">Nama Lengkap</label>
+          <label for="name">Nama Lengkap *</label>
           <input type="text" id="name" name="namaPelanggan" value="{{ old('name') }}" required>
         </div>
 
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">Username *</label>
           <input type="text" id="username" name="username" value="{{ old('username') }}" required>
         </div>
 
         <div class="form-group">
-          <label for="name">Alamat</label>
+          <label for="name">Alamat *</label>
           <input type="text" id="name" name="alamat" value="{{ old('alamat') }}" required>
         </div>
 
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="email">Email *</label>
           <input type="email" id="email" name="email" value="{{ old('email') }}" required>
         </div>
 
         <div class="form-group">
-          <label for="no_hp">No. HP</label>
+          <label for="no_hp">No. HP *</label>
           <input type="tel" id="noHp" name="noHp" value="{{ old('noHp') }}" required>
         </div>
 
@@ -287,13 +287,13 @@
         </ul>
 
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">Password *</label>
           <input type="password" id="password" name="password" required>
           <i class="fa-solid fa-eye password-toggle" onclick="togglePassword('password', this)"></i>
         </div>
 
         <div class="form-group">
-          <label for="password_confirmation">Konfirmasi Password</label>
+          <label for="password_confirmation">Konfirmasi Password *</label>
           <input type="password" id="password_confirmation" name="password_confirmation" required>
           <i class="fa-solid fa-eye password-toggle" onclick="togglePassword('password_confirmation', this)"></i>
         </div>
