@@ -45,10 +45,16 @@ class CVerifikasi extends Controller
         $pesanan = Pesanan::findOrFail($idPesanan);
         $layanan = Layanan::find($pesanan->idLayanan);
 
-
-        $request->validate([
-            'beratBarang' => 'required|numeric|min:1'
-        ]);
+        $request->validate(
+            [
+                'beratBarang' => 'required|numeric|min:1'
+            ],
+            [
+                'beratBarang.required' => 'Berat barang wajib diisi',
+                'beratBarang.numeric'  => 'Berat barang harus berupa angka',
+                'beratBarang.min'      => 'Berat barang tidak boleh 0',
+            ]
+        );
 
         // Cek apakah pesanan sudah diverifikasi sebelumnya
         if ($pesanan->beratBarang !== null) {
