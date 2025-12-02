@@ -72,7 +72,7 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="payment-code" id="kodePembayaran">
-                    {{ $transaksiPembayaran->kodePembayaran }}
+                    {{ $transaksiPembayaran->kodePembayaran ?? '-' }}
                 </div>
                 <button class="copy-btn w-100" onclick="salinKode()">
                     <i class="bi bi-clipboard"></i> SALIN KODE
