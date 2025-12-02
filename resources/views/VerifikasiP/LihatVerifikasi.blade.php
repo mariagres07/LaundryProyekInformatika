@@ -120,6 +120,14 @@
         .btn-detail:hover {
             background-color: #1e3555;
         }
+
+         .filter-wrapper {
+        max-width: 1000px;
+        margin: 0 auto; /* Biar ke tengah */
+        padding: 0 20px; /* Biar tidak mepet kiri kanan */
+        margin-top: 40px;    /* Tambahkan jarak dari judul */
+        margin-bottom: 35px; /* Tambahin jarak bawah */
+    }
     </style>
 </head>
 
@@ -133,7 +141,9 @@
         @if (session('success'))
         <div class="alert alert-success text-center">{{ session('success') }}</div>
         @endif
-<form method="GET" class="row g-3 mb-4">
+        <div class="filter-wrapper">
+
+<form method="GET" class="row g-3 mb-4 px-4">
 
     <!-- From Date -->
     <div class="col-md-3">
@@ -165,6 +175,7 @@
     </div>
 
 </form>
+        </div>
 
         @forelse ($pesanan as $p)
         <div class="pesanan-card">
