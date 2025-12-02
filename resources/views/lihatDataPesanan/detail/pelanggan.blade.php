@@ -138,7 +138,7 @@
 
         <div class="header-content-left">
             <h2>Detail Pesanan</h2>
-            <span>Pesanan #{{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</span>
+            {{-- <span>Pesanan #{{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</span> --}}
         </div>
     </div>
 

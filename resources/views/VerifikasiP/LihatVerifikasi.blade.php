@@ -137,7 +137,7 @@
         @forelse ($pesanan as $p)
         <div class="pesanan-card">
             <div class="pesanan-info">
-                <h5>{{ $p->pelanggan->nama ?? 'Pelanggan 1' }}</h5>
+                <h5>{{ $p->pelanggan->idPelanggan ?? 'Tidak ada'}}</h5>
                 <small>{{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}</small>
             </div>
 
