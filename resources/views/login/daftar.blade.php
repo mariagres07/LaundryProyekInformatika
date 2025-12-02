@@ -289,13 +289,13 @@
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required>
-          <i class="fa-solid fa-eye password-toggle" onclick="togglePassword('password', this)"></i>
+          <i class="fa-solid fa-eye password-toggle" id="toggle-main" onclick="togglePasswordAll(this)"></i>
         </div>
 
         <div class="form-group">
           <label for="password_confirmation">Konfirmasi Password</label>
           <input type="password" id="password_confirmation" name="password_confirmation" required>
-          <i class="fa-solid fa-eye password-toggle" onclick="togglePassword('password_confirmation', this)"></i>
+          <i class="fa-solid fa-eye password-toggle" id="toggle-mirror"></i>
         </div>
 
         <button type="submit" class="btn">Daftar</button>
@@ -332,17 +332,25 @@
       rules.symbol.classList.toggle('valid', /[@$!%*?&#]/.test(val));
     });
 
-    function togglePassword(id, el) {
-      const input = document.getElementById(id);
-      if (input.type === "password") {
-        input.type = "text";
-        el.classList.remove("fa-eye");
-        el.classList.add("fa-eye-slash");
-      } else {
-        input.type = "password";
-        el.classList.remove("fa-eye-slash");
-        el.classList.add("fa-eye");
-      }
+    function togglePasswordAll(el) {
+      const fields = [
+        document.getElementById('password'),
+        document.getElementById('password_confirmation')
+      ];
+
+      const mirror = document.getElementById('toggle-mirror');
+
+      const isHidden = fields[0].type === "password";
+
+      fields.forEach(input => {
+        input.type = isHidden ? "text" : "password";
+      });
+
+      el.classList.toggle("fa-eye-slash", isHidden);
+      el.classList.toggle("fa-eye", !isHidden);
+
+      mirror.classList.toggle("fa-eye-slash", isHidden);
+      mirror.classList.toggle("fa-eye", !isHidden);
     }
   </script>
 </body>
