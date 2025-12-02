@@ -150,7 +150,7 @@
         @forelse($pesanan as $p)
         <div class="pesanan-card">
             <div class="pesanan-info">
-                <h5>Pesanan #{{ $p->no_pesanan ?? $p->idPesanan }}</h5>
+                <h5>Pesanan {{ $p->no_pesanan ?? $p->idPesanan }}</h5>
 
                 <div class="delivery-info">
                     <i class="bi bi-person me-1"></i>

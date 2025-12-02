@@ -166,7 +166,7 @@
                         <p class="mb-2"><strong>Deskripsi:</strong> {{ Str::limit($p->deskripsi ?? '-', 100) }}</p>
                         <small class="text-muted">
                             <i class="bi bi-calendar"></i>
-                            {{ $p->tanggalPengaduan ? \Carbon\Carbon::parse($p->tanggalPengaduan)->format('d M Y') : '-' }}
+                            {{ $p->tanggalPengaduan ? \Carbon\Carbon::parse($p->tanggalPengaduan)->format('d/m/Y') : '-' }}
                         </small>
                     </div>
                     <div class="col-md-4 text-end">

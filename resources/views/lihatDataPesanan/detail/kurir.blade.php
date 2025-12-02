@@ -105,7 +105,7 @@
             <i class="bi bi-clipboard-check me-2"></i>Detail Pesanan
         </h5>
 
-        <p><strong>Tanggal Masuk:</strong> {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y H:i') }}</p>
+        <p><strong>Tanggal Masuk:</strong> {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y') }}</p>
         <p><strong>Paket:</strong> {{ $pesanan->layanan->namaLayanan }}</p>
         <p><strong>Total Harga:</strong>
             <span class="fw-bold text-success">Rp {{ number_format($pesanan->totalHarga, 0, ',', '.') }}</span>
