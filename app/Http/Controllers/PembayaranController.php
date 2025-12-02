@@ -31,11 +31,11 @@ class PembayaranController extends Controller
         // Ambil total harga dari pesanan
         $totalHarga = $pesanan->totalHarga;
 
-        if ($pesanan->berat == null || $pesanan->berat == 0) {
+        if ($pesanan->beratBarang == null || $pesanan->beratBarang == 0) {
             return redirect()->back()->with('error', 'Tidak dapat ke pembayaran, pesanan belum diverifikasi oleh kurir.');
         }
 
-        return view('pembayaran.index', compact('pesanan'));
+        return view('Pembayaran.pembayaran', compact('pesanan'));
 
         // Ambil data layanan terkait untuk mendapatkan harga
         $layanan = Layanan::where('idLayanan', $pesanan->idLayanan)->first();
