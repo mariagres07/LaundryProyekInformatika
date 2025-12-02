@@ -120,6 +120,14 @@
         .btn-detail:hover {
             background-color: #1e3555;
         }
+
+         .filter-wrapper {
+        max-width: 1000px;
+        margin: 0 auto; /* Biar ke tengah */
+        padding: 0 20px; /* Biar tidak mepet kiri kanan */
+        margin-top: 40px;    /* Tambahkan jarak dari judul */
+        margin-bottom: 35px; /* Tambahin jarak bawah */
+    }
     </style>
 </head>
 
@@ -133,11 +141,46 @@
         @if (session('success'))
         <div class="alert alert-success text-center">{{ session('success') }}</div>
         @endif
+        <div class="filter-wrapper">
+
+<form method="GET" class="row g-3 mb-4 px-4">
+
+    <!-- From Date -->
+    <div class="col-md-3">
+        <label class="form-label">Dari Tanggal</label>
+        <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+    </div>
+
+    <!-- To Date -->
+    <div class="col-md-3">
+        <label class="form-label">Sampai Tanggal</label>
+        <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+    </div>
+
+    <!-- Status -->
+    <div class="col-md-4">
+        <label class="form-label">Filter Status</label>
+        <select name="status" class="form-select">
+            <option value="">Semua Status</option>
+            <option value="Diproses" {{ request('status')=='Diproses'?'selected':'' }}>Diproses</option>
+            <option value="Menunggu Pengantaran" {{ request('status')=='Menunggu Pengantaran'?'selected':'' }}>Menunggu Pengantaran</option>
+            <option value="Sudah Diantar" {{ request('status')=='Sudah Diantar'?'selected':'' }}>Sudah Diantar</option>
+            <option value="Selesai" {{ request('status')=='Selesai'?'selected':'' }}>Selesai</option>
+        </select>
+    </div>
+
+    <!-- Tombol -->
+    <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-primary w-100">Filter</button>
+    </div>
+
+</form>
+        </div>
 
         @forelse ($pesanan as $p)
         <div class="pesanan-card">
             <div class="pesanan-info">
-                <h5>{{ $p->pelanggan->nama ?? 'Pelanggan 1' }}</h5>
+                <h5>{{ $p->pelanggan->idPelanggan ?? 'Tidak ada'}}</h5>
                 <small>{{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}</small>
             </div>
 

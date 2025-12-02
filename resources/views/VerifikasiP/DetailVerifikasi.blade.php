@@ -13,19 +13,18 @@
             font-family: "Poppins", sans-serif;
         }
 
-        
         .header-bg {
-    background-image: url('{{ asset("water.jpg") }}');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 3rem 2rem;
-    border-radius: 0 0 30px 30px;
-    color: white;
-    font-weight: 700;
-    font-size: 2.2rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-    }
+            background-image: url('{{ asset("water.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 3rem 2rem;
+            border-radius: 0 0 30px 30px;
+            color: white;
+            font-weight: 700;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
 
         .form-label {
             font-weight: 600;
@@ -70,6 +69,11 @@
         .btn-kembali i {
             font-size: 1.2rem;
         }
+
+        ul.no-bullet {
+            list-style-type: none;
+            padding-left: 0;
+        }
     </style>
 
 </head>
@@ -85,21 +89,27 @@
 
     <div class="container mb-5">
 
+        {{-- ALERT SUCCESS / ERROR --}}
         @if(session('success'))
         <div class="alert alert-success rounded-4">{{ session('success') }}</div>
         @endif
+
         @if(session('error'))
         <div class="alert alert-danger rounded-4">{{ session('error') }}</div>
         @endif
+
+        {{-- VALIDASI BERAT BARANG --}}
         @if($errors->any())
         <div class="alert alert-danger rounded-4">
-            <ul>
+            <ul class="mb-0 no-bullet">
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
         @endif
+
+        {{-- DETAIL PESANAN --}}
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body">
 
@@ -113,17 +123,16 @@
                     <div class="col-md-8">:
                         @php
                         $kategori = [
-                            // 'Paket' => $pesanan->paket,
-                            'Pakaian' => $pesanan->pakaian,
-                            'Seprai/Seprai/Bed Cover' => $pesanan->seprai,
-                            'Handuk' => $pesanan->handuk,
+                        'Pakaian' => $pesanan->pakaian,
+                        'Seprai/Sprei/Bed Cover' => $pesanan->seprai,
+                        'Handuk' => $pesanan->handuk,
                         ];
                         @endphp
 
                         @foreach($kategori as $nama => $jumlah)
-                            @if($jumlah !== null && $jumlah > 0)
-                                {{ $nama }} : {{ $jumlah }} <br>
-                            @endif
+                        @if($jumlah !== null && $jumlah > 0)
+                        {{ $nama }} : {{ $jumlah }} <br>
+                        @endif
                         @endforeach
                     </div>
                 </div>
@@ -135,8 +144,9 @@
 
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Alamat</div>
-                    <div class="col-md-8">: {{ $pesanan->pelanggan->alamat ?? '-' }}</div>
+                    <div class="col-md-8">: {{ $pesanan->alamat ?? '-' }}</div>
                 </div>
+
 
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Nomor HP</div>
@@ -150,21 +160,12 @@
 
                 <div class="row mb-2">
                     <div class="col-md-4 form-label">Status Saat Ini</div>
-                    <div class="col-md-8">
-                        : 
-                         {{-- Logika badge --}}
-                        @php
-                            $badgeClass = match($pesanan->statusPesanan) {
-                                'Menunggu Penjemputan' => 'bg-info',
-                                'Menunggu Pembayaran' => 'bg-warning text-dark',
-                                default => 'bg-secondary'
-                            };
-                        @endphp
+                    <div class="col-md-8">:
                         <span class="badge bg-warning text-dark">{{ $pesanan->statusPesanan ?? 'Belum Diketahui' }}</span>
                     </div>
                 </div>
 
-                 @if ($pesanan->beratBarang)
+                @if ($pesanan->beratBarang)
                 <div class="row mb-2 border-top pt-3 mt-3">
                     <div class="col-md-4 form-label">Berat Terverifikasi</div>
                     <div class="col-md-8">: <span class="fw-bold text-success">{{ $pesanan->beratBarang }} kg</span></div>
@@ -178,6 +179,7 @@
             </div>
         </div>
 
+        {{-- FORM VERIFIKASI --}}
         <div class="card shadow-sm border-0">
             <div class="card-body">
                 <form action="{{ route('verifikasi.perhitungan', $pesanan->idPesanan) }}" method="POST">
@@ -200,6 +202,7 @@
                 </form>
             </div>
         </div>
+
     </div>
 
     <!-- Tombol Kembali -->
@@ -210,4 +213,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

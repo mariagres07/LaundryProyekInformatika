@@ -11,161 +11,129 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f4f9ff;
-            margin-top: 60px; /* Add space for fixed top navbar */
-        }
-        
-        /* Top Navigation Bar */
-        .top-navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #abcfecff; /* Primary blue color */
-            color: white;
-            padding: 15px 20px;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f9ff;
+        margin-top: 60px;
+    }
 
-        .top-navbar .title {
-            font-weight: 700;
-            font-size: 1.4rem;
-            margin: 0;
-        }
+    /* Navbar */
+    .top-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #abcfecff;
+        color: white;
+        padding: 15px 20px;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .top-navbar .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 15px; /* Space between icons */
-        }
+    .top-navbar .title {
+        font-weight: 700;
+        font-size: 1.4rem;
+        margin: 0;
+    }
 
-        .top-navbar .nav-icon {
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: white;
-            text-decoration: none;
-        }
+    .nav-icon {
+        font-size: 1.5rem;
+        color: white;
+        text-decoration: none;
+    }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(64, 118, 207, 0.7), rgba(64, 118, 207, 0.7)),
-                url('image.png') center/cover no-repeat;
-            padding: 150px 20px 130px; /* Increased top padding to account for navbar */
-            text-align: center;
-            color: white;
-        }
+    /* Hero */
+    .hero {
+        background: linear-gradient(rgba(64, 118, 207, 0.7), rgba(64, 118, 207, 0.7)),
+            url('image.png') center/cover no-repeat;
+        padding: 150px 20px 130px;
+        text-align: center;
+        color: white;
+    }
 
-        .hero h1 {
-            font-weight: 700;
-            font-size: 2.8rem;
-        }
+    .btn-order {
+        background-color: #4a8fe7;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+    }
 
-        .btn-order {
-            background-color: #4a8fe7;
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
-        }
+    .btn-order:hover {
+        background-color: #2e6edb;
+        color: #ffffff;
+    }
 
-        .btn-order:hover {
-            background-color: #2e6edb;
-            color: #ffffff;
-        }
+    /* SECTION CARD */
+    .order-data {
+        padding: 70px 20px;
+        text-align: center;
+    }
 
-        /* Order Data Section */
-        .order-data {
-            padding: 70px 20px;
-            text-align: center;
-            background-color: #ffffff;
-        }
+    /* CARD BESAR */
+    .card-equal {
+        background: #eaf3ff;
+        border: none;
+        border-radius: 25px;
+        padding: 40px 30px;
+        min-height: 250px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
-        .order-data h2 {
-            color: #0d3b66;
-            font-weight: 700;
-            margin-bottom: 40px;
-        }
+        /* Efek hover lembut */
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+        transform: translateY(0) scale(1);
+    }
 
-        .order-data .card {
-            background: #e6f1ff;
-            border: none;
-            border-radius: 20px;
-            transition: 0.3s;
-            margin-bottom: 20px;
-        }
+    /* Animasi hover naik lembut */
+    .card-equal:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 18px 35px rgba(0, 0, 0, 0.12);
+    }
 
-        .order-data .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
+    .card-equal h4 {
+        font-weight: 700;
+        font-size: 1.8rem;
+    }
 
-        .btn-view-orders {
-            background-color: #4a8fe7;
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            display: inline-block;
-        }
+    /* Tombol panjang */
+    .btn-long {
+        width: 100%;
+        padding: 14px 0;
+        border-radius: 40px;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
 
-        .btn-view-orders:hover {
-            background-color: #2e6edb;
-            color: #ffffff;
-        }
-
-        .btn-complaint {
-            background-color: #d64045;
-            color: white;
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
-        }
-
-        .btn-complaint:hover {
-            background-color: #b02a2f;
-            color: #ffffff;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #b9d7f2;
-            color: #0d3b66;
-            font-weight: 500;
-            padding: 18px;
-            text-align: center;
-        }
-
-
-        .btn-back:hover {
-            background: #2e6edb;
-        }
+    footer {
+        background-color: #b9d7f2;
+        color: #0d3b66;
+        font-weight: 500;
+        padding: 18px;
+        text-align: center;
+    }
     </style>
 </head>
 
 <body>
 
-    <!-- Top Navigation Bar -->
+    <!-- Navbar -->
     <nav class="top-navbar">
         <h3 class="title">IVA Laundry</h3>
         <div class="nav-icons">
             <a href="{{ route('pelanggan.edit') }}" class="nav-icon">
                 <i class="bi bi-person-circle"></i>
             </a>
-            <a href="{{ route('logout') }}" class="nav-icon" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+
+            <a href="{{ route('logout') }}" class="nav-icon"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="bi bi-box-arrow-right"></i>
             </a>
+
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
             </form>
@@ -184,31 +152,50 @@
         </div>
     </section>
 
-    <!-- Order Data Section -->
+    <!-- Cards -->
     <section class="order-data">
         <div class="container">
             <h2>Lihat Data Pesanan & Buat Pengaduan</h2>
 
             <div class="row justify-content-center">
+
+                <!-- Card Lihat Pesanan -->
                 <div class="col-md-6 mb-4">
-                    <div class="card p-4">
-                        <h4 class="fw-bold text-primary"><i class="bi bi-clipboard-check me-2"></i>Lihat Data Pesanan</h4>
-                        <p class="text-muted">Lacak status dan riwayat pesanan laundry Anda.</p>
-                        <a href="{{ route('lihatdata.index') }}" class="btn-view-orders">
-                            <i class="bi bi-eye me-2"></i>Lihat Pesanan
+                    <div class="card-equal">
+                        <div>
+                            <h4 class="text-primary">
+                                <i class="bi bi-clipboard-check me-2"></i>Lihat Data Pesanan
+                            </h4>
+                            <p class="text-muted">Lacak status dan riwayat pesanan laundry Anda.</p>
+                        </div>
+
+                        <a href="{{ route('lihatdata.index') }}" class="btn btn-primary btn-long">
+                            <i class="bi bi-eye me-2"></i> Lihat Pesanan
                         </a>
                     </div>
                 </div>
 
+                <!-- Card Pengaduan -->
                 <div class="col-md-6 mb-4">
-                    <div class="card p-4">
-                        <h4 class="fw-bold text-danger"><i class="bi bi-chat-dots me-2"></i>Buat Pengaduan</h4>
-                        <p class="text-muted">Sampaikan keluhan atau masukan Anda kepada kami.</p>
-                        <a href="{{ route('pengaduan.create') }}" class="btn-complaint">
-                            <i class="bi bi-pencil me-2"></i>Buat Pengaduan
+                    <div class="card-equal">
+                        <div>
+                            <h4 class="text-danger">
+                                <i class="bi bi-chat-dots me-2"></i>Riwayat Pengaduan
+                            </h4>
+                            <p class="text-muted">Lihat Riwayat Pengaduan Anda.</p>
+                        </div>
+
+                        {{-- <a href="{{ route('pengaduan.create') }}" class="btn btn-danger btn-long">
+                            <i class="bi bi-pencil me-2"></i>Riwayat Pengaduan
+                        </a> --}}
+
+                        <a href="{{ route('pelanggan.pengaduan.riwayat') }}" class="btn btn-danger btn-long">
+                            {{-- <i class="bi bi-pencil me-2"></i>Riwayat Pengaduan --}}
+                                <i class="bi bi-clock-history me-2"></i>Riwayat Pengaduan
                         </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>

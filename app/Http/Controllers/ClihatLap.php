@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TransaksiPembayaran;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 // KARYAWAN 
 class ClihatLap extends Controller
@@ -13,22 +14,15 @@ class ClihatLap extends Controller
     {
         // Ambil nilai dari dropdown
         $tanggalAwal = $request->input('tanggal_awal');
-        // $bulan_awal   = $request->input('bulan_awal');
-        // $tahun_awal   = $request->input('tahun_awal');
-
         $tanggalAkhir = $request->input('tanggal_akhir');
-        // $bulan_akhir   = $request->input('bulan_akhir');
-        // $tahun_akhir   = $request->input('tahun_akhir');
-
-        // Variabel untuk menampung data
-        // $data = collect();
 
         // Mulai query
-        $query = TransaksiPembayaran::query();
+        $query = TransaksiPembayaran::query()
+            ->join('detailTransaksi', 'transaksiPembayaran.idDetailTransaksi', '=', 'detailTransaksi.idDetailTransaksi')
+            ->select('transaksiPembayaran.*', 'detailTransaksi.idPesanan');
 
         // Jika semua nilai awal dan akhir diisi → filter berdasarkan rentang tanggal
         if ($tanggalAwal && $tanggalAkhir) {
-
             $request->validate([
                 'tanggal_awal'  => 'required|date',
                 'tanggal_akhir' => 'required|date|after_or_equal:tanggal_awal',
@@ -36,11 +30,16 @@ class ClihatLap extends Controller
                 'tanggal_awal.required' => 'Tanggal awal harus diisi.',
                 'tanggal_akhir.required' => 'Tanggal akhir harus diisi.',
                 'tanggal_akhir.after_or_equal' => 'Tanggal akhir harus sama atau setelah tanggal awal.',
-
             ]);
+
             $startDate = Carbon::parse($tanggalAwal)->startOfDay()->toDateTimeString();
             $endDate   = Carbon::parse($tanggalAkhir)->endOfDay()->toDateTimeString();
+
             $query->whereBetween('tanggalPembayaran', [$startDate, $endDate]);
+
+            // Set kembali variabel tanggal untuk dikirim ke view (agar nilai di form tetap ada)
+            $tanggalAwal = $request->input('tanggal_awal');
+            $tanggalAkhir = $request->input('tanggal_akhir');
         } else {
             $defaultStartDate = Carbon::now()->subDays(30)->startOfDay();
             $query->where('tanggalPembayaran', '>=', $defaultStartDate);
@@ -49,8 +48,8 @@ class ClihatLap extends Controller
             $endDate = null;
         }
 
-        // Ambil hasil data (urut terbaru)
-        $data = $query->orderBy('tanggalPembayaran', 'desc')->get();
+        // Ambil hasil data (urut terbaru) dan paginasi 10 data per halaman
+        $data = $query->orderBy('tanggalPembayaran', 'desc')->paginate(10)->withQueryString();
 
         return view('LihatLaporan.lihatLaporan', compact(
             'data',

@@ -8,22 +8,42 @@ use App\Models\Pesanan;
 
 class BuatPengaduanController extends Controller
 {
-    public function create(Request $request)
+    public function create(Request $request, $idPesanan = null)
     {
         $user = session('pelanggan');
 
-        // Ambil tanggal dari form (optional)
+        // Jika datang dari DETAIL PESANAN
+        if ($idPesanan) {
+
+            $pesanan = Pesanan::where('idPesanan', $idPesanan)
+                ->where('idPelanggan', $user->idPelanggan)
+                ->first();
+
+            return view('Pengaduan.BuatPengaduan', [
+                'mode' => 'langsung',   // ← mode tanpa dropdown
+                'pesananSingle' => $pesanan,
+                'pesanan' => collect(), // agar tidak error di blade
+                'tanggal' => null
+            ]);
+        }
+
+        // Jika datang dari halaman BUAT PENGADUAN BIASA
         $tanggal = $request->input('tanggal');
 
         $pesanan = Pesanan::where('idPelanggan', $user->idPelanggan)
-            ->where('statusPesanan', 'Selesai')   // ⬅ WAJIB untuk syarat bikin pengaduan
+            ->where('statusPesanan', 'Selesai')
             ->when($tanggal, function ($q) use ($tanggal) {
-                $q->whereDate('created_at', $tanggal);
+                $q->whereDate('tanggalMasuk', $tanggal);
             })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('tanggalMasuk', 'desc')
             ->get();
 
-        return view('Pengaduan.BuatPengaduan', compact('pesanan', 'tanggal'));
+        return view('Pengaduan.BuatPengaduan', [
+            'mode' => 'pilih', // ← mode dropdown
+            'pesanan' => $pesanan,
+            'pesananSingle' => null,
+            'tanggal' => $tanggal
+        ]);
     }
 
     public function store(Request $request)
@@ -67,7 +87,7 @@ class BuatPengaduanController extends Controller
             'deskripsi'        => $request->deskripsi,
             'media'            => $filePathLampiran,
             'statusPengaduan'   => 'Belum Ditanggapi',
-            'tanggalPengaduan' => now()->format('Y-m-d')
+            'tanggalPengaduan' => now()->format('d/m/Y')
         ]);
 
         return redirect()->route('pengaduan.create')->with('pesan', 'Pengaduan berhasil dikirim!');
@@ -77,5 +97,48 @@ class BuatPengaduanController extends Controller
     {
         $pengaduans = Pengaduan::all();
         return view('daftar-pengaduan', compact('pengaduans'));
+    }
+
+    public function riwayat(Request $request)
+    {
+        $pelanggan = session('pelanggan');
+
+        if (!$pelanggan) {
+            return redirect()->route('login.show'); // pastikan login
+        }
+
+        $idPelanggan = $pelanggan->idPelanggan; // ambil ID saja
+
+        $query = Pengaduan::where('idPelanggan', $idPelanggan);
+
+        // Filter status
+        if ($request->status) {
+            $query->where('statusPengaduan', $request->status);
+        }
+
+        // Search berdasarkan judul
+        if ($request->search) {
+            $query->where('judulPengaduan', 'like', '%' . $request->search . '%');
+        }
+
+        $pengaduan = $query->orderBy('tanggalPengaduan', 'desc')->get();
+        return view('Pengaduan.RiwayatPengaduan', compact('pengaduan'));
+    }
+
+    public function detail($idPengaduan)
+    {
+        $pelanggan = session('pelanggan'); // ambil object pelanggan
+
+        if (!$pelanggan) {
+            return redirect()->route('login.show'); // pastikan login
+        }
+
+        $idPelanggan = $pelanggan->idPelanggan; // ambil ID saja
+
+        $pengaduan = Pengaduan::where('idPengaduan', $idPengaduan)
+            ->where('idPelanggan', $idPelanggan)
+            ->firstOrFail();
+
+        return view('Pengaduan.DetailPengaduanPelanggan', compact('pengaduan'));
     }
 }

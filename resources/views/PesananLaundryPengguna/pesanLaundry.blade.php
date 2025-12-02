@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Pesan Laundry</title>
 
     <style>
@@ -401,8 +402,8 @@ use Illuminate\Support\Str;
         if (!btnPesan.classList.contains('active')) return;
 
         // Ambil jumlah tiap kategori
-        const kategori = Array.from(document.querySelectorAll('.counter span')).map(s => parseInt(s
-            .textContent));
+        // const kategori = Array.from(document.querySelectorAll('.counter span')).map(s => parseInt(s.textContent));
+        const kategori = Array.from(document.querySelectorAll('.counter span')).map(s => parseInt(s.textContent));
 
         // Ambil layanan yang dipilih
         const layanan = document.querySelector('input[name="layanan"]:checked').value;
@@ -415,7 +416,8 @@ use Illuminate\Support\Str;
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                // 'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
             },
             body: JSON.stringify({
                 kategori,
@@ -427,16 +429,14 @@ use Illuminate\Support\Str;
         const data = await response.json();
 
         if (data.success && data.idPesanan) {
-            window.location.href = `/detailPesanan/${data.idPesanan}`;
+            // window.location.href = `/detailPesanan/${data.idPesanan}`;
+            window.location.href = `{{ url('detailPesanan') }}/${data.idPesanan}`;
         } else {
+            console.error('Gagal membuat pesanan:', data);
             alert('Gagal membuat pesanan');
         }
     });
     </script>
-
-
-
-
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>

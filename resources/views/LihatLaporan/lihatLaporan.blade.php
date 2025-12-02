@@ -21,6 +21,20 @@
       padding: 0;
     }
 
+    .btn-custom-blue {
+        background-color: #2d5cb5 !important;
+        border-color: #2d5cb5 !important;
+        transition: none; /* Hilangkan transisi */
+    }
+
+    .btn-custom-blue:hover,
+    .btn-custom-blue:focus,
+    .btn-custom-blue:active {
+        background-color: #2d5cb5 !important; /* Jaga warna tetap sama */
+        border-color: #2d5cb5 !important; /* Jaga border tetap sama */
+        box-shadow: 0 0 0 0.25rem rgba(45, 92, 181, 0.5) !important; /* Sesuaikan/matikan fokus shadow */
+    }
+
     .header-wrapper {
       position: relative;
       width: 100%;
@@ -107,7 +121,7 @@
   <!-- HEADER -->
   <div class="header-wrapper">
     <div class="header-bg"></div>
-    <div class="header-content">Lihat Laporan</div>
+    <div class="header-content">Laporan Pesanan</div>
   </div>
 
   <div class="container">
@@ -155,11 +169,11 @@
     <!-- Daftar Laporan -->
     @forelse ($data as $row)
     <div class="laporan-list">
-      <a href="{{ route('laporan.index') }}">
+            {{-- <a href="{{ route('lihatdata.detail', ['id' => $row->idPesanan]) }}">  --}}
         <div class="laporan-card">
           <div>
             <h5 class="fw-bold text-primary mb-1">
-              Tanggal: {{ \Carbon\Carbon::parse($row->tanggalPembayaran)->format('d M Y') }}
+              Tanggal: {{ \Carbon\Carbon::parse($row->tanggalPembayaran)->format('d/m/Y') }}
             </h5>
             <p class="mb-0 text-dark">ID Pembayaran: {{ $row->idTransaksiPembayaran ?? '-' }}</p>
             <p class="mb-0 text-dark">ID Transaksi: {{ $row->idDetailTransaksi }}</p>
@@ -178,6 +192,13 @@
     </div>
   @endforelse
   </div>
+
+{{-- Paginasi --}}
+  @if ($data->hasPages())
+        <div class="d-flex justify-content-center mt-4 mb-5">
+            {{ $data->links() }}
+        </div>
+    @endif
 
   <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
     <i class="bi bi-arrow-left"></i>

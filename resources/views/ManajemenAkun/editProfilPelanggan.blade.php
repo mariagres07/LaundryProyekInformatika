@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Edit Profil Pelanggan - IVA Laundry</title>
@@ -38,7 +39,7 @@
             border-radius: 15px;
             background-color: rgba(255, 255, 255, 0.95);
             padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5px);
         }
 
@@ -84,7 +85,7 @@
             <h3 class="title mb-3" style="color:#2F65B9;">Edit Profil</h3>
 
             @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
             <!-- ==== Upload Foto Profil ==== -->
@@ -96,11 +97,11 @@
                 <!-- Foto Profil yang bisa diklik -->
                 <label for="uploadFoto">
                     <img id="previewFoto"
-                         src="{{ $pelanggan->foto 
+                        src="{{ $pelanggan->foto 
                                 ? asset('storage/foto_pelanggan/'.$pelanggan->foto)
                                 : 'https://cdn-icons-png.flaticon.com/512/149/149071.png' }}"
-                         class="profile-pic"
-                         alt="Foto Profil">
+                        class="profile-pic"
+                        alt="Foto Profil">
                 </label>
 
             </div>
@@ -154,11 +155,10 @@
         </div>
     </div>
 
-    <!-- Tombol Kembali -->
-    <a href="{{ url()->previous() }}" class="btn-back">
+    <!-- Tombol kembali -->
+    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -173,4 +173,5 @@
         });
     </script>
 </body>
+
 </html>

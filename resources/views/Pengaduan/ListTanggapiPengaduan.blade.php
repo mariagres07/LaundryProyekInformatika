@@ -134,6 +134,13 @@
                         </select>
                     </div>
 
+                    <div class="col-md-3">
+                        <input type="date" name="start_date" class="form-control" value="{{ $startDate ?? '' }}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" name="end_date" class="form-control" value="{{ $endDate ?? '' }}">
+                    </div>
+
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-search"></i> Cari
@@ -155,11 +162,11 @@
                         <h6 class="mb-2">
                             <strong>ID Pesanan:</strong> {{ $p->idPesanan ?? '-' }}
                         </h6>
-                        <p class="mb-1"><strong>Judul:</strong> {{ $p->judulPengaduan ?? '-' }}</p>
-                        <p class="mb-2"><strong>Deskripsi:</strong> {{ Str::limit($p->deskripsi ?? '-', 100) }}</p>
+                        {{-- <p class="mb-1"><strong>Judul:</strong> {{ $p->judulPengaduan ?? '-' }}</p> --}}
+                        {{-- <p class="mb-2"><strong>Deskripsi:</strong> {{ Str::limit($p->deskripsi ?? '-', 100) }}</p> --}}
                         <small class="text-muted">
                             <i class="bi bi-calendar"></i>
-                            {{ $p->tanggalPengaduan ? \Carbon\Carbon::parse($p->tanggalPengaduan)->format('d M Y') : '-' }}
+                            {{ $p->tanggalPengaduan ? \Carbon\Carbon::parse($p->tanggalPengaduan)->format('d/m/Y') : '-' }}
                         </small>
                     </div>
                     <div class="col-md-4 text-end">
@@ -215,7 +222,7 @@
         </div>
     </div>
 
-    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+    <a href="{{ url('/tampilanKaryawan') }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 

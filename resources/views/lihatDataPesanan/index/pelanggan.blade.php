@@ -157,6 +157,49 @@
         </div>
     </div>
 
+    <!-- FILTER FORM -->
+<form method="GET" action="{{ route('lihatdata.index') }}" class="mb-4">
+<div class="row g-3 mb-3 mt-3 px-3 justify-content-center">
+
+        {{-- <!-- Search -->
+        <div class="col-md-4">
+            <input type="text" name="search" value="{{ request('search') }}"
+                class="form-control" placeholder="Cari nama pelanggan / layanan...">
+        </div> --}}
+
+        <!-- Filter Status -->
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="">Semua Status</option>
+                <option value="Menunggu Penjemputan" {{ request('status')=='Menunggu Penjemputan' ? 'selected' : '' }}>Menunggu Penjemputan</option>
+                <option value="Menunggu Pembayaran" {{ request('status')=='Menunggu Pembayaran' ? 'selected' : '' }}>Menunggu Pembayaran</option>
+                <option value="Diproses" {{ request('status')=='Diproses' ? 'selected' : '' }}>Diproses</option>
+                <option value="Menunggu Pengantaran" {{ request('status')=='Menunggu Pengantaran' ? 'selected' : '' }}>Menunggu Pengantaran</option>
+                <option value="Sudah Diantar" {{ request('status')=='Sudah Diantar' ? 'selected' : '' }}>Sudah Diantar</option>
+                <option value="Selesai" {{ request('status')=='Selesai' ? 'selected' : '' }}>Selesai</option>
+                <option value="Lunas" {{ request('status')=='Lunas' ? 'selected' : '' }}>Lunas</option>
+            </select>
+        </div>
+
+        <!-- Filter Date From -->
+        <div class="col-md-2">
+            <input type="date" name="from" value="{{ request('from') }}"
+                class="form-control" placeholder="Dari tanggal">
+        </div>
+
+        <!-- Filter Date To -->
+        <div class="col-md-2">
+            <input type="date" name="to" value="{{ request('to') }}"
+                class="form-control" placeholder="Sampai tanggal">
+        </div>
+
+        <!-- Submit -->
+        <div class="col-md-1 d-grid">
+            <button class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
     <!-- CONTENT -->
     <div class="container mt-4">
 
@@ -164,9 +207,9 @@
         <div class="pesanan-card">
 
             <div class="pesanan-info">
-                <h5>Pesanan {{ $p->no_pesanan ?? $p->idPesanan }}</h5>
+                {{-- <h5>Pesanan {{ $p->no_pesanan ?? $p->idPesanan }}</h5> --}}
                 <small>
-                    <i class="bi bi-calendar3 me-1"></i>
+                    {{-- <i class="bi bi-calendar3 me-1"></i> --}}
                     {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}
                 </small>
 

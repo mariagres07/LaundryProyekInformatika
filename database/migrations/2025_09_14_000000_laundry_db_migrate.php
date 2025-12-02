@@ -62,6 +62,7 @@ return new class extends Migration
             $table->foreignId('idKaryawan')->nullable()->constrained('karyawan', 'idKaryawan')->onDelete('cascade');
             $table->enum('statusPesanan', [
                 'Menunggu Verifikasi',
+                'Menunggu Penjemputan',
                 'Menunggu Pembayaran',
                 'Diproses',
                 'Menunggu Pengantaran',
@@ -113,7 +114,7 @@ return new class extends Migration
             $table->date('tanggalPengaduan');
             $table->text('deskripsi')->nullable();
             $table->string('judulPengaduan');
-            $table->string('media');
+            $table->string('media')->nullable();
             $table->string('statusPengaduan')->default('Belum Ditanggapi');
             $table->string('tanggapanPengaduan')->nullable();
             $table->timestamps();

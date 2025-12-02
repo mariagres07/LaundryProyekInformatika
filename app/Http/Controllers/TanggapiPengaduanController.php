@@ -13,12 +13,15 @@ class TanggapiPengaduanController extends Controller
     {
         $search = $request->input('search');
         $filterStatus = $request->input('status', 'all');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
         // daftar status yang ditampilkan di dropdown (sesuaikan jika perlu)
         $statuses = [
             'all' => 'Semua',
             'Belum Ditanggapi' => 'Belum Ditanggapi',
             'Ditanggapi' => 'Ditanggapi',
+            // 'Selesai' => 'Selesai',
         ];
 
         $pengaduan = Pengaduan::query()
@@ -30,11 +33,21 @@ class TanggapiPengaduanController extends Controller
             ->when($filterStatus && $filterStatus !== 'all', function ($q) use ($filterStatus) {
                 $q->where('statusPengaduan', $filterStatus);
             })
+
+            //tambahan untuk filter tanggal
+            ->when($startDate, function ($q) use ($startDate) {
+                $q->whereDate('tanggalPengaduan', '>=', $startDate);
+            })
+            ->when($endDate, function ($q) use ($endDate) {
+                $q->whereDate('tanggalPengaduan', '<=', $endDate);
+            })
             ->orderBy('idPengaduan', 'desc')
             ->paginate(10)
-            ->appends($request->only(['search', 'status']));
+            // ->appends($request->only(['search', 'status']));
+            ->appends($request->all());
 
-        return view('Pengaduan.ListTanggapiPengaduan', compact('pengaduan', 'search', 'filterStatus', 'statuses'));
+
+        return view('Pengaduan.ListTanggapiPengaduan', compact('pengaduan', 'search', 'filterStatus', 'statuses', 'startDate', 'endDate'));
     }
 
     //Tampilkan detail pengaduan dan form tanggapan

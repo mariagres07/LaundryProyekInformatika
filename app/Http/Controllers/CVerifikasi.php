@@ -15,15 +15,44 @@ class CVerifikasi extends Controller
     /**
      * Menampilkan list pesanan yang perlu diverifikasi (belum ada berat)
      */
-    public function index()
+    public function index(Request $request)
     {
         // Jika kamu punya cek role, bisa ditambahkan di sini (optional)
         // $role = Session::get('role'); if($role !== 'verifikator') abort(403);
 
         $pesanan = Pesanan::with('pelanggan')
             ->whereNull('beratBarang') // sesuai kode sebelumnya kamu pakai kolom beratBarang
-            ->orderBy('tanggalMasuk', 'desc')
-            ->get();
+            ->orderBy('tanggalMasuk', 'desc');
+        // ->get();
+
+        // ============================
+        // 🔍 FILTER SEARCH (nama pelanggan / ID pelanggan)
+        // ============================
+        // if ($request->search) {
+        //     $search = $request->search;
+
+        //     $pesanan->whereHas('pelanggan', function ($q) use ($search) {
+        //         $q->where('namaLengkap', 'like', "%$search%")
+        //             ->orWhere('idPelanggan', 'like', "%$search%");
+        //     });
+        // }
+
+        if ($request->from) {
+            $pesanan->whereDate('tanggalMasuk', '>=', $request->from);
+        }
+
+        if ($request->to) {
+            $pesanan->whereDate('tanggalMasuk', '<=', $request->to);
+        }
+
+        // ============================
+        // 🟦 FILTER STATUS PESANAN
+        // ============================
+        if ($request->status) {
+            $pesanan->where('statusPesanan', $request->status);
+        }
+
+        $pesanan = $pesanan->get();
 
         return view('VerifikasiP.LihatVerifikasi', compact('pesanan'));
     }
@@ -45,10 +74,16 @@ class CVerifikasi extends Controller
         $pesanan = Pesanan::findOrFail($idPesanan);
         $layanan = Layanan::find($pesanan->idLayanan);
 
-
-        $request->validate([
-            'beratBarang' => 'required|numeric|min:1'
-        ]);
+        $request->validate(
+            [
+                'beratBarang' => 'required|numeric|min:1'
+            ],
+            [
+                'beratBarang.required' => 'Berat barang wajib diisi',
+                'beratBarang.numeric'  => 'Berat barang harus berupa angka',
+                'beratBarang.min'      => 'Berat barang tidak boleh 0',
+            ]
+        );
 
         // Cek apakah pesanan sudah diverifikasi sebelumnya
         if ($pesanan->beratBarang !== null) {
@@ -60,7 +95,7 @@ class CVerifikasi extends Controller
 
         // Ambil harga kategori
         $kategoriPakaian = KategoriItem::where('namaKategori', 'Pakaian')->first();
-        $kategoriSprei   = KategoriItem::where('namaKategori', 'Seprai/selimt/Bed Cover')->first();
+        $kategoriSprei   = KategoriItem::where('namaKategori', 'Seprai/selimut/Bed Cover')->first();
         $kategoriHanduk  = KategoriItem::where('namaKategori', 'Handuk')->first();
 
         // Ambil harga per item dengan Null Check (agar tidak error jika kategori tidak ditemukan)
@@ -81,13 +116,6 @@ class CVerifikasi extends Controller
             'totalHarga' => $totalHarga,
             'statusPesanan' => 'Menunggu Pembayaran'
         ]);
-
-        // // Hapus detail transaksi lama (jika ada) untuk menghindari duplikasi
-        // DetailTransaksi::create([
-        //     'idPesanan' => $pesanan->idPesanan,
-        //     'idKategoriItem' => $kategoriPakaian->idKategoriItem,
-        //     'jumlahKategori' => $berat,
-        // ]);
 
         // ✅ HAPUS DetailTransaksi yang duplikat!
         DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->delete();

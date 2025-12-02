@@ -12,7 +12,7 @@ class Pelanggan extends Model
 
     protected $table = 'pelanggan';
     protected $primaryKey = 'idPelanggan';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'namaPelanggan',

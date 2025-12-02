@@ -111,22 +111,25 @@
         border: none;
     }
 
-    .btn-back {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        background: #2d4b74;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-    }
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
     </style>
 </head>
 
@@ -147,7 +150,7 @@
         @forelse($pesanan as $p)
         <div class="pesanan-card">
             <div class="pesanan-info">
-                <h5>Pesanan #{{ $p->no_pesanan ?? $p->idPesanan }}</h5>
+                <h5>Pesanan {{ $p->no_pesanan ?? $p->idPesanan }}</h5>
 
                 <div class="delivery-info">
                     <i class="bi bi-person me-1"></i>
@@ -161,26 +164,16 @@
 
                 <small>
                     <i class="bi bi-calendar3 me-1"></i>
-                    {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}
-                    • {{ $p->layanan->namaLayanan }}
-                    • Rp {{ number_format($p->total_harga, 0, ',', '.') }}
+                    {{ \Carbon\Carbon::parse($p->tanggalSelesai)->format('d/m/Y') }}
                 </small>
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <span class="status status-ready">Ready Diantar</span>
+                <span class="status status-ready">Menunggu Diantar</span>
 
                 <a href="{{ route('lihatdata.detail', $p->idPesanan) }}" class="btn-detail">
                     <i class="bi bi-eye"></i> Detail
                 </a>
-
-                <form action="{{ route('update.status', $p->idPesanan) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="statusPesanan" value="Sudah Diantar">
-                    <button class="btn-deliver" onclick="return confirm('Konfirmasi pesanan sudah diantar?')">
-                        <i class="bi bi-check-circle"></i> Sudah Diantar
-                    </button>
-                </form>
             </div>
         </div>
         @empty
@@ -191,8 +184,7 @@
         @endforelse
     </div>
 
-    <!-- BUTTON BACK -->
-    <a href="javascript:history.back()" class="btn-back">
+    <a href="{{ url('/tampilanKurir') }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 
