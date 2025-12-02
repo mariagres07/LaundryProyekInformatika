@@ -134,6 +134,13 @@
                         </select>
                     </div>
 
+                    <div class="col-md-3">
+                        <input type="date" name="start_date" class="form-control" value="{{ $startDate ?? '' }}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" name="end_date" class="form-control" value="{{ $endDate ?? '' }}">
+                    </div>
+
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-search"></i> Cari

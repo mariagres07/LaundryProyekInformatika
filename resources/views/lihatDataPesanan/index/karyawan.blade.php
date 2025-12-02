@@ -202,6 +202,48 @@
             </div>
         </div>
 
+        <!-- FILTERS -->
+<div class="card p-3 mb-4 shadow-sm">
+    <form method="GET" action="">
+        <div class="row g-3">
+
+            <!-- Filter Status -->
+            <div class="col-md-4">
+                <label class="form-label">Filter Status</label>
+                <select name="status" class="form-select">
+                    <option value="">Semua Status</option>
+                    <option value="Menunggu Penjemputan" {{ request('status')=='Menunggu Penjemputan'?'selected':'' }}>Menunggu Penjemputan</option>
+                    <option value="Menunggu Pembayaran" {{ request('status')=='Menunggu Pembayaran'?'selected':'' }}>Menunggu Pembayaran</option>
+                    <option value="Diproses" {{ request('status')=='Diproses'?'selected':'' }}>Diproses</option>
+                    <option value="Menunggu Pengantaran" {{ request('status')=='Menunggu Pengantaran'?'selected':'' }}>Menunggu Pengantaran</option>
+                    <option value="Sudah Diantar" {{ request('status')=='Sudah Diantar'?'selected':'' }}>Sudah Diantar</option>
+                    <option value="Selesai" {{ request('status')=='Selesai'?'selected':'' }}>Selesai</option>
+                </select>
+            </div>
+
+            <!-- Tanggal Mulai -->
+            <div class="col-md-3">
+                <label class="form-label">Dari Tanggal</label>
+                <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+            </div>
+
+            <!-- Tanggal Akhir -->
+            <div class="col-md-3">
+                <label class="form-label">Sampai Tanggal</label>
+                <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+            </div>
+
+            <!-- Tombol -->
+            <div class="col-md-2 d-flex align-items-end">
+                <button class="btn btn-primary w-100">
+                    <i class="bi bi-funnel me-1"></i>Filter
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
         <!-- DAFTAR PESANAN -->
         @forelse($pesanan as $p)
         <div class="pesanan-card">

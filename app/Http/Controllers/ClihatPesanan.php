@@ -39,8 +39,29 @@ class ClihatPesanan extends Controller
         if ($role === 'karyawan') {
             $user = Session::get('karyawan');
             $pesanan = Pesanan::with(['pelanggan', 'layanan', 'detailTransaksi.kategoriItem'])
-                ->orderBy('tanggalMasuk', 'desc')
-                ->get();
+                ->orderBy('tanggalMasuk', 'desc');
+            // ->get();
+
+            // =====================================
+            // FILTER STATUS
+            // =====================================
+            if (request('status')) {
+                $pesanan->where('statusPesanan', request('status'));
+            }
+
+            // =====================================
+            // FILTER TANGGAL MASUK
+            // =====================================
+            if (request('from')) {
+                $pesanan->whereDate('tanggalMasuk', '>=', request('from'));
+            }
+
+            if (request('to')) {
+                $pesanan->whereDate('tanggalMasuk', '<=', request('to'));
+            }
+
+            // Ambil hasil akhir query
+            $pesanan = $pesanan->get();
 
             return view('lihatDataPesanan.index.karyawan', compact('pesanan', 'user'));
         }
@@ -83,36 +104,35 @@ class ClihatPesanan extends Controller
     }
 
     public function updateStatus(Request $request, $id)
-{
-    $role = Session::get('role');
+    {
+        $role = Session::get('role');
 
-    if ($role !== 'karyawan' && $role !== 'kurir') {
-        abort(403, 'Hanya Karyawan dan Kurir yang dapat memperbarui status pesanan.');
+        if ($role !== 'karyawan' && $role !== 'kurir') {
+            abort(403, 'Hanya Karyawan dan Kurir yang dapat memperbarui status pesanan.');
+        }
+
+        $user = Session::get($role);
+        if (!$user) {
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Validasi input status
+        $validated = $request->validate([
+            'statusPesanan' => 'required|string|in:Diproses,Menunggu Pengantaran,Sudah Diantar,Selesai'
+        ]);
+
+        // Cari pesanan
+        $pesanan = Pesanan::findOrFail($id);
+
+        // Kurir hanya boleh ubah dari "Menunggu Pengantaran" ke "Sudah Diantar"
+        if ($role === 'kurir' && $pesanan->statusPesanan !== 'Menunggu Pengantaran') {
+            abort(403, 'Kurir hanya bisa mengantarkan pesanan yang menunggu pengantaran.');
+        }
+
+        $pesanan->statusPesanan = $validated['statusPesanan'];
+        $pesanan->save();
+
+        return redirect()->route('lihatdata.index' . $role)
+            ->with('success', 'Status pesanan berhasil diperbarui.');
     }
-
-    $user = Session::get($role);
-    if (!$user) {
-        return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
-    }
-
-    // Validasi input status
-    $validated = $request->validate([
-        'statusPesanan' => 'required|string|in:Diproses,Menunggu Pengantaran,Sudah Diantar,Selesai'
-    ]);
-
-    // Cari pesanan
-    $pesanan = Pesanan::findOrFail($id);
-
-    // Kurir hanya boleh ubah dari "Menunggu Pengantaran" ke "Sudah Diantar"
-    if ($role === 'kurir' && $pesanan->statusPesanan !== 'Menunggu Pengantaran') {
-        abort(403, 'Kurir hanya bisa mengantarkan pesanan yang menunggu pengantaran.');
-    }
-
-    $pesanan->statusPesanan = $validated['statusPesanan'];
-    $pesanan->save();
-
-    return redirect()->route('lihatdata.index' . $role)
-        ->with('success', 'Status pesanan berhasil diperbarui.');
-}
-
 }
