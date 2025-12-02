@@ -159,13 +159,13 @@
 
     <!-- FILTER FORM -->
 <form method="GET" action="{{ route('lihatdata.index') }}" class="mb-4">
-<div class="row g-3 mb-3 mt-3 px-3">
+<div class="row g-3 mb-3 mt-3 px-3 justify-content-center">
 
-        <!-- Search -->
+        {{-- <!-- Search -->
         <div class="col-md-4">
             <input type="text" name="search" value="{{ request('search') }}"
                 class="form-control" placeholder="Cari nama pelanggan / layanan...">
-        </div>
+        </div> --}}
 
         <!-- Filter Status -->
         <div class="col-md-3">

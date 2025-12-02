@@ -87,7 +87,7 @@ class BuatPengaduanController extends Controller
             'deskripsi'        => $request->deskripsi,
             'media'            => $filePathLampiran,
             'statusPengaduan'   => 'Belum Ditanggapi',
-            'tanggalPengaduan' => now()->format('Y-m-d')
+            'tanggalPengaduan' => now()->format('d/m/Y')
         ]);
 
         return redirect()->route('pengaduan.create')->with('pesan', 'Pengaduan berhasil dikirim!');

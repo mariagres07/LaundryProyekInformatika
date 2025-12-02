@@ -25,10 +25,9 @@
 
                 {{-- INFORMASI UTAMA --}}
                 <div class="mt-3">
-
                     <p class="mb-1">
                         <strong>Tanggal Pengaduan:</strong>
-                        {{ $pengaduan->tanggalPengaduan }}
+                        {{ \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d/m/Y') }}
                     </p>
 
                     <p class="mb-1">
