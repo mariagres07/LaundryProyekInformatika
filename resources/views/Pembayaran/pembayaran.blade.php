@@ -25,13 +25,6 @@
             padding: 25px;
         }
 
-        .qr-box {
-            border: 10px solid #0b3d91;
-            border-radius: 15px;
-            padding: 8px;
-            background: #fff;
-        }
-
         .copy-btn {
             background-color: #0b3d91;
             color: white;
@@ -67,19 +60,7 @@
 <body>
     <div class="payment-card">
 
-        {{-- FLASH MESSAGE (TAMBAHAN) --}}
-        @if(session('success'))
-        <div class="alert alert-success">
-            <i class="bi bi-check-circle"></i> {{ session('success') }}
-        </div>
-        @endif
-
-        @if(session('error'))
-        <div class="alert alert-danger">
-            <i class="bi bi-x-circle"></i> {{ session('error') }}
-        </div>
-        @endif
-        {{-- END FLASH MESSAGE --}}
+        <div id="notifBox"></div>
 
         <div class="d-flex justify-content-between">
             <h4 class="fw-bold text-primary">Pembayaran</h4>
@@ -91,7 +72,6 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="payment-code" id="kodePembayaran">
-                    {{-- {{ $pesanan->idPesanan }} --}}
                     {{ $kodePembayaran }}
                 </div>
                 <button class="copy-btn w-100" onclick="salinKode()">
@@ -108,29 +88,48 @@
             <p><strong>Total Harga:</strong> Rp {{ number_format($pesanan->totalHarga, 0, ',', '.') }}</p>
         </div>
 
-        <form action="{{ route('pembayaran.proses', $pesanan->idPesanan) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="buktiPembayaran" class="form-label fw-semibold">Upload Bukti Pembayaran</label>
-                <input type="file" name="buktiPembayaran" id="buktiPembayaran" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100 mt-2">
-                <i class="bi bi-upload"></i> Konfirmasi Pembayaran
-            </button>
-        </form>
+        <!-- FORM TANPA SUBMIT -->
+        <div class="mb-3">
+            <label for="buktiPembayaran" class="form-label fw-semibold">Upload Bukti Pembayaran</label>
+            <input type="file" id="buktiPembayaran" class="form-control">
+        </div>
+
+        <button onclick="konfirmasiPembayaran()" class="btn btn-success w-100 mt-2">
+            <i class="bi bi-upload"></i> Konfirmasi Pembayaran
+        </button>
 
         <div class="text-center mt-4">
-            <a href="{{ route('pesanLaundry.index') }}" class="btn btn-outline-secondary">Kembali</a>
+            <a href="{{ route('lihatdata.detail', $pesanan->idPesanan) }}" class="btn btn-outline-secondary"> Kembali
+            </a>
         </div>
-    </div>
 
-    <script>
-        function salinKode() {
-            var kode = document.getElementById("kodePembayaran").innerText;
-            navigator.clipboard.writeText(kode);
-            alert("Kode pembayaran berhasil disalin: " + kode);
-        }
-    </script>
+        <script>
+            function salinKode() {
+                let kode = document.getElementById("kodePembayaran").innerText;
+                navigator.clipboard.writeText(kode);
+                alert("Kode pembayaran berhasil disalin: " + kode);
+            }
+
+            function konfirmasiPembayaran() {
+                let file = document.getElementById("buktiPembayaran").files.length;
+
+                document.getElementById("notifBox").innerHTML = "";
+
+                if (file === 0) {
+                    document.getElementById("notifBox").innerHTML = `
+                    <div class="alert alert-danger mt-3" role="alert">
+                        <i class="bi bi-x-circle"></i> Bukti pembayaran belum diupload!
+                    </div>`;
+                    return;
+                }
+
+                document.getElementById("notifBox").innerHTML = `
+                <div class="alert alert-success mt-3" role="alert">
+                    <i class="bi bi-check-circle"></i> Pembayaran berhasil dikonfirmasi!
+                </div>`;
+            }
+        </script>
+
 </body>
 
 </html>
