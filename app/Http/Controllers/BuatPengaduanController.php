@@ -8,43 +8,44 @@ use App\Models\Pesanan;
 
 class BuatPengaduanController extends Controller
 {
-    public function create(Request $request, $idPesanan = null){
-    $user = session('pelanggan');
+    public function create(Request $request, $idPesanan = null)
+    {
+        $user = session('pelanggan');
 
-    // Jika datang dari DETAIL PESANAN
-    if ($idPesanan) {
+        // Jika datang dari DETAIL PESANAN
+        if ($idPesanan) {
 
-        $pesanan = Pesanan::where('idPesanan', $idPesanan)
-            ->where('idPelanggan', $user->idPelanggan)
-            ->first();
+            $pesanan = Pesanan::where('idPesanan', $idPesanan)
+                ->where('idPelanggan', $user->idPelanggan)
+                ->first();
+
+            return view('Pengaduan.BuatPengaduan', [
+                'mode' => 'langsung',   // ← mode tanpa dropdown
+                'pesananSingle' => $pesanan,
+                'pesanan' => collect(), // agar tidak error di blade
+                'tanggal' => null
+            ]);
+        }
+
+        // Jika datang dari halaman BUAT PENGADUAN BIASA
+        $tanggal = $request->input('tanggal');
+
+        $pesanan = Pesanan::where('idPelanggan', $user->idPelanggan)
+            ->where('statusPesanan', 'Selesai')
+            ->when($tanggal, function ($q) use ($tanggal) {
+                $q->whereDate('tanggalMasuk', $tanggal);
+            })
+            ->orderBy('tanggalMasuk', 'desc')
+            ->get();
 
         return view('Pengaduan.BuatPengaduan', [
-            'mode' => 'langsung',   // ← mode tanpa dropdown
-            'pesananSingle' => $pesanan,
-            'pesanan' => collect(), // agar tidak error di blade
-            'tanggal' => null
+            'mode' => 'pilih', // ← mode dropdown
+            'pesanan' => $pesanan,
+            'pesananSingle' => null,
+            'tanggal' => $tanggal
         ]);
     }
 
-    // Jika datang dari halaman BUAT PENGADUAN BIASA
-    $tanggal = $request->input('tanggal');
-
-    $pesanan = Pesanan::where('idPelanggan', $user->idPelanggan)
-        ->where('statusPesanan', 'Selesai')
-        ->when($tanggal, function ($q) use ($tanggal) {
-            $q->whereDate('tanggalMasuk', $tanggal);
-        })
-        ->orderBy('tanggalMasuk', 'desc')
-        ->get();
-
-    return view('Pengaduan.BuatPengaduan', [
-        'mode' => 'pilih', // ← mode dropdown
-        'pesanan' => $pesanan,
-        'pesananSingle' => null,
-        'tanggal' => $tanggal
-    ]);
-    }
-    
     public function store(Request $request)
     {
         // Kalau klik tombol TIDAK
@@ -96,5 +97,27 @@ class BuatPengaduanController extends Controller
     {
         $pengaduans = Pengaduan::all();
         return view('daftar-pengaduan', compact('pengaduans'));
+    }
+
+    public function riwayat()
+    {
+        $idPelanggan = session('pelanggan.idPelanggan');
+
+        $pengaduan = Pengaduan::where('idPelanggan', $idPelanggan)
+            ->orderBy('tanggalPengaduan', 'desc')
+            ->get();
+
+        return view('Pelanggan.riwayatPengaduan', compact('pengaduan'));
+    }
+
+    public function detail($idPengaduan)
+    {
+        $idPelanggan = session('pelanggan.idPelanggan');
+
+        $pengaduan = Pengaduan::where('idPengaduan', $idPengaduan)
+            ->where('idPelanggan', $idPelanggan)
+            ->firstOrFail();
+
+        return view('Pelanggan.detailPengaduan', compact('pengaduan'));
     }
 }

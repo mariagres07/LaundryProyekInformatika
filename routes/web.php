@@ -122,3 +122,10 @@ Route::get('/pengaduan/{idPengaduan}/detail', [TanggapiPengaduanController::clas
 Route::get('/pengaduan/{idPengaduan}/edit', [TanggapiPengaduanController::class, 'edit'])->name('pengaduan.edit');
 Route::post('/pengaduan/{idPengaduan}/kirim', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
 Route::post('/pengaduan/{idPengaduan}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
+
+// ===================== RIWAYAT PENGADUAN PELANGGAN =====================
+Route::get('/pengaduan/riwayat', [BuatPengaduanController::class, 'riwayat'])
+    ->name('pelanggan.pengaduan.riwayat');
+
+Route::get('/pengaduan/riwayat/{idPengaduan}', [BuatPengaduanController::class, 'detail'])
+    ->name('pelanggan.pengaduan.detail');
