@@ -22,24 +22,20 @@ class PembayaranController extends Controller
             ->where('idPelanggan', $user['idPelanggan'])
             ->first();
 
-        if (!$pesanan) {
-            return redirect()->route('pesanLaundry.index')
-                ->with('error', 'Pesanan tidak ditemukan.');
-        }
-
         // Cek apakah pesanan sudah diverifikasi (sudah ada beratBarang)
-        if (is_null($pesanan->beratBarang)) {
-            return redirect()->route('pesanLaundry.index')
+        if (is_null($pesanan->beratBarang) || $pesanan->beratBarang == 0) {
+            return redirect()->back()
                 ->with('error', 'Pesanan belum diverifikasi oleh kurir. Silakan tunggu penimbangan selesai.');
         }
 
         // Ambil total harga dari pesanan
         $totalHarga = $pesanan->totalHarga;
 
-        if (is_null($totalHarga)) {
-            return redirect()->route('pesanLaundry.index')
-                ->with('error', 'Pesanan belum diverifikasi. Silakan tunggu penimbangan.');
+        if ($pesanan->berat == null || $pesanan->berat == 0) {
+            return redirect()->back()->with('error', 'Tidak dapat ke pembayaran, pesanan belum diverifikasi oleh kurir.');
         }
+
+        return view('pembayaran.index', compact('pesanan'));
 
         // Ambil data layanan terkait untuk mendapatkan harga
         $layanan = Layanan::where('idLayanan', $pesanan->idLayanan)->first();
@@ -74,7 +70,6 @@ class PembayaranController extends Controller
         return view('Pembayaran.pembayaran', compact('pesanan', 'layanan', 'totalHarga', 'kodePembayaran'));
     }
 
-    // ===================== PROSES PEMBAYARAN (UPLOAD BUKTI) =====================
     public function prosesPembayaran(Request $request, $idPesanan)
     {
         $user = session('pelanggan');
