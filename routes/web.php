@@ -128,4 +128,4 @@ Route::get('/pengaduan/riwayat', [BuatPengaduanController::class, 'riwayat'])
     ->name('pelanggan.pengaduan.riwayat');
 
 Route::get('/pengaduan/riwayat/{idPengaduan}', [BuatPengaduanController::class, 'detail'])
-    ->name('pelanggan.pengaduan.detail');
+    ->name('pengaduan.show');

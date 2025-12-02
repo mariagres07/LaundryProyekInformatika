@@ -61,7 +61,28 @@
 <div class="container mt-4">
     <h2>Riwayat Pengaduan</h2>
 
-    @forelse ($riwayat as $p)
+     <!-- Form Filter -->
+    <form method="GET" action="{{ route('pelanggan.pengaduan.riwayat') }}" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <select name="status" class="form-select">
+                <option value="">-- Semua Status --</option>
+                <option value="Belum Ditanggapi" {{ request('status') == 'Belum Ditanggapi' ? 'selected' : '' }}>Belum Ditanggapi</option>
+                <option value="Diproses" {{ request('status') == 'Diproses' ? 'selected' : '' }}>Diproses</option>
+                <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}" placeholder="Dari Tanggal">
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}" placeholder="Sampai Tanggal">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+    
+    @forelse ($pengaduan as $p)
     <div class="card-pengaduan d-flex justify-content-between align-items-center">
         <div>
             <h5>{{ $p->judulPengaduan }}</h5>

@@ -99,25 +99,46 @@ class BuatPengaduanController extends Controller
         return view('daftar-pengaduan', compact('pengaduans'));
     }
 
-    public function riwayat()
+    public function riwayat(Request $request)
     {
-        $idPelanggan = session('pelanggan.idPelanggan');
+        $pelanggan = session('pelanggan');
 
-        $pengaduan = Pengaduan::where('idPelanggan', $idPelanggan)
-            ->orderBy('tanggalPengaduan', 'desc')
-            ->get();
+        if (!$pelanggan) {
+            return redirect()->route('login.show'); // pastikan login
+        }
 
-        return view('Pelanggan.riwayatPengaduan', compact('pengaduan'));
+        $idPelanggan = $pelanggan->idPelanggan; // ambil ID saja
+
+        $query = Pengaduan::where('idPelanggan', $idPelanggan);
+
+        // Filter status
+        if ($request->status) {
+            $query->where('statusPengaduan', $request->status);
+        }
+
+        // Search berdasarkan judul
+        if ($request->search) {
+            $query->where('judulPengaduan', 'like', '%' . $request->search . '%');
+        }
+
+        $pengaduan = $query->orderBy('tanggalPengaduan', 'desc')->get();
+        return view('Pengaduan.RiwayatPengaduan', compact('pengaduan'));
     }
 
     public function detail($idPengaduan)
     {
-        $idPelanggan = session('pelanggan.idPelanggan');
+        $pelanggan = session('pelanggan'); // ambil object pelanggan
+
+        if (!$pelanggan) {
+            return redirect()->route('login.show'); // pastikan login
+        }
+
+        $idPelanggan = $pelanggan->idPelanggan; // ambil ID saja
 
         $pengaduan = Pengaduan::where('idPengaduan', $idPengaduan)
             ->where('idPelanggan', $idPelanggan)
             ->firstOrFail();
 
-        return view('Pelanggan.detailPengaduan', compact('pengaduan'));
+        return view('Pengaduan.DetailPengaduanPelanggan', compact('pengaduan'));
     }
 }

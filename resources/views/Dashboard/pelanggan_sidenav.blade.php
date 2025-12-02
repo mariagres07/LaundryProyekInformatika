@@ -146,7 +146,9 @@
             <a href="{{ url('/lihatdata') }}">
                 <i class="bi bi-file-earmark-text-fill"></i> Lihat Data Pesanan
             </a>
-            <a href="{{ url(/pengaduan/riwayat/{idPengaduan}}">
+            {{-- <a href="{{ url(/pengaduan/riwayat/{idPengaduan}}"> --}}
+                <a href="{{ route('pelanggan.pengaduan.riwayat') }}">
+
                 <i class="bi bi-file-earmark-text-fill"></i> Riwayat Pengaduan
             </a>
             <a href="{{ url('/editprofil') }}">

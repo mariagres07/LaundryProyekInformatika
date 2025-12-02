@@ -182,11 +182,16 @@
                             <h4 class="text-danger">
                                 <i class="bi bi-chat-dots me-2"></i>Riwayat Pengaduan
                             </h4>
-                            <p class="text-muted">Sampaikan keluhan atau masukan Anda kepada kami.</p>
+                            <p class="text-muted">Lihat Riwayat Pengaduan Anda.</p>
                         </div>
 
-                        <a href="{{ route('pengaduan.create') }}" class="btn btn-danger btn-long">
+                        {{-- <a href="{{ route('pengaduan.create') }}" class="btn btn-danger btn-long">
                             <i class="bi bi-pencil me-2"></i>Riwayat Pengaduan
+                        </a> --}}
+
+                        <a href="{{ route('pelanggan.pengaduan.riwayat') }}" class="btn btn-danger btn-long">
+                            {{-- <i class="bi bi-pencil me-2"></i>Riwayat Pengaduan --}}
+                                <i class="bi bi-clock-history me-2"></i>Riwayat Pengaduan
                         </a>
                     </div>
                 </div>
