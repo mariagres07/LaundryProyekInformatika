@@ -72,7 +72,7 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="payment-code" id="kodePembayaran">
-                    {{ $transaksiPembayaran->kodePembayaran ?? '-' }}
+                    {{ $kodePembayaran ?? '-' }}
                 </div>
                 <button class="copy-btn w-100" onclick="salinKode()">
                     <i class="bi bi-clipboard"></i> SALIN KODE
@@ -88,15 +88,23 @@
             <p><strong>Total Harga:</strong> Rp {{ number_format($pesanan->totalHarga, 0, ',', '.') }}</p>
         </div>
 
-        <!-- FORM TANPA SUBMIT -->
-        <div class="mb-3">
-            <label for="buktiPembayaran" class="form-label fw-semibold">Upload Bukti Pembayaran</label>
-            <input type="file" id="buktiPembayaran" class="form-control">
-        </div>
+        <form action="{{ route('pembayaran.proses', ['idPesanan' => $pesanan->idPesanan]) }}" method="POST"
+            enctype="multipart/form-data">
+            @csrf
 
-        <button onclick="konfirmasiPembayaran()" class="btn btn-success w-100 mt-2">
-            <i class="bi bi-upload"></i> Konfirmasi Pembayaran
-        </button>
+            @error('buktiPembayaran')
+            <div class="alert alert-danger mt-2">{{ $message }}</div>
+            @enderror
+
+            <div class="mb-3">
+                <label for="buktiPembayaran" class="form-label fw-semibold">Upload Bukti Pembayaran</label>
+                <input type="file" name="buktiPembayaran" id="buktiPembayaran" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 mt-2">
+                <i class="bi bi-upload"></i> Konfirmasi Pembayaran
+            </button>
+        </form>
 
         <div class="text-center mt-4">
             <a href="{{ route('lihatdata.detail', $pesanan->idPesanan) }}" class="btn btn-outline-secondary"> Kembali

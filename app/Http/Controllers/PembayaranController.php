@@ -10,6 +10,7 @@ use App\Models\TransaksiPembayaran;
 
 class PembayaranController extends Controller
 {
+    // Halaman pembayaran
     public function index($idPesanan)
     {
         $user = session('pelanggan');
@@ -22,11 +23,6 @@ class PembayaranController extends Controller
             ->where('idPelanggan', $user['idPelanggan'])
             ->first();
 
-        if (!$pesanan) {
-            return redirect()->route('pesanLaundry.index')
-                ->with('error', 'Pesanan tidak ditemukan.');
-        }
-
         // Cek apakah pesanan sudah diverifikasi
         if (is_null($pesanan->beratBarang)) {
             return redirect()->route('pesanLaundry.index')
@@ -36,15 +32,23 @@ class PembayaranController extends Controller
         $layanan = Layanan::find($pesanan->idLayanan);
         $totalHarga = $pesanan->totalHarga;
 
-        // CARI DETAIL TRANSAKSI TERLEBIH DAHULU
+        // Ambil detail transaksi
         $detail = DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->first();
 
-        // CARI TRANSAKSI PEMBAYARAN
-        $transaksiPembayaran = transaksipembayaran::where('idDetailTransaksi', $detail->idDetailTransaksi)->first();
+        // Ambil transaksi pembayaran jika ada
+        $transaksiPembayaran = TransaksiPembayaran::where('idDetailTransaksi', $detail->idDetailTransaksi)->first();
 
-        // Jika belum ada → buat kode pembayaran sementara
+        // Jika belum ada transaksi pembayaran, buat record baru dengan kode
         if (!$transaksiPembayaran) {
             $kodePembayaran = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            $transaksiPembayaran = TransaksiPembayaran::create([
+                'idDetailTransaksi' => $detail->idDetailTransaksi,
+                'kodePembayaran' => $kodePembayaran,
+                'tanggalPembayaran' => null, // Belum dibayar
+                'totalPembayaran' => $totalHarga,
+                'buktiPembayaran' => null,
+            ]);
         } else {
             $kodePembayaran = $transaksiPembayaran->kodePembayaran;
         }
@@ -58,7 +62,7 @@ class PembayaranController extends Controller
         ));
     }
 
-    // ===================== PROSES PEMBAYARAN (UPLOAD BUKTI) =====================
+    // Proses konfirmasi pembayaran dan upload bukti
     public function prosesPembayaran(Request $request, $idPesanan)
     {
         $user = session('pelanggan');
@@ -71,49 +75,27 @@ class PembayaranController extends Controller
             ->where('idPelanggan', $user['idPelanggan'])
             ->first();
 
-        if (!$pesanan) {
-            return redirect()->route('pesanLaundry.index')
-                ->with('error', 'Pesanan tidak ditemukan.');
-        }
-
         // Validasi upload bukti pembayaran
         $request->validate([
             'buktiPembayaran' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // SIMPAN FILE DULU (INI YANG KAMU LUPA)
+        // Simpan file bukti pembayaran
         $path = $request->file('buktiPembayaran')->store('bukti', 'public');
 
         // Ambil detail transaksi terkait pesanan
         $detail = DetailTransaksi::where('idPesanan', $idPesanan)->first();
 
-        if (!$detail) {
-            return redirect()->route('pesanLaundry.index')
-                ->with('error', 'Detail transaksi tidak ditemukan.');
-        }
+        // Ambil transaksi pembayaran yang sudah dibuat di index
+        $transaksiPembayaran = TransaksiPembayaran::where('idDetailTransaksi', $detail->idDetailTransaksi)->first();
 
-        $total = $pesanan->totalHarga;
-
-        // Generate kode pembayaran 6 digit
-        $kode = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-
-        // Buat transaksi pembayaran
-        TransaksiPembayaran::create([
-            'idDetailTransaksi' => $detail->idDetailTransaksi,
-            // 'metodePembayaran' => 'Transfer',
-            'tanggalPembayaran' => now(),
-            'totalPembayaran' => $total,
+        // Update transaksi pembayaran: simpan bukti dan set tanggal pembayaran
+        $transaksiPembayaran->update([
             'buktiPembayaran' => $path,
-            'kodePembayaran' => $kode,
+            'tanggalPembayaran' => now(),
         ]);
 
-        // Update pesanan hanya status saja
-        $pesanan->update([
-            'statusPembayaran' => 'Lunas',
-            'statusPesanan' => 'Menunggu Pengantaran'
-        ]);
-
-        return redirect()->route('pesanLaundry.index')
-            ->with('success', 'Pembayaran berhasil dikonfirmasi!');
+        // Tetap di halaman pembayaran dengan pesan sukses
+        return redirect()->back()->with('success', 'Pembayaran berhasil dilakukan.');
     }
 }
