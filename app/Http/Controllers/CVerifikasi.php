@@ -95,7 +95,7 @@ class CVerifikasi extends Controller
 
         // Ambil harga kategori
         $kategoriPakaian = KategoriItem::where('namaKategori', 'Pakaian')->first();
-        $kategoriSprei   = KategoriItem::where('namaKategori', 'Seprai/selimt/Bed Cover')->first();
+        $kategoriSprei   = KategoriItem::where('namaKategori', 'Seprai/selimut/Bed Cover')->first();
         $kategoriHanduk  = KategoriItem::where('namaKategori', 'Handuk')->first();
 
         // Ambil harga per item dengan Null Check (agar tidak error jika kategori tidak ditemukan)
