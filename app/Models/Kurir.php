@@ -11,7 +11,7 @@ class Kurir extends Model
 
     protected $table = 'kurir';   // nama tabel
     protected $primaryKey = 'idKurir'; // primary key
-    public $timestamps = false;
+    public $timestamps = true;
     public $incrementing = true;
     protected $keyType = 'int';
 

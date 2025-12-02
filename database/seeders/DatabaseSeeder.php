@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
             'idLayanan' => $layanan->idLayanan,
             'idKurir' => $kurir->idKurir,
             'idKaryawan' => $karyawan->idKaryawan,
-            'statusPesanan' => 'Menunggu Verifikasi',
+            'statusPesanan' => 'Menunggu Penjemputan',
             'alamat' => 'Jl. Pelanggan No. 1',
             'pakaian' => 3,
             'seprai' => 2,

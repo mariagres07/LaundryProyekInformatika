@@ -138,7 +138,7 @@
 
         <div class="header-content-left">
             <h2>Detail Pesanan</h2>
-            <span>Pesanan #{{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</span>
+            {{-- <span>Pesanan #{{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</span> --}}
         </div>
     </div>
 
@@ -189,7 +189,7 @@
             </h5>
 
             <div class="mb-3">
-                <strong class="text-primary">Tanggal Masuk:</strong><br>
+                <strong class="text-primary">Tanggal:</strong><br>
                 {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y') }}
             </div>
 
@@ -201,10 +201,7 @@
 
             <strong class="text-primary">Item Laundry:</strong><br>
             <div class="row mb-2">
-                <div class="col-sm-5 text-label">Kategori Item</div>
                 <div class="col-sm-7 data-value">
-                    :
-
                     @php
                     // Ambil kolom kategori dari tabel pesanan
                     $items = [
@@ -222,35 +219,33 @@
                     ? $filtered->join(', ')
                     : '-';
                     @endphp
-
                 </div>
             </div>
         </div>
 
         <!-- RINCIAN BIAYA -->
         <div class="info-card">
-            <h5 class="fw-bold text-primary mb-3">
-                <i class="bi bi-cash-coin"></i> Rincian Biaya
-            </h5>
-
-            <div class="d-flex justify-content-between mb-2">
-                <span>Subtotal:</span>
-                <span>Rp {{ number_format($pesanan->totalHarga ?? 0, 0, ',', '.') }}</span>
-            </div>
-
-            <hr>
-
             <div class="d-flex justify-content-between fw-bold fs-5">
                 <span>Total:</span>
                 <span class="text-success">
                     Rp {{ number_format(($pesanan->totalHarga + $pesanan->biaya_pengantaran) ?? 0, 0, ',', '.') }}
                 </span>
-                <a href="{{ url('pembayaran/'.($pesanan->idPesanan ?? $pesanan->id)) }}" class="btn btn-primary btn-sm ms-3">
-                    <i class="bi bi-credit-card me-1"></i> Lanjut ke Pembayaran
-                </a>
+                <div class="d-flex align-items-center justify-content-between mt-2">
+
+                    @if(session('error'))
+                    <div class="alert alert-warning py-1 px-2 mb-0 me-3"
+                        style="font-size: 12px; max-width: 220px; border-radius: 8px;">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+
+                    <a href="{{ url('pembayaran/'.($pesanan->idPesanan ?? $pesanan->id)) }}"
+                        class="btn btn-primary btn-sm">
+                        <i class="bi bi-credit-card me-1"></i> Lanjut ke Pembayaran
+                    </a>
+                </div>
             </div>
         </div>
-
     </div>
 
     <!-- TOMBOL KEMBALI -->
@@ -260,11 +255,12 @@
 
     <!-- BANTUAN -->
     <div class="help-box">
-        <a href="https://wa.me/6283840554803" target="_blank" class="btn-help">Hubungi CS</a>
+        <a href="{{ route('pengaduan.create.with-id', $pesanan->idPesanan) }}" class="btn btn-warning">
+            Buat Pengaduan
+        </a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>

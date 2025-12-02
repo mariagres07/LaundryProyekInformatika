@@ -12,12 +12,12 @@ class PembayaranController extends Controller
 {
     public function index($idPesanan)
     {
-        $user = session('pelanggan'); // Ambil data pelanggan dari session
+        $user = session('pelanggan');
         if (!$user || session('role') !== 'pelanggan') {
             return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Ambil data pesanan berdasarkan idPesanan
+        // Ambil pesanan
         $pesanan = Pesanan::where('idPesanan', $idPesanan)
             ->where('idPelanggan', $user['idPelanggan'])
             ->first();
@@ -27,51 +27,35 @@ class PembayaranController extends Controller
                 ->with('error', 'Pesanan tidak ditemukan.');
         }
 
-        // Cek apakah pesanan sudah diverifikasi (sudah ada beratBarang)
+        // Cek apakah pesanan sudah diverifikasi
         if (is_null($pesanan->beratBarang)) {
             return redirect()->route('pesanLaundry.index')
                 ->with('error', 'Pesanan belum diverifikasi oleh kurir. Silakan tunggu penimbangan selesai.');
         }
 
-        // Ambil total harga dari pesanan
+        $layanan = Layanan::find($pesanan->idLayanan);
         $totalHarga = $pesanan->totalHarga;
 
-        if (is_null($totalHarga)) {
-            return redirect()->route('pesanLaundry.index')
-                ->with('error', 'Pesanan belum diverifikasi. Silakan tunggu penimbangan.');
+        // CARI DETAIL TRANSAKSI TERLEBIH DAHULU
+        $detail = DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->first();
+
+        // CARI TRANSAKSI PEMBAYARAN
+        $transaksiPembayaran = transaksipembayaran::where('idDetailTransaksi', $detail->idDetailTransaksi)->first();
+
+        // Jika belum ada → buat kode pembayaran sementara
+        if (!$transaksiPembayaran) {
+            $kodePembayaran = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+        } else {
+            $kodePembayaran = $transaksiPembayaran->kodePembayaran;
         }
 
-        // Ambil data layanan terkait untuk mendapatkan harga
-        $layanan = Layanan::where('idLayanan', $pesanan->idLayanan)->first();
-
-        // if (!$layanan) {
-        //     return redirect()->route('pesanLaundry.index')
-        //         ->with('error', 'Layanan terkait tidak ditemukan.');
-        // }
-
-        // Hitung total harga
-        // $totalHarga =  $pesanan->beratBarang * $layanan->hargaPerKg;
-
-        // $detail = DetailTransaksi::where('idPesanan', $pesanan->idPesanan)->first();
-
-        // Jika belum ada detailTransaksi → otomatis buat
-        // if (!$detail) {
-        //     $detail = DetailTransaksi::create([
-        //         'idPesanan' => $pesanan->idPesanan,
-        //         'idKategoriItem' => 1, // Default kategori pakaian (sesuaikan dengan database)
-        //         'jumlahKategori' => $pesanan->pakaian ?? 0,
-        //     ]);
-        // }
-
-        // $pesanan->update([
-        //     'totalHarga' => $totalHarga,
-        // ]);
-
-        // Generate kode pembayaran 6 digit
-        $kodePembayaran = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
-
-        // Kirim data ke view
-        return view('Pembayaran.pembayaran', compact('pesanan', 'layanan', 'totalHarga', 'kodePembayaran'));
+        return view('Pembayaran.pembayaran', compact(
+            'pesanan',
+            'layanan',
+            'totalHarga',
+            'transaksiPembayaran',
+            'kodePembayaran'
+        ));
     }
 
     // ===================== PROSES PEMBAYARAN (UPLOAD BUKTI) =====================

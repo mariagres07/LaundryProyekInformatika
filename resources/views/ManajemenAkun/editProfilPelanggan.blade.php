@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Edit Profil Pelanggan - IVA Laundry</title>
@@ -38,7 +39,7 @@
             border-radius: 15px;
             background-color: rgba(255, 255, 255, 0.95);
             padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5px);
         }
 
@@ -86,10 +87,7 @@
 
             <!-- Pesan Sukses -->
             @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
             <!-- Upload Foto Profil -->
@@ -97,11 +95,11 @@
                 <input type="file" id="uploadFoto" name="foto" accept="image/*" class="d-none">
                 <label for="uploadFoto">
                     <img id="previewFoto"
-                         src="{{ $pelanggan->foto 
+                        src="{{ $pelanggan->foto 
                                 ? asset('storage/foto_pelanggan/'.$pelanggan->foto)
                                 : 'https://cdn-icons-png.flaticon.com/512/149/149071.png' }}"
-                         class="profile-pic"
-                         alt="Foto Profil">
+                        class="profile-pic"
+                        alt="Foto Profil">
                 </label>
             </div>
 
@@ -168,11 +166,10 @@
         </div>
     </div>
 
-    <!-- Tombol Kembali -->
-    <a href="{{ url()->previous() }}" class="btn-back">
+    <!-- Tombol kembali -->
+    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -212,4 +209,5 @@
         });
     </script>
 </body>
+
 </html>

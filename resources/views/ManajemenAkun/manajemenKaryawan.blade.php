@@ -17,7 +17,6 @@
         }
 
         .header {
-            /* PENTING: Ganti 'water.jpg' dengan path gambar Anda, atau gunakan URL online */
             background-image: url('water.jpg');
             background-size: cover;
             background-position: center;
@@ -30,7 +29,6 @@
 
         .btn-custom {
             background-color: #003366;
-            /* Biru tua */
             color: white;
             border-radius: 30px;
             padding: 10px 30px;
@@ -43,10 +41,8 @@
 
         .btn-custom:hover {
             background-color: #002244;
-            /* Biru lebih tua */
         }
 
-        /* ==== TOMBOL KEMBALI ==== */
         .btn-back {
             position: fixed;
             bottom: 25px;
@@ -68,23 +64,31 @@
 
         .top-bar {
             background-color: #5dade2;
-            /* Biru muda */
             padding: 15px;
             border-radius: 5px 5px 0 0;
             text-align: center;
         }
 
-        /* Style untuk baris yang aktif/dipilih */
         tr.table-active {
             background-color: #d6eaf8 !important;
-            /* Biru sangat muda */
             cursor: pointer;
         }
 
-        /* Style saat mouse hover di baris tabel */
         tbody tr:hover {
             background-color: #eaf2f8;
             cursor: pointer;
+        }
+
+        /* Notifikasi custom */
+        #notifHapus {
+            display: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        #notifHapus button {
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -95,15 +99,18 @@
     <div class="header">Data Karyawan</div>
 
     <div class="container my-4">
-        <div class="search-box">
-            <div class="input-group mb-3">
+
+        <!-- Notifikasi Hapus -->
+        <div id="notifHapus" class="alert alert-danger text-center"></div>
+
+        <div class="search-box mb-3">
+            <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
-                <input type="text" id="searchInput" class="form-control"
-                    placeholder="Cari karyawan...">
+                <input type="text" id="searchInput" class="form-control" placeholder="Cari karyawan...">
             </div>
         </div>
 
-        <div class="top-bar">
+        <div class="top-bar mb-2">
             <form method="POST" id="hapusForm" style="display:inline;">
                 @csrf
                 @method('DELETE')
@@ -133,67 +140,81 @@
         </table>
     </div>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         let selectedRow = null;
+        const notif = document.getElementById('notifHapus');
 
-        // FUNGSI: Memilih baris tabel saat diklik
+        // Pilih baris tabel
         document.querySelectorAll("#karyawanTable tbody tr").forEach(row => {
             row.addEventListener("click", () => {
-                // Hapus class 'table-active' dari semua baris
-                document.querySelectorAll("#karyawanTable tbody tr").forEach(r => r.classList.remove(
-                    "table-active"));
-                // Tambahkan class 'table-active' ke baris yang diklik
+                document.querySelectorAll("#karyawanTable tbody tr").forEach(r => r.classList.remove("table-active"));
                 row.classList.add("table-active");
-                // Simpan baris yang dipilih
                 selectedRow = row;
+                notif.style.display = "none";
             });
         });
 
-        // FUNGSI: Tombol Edit
+        // Tombol Edit
         document.getElementById("btnEdit").addEventListener("click", () => {
             if (selectedRow) {
                 const idKaryawan = selectedRow.getAttribute("data-id");
-                // Arahkan ke halaman edit dengan ID karyawan yang dipilih
                 window.location.href = `/karyawan/edit/${idKaryawan}`;
             } else {
-                alert("Pilih dulu karyawan yang ingin diedit.");
+                notif.textContent = "Pilih karyawan yang ingin diedit!";
+                notif.style.display = "block";
+                setTimeout(() => {
+                    notif.style.display = "none";
+                }, 3000);
             }
         });
 
-        // FUNGSI: Tombol Hapus
+        // Tombol Hapus
         document.getElementById("btnHapus").addEventListener("click", () => {
-            if (selectedRow) {
-                const idKaryawan = selectedRow.getAttribute("data-id");
-                if (confirm("Yakin ingin menghapus karyawan ini?")) {
-                    const form = document.getElementById("hapusForm");
-                    // Atur action form sesuai ID karyawan yang dipilih
-                    form.action = `/karyawan/hapus/${idKaryawan}`;
-                    form.submit();
-                }
-            } else {
-                alert("Pilih dulu karyawan yang ingin dihapus.");
+            if (!selectedRow) {
+                notif.textContent = "Pilih karyawan yang akan dihapus!";
+                notif.style.display = "block";
+                setTimeout(() => {
+                    notif.style.display = "none";
+                }, 3000);
+                return;
             }
+
+            // Tampilkan notifikasi konfirmasi hapus
+            notif.innerHTML = `Yakin ingin menghapus karyawan ini?
+                               <button class="btn btn-light btn-sm" id="confirmHapus">YA</button>
+                               <button class="btn btn-light btn-sm" id="cancelHapus">BATAL</button>`;
+            notif.style.display = "block";
+
+            document.getElementById("confirmHapus").addEventListener("click", () => {
+                const idKaryawan = selectedRow.getAttribute("data-id");
+                const form = document.getElementById("hapusForm");
+                form.action = `/karyawan/hapus/${idKaryawan}`;
+                form.submit();
+            });
+
+            document.getElementById("cancelHapus").addEventListener("click", () => {
+                notif.style.display = "none";
+            });
         });
 
-        // FUNGSI: Pencarian langsung (live search)
+        // Pencarian langsung
         document.getElementById("searchInput").addEventListener("keyup", function() {
             const keyword = this.value.toLowerCase();
             document.querySelectorAll("#karyawanTable tbody tr").forEach(row => {
                 const rowText = row.textContent.toLowerCase();
-                // Tampilkan baris jika cocok dengan keyword, sembunyikan jika tidak
                 row.style.display = rowText.includes(keyword) ? "" : "none";
             });
         });
     </script>
+
     <script src="{{ asset('js/dashboard.js') }}"></script>
 
     <!-- Tombol kembali -->
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
-
 </body>
 
 </html>

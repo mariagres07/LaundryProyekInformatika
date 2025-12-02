@@ -11,7 +11,7 @@ class TransaksiPembayaran extends Model
 
     protected $table = 'transaksiPembayaran';
     protected $primaryKey = 'idTransaksiPembayaran';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'idDetailTransaksi',
