@@ -230,10 +230,20 @@
                 <span class="text-success">
                     Rp {{ number_format(($pesanan->totalHarga + $pesanan->biaya_pengantaran) ?? 0, 0, ',', '.') }}
                 </span>
-                <a href="{{ url('pembayaran/'.($pesanan->idPesanan ?? $pesanan->id)) }}"
-                    class="btn btn-primary btn-sm ms-3">
-                    <i class="bi bi-credit-card me-1"></i> Lanjut ke Pembayaran
-                </a>
+                <div class="d-flex align-items-center justify-content-between mt-2">
+
+                    @if(session('error'))
+                    <div class="alert alert-warning py-1 px-2 mb-0 me-3"
+                        style="font-size: 12px; max-width: 220px; border-radius: 8px;">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+
+                    <a href="{{ url('pembayaran/'.($pesanan->idPesanan ?? $pesanan->id)) }}"
+                        class="btn btn-primary btn-sm">
+                        <i class="bi bi-credit-card me-1"></i> Lanjut ke Pembayaran
+                    </a>
+                </div>
             </div>
         </div>
     </div>
