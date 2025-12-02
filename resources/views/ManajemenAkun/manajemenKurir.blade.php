@@ -40,7 +40,6 @@
       background-color: #002244;
     }
 
-    /* ==== TOMBOL KEMBALI ==== */
     .btn-back {
       position: fixed;
       bottom: 25px;
@@ -75,6 +74,19 @@
       background-color: #f2f2f2;
       cursor: pointer;
     }
+
+    /* Notifikasi custom */
+    #notifKurir {
+      display: none;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    #notifKurir button {
+      margin-left: 10px;
+    }
   </style>
 </head>
 
@@ -85,6 +97,10 @@
   <div class="header">Data Kurir</div>
 
   <div class="container my-4">
+
+    <!-- Notifikasi -->
+    <div id="notifKurir" class="alert alert-danger text-center"></div>
+
     <div class="input-group mb-3">
       <span class="input-group-text"><i class="bi bi-search"></i></span>
       <input type="text" id="searchInput" class="form-control" placeholder="Cari kurir...">
@@ -120,33 +136,62 @@
 
   <script>
     let selectedRow = null;
+    const notif = document.getElementById('notifKurir');
 
+    // Pilih baris tabel
     document.querySelectorAll("#kurirTable tbody tr").forEach(row => {
       row.addEventListener("click", () => {
         document.querySelectorAll("#kurirTable tbody tr").forEach(r => r.classList.remove("table-active"));
         row.classList.add("table-active");
         selectedRow = row;
+        notif.style.display = "none";
       });
     });
 
+    // Tombol Edit
     document.getElementById("btnEdit").addEventListener("click", () => {
       if (selectedRow) {
         const id = selectedRow.dataset.id;
         window.location.href = `/mkurir/edit/${id}`;
-      } else alert("Pilih dulu kurir yang ingin diedit.");
+      } else {
+        notif.textContent = "Pilih kurir yang ingin diedit!";
+        notif.style.display = "block";
+        setTimeout(() => {
+          notif.style.display = "none";
+        }, 3000);
+      }
     });
 
+    // Tombol Hapus
     document.getElementById("btnHapus").addEventListener("click", () => {
-      if (selectedRow) {
+      if (!selectedRow) {
+        notif.textContent = "Pilih kurir yang akan dihapus!";
+        notif.style.display = "block";
+        setTimeout(() => {
+          notif.style.display = "none";
+        }, 3000);
+        return;
+      }
+
+      // Konfirmasi hapus di notifikasi
+      notif.innerHTML = `Yakin ingin menghapus kurir ini?
+                         <button class="btn btn-light btn-sm" id="confirmHapus">YA</button>
+                         <button class="btn btn-light btn-sm" id="cancelHapus">BATAL</button>`;
+      notif.style.display = "block";
+
+      document.getElementById("confirmHapus").addEventListener("click", () => {
         const id = selectedRow.dataset.id;
-        if (confirm("Yakin ingin hapus kurir ini?")) {
-          const form = document.getElementById("hapusForm");
-          form.action = `/mkurir/hapus/${id}`;
-          form.submit();
-        }
-      } else alert("Pilih dulu kurir yang ingin dihapus.");
+        const form = document.getElementById("hapusForm");
+        form.action = `/mkurir/hapus/${id}`;
+        form.submit();
+      });
+
+      document.getElementById("cancelHapus").addEventListener("click", () => {
+        notif.style.display = "none";
+      });
     });
 
+    // Pencarian langsung
     document.getElementById("searchInput").addEventListener("keyup", function() {
       const keyword = this.value.toLowerCase();
       document.querySelectorAll("#kurirTable tbody tr").forEach(row => {
