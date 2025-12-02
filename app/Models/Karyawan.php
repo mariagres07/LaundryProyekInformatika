@@ -11,7 +11,7 @@ class Karyawan extends Model
 
     protected $table = 'karyawan';
     protected $primaryKey = 'idKaryawan';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'namaKaryawan',

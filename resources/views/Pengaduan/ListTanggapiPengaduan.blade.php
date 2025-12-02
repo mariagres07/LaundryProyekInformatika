@@ -162,8 +162,8 @@
                         <h6 class="mb-2">
                             <strong>ID Pesanan:</strong> {{ $p->idPesanan ?? '-' }}
                         </h6>
-                        <p class="mb-1"><strong>Judul:</strong> {{ $p->judulPengaduan ?? '-' }}</p>
-                        <p class="mb-2"><strong>Deskripsi:</strong> {{ Str::limit($p->deskripsi ?? '-', 100) }}</p>
+                        {{-- <p class="mb-1"><strong>Judul:</strong> {{ $p->judulPengaduan ?? '-' }}</p> --}}
+                        {{-- <p class="mb-2"><strong>Deskripsi:</strong> {{ Str::limit($p->deskripsi ?? '-', 100) }}</p> --}}
                         <small class="text-muted">
                             <i class="bi bi-calendar"></i>
                             {{ $p->tanggalPengaduan ? \Carbon\Carbon::parse($p->tanggalPengaduan)->format('d/m/Y') : '-' }}
