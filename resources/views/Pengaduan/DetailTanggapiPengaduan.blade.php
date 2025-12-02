@@ -90,7 +90,7 @@
             <div class="mb-3">
                 <label class="text-label">Tanggal Pengaduan:</label>
                 <input type="text" class="form-control"
-                    value="{{ $pengaduan->tanggalPengaduan ? \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d M Y') : '-' }}"
+                    value="{{ $pengaduan->tanggalPengaduan ? \Carbon\Carbon::parse($pengaduan->tanggalPengaduan)->format('d/m/Y') : '-' }}"
                     readonly>
             </div>
             <div class="mb-3">

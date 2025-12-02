@@ -173,7 +173,7 @@
         <div class="laporan-card">
           <div>
             <h5 class="fw-bold text-primary mb-1">
-              Tanggal: {{ \Carbon\Carbon::parse($row->tanggalPembayaran)->format('d M Y') }}
+              Tanggal: {{ \Carbon\Carbon::parse($row->tanggalPembayaran)->format('d/m/Y') }}
             </h5>
             <p class="mb-0 text-dark">ID Pembayaran: {{ $row->idTransaksiPembayaran ?? '-' }}</p>
             <p class="mb-0 text-dark">ID Transaksi: {{ $row->idDetailTransaksi }}</p>

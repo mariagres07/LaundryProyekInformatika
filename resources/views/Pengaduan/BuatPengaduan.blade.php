@@ -117,7 +117,7 @@
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Pesanan</label>
                             <input type="text" class="form-control"
-                                value="Pesanan #{{ $pesananSingle->idPesanan }} - {{ \Carbon\Carbon::parse($pesananSingle->tanggalMasuk)->format('d-m-Y') }}"
+                                value="Pesanan {{ $pesananSingle->idPesanan }} - {{ \Carbon\Carbon::parse($pesananSingle->tanggalMasuk)->format('d/m/Y') }}"
                                 readonly>
                         </div>
 
@@ -130,8 +130,8 @@
 
                                 @foreach ($pesanan as $p)
                                 <option value="{{ $p->idPesanan }}">
-                                    Pesanan #{{ $p->idPesanan }} -
-                                    {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d-m-Y') }}
+                                    Pesanan {{ $p->idPesanan }} -
+                                    {{ \Carbon\Carbon::parse($p->tanggalMasuk)->format('d/m/Y') }}
                                 </option>
                                 @endforeach
 

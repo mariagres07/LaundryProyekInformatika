@@ -154,7 +154,7 @@
         <div class="row mb-2">
             <div class="col-sm-5 text-label">Tanggal</div>
             <div class="col-sm-7 data-value">
-                : {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d F Y') }}
+                : {{ \Carbon\Carbon::parse($pesanan->tanggalMasuk)->format('d/m/Y') }}
             </div>
         </div>
 
