@@ -6,7 +6,7 @@
     <title>Edit Profil Pelanggan - IVA Laundry</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -72,6 +72,7 @@
             justify-content: center;
             font-size: 1.4rem;
             cursor: pointer;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -84,17 +85,14 @@
         <div class="card-custom mt-2">
             <h3 class="title mb-3" style="color:#2F65B9;">Edit Profil</h3>
 
+            <!-- Pesan Sukses -->
             @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
-            <!-- ==== Upload Foto Profil ==== -->
+            <!-- Upload Foto Profil -->
             <div class="text-center mb-3">
-
-                <!-- Input File (disembunyikan) -->
                 <input type="file" id="uploadFoto" name="foto" accept="image/*" class="d-none">
-
-                <!-- Foto Profil yang bisa diklik -->
                 <label for="uploadFoto">
                     <img id="previewFoto"
                         src="{{ $pelanggan->foto 
@@ -103,11 +101,10 @@
                         class="profile-pic"
                         alt="Foto Profil">
                 </label>
-
             </div>
 
-            <!-- ====== Form ====== -->
-            <form action="{{ route('pelanggan.update') }}" method="POST" enctype="multipart/form-data" class="mt-3">
+            <!-- Form Edit Profil -->
+            <form action="{{ route('pelanggan.update') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="editForm">
                 @csrf
 
                 <div class="row g-3">
@@ -125,8 +122,14 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control"
-                            value="{{ old('email', $pelanggan->email ?? '') }}" required>
+                        <input type="email" 
+                               name="email" 
+                               class="form-control" 
+                               value="{{ old('email', $pelanggan->email ?? '') }}" 
+                               required
+                               id="emailInput"
+                               pattern="[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com)$"
+                               title="Email harus berakhir dengan @gmail.com atau @yahoo.com">
                     </div>
 
                     <div class="col-md-6">
@@ -137,8 +140,15 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Nomor HP</label>
-                        <input type="text" name="noHp" class="form-control"
-                            value="{{ old('noHp', $pelanggan->noHp ?? '') }}" required>
+                        <input type="text" 
+                               name="noHp" 
+                               class="form-control" 
+                               value="{{ old('noHp', $pelanggan->noHp ?? '') }}" 
+                               maxlength="12" 
+                               pattern="\d{10,12}" 
+                               title="Nomor HP harus 10–12 digit angka, tanpa spasi atau tanda baca"
+                               inputmode="numeric"
+                               required>
                     </div>
 
                     <div class="col-md-6">
@@ -149,6 +159,7 @@
                 </div>
 
                 <div class="text-end mt-4">
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary me-2">Batal</a>
                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 </div>
             </form>
@@ -162,14 +173,39 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- ==== Script Preview Foto ==== -->
+    <!-- Script: Preview Foto -->
     <script>
         document.getElementById('uploadFoto').addEventListener('change', function(e) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                document.getElementById('previewFoto').src = event.target.result;
-            };
-            reader.readAsDataURL(e.target.files[0]);
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('previewFoto').src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <!-- Script: Validasi Email & Nomor HP -->
+    <script>
+        // Validasi email: hanya @gmail.com atau @yahoo.com
+        document.getElementById('emailInput').addEventListener('input', function(e) {
+            const email = e.target.value.trim();
+            const allowedDomains = ['@gmail.com', '@yahoo.com'];
+            const isValid = allowedDomains.some(domain => email.endsWith(domain));
+
+            const input = e.target;
+            if (email !== '' && !isValid) {
+                input.setCustomValidity('Email hanya boleh menggunakan @gmail.com atau @yahoo.com');
+            } else {
+                input.setCustomValidity('');
+            }
+        });
+
+        // Hanya izinkan angka di input nomor HP
+        document.querySelector('input[name="noHp"]').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
         });
     </script>
 </body>
