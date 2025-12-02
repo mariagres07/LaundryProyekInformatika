@@ -20,8 +20,44 @@ class ClihatPesanan extends Controller
             $user = Session::get('pelanggan');
             $pesanan = Pesanan::with(['layanan', 'detailTransaksi.kategoriItem'])
                 ->where('idPelanggan', $user->idPelanggan)
-                ->orderBy('tanggalMasuk', 'desc')
-                ->get();
+                ->orderBy('tanggalMasuk', 'desc');
+            // ->get();
+
+
+            // ==============================
+            // FILTER STATUS
+            // ==============================
+            if (request('status')) {
+                $pesanan->where('statusPesanan', request('status'));
+            }
+
+            // ==============================
+            // FILTER TANGGAL
+            // ==============================
+            if (request('from')) {
+                $pesanan->whereDate('tanggalMasuk', '>=', request('from'));
+            }
+
+            if (request('to')) {
+                $pesanan->whereDate('tanggalMasuk', '<=', request('to'));
+            }
+
+            // ==============================
+            // SEARCH
+            // (cari berdasarkan id, layanan, atau status)
+            // ==============================
+            if (request('search')) {
+                $keyword = request('search');
+                $pesanan->where(function ($q) use ($keyword) {
+                    $q->where('idPesanan', 'LIKE', "%$keyword%")
+                        ->orWhere('statusPesanan', 'LIKE', "%$keyword%")
+                        ->orWhereHas('layanan', function ($lay) use ($keyword) {
+                            $lay->where('namaLayanan', 'LIKE', "%$keyword%");
+                        });
+                });
+            }
+
+            $pesanan = $pesanan->orderBy('tanggalMasuk', 'desc')->get();
 
             return view('lihatDataPesanan.index.pelanggan', compact('pesanan', 'user'));
         }

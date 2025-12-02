@@ -15,15 +15,44 @@ class CVerifikasi extends Controller
     /**
      * Menampilkan list pesanan yang perlu diverifikasi (belum ada berat)
      */
-    public function index()
+    public function index(Request $request)
     {
         // Jika kamu punya cek role, bisa ditambahkan di sini (optional)
         // $role = Session::get('role'); if($role !== 'verifikator') abort(403);
 
         $pesanan = Pesanan::with('pelanggan')
             ->whereNull('beratBarang') // sesuai kode sebelumnya kamu pakai kolom beratBarang
-            ->orderBy('tanggalMasuk', 'desc')
-            ->get();
+            ->orderBy('tanggalMasuk', 'desc');
+        // ->get();
+
+        // ============================
+        // 🔍 FILTER SEARCH (nama pelanggan / ID pelanggan)
+        // ============================
+        // if ($request->search) {
+        //     $search = $request->search;
+
+        //     $pesanan->whereHas('pelanggan', function ($q) use ($search) {
+        //         $q->where('namaLengkap', 'like', "%$search%")
+        //             ->orWhere('idPelanggan', 'like', "%$search%");
+        //     });
+        // }
+
+        if ($request->from) {
+            $pesanan->whereDate('tanggalMasuk', '>=', $request->from);
+        }
+
+        if ($request->to) {
+            $pesanan->whereDate('tanggalMasuk', '<=', $request->to);
+        }
+
+        // ============================
+        // 🟦 FILTER STATUS PESANAN
+        // ============================
+        if ($request->status) {
+            $pesanan->where('statusPesanan', $request->status);
+        }
+
+        $pesanan = $pesanan->get();
 
         return view('VerifikasiP.LihatVerifikasi', compact('pesanan'));
     }
