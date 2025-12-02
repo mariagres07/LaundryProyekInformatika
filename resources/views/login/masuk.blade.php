@@ -195,6 +195,10 @@
     </form>
 
     <div class="login-link">
+      <a href="{{ route('password.request') }}">Lupa password?</a>
+    </div>
+
+    <div class="login-link">
       Belum punya akun? <a href="{{ url('/daftar') }}">Daftar di sini</a>
     </div>
   </div>
