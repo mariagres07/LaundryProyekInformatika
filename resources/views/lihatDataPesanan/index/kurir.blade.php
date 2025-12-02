@@ -111,22 +111,25 @@
         border: none;
     }
 
-    .btn-back {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        background: #2d4b74;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-    }
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.3s;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
     </style>
 </head>
 
@@ -181,8 +184,7 @@
         @endforelse
     </div>
 
-    <!-- BUTTON BACK -->
-    <a href="javascript:history.back()" class="btn-back">
+    <a href="{{ url('/tampilanKurir') }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 

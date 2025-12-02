@@ -267,7 +267,7 @@
     <script src="{{ asset('js/dashboard.js') }}"></script>
 
     <!--Tombol back-->
-    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+    <a href="{{ url('/tampilanKaryawan') }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 

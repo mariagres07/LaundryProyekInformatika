@@ -8,21 +8,23 @@
 
   <style>
     body {
-      background-color: #ffffff;
+      margin: 0;
       font-family: "Poppins", sans-serif;
     }
 
+    
     .background-header {
-      background: url('/water.jpg') no-repeat center center;
+      background-image: url('water.jpg');
       background-size: cover;
-      height: 120px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
+      background-position: center;
+      padding: 35px;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      text-align: left;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
 
     .title {
       font-weight: 800;
@@ -33,6 +35,7 @@
     }
 
     .header-bar {
+
       background: #8fb6c9;
       border-radius: 50px;
       padding: 12px;
@@ -47,8 +50,8 @@
 
     .nav-link.active {
       background: #dceff6;
-      color: #0b3a4a;
-      background-color: rgba(136, 233, 255, 0.67) !important;
+      color: #000000ff;
+      background-color: rgba(121, 216, 238, 0.49) !important;
     }
 
     .service-item {
@@ -128,7 +131,7 @@
     .delete-btn:hover { background-color: #b42323; }
 
     .input-btn {
-      background: #6baed6;
+      background: #5dabd7b4;
       border-radius: 40px;
       padding: 12px 18px;
       color: black;
@@ -169,14 +172,11 @@
   </style>
 </head>
 
-<body class="p-4">
+<body>
 
 @include('Dashboard.karyawan_sidenav')
-
-<div class="container">
-  <div class="background-header">
-    <h2 class="title">Kelola Layanan</h2>
-  </div>
+  <div class="background-header">Kelola Layanan</div>
+<div class="container p-4">
 
   <div class="header-bar">
     <ul class="nav nav-pills nav-pill-big justify-content-center">
