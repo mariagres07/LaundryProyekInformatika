@@ -100,7 +100,7 @@ return new class extends Migration
         Schema::create('transaksiPembayaran', function (Blueprint $table) {
             $table->id('idTransaksiPembayaran');
             $table->foreignId('idDetailTransaksi')->constrained('detailTransaksi', 'idDetailTransaksi')->onDelete('cascade');
-            $table->dateTime('tanggalPembayaran');
+            $table->dateTime('tanggalPembayaran')->nullable();
             $table->decimal('totalPembayaran', 12, 2);
             $table->string('buktiPembayaran')->nullable();
             $table->string('kodePembayaran', 6)->unique();
