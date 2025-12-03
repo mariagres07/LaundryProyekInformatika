@@ -98,17 +98,23 @@ class CVerifikasi extends Controller
         $kategoriSprei   = KategoriItem::where('namaKategori', 'Seprai/selimut/Bed Cover')->first();
         $kategoriHanduk  = KategoriItem::where('namaKategori', 'Handuk')->first();
 
-        // Ambil harga per item dengan Null Check (agar tidak error jika kategori tidak ditemukan)
+        // Harga kategori (null-safe)
         $hargaPakaian = $kategoriPakaian ? $kategoriPakaian->hargaPerItem : 0;
         $hargaSprei   = $kategoriSprei ? $kategoriSprei->hargaPerItem : 0;
         $hargaHanduk  = $kategoriHanduk ? $kategoriHanduk->hargaPerItem : 0;
 
-        // Hitung total
+        // Hitung total kategori
         $totalPakaian = $berat * $hargaPakaian;
         $totalSprei   = $pesanan->seprai * $hargaSprei;
         $totalHanduk  = $pesanan->handuk * $hargaHanduk;
 
-        $totalHarga = $totalPakaian + $totalSprei + $totalHanduk;
+        // Tambahan: harga layanan per KG
+        $layanan = Layanan::where('idLayanan', $pesanan->idLayanan)->first();
+        $hargaLayananPerKg = $layanan ? $layanan->hargaPerKg : 0;
+        $totalLayanan = $berat * $hargaLayananPerKg;
+
+        // Total harga akhir
+        $totalHarga = $totalPakaian + $totalSprei + $totalHanduk + $totalLayanan;
 
         // Update pesanan
         $pesanan->update([

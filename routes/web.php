@@ -129,3 +129,11 @@ Route::get('/pengaduan/riwayat', [BuatPengaduanController::class, 'riwayat'])
 
 Route::get('/pengaduan/riwayat/{idPengaduan}', [BuatPengaduanController::class, 'detail'])
     ->name('pengaduan.show');
+
+// ===================== FORGOT PASSWORD =====================
+// Halaman form lupa password
+Route::get('lupa-password', [LoginController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::get('reset-password/{token}', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
+
+// Proses reset password
+Route::post('lupa-password', [LoginController::class, 'resetPassword'])->name('password.update');

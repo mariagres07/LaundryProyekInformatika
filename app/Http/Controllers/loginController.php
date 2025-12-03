@@ -60,4 +60,26 @@ class LoginController extends Controller
         Session::flush(); // hapus semua data session
         return redirect()->route('login.show')->with('success', 'Berhasil keluar.');
     }
+
+    // ================= FORGOT PASSWORD =================
+    // Tampilkan form lupa password
+    public function showForgotPasswordForm()
+    {
+        return view('login.LupaPassword'); // Buat file Blade baru
+    }
+
+    // Proses reset password sederhana
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:pelanggan,email',
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $pelanggan = Pelanggan::where('email', $request->email)->first();
+        $pelanggan->password = Hash::make($request->password);
+        $pelanggan->save();
+
+        return redirect()->route('login.show')->with('success', 'Password berhasil diubah!');
+    }
 }
