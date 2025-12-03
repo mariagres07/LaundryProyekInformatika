@@ -115,11 +115,29 @@ class BuatPengaduanController extends Controller
         if ($request->status) {
             $query->where('statusPengaduan', $request->status);
         }
+        // ==============================
+        // FILTER TANGGAL
+        // ==============================
+        $from = request('start_date');
+        $to = request('end_date');
 
-        // Search berdasarkan judul
-        if ($request->search) {
-            $query->where('judulPengaduan', 'like', '%' . $request->search . '%');
+        // Validasi tanggal salah (from lebih besar dari to)
+        if ($from && $to && $from > $to) {
+            return redirect()->back()->with('error', 'Rentang tanggal tidak valid.');
         }
+
+        if (request('from')) {
+            $pesanan->whereDate('tanggalPengaduan', '>=', request('from'));
+        }
+
+        if (request('to')) {
+            $pesanan->whereDate('tanggalPengaduan', '<=', request('to'));
+        }
+        
+        // Search berdasarkan judul
+        // if ($request->search) {
+        //     $query->where('judulPengaduan', 'like', '%' . $request->search . '%');
+        // }
 
         $pengaduan = $query->orderBy('tanggalPengaduan', 'desc')->get();
         return view('Pengaduan.RiwayatPengaduan', compact('pengaduan'));
