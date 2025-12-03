@@ -126,6 +126,7 @@
 
                      <div class="col-md-3">
                         <select name="status" class="form-select">
+                            <label for="status" class="form-label">Filter Status</label>
                             @foreach($statuses as $key => $label)
                             <option value="{{ $key }}" {{ (isset($filterStatus) && $filterStatus === $key) ? 'selected' : '' }}>
                                 {{ $label }}
@@ -135,9 +136,11 @@
                     </div>
 
                     <div class="col-md-3">
+                        <label for="from" class="form-label">Dari Tanggal</label>
                         <input type="date" name="start_date" class="form-control" value="{{ $startDate ?? '' }}">
                     </div>
                     <div class="col-md-3">
+                        <label for="to" class="form-label">Sampai Tanggal</label>
                         <input type="date" name="end_date" class="form-control" value="{{ $endDate ?? '' }}">
                     </div>
 
