@@ -58,7 +58,22 @@
             font-size: 34px;
         }
 
-        /* Hilangkan garis biru (outline / focus) */
+        /* LOGOUT BUTTON FIX */
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: white;
+            font-size: 1.9rem;
+            text-decoration: none;
+            z-index: 10;
+            transition: 0.25s;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.75;
+        }
+
         a,
         a:focus,
         a:active,
@@ -70,18 +85,15 @@
             border: none !important;
         }
 
-        /* Hapus warna biru default dari <a> */
         a {
             color: inherit !important;
             text-decoration: none !important;
         }
 
-        /* Pastikan teks menu-card selalu hitam */
         .menu-card h5 {
             color: black !important;
         }
 
-        /* Icon default */
         .menu-card i {
             color: #7ba6e0;
         }
@@ -129,6 +141,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
             z-index: 2000;
         }
+
         footer {
             text-align: center;
             padding: 15px 0;
@@ -139,11 +152,23 @@
 </head>
 
 <body>
-@include('Dashboard.karyawan_sidenav')
 
     <!-- HEADER -->
     <div class="header-wrapper">
+
         <div class="header-bg"></div>
+
+        <!-- Logout Button (sudah FIX) -->
+        <a href="{{ route('logout') }}"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+            class="logout-btn">
+            <i class="bi bi-box-arrow-right"></i>
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+
         <div class="header-content">
             Welcome! <span>{{ session('username') ?? 'Karyawan' }}</span>
         </div>
@@ -153,82 +178,76 @@
         <i class="bi bi-arrow-left"></i>
     </button>
 
-    <div class="container py-4">
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="row justify-content-center">
 
-        <!-- DASHBOARD -->
-        <div id="dashboard" class="row justify-content-center">
-
-            <div class="col-md-3 mb-4">
-                <div class="menu-card" onclick="showPengguna()">
-                    <i class="bi bi-people menu-icon"></i>
-                    <h5>Manajemen Pengguna</h5>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-4">
-                <div class="menu-card" onclick="showLaundry()">
-                    <i class="bi bi-basket menu-icon"></i>
-                    <h5>Manajemen Laundry</h5>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-4">
-                <a href="{{ route('pengaduan.index') }}">
-                    <div class="menu-card">
-                        <i class="bi bi-chat-dots menu-icon"></i>
-                        <h5>Pengaduan</h5>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-3 mb-4">
-                <a href="{{ url('/lihatdata') }}">
-                    <div class="menu-card">
-                        <i class="bi bi-eye-fill menu-icon"></i>
-                        <h5>Lihat Data Pesanan</h5>
-                    </div>
-                </a>
-            </div>
-
-        </div>
-
-        <!-- MANAJEMEN PENGGUNA -->
-        <div id="pengguna" class="hidden row justify-content-center">
-            <div class="col-md-4 mb-4">
-                <div class="menu-card" onclick="window.location='{{ route('karyawan') }}'">
-                    <i class="bi bi-person-badge menu-icon"></i>
-                    <h5>Manajemen Karyawan</h5>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="menu-card" onclick="window.location='{{ route('kurir.index') }}'">
-                    <i class="bi bi-truck menu-icon"></i>
-                    <h5>Manajemen Kurir</h5>
-                </div>
+        <div class="col-md-3 mb-4">
+            <div class="menu-card" onclick="showPengguna()">
+                <i class="bi bi-people menu-icon"></i>
+                <h5>Manajemen Pengguna</h5>
             </div>
         </div>
 
-        <!-- MANAJEMEN LAUNDRY -->
-        <div id="laundry" class="hidden row justify-content-center">
-            <div class="col-md-4 mb-4">
-                <div class="menu-card" onclick="window.location='{{ route('layanan.index') }}'">
-                    <i class="bi bi-list-task menu-icon"></i>
-                    <h5>Kelola Layanan</h5>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="menu-card" onclick="window.location='{{ route('laporan.index') }}'">
-                    <i class="bi bi-graph-up menu-icon"></i>
-                    <h5>Lihat Laporan</h5>
-                </div>
+        <div class="col-md-3 mb-4">
+            <div class="menu-card" onclick="showLaundry()">
+                <i class="bi bi-basket menu-icon"></i>
+                <h5>Manajemen Laundry</h5>
             </div>
         </div>
 
+        <div class="col-md-3 mb-4">
+            <a href="{{ route('pengaduan.index') }}">
+                <div class="menu-card">
+                    <i class="bi bi-chat-dots menu-icon"></i>
+                    <h5>Pengaduan</h5>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <a href="{{ url('/lihatdata') }}">
+                <div class="menu-card">
+                    <i class="bi bi-eye-fill menu-icon"></i>
+                    <h5>Lihat Data Pesanan</h5>
+                </div>
+            </a>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- MANAJEMEN PENGGUNA -->
+    <div id="pengguna" class="hidden row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="menu-card" onclick="window.location='{{ route('karyawan') }}'">
+                <i class="bi bi-person-badge menu-icon"></i>
+                <h5>Manajemen Karyawan</h5>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="menu-card" onclick="window.location='{{ route('kurir.index') }}'">
+                <i class="bi bi-truck menu-icon"></i>
+                <h5>Manajemen Kurir</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- MANAJEMEN LAUNDRY -->
+    <div id="laundry" class="hidden row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="menu-card" onclick="window.location='{{ route('layanan.index') }}'">
+                <i class="bi bi-list-task menu-icon"></i>
+                <h5>Kelola Layanan</h5>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="menu-card" onclick="window.location='{{ route('laporan.index') }}'">
+                <i class="bi bi-graph-up menu-icon"></i>
+                <h5>Lihat Laporan</h5>
+            </div>
+        </div>
+    </div>
+
     <script>
         const backBtn = document.getElementById("backBtn");
         const dashboard = document.getElementById("dashboard");
@@ -256,18 +275,17 @@
             backBtn.classList.remove("hidden");
         }
 
-        // Handle URL ?tab=
         const tab = new URLSearchParams(window.location.search).get('tab');
         if (tab === 'pengguna') showPengguna();
         else if (tab === 'laundry') showLaundry();
         else showDashboard();
     </script>
 
-    <!-- FOOTER -->
     <footer>
         <i class="bi bi-instagram text-danger"></i> iva.laundry &nbsp; | &nbsp;
         <i class="bi bi-whatsapp text-success"></i> iva.laundry
     </footer>
+
 </body>
 
 </html>
