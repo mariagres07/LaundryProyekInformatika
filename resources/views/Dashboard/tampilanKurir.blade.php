@@ -58,20 +58,7 @@
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
         }
 
-        .logout-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            color: white;
-            font-size: 1.5rem;
-            text-decoration: none;
-            transition: 0.3s;
-            z-index: 2000;
-        }
 
-        .logout-btn:hover {
-            opacity: 0.8;
-        }
 
         .menu-card {
             background-color: #ffffff;
