@@ -46,7 +46,7 @@
 
     /* Hero */
     .hero {
-        background: linear-gradient(rgba(64, 118, 207, 0.7), rgba(64, 118, 207, 0.7)),
+        background: linear-gradient(rgba(42, 104, 204, 0.7), rgba(64, 118, 207, 0.7)),
             url('image.png') center/cover no-repeat;
         padding: 150px 20px 130px;
         text-align: center;
@@ -54,7 +54,7 @@
     }
 
     .btn-order {
-        background-color: #4a8fe7;
+        background-color: #e9c810ff;
         color: white;
         padding: 12px 30px;
         border-radius: 30px;
@@ -186,12 +186,12 @@
                         </div>
 
                         {{-- <a href="{{ route('pengaduan.create') }}" class="btn btn-danger btn-long">
-                            <i class="bi bi-pencil me-2"></i>Riwayat Pengaduan
+                        <i class="bi bi-pencil me-2"></i>Riwayat Pengaduan
                         </a> --}}
 
                         <a href="{{ route('pelanggan.pengaduan.riwayat') }}" class="btn btn-danger btn-long">
                             {{-- <i class="bi bi-pencil me-2"></i>Riwayat Pengaduan --}}
-                                <i class="bi bi-clock-history me-2"></i>Riwayat Pengaduan
+                            <i class="bi bi-clock-history me-2"></i>Riwayat Pengaduan
                         </a>
                     </div>
                 </div>
