@@ -23,12 +23,6 @@ class PembayaranController extends Controller
             ->where('idPelanggan', $user['idPelanggan'])
             ->first();
 
-        // Cek apakah pesanan sudah diverifikasi
-        if (is_null($pesanan->beratBarang)) {
-            return redirect()->route('pesanLaundry.index')
-                ->with('error', 'Pesanan belum diverifikasi oleh kurir. Silakan tunggu penimbangan selesai.');
-        }
-
         $layanan = Layanan::find($pesanan->idLayanan);
         $totalHarga = $pesanan->totalHarga;
 

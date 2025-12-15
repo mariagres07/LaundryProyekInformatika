@@ -239,10 +239,29 @@
                     </div>
                     @endif
 
-                    <a href="{{ url('pembayaran/'.($pesanan->idPesanan ?? $pesanan->id)) }}"
-                        class="btn btn-primary btn-sm">
-                        <i class="bi bi-credit-card me-1"></i> Lanjut ke Pembayaran
+                    @php
+                    $disabled = false;
+                    $btnText = 'Lanjut ke Pembayaran';
+
+                    if(is_null($pesanan->beratBarang)) {
+                    $disabled = true;
+                    $btnText = 'Menunggu Verifikasi Kurir';
+                    }
+
+                    elseif($pesanan->transaksiPembayaran && $pesanan->transaksiPembayaran->kodePembayaran) {
+                    $disabled = true;
+                    $btnText = 'Pembayaran Sudah Dibuat';
+                    }
+                    @endphp
+
+                    @if($disabled)
+                    <button class="btn btn-secondary btn-sm" disabled>{{ $btnText }}</button>
+                    @else
+                    <a href="{{ url('pembayaran/'.$pesanan->idPesanan) }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-credit-card me-1"></i> {{ $btnText }}
                     </a>
+                    @endif
+
                 </div>
             </div>
         </div>
