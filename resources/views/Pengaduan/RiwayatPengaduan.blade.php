@@ -51,6 +51,23 @@
         .btn-detail:hover {
             background:#1d3555;
         }
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -110,6 +127,9 @@
     @endforelse
 </div>
 
+   <a href="{{ url('/tampilanPelanggan?tab=pengguna') }}" class="btn-back" title="Kembali">
+    <i class="bi bi-arrow-left"></i>
+</a>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
