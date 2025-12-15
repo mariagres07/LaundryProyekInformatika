@@ -1,5 +1,7 @@
 @php
 use Illuminate\Support\Str;
+use App\Models\Layanan;
+$layanans = Layanan::select('idLayanan', 'namaLayanan', 'estimasiHari')->get();
 @endphp
 
 <!DOCTYPE html>
@@ -246,6 +248,16 @@ use Illuminate\Support\Str;
         cursor: pointer;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
+    .counter input.qty {
+        width: 50px;
+        text-align: center;
+        border: none;
+        background: transparent;
+        font-weight: bold;
+        font-size: 16px;
+        color: #555;
+        outline: none;
+    }   
     </style>
 </head>
 
@@ -298,7 +310,7 @@ use Illuminate\Support\Str;
             </div>
             <div class="counter">
                 <button class="minus">-</button>
-                <span>0</span>
+                <input type="number" class="qty" value="0" min="0">
                 <button class="plus">+</button>
             </div>
         </div>
@@ -307,20 +319,32 @@ use Illuminate\Support\Str;
 
     <!-- ==== LAYANAN ==== -->
     <div class="card tab-content" id="contentLayanan" style="display:none;">
-        @foreach ($layanans ?? [] as $layanan)
-        <div class="radio-item">
-            <div class="left">
-                @if(Str::contains(strtolower($layanan->namaLayanan), 'express'))
+@foreach ($layanans ?? [] as $layanan)
+    <label class="radio-item">
+        <div class="left">
+            @if(Str::contains(strtolower($layanan->namaLayanan), 'express'))
                 <img src="Expresslogo.png" alt="express">
-                @else
+            @else
                 <img src="regularlogo.png" alt="regular">
-                @endif
+            @endif
+
+            <div>
                 <div>{{ $layanan->namaLayanan }}</div>
+                <small style="color:#555;">
+                    Estimasi {{ $layanan->estimasiHari }} hari
+                </small>
             </div>
-            <input type="radio" name="layanan" value="{{ $layanan->idLayanan }}">
         </div>
-        @endforeach
-    </div>
+
+        <input
+            type="radio"
+            name="layanan"
+            value="{{ $layanan->idLayanan }}"
+            style="margin-left:10px;"
+        >
+    </label>
+@endforeach
+</div>
 
     <!-- ==== TOMBOL PESAN ==== -->
     <button id="btnPesan" class="btn-pesan">Pesan Sekarang</button>
@@ -349,28 +373,39 @@ use Illuminate\Support\Str;
     // === COUNTER ===
     const plusButtons = document.querySelectorAll('.plus');
     const minusButtons = document.querySelectorAll('.minus');
+    const qtyInputs = document.querySelectorAll('.qty');
+
     let kategoriDipilih = false;
 
     plusButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            let span = btn.parentElement.querySelector('span');
-            span.textContent = parseInt(span.textContent) + 1;
+            const input = btn.parentElement.querySelector('.qty');
+            input.value = parseInt(input.value || 0) + 1;
             checkKategori();
         });
     });
 
     minusButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            let span = btn.parentElement.querySelector('span');
-            let val = parseInt(span.textContent);
-            if (val > 0) span.textContent = val - 1;
+            const input = btn.parentElement.querySelector('.qty');
+            let val = parseInt(input.value || 0);
+            if (val > 0) input.value = val - 1;
+            checkKategori();
+        });
+    });
+
+    qtyInputs.forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.value === '' || parseInt(input.value) < 0) {
+                input.value = 0;
+            }
             checkKategori();
         });
     });
 
     function checkKategori() {
-        kategoriDipilih = Array.from(document.querySelectorAll('.counter span'))
-            .some(s => parseInt(s.textContent) > 0);
+        kategoriDipilih = Array.from(qtyInputs)
+            .some(input => parseInt(input.value) > 0);
         checkPesanButton();
     }
 
@@ -399,43 +434,40 @@ use Illuminate\Support\Str;
 
     // === KIRIM PESAN KE BACKEND ===
     btnPesan.addEventListener('click', async () => {
-        if (!btnPesan.classList.contains('active')) return;
+    if (!btnPesan.classList.contains('active')) return;
 
-        // Ambil jumlah tiap kategori
-        // const kategori = Array.from(document.querySelectorAll('.counter span')).map(s => parseInt(s.textContent));
-        const kategori = Array.from(document.querySelectorAll('.counter span')).map(s => parseInt(s.textContent));
+    // ✅ AMBIL JUMLAH KATEGORI (INPUT YANG BISA DIKETIK)
+    const kategori = Array.from(document.querySelectorAll('.qty'))
+        .map(input => parseInt(input.value));
 
-        // Ambil layanan yang dipilih
-        const layanan = document.querySelector('input[name="layanan"]:checked').value;
+    // Ambil layanan yang dipilih
+    const layanan = document.querySelector('input[name="layanan"]:checked').value;
 
-        // Ambil alamat dari input
-        const alamat = document.getElementById('alamat').value;
+    // Ambil alamat
+    const alamat = document.getElementById('alamat').value;
 
-        // Kirim ke backend
-        const response = await fetch('/pesanLaundry', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // 'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify({
-                kategori,
-                layanan,
-                alamat
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.success && data.idPesanan) {
-            // window.location.href = `/detailPesanan/${data.idPesanan}`;
-            window.location.href = `{{ url('detailPesanan') }}/${data.idPesanan}`;
-        } else {
-            console.error('Gagal membuat pesanan:', data);
-            alert('Gagal membuat pesanan');
-        }
+    // Kirim ke backend
+    const response = await fetch('/pesanLaundry', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+            kategori,
+            layanan,
+            alamat
+        })
     });
+
+    const data = await response.json();
+
+    if (data.success && data.idPesanan) {
+        window.location.href = `{{ url('detailPesanan') }}/${data.idPesanan}`;
+    } else {
+        alert('Gagal membuat pesanan');
+    }
+});
     </script>
     <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
