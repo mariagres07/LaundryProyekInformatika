@@ -305,7 +305,7 @@
     </div>
 
     <div class="right">
-      <img src="selimut.png" alt="Laundry Icon">
+      <img src="gambar.jpg" alt="Laundry Icon">
       <h3>Selamat Datang di Iva Laundry</h3>
       <p>Atur dan pantau cucianmu dengan mudah lewat akun Iva Laundry — cepat, aman, dan terintegrasi.</p>
     </div>
