@@ -261,9 +261,10 @@
         @endforelse
     </div>
 
-    <a href="javascript:history.back()" class="btn-back" title="Kembali">
-        <i class="bi bi-arrow-left"></i>
-    </a>
+    <a href="{{ url('/tampilanPelanggan?tab=pengguna') }}" class="btn-back" title="Kembali">
+    <i class="bi bi-arrow-left"></i>
+</a>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
