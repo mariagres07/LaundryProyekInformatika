@@ -11,11 +11,12 @@ class KategoriItem extends Model
 
     protected $table = 'kategoriItem';
     protected $primaryKey = 'idKategoriItem';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'namaKategori',
         'jumlahItem',
+        'hargaPerItem',
     ];
 
     public function detailTransaksi()

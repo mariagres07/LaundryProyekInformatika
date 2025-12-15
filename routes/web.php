@@ -2,19 +2,57 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClihatLap;
-
+use App\Http\Controllers\ClihatPesanan;
+use App\Http\Controllers\CVerifikasi;
 use App\Http\Controllers\KurirController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PesanLaundryController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\Cdashboard;
+use App\Http\Controllers\BuatPengaduanController;
+use App\Http\Controllers\TanggapiPengaduanController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\registerController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PembayaranController;
 
-// PELANGGAN
+
+// Route untuk halaman utama (landing page)
+Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+
+// ===================== AUTH / LOGIN =====================
+Route::get('/masuk', [LoginController::class, 'showLogin'])->name('login.show');
+Route::post('/masuk', [LoginController::class, 'login'])->name('login.process');
+
+// ===================== REGISTER / DAFTAR =====================
+Route::get('/daftar', [registerController::class, 'showRegister'])->name('register.show');
+Route::post('/daftar', [registerController::class, 'register'])->name('register.process');
+
+Route::get('/otp', [registerController::class, 'showOtp'])->name('otp.show');
+Route::post('/otp', [registerController::class, 'verifyOtp'])->name('otp.verify');
+
+Route::get('/berhasil', [registerController::class, 'success'])->name('success');
+
+// ========LOGOUT========
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// ===================== PELANGGAN =====================
+//Route::get('/editprofil', [PelangganController::class, 'index'])->name('pelanggan.index');
 Route::get('/editprofil', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::post('/editprofil', [PelangganController::class, 'update'])->name('pelanggan.update');
 
-// KURIR
-// Manajemen Kurir
+// ===================== KARYAWAN =====================
+Route::get('/karyawan', [KaryawanController::class, 'index'])->name('karyawan');
+Route::get('/karyawan/create', [KaryawanController::class, 'create'])->name('karyawan.create');
+Route::post('/karyawan/store', [KaryawanController::class, 'store'])->name('karyawan.store');
+Route::get('/karyawan/edit/{karyawan}', [KaryawanController::class, 'edit'])->name('karyawan.edit');
+Route::put('/karyawan/update/{karyawan}', [KaryawanController::class, 'update'])->name('karyawan.update');
+Route::delete('/karyawan/hapus/{karyawan}', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
+Route::post('/karyawan/pesanan/{id}/selesai', [KaryawanController::class, 'selesai'])->name('karyawan.pesanan.selesai');
+
+// ===================== KURIR =====================
 Route::get('/mkurir', [KurirController::class, 'index'])->name('kurir.index');
 Route::get('/mkurir/input', [KurirController::class, 'create']);
 Route::post('/mkurir/store', [KurirController::class, 'store']);
@@ -22,67 +60,80 @@ Route::get('/mkurir/edit/{idKurir}', [KurirController::class, 'edit']);
 Route::put('/mkurir/update/{idKurir}', [KurirController::class, 'update']);
 Route::delete('/mkurir/hapus/{idKurir}', [KurirController::class, 'hapus']);
 
-// ---- ROUTE KARYAWAN ----
-Route::get('/mkaryawan', [KaryawanController::class, 'index'])->name('karyawan.index');
-Route::get('/mkaryawan/input', [KaryawanController::class, 'create'])->name('karyawan.create');
-Route::post('/mkaryawan/store', [KaryawanController::class, 'store'])->name('karyawan.store');
-Route::get('/mkaryawan/edit/{idKaryawan}', [KaryawanController::class, 'edit'])->name('karyawan.edit');
-Route::put('/mkaryawan/update/{idKaryawan}', [KaryawanController::class, 'update'])->name('karyawan.update');
-Route::get('/mkaryawan/hapus/{idKaryawan}', [KaryawanController::class, 'confirmDelete'])->name('karyawan.confirmDelete');
-Route::delete('/mkaryawan/destroy/{idKaryawan}', [KaryawanController::class, 'destroy'])->name('karyawan.destroy');
+// ===================== PENGANTARAN SELESAI (KURIR) =====================
+Route::post('/kurir/pesanan/{id}/selesai-antar', [KurirController::class, 'selesaiAntar'])->name('kurir.pesanan.selesaiAntar');
 
-// ---- ROUTE LAYANAN ----
+// ===================== KONFIRMASI BERAT (KURIR) =====================
+Route::post('/kurir/konfirmasi-berat/{idPesanan}', [KurirController::class, 'konfirmasiBerat'])->name('kurir.konfirmasiBerat');
+
+// ===================== PEMBAYARAN =====================
+Route::get('/pembayaran/{idPesanan}', [PembayaranController::class, 'index'])->name('pembayaran.index');
+Route::post('/pembayaran/{idPesanan}', [PembayaranController::class, 'prosesPembayaran'])->name('pembayaran.proses');
+Route::get('/pembayaran/success', [PembayaranController::class, 'success'])->name('pembayaran.success');
+
+// ===================== LAYANAN =====================
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan.index');
-Route::post('/layanan/store', [LayananController::class, 'store'])->name('layanan.store');
+
+// Kategori
+Route::post('/kategori', [LayananController::class, 'storeKategori'])->name('kategori.store');
+Route::put('/kategori/{id}', [LayananController::class, 'updateKategori'])->name('kategori.update');
+Route::delete('/kategori/{id}', [LayananController::class, 'destroyKategori'])->name('kategori.destroy');
+
+// Layanan
+Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
+Route::put('/layanan/{id}', [LayananController::class, 'update'])->name('layanan.update');
 Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
 
-// AUTH / LOGIN
-Route::get('/', function () {
-
-    return view('login.index');
-});
-
-// Halaman index
-Route::get('/index', function () {
-    return view('login.index');
-});
-
-// Halaman login/masuk
-Route::get('/masuk', function () {
-    return view('login.masuk');
-});
-
-// Halaman daftar/registrasi
-Route::get('/daftar', function () {
-    return view('login.daftar');
-});
-
-Route::get('/berhasil', function () {
-    return view('login.berhasil');
-});
-
-Route::get('/otp', function () {
-    return view('login.otp');
-});
-
-// Verifikasi OTP (sementara langsung berhasil)
-Route::post('/verifikasi-otp', function (\Illuminate\Http\Request $request) {
-    $kode = implode('', $request->otp); // gabungkan input OTP
-    if ($kode === "123456") { // contoh OTP benar
-        return redirect('/berhasil');
-    }
-    return back()->withErrors(['otp' => 'Kode OTP salah!']);
-});
-
-// PESAN LAUNDRY
-Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry');
-Route::get('/detailPesanan', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
+// ===================== PESAN LAUNDRY =====================
+Route::get('/pesanLaundry', [PesanLaundryController::class, 'index'])->name('pesanLaundry.index');
+Route::post('/pesanLaundry', [PesanLaundryController::class, 'store'])->name('pesanLaundry.store');
+Route::get('/detailPesanan/{id}', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
-// LAPORAN
+// ===================== LAPORAN =====================
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
+Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
+Route::get('/lihatdata/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatdata.detail');
+Route::post('/lihatdata/update-status/{id}', [ClihatPesanan::class, 'updateStatus'])->name('update.status');
 
-// Halaman dashboard
+// ===================== VERIFIKASI =====================
+Route::get('/lihatverifikasi', [CVerifikasi::class, 'index'])->name('lihatverifikasi.index');
+Route::get('/detailVer/{id}', [CVerifikasi::class, 'detail'])->name('detail');
+Route::post('/verifikasi/perhitungan/{id}', [CVerifikasi::class, 'perhitungan'])->name('verifikasi.perhitungan');
+
+// ===================== DASHBOARD =====================
 Route::get('/tampilanKaryawan', function () {
-    return view('dashboard.index');
-});
+    return view('Dashboard.tampilanKaryawan');
+})->name('karyawan.dashboard');
+
+Route::get('/tampilanKurir', [Cdashboard::class, 'tampilanKurir'])->name('dashboard.kurir');
+Route::get('/tampilanPelanggan', [Cdashboard::class, 'tampilanPelanggan'])->name('dashboard.pelanggan');
+
+// ===================== PENGADUAN =====================
+// Buat Pengaduan
+Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name('pengaduan.create');
+Route::get('/pengaduan/buat/{idPesanan}', [BuatPengaduanController::class, 'create'])
+    ->name('pengaduan.create.with-id');
+Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
+
+// Tanggapi Pengaduan
+Route::get('/pengaduan', [TanggapiPengaduanController::class, 'index'])->name('pengaduan.index');
+Route::get('/pengaduan/{idPengaduan}/detail', [TanggapiPengaduanController::class, 'show'])->name('pengaduan.show');
+Route::get('/pengaduan/{idPengaduan}/edit', [TanggapiPengaduanController::class, 'edit'])->name('pengaduan.edit');
+Route::post('/pengaduan/{idPengaduan}/kirim', [TanggapiPengaduanController::class, 'kirimTanggapan'])->name('pengaduan.kirim');
+Route::post('/pengaduan/{idPengaduan}/selesai', [TanggapiPengaduanController::class, 'selesaikan'])->name('pengaduan.selesai');
+
+// ===================== RIWAYAT PENGADUAN PELANGGAN =====================
+Route::get('/pengaduan/riwayat', [BuatPengaduanController::class, 'riwayat'])
+    ->name('pelanggan.pengaduan.riwayat');
+
+Route::get('/pengaduan/riwayat/{idPengaduan}', [BuatPengaduanController::class, 'detail'])
+    ->name('pengaduan.show');
+
+// ===================== FORGOT PASSWORD =====================
+// Halaman form lupa password
+Route::get('lupa-password', [LoginController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::get('reset-password/{token}', [LoginController::class, 'showResetPasswordForm'])->name('password.reset');
+
+// Proses reset password
+Route::post('lupa-password', [LoginController::class, 'resetPassword'])->name('password.update');

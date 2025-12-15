@@ -4,35 +4,106 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pesanan;
+use App\Models\Pelanggan;
+use App\Models\KategoriItem;
+use App\Models\Layanan;
+use App\Models\Karyawan;
+use App\Models\Kurir;
 
 class PesanLaundryController extends Controller
 {
+    // 🔹 Halaman utama pemesanan laundry
     public function index()
     {
-        return view('PesananLaundryPengguna.PesanLaundry');
+        $user = session('pelanggan');
+        if (!$user || session('role') !== 'pelanggan') {
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $kategoriItems = KategoriItem::select('idKategoriItem', 'namaKategori')->get();
+        $layanans = Layanan::select('idLayanan', 'namaLayanan')->get();
+
+        return view('PesananLaundryPengguna.PesanLaundry', [
+            'pelanggan' => $user,
+            'kategoriItems' => $kategoriItems,
+            'layanans' => $layanans,
+        ]);
     }
 
-    public function checkout(Request $request)
+    // 🔹 Menerima data dari fetch() (AJAX)
+    public function store(Request $request)
     {
-        $request->validate([
-            'paket'  => 'required'
+        $user = session('pelanggan');
+        if (!$user || session('role') !== 'pelanggan') {
+            return response()->json(['success' => false, 'message' => 'Silakan login terlebih dahulu.'], 401);
+        }
+
+        // Validasi
+        $data = $request->validate([
+            'kategori' => 'required|array',
+            'layanan'  => 'required',
+            'alamat'   => 'nullable|string|max:255',
         ]);
 
-        // Simpan data ke session
-        session(['pesanan' => [
-            'nama'     => auth()->user()->name,
-            'alamat'   => $request->alamat,
-            'kategori' => $request->kategori,
-            'paket'    => $request->paket,
-        ]]);
+        // Ambil layanan
+        $layanan = Layanan::find($data['layanan']);
+        if (!$layanan) {
+            return response()->json(['success' => false, 'message' => 'Layanan tidak ditemukan.']);
+        }
 
-        return redirect()->route('detailPesanan');
+        // Ambil jumlah kategori (urutannya sama dengan di view)
+        $pakaian = $data['kategori'][0] ?? 0;
+        $seprai  = $data['kategori'][1] ?? 0;
+        $handuk  = $data['kategori'][2] ?? 0;
+
+        // Tentukan estimasi waktu berdasarkan paket
+        $paket = strtolower($layanan->namaLayanan);
+        $estimasiHari = str_contains($paket, 'express') ? 1 : 3;
+
+        $kurir = Kurir::inRandomOrder()->first(); // Pilih kurir acak
+        $karyawan = Karyawan::inRandomOrder()->first(); // Pilih karyawan
+
+        if (!$kurir || !$karyawan) {
+            return response()->json(['success' => false, 'message' => 'Kurir atau karyawan tidak tersedia.']);
+        }
+        // Simpan ke database
+        $pesanan = Pesanan::create([
+            // 'namaPelanggan'    => 'Pesanan ' . $user['namaPelanggan'],
+            'idPelanggan'    => $user['idPelanggan'],
+            'idLayanan'      => $layanan->idLayanan,
+            'idKurir'        => $kurir->idKurir,
+            'idKaryawan'     => $karyawan->idKaryawan,
+            'statusPesanan'  => 'Menunggu Penjemputan',
+            'alamat'         => $data['alamat'] ?? $user['alamat'] ?? 'Belum diisi',
+            'paket'          => $layanan->namaLayanan,
+            'pakaian'        => $pakaian,
+            'seprai'         => $seprai,
+            'handuk'         => $handuk,
+            'beratBarang'    => null,
+            'tanggalMasuk'   => now(),
+            'tanggalSelesai' => now()->addDays($estimasiHari),
+            'totalHarga'     => null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'idPesanan' => $pesanan->idPesanan,
+        ]);
     }
 
+    // 🔹 Detail pesanan pelanggan
     public function detail($id)
     {
-        $pesanan = session('pesanan'); // ambil data dari session
+        $user = session('pelanggan');
+        if (!$user || session('role') !== 'pelanggan') {
+            return redirect()->route('login.show')->withErrors(['auth' => 'Silakan login sebagai pelanggan terlebih dahulu.']);
+        }
 
-        return view('PesananLaundryPengguna.detailPesanan', $pesanan);
+        $pesanan = Pesanan::with('pelanggan')
+            ->where('idPesanan', $id)
+            ->where('idPelanggan', $user['idPelanggan'])
+            ->firstOrFail();
+
+        return view('PesananLaundryPengguna.detailPesanan', compact('pesanan'));
     }
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -11,16 +11,21 @@ class TransaksiPembayaran extends Model
 
     protected $table = 'transaksiPembayaran';
     protected $primaryKey = 'idTransaksiPembayaran';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'idDetailTransaksi',
-        'metodePembayaran',
         'tanggalPembayaran',
         'totalPembayaran',
+        'buktiPembayaran',
+        'kodePembayaran',
     ];
 
-    public function pesanan()
+    protected $casts = [
+        'tanggalPembayaran' => 'datetime',
+    ];
+
+    public function detailTransaksi()
     {
         return $this->belongsTo(DetailTransaksi::class, 'idDetailTransaksi');
     }

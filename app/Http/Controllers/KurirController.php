@@ -4,28 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kurir;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Pesanan;
 
 class KurirController extends Controller
 {
+    // Halaman daftar kurir
     public function index()
     {
-        $kurirs = Kurir::all();
-        return view('kurir.index', compact('kurirs'));
+        $kurir = Kurir::all(); // ambil semua kurir
+        return view('ManajemenAkun.manajemenKurir', compact('kurir'));
     }
 
+    // Halaman form input kurir baru
     public function create()
     {
-        return view('kurir.input');
+        return view('ManajemenAkun.inputKurir');
     }
 
+    // Simpan data kurir baru
     public function store(Request $request)
     {
         $request->validate([
             'namaKurir' => 'required|string|max:255',
-            'username'  => 'required|string|max:255|unique:kurirs,username',
+            'username'  => 'required|string|max:255|unique:kurir,username',
             'noHp'      => 'required|string|max:15',
-            'email'     => 'required|email|unique:kurirs,email',
-            'password'  => 'required|min:6',
+            'email'     => 'required|email|unique:kurir,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // minimal 8 karakter
+                'regex:/[A-Z]/', // ada huruf besar
+                'regex:/[a-z]/', // ada huruf kecil
+                'regex:/[0-9]/', // ada angka
+                'regex:/[@$!%*?&#]/', // ada simbol spesial
+                'confirmed'
+            ],
             'alamat'    => 'required|string',
         ]);
 
@@ -34,51 +48,78 @@ class KurirController extends Controller
             'username'  => $request->username,
             'noHp'      => $request->noHp,
             'email'     => $request->email,
-            'password'  => bcrypt($request->password), // hash password
+            'password'  => Hash::make($request->password),
             'alamat'    => $request->alamat,
         ]);
 
-        return redirect()->route('kurir.index')->with('success', 'Kurir berhasil ditambahkan!');
+        return redirect('/mkurir')->with('success', 'Kurir berhasil ditambahkan!');
     }
 
-    public function edit($idKurir)
+    // Halaman form edit kurir
+    public function edit(Kurir $kurir)
     {
-        $kurir = Kurir::findOrFail($idKurir);
-        return view('kurir.edit', compact('kurir'));
+        // $kurir = Kurir::findOrFail($idKurir);
+        return view('ManajemenAkun.editKurir', compact('kurir'));
     }
 
-    public function update(Request $request, $idKurir)
+    // Update data kurir
+    public function update(Request $request, Kurir $kurir)
     {
-        $kurir = Kurir::findOrFail($idKurir);
-
         $request->validate([
             'namaKurir' => 'required|string|max:255',
-            'username'  => 'required|string|max:255|unique:kurirs,username,' . $kurir->idKurir . ',idKurir',
+            'username'  => 'required|string|max:255|unique:kurir,username,' . $kurir->idKurir . ',idKurir',
             'noHp'      => 'required|string|max:15',
-            'email'     => 'required|email|unique:kurirs,email,' . $kurir->idKurir . ',idKurir',
-            'password'  => 'nullable|min:6',
+            'email'     => 'required|email|unique:kurir,email,' . $kurir->idKurir . ',idKurir',
+            'password'  => [
+                'nullable',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
+            ],
             'alamat'    => 'required|string',
         ]);
 
-        $kurir->namaKurir = $request->namaKurir;
-        $kurir->username  = $request->username;
-        $kurir->noHp      = $request->noHp;
-        $kurir->email     = $request->email;
-        $kurir->alamat    = $request->alamat;
+        $kurir->update([
+            'namaKurir' => $request->namaKurir,
+            'username'  => $request->username,
+            'noHp'      => $request->noHp,
+            'email'     => $request->email,
+            'alamat'    => $request->alamat,
+        ]);
 
+        // Update password jika diisi
         if ($request->filled('password')) {
-            $kurir->password = bcrypt($request->password);
+            $kurir->password = Hash::make($request->password);
+            $kurir->save();
         }
 
-        $kurir->save();
-
-        return redirect()->route('kurir.index')->with('success', 'Data kurir berhasil diperbarui!');
+        return redirect('/mkurir')->with('success', 'Data kurir berhasil diperbarui!');
     }
 
+    // Hapus kurir
     public function hapus($idKurir)
     {
         $kurir = Kurir::findOrFail($idKurir);
+        // jika ada relasi yang mencegah penghapusan, tangani relasi tersebut sebelum delete
         $kurir->delete();
-        return redirect()->route('kurir.index')->with('success', 'Kurir berhasil dihapus!');
+        return redirect('/mkurir')->with('success', 'Kurir berhasil dihapus!');
+    }
+
+    public function antarSelesai($id)
+    {
+        $pesanan = Pesanan::findOrFail($id);
+
+        // Harus pastikan status saat ini menunggu pengantaran
+        if ($pesanan->statusPesanan !== 'Menunggu Pengantaran') {
+            return back()->with('error', 'Pesanan belum bisa diselesaikan.');
+        }
+
+        $pesanan->statusPesanan = 'Selesai';
+        $pesanan->save();
+
+        return back()->with('success', 'Pesanan berhasil diantar dan selesai.');
     }
 }

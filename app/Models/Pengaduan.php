@@ -11,25 +11,26 @@ class Pengaduan extends Model
 
     protected $table = 'pengaduan';
     protected $primaryKey = 'idPengaduan';
-    public $timestamps = false;
+    // public $timestamps = false;
 
     protected $fillable = [
         'idPelanggan',
         'idPesanan',
         'tanggalPengaduan',
         'deskripsi',
-        'judulPengadauan',
+        'judulPengaduan',
         'media',
         'tanggapanPengaduan',
+        'statusPengaduan',
     ];
 
     public function pelanggan()
     {
-        return $this->belongsTo(Pelanggan::class, 'idPelanggan');
+        return $this->belongsTo(Pelanggan::class, 'idPelanggan', 'idPelanggan');
     }
 
     public function pesanan()
     {
-        return $this->belongsTo(Pesanan::class, 'idPesanan');
+        return $this->belongsTo(Pesanan::class, 'idPesanan', 'idPesanan');
     }
 }

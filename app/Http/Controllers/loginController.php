@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Pelanggan;
+use App\Models\Kurir;
+use App\Models\Karyawan;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
-    // Halaman index
-    public function index()
-    {
-        return view('login.index');
-    }
-
-    // Form login
+    // Tampilkan Form login
     public function showLogin()
     {
         return view('login.masuk');
@@ -28,60 +25,61 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
-
-        if ($user && Hash::check($request->password, $user->password)) {
-            return redirect()->route('otp.show');
+        // Cek tabel pelanggan
+        $pelanggan = Pelanggan::where('email', $request->email)->first();
+        if ($pelanggan && Hash::check($request->password, $pelanggan->password)) {
+            Session::put('idPelanggan', $pelanggan->idPelanggan);
+            Session::put('pelanggan', $pelanggan);
+            Session::put('role', 'pelanggan');
+            return redirect()->route('dashboard.pelanggan');
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah!']);
+        // Cek tabel kurir
+        $kurir = Kurir::where('email', $request->email)->first();
+        if ($kurir && Hash::check($request->password, $kurir->password)) {
+            Session::put('kurir', $kurir);
+            Session::put('role', 'kurir');
+            return redirect()->route('dashboard.kurir');
+        }
+
+        // Cek tabel karyawan
+        $karyawan = Karyawan::where('email', $request->email)->first();
+        if ($karyawan && Hash::check($request->password, $karyawan->password)) {
+            Session::put('karyawan', $karyawan);
+            Session::put('role', 'karyawan');
+            return redirect()->route('karyawan.dashboard');
+        }
+
+        // Jika tidak cocok dengan siapa pun
+        return back()->withErrors(['login_error' => 'Email atau password salah!']);
     }
 
-    // Form register
-    public function showRegister()
+    // Proses logout
+    public function logout()
     {
-        return view('login.daftar');
+        Session::flush(); // hapus semua data session
+        return redirect()->route('login.show')->with('success', 'Berhasil keluar.');
     }
 
-    // Proses register
-    public function register(Request $request)
+    // ================= FORGOT PASSWORD =================
+    // Tampilkan form lupa password
+    public function showForgotPasswordForm()
+    {
+        return view('login.LupaPassword'); // Buat file Blade baru
+    }
+
+    // Proses reset password sederhana
+    public function resetPassword(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
+            'email' => 'required|email|exists:pelanggan,email',
+            'password' => 'required|confirmed|min:6',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email'=> $request->email,
-            'password'=> Hash::make($request->password),
-        ]);
+        $pelanggan = Pelanggan::where('email', $request->email)->first();
+        $pelanggan->password = Hash::make($request->password);
+        $pelanggan->save();
 
-        return redirect()->route('otp.show');
-    }
-
-    // Form OTP
-    public function showOtp()
-    {
-        return view('login.otp');
-    }
-
-    // Verifikasi OTP
-    public function verifyOtp(Request $request)
-    {
-        $kode = implode('', $request->otp); 
-
-        if ($kode === "123456") {
-            return redirect()->route('success');
-        }
-
-        return back()->withErrors(['otp' => 'Kode OTP salah!']);
-    }
-
-    // Halaman sukses
-    public function success()
-    {
-        return view('login.berhasil');
+        return redirect()->route('login.show')->with('success', 'Password berhasil diubah!');
     }
 }

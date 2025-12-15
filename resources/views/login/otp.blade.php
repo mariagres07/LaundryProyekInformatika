@@ -42,26 +42,70 @@
     .text-danger {
       font-size: 14px;
     }
+
+    /* Div OTP di bawah layar */
+    #otp-bottom {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #3f51b5;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-weight: bold;
+      z-index: 9999;
+      font-size: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
   </style>
 </head>
 <body>
   <div class="card">
     <h4 class="title">KODE OTP</h4>
-    <p class="text-danger">Masukkan kode otp yang dikirim ke email</p>
+    <p class="text-danger">Masukkan kode OTP kamu di bawah ini</p>
 
-    <form method="POST" action="/verifikasi-otp">
+    <form method="POST" action="{{ route('otp.verify') }}">
       @csrf
       <div class="d-flex justify-content-center">
-        <input type="text" maxlength="1" class="otp-input" name="otp[]" required>
-        <input type="text" maxlength="1" class="otp-input" name="otp[]" required>
-        <input type="text" maxlength="1" class="otp-input" name="otp[]" required>
-        <input type="text" maxlength="1" class="otp-input" name="otp[]" required>
-        <input type="text" maxlength="1" class="otp-input" name="otp[]" required>
-        <input type="text" maxlength="1" class="otp-input" name="otp[]" required>
+        @for ($i = 0; $i < 6; $i++)
+          <input type="text" maxlength="1" class="otp-input" name="otp[]" required>
+        @endfor
       </div>
       <button type="submit" class="btn btn-primary mt-4">Verifikasi</button>
     </form>
+
+    {{-- Timer OTP --}}
+    @if(isset($expiresAt))
+      <p id="timer" class="mt-3"></p>
+      <script>
+        const expiresAt = new Date("{{ $expiresAt }}").getTime();
+        function updateTimer() {
+          const now = new Date().getTime();
+          const distance = expiresAt - now;
+          const timerEl = document.getElementById("timer");
+
+          if (distance <= 0) {
+            timerEl.innerHTML = "Kode OTP telah kedaluwarsa!";
+            return;
+          }
+
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          timerEl.innerHTML = "Kode OTP berlaku " + seconds + " detik lagi";
+          setTimeout(updateTimer, 1000);
+        }
+        updateTimer();
+      </script>
+    @endif
   </div>
+
+  {{-- Div OTP muncul di bawah layar --}}
+  @if(isset($otp))
+    <div id="otp-bottom">
+      Kode OTP Kamu: {{ $otp }}
+    </div>
+  @endif
 
   <script>
     // Auto pindah ke kotak berikutnya
