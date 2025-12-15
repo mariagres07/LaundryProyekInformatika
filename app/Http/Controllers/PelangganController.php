@@ -41,14 +41,13 @@ class PelangganController extends Controller
             'noHp' => 'required|string|max:15',
             'email' => 'required|email|unique:pelanggan,email,' . $id . ',idPelanggan',
             'password' => [
-                'required',
+                'nullable',
                 'string',
                 'min:8', // minimal 8 karakter
                 'regex:/[A-Z]/', // ada huruf besar
                 'regex:/[a-z]/', // ada huruf kecil
                 'regex:/[0-9]/', // ada angka
                 'regex:/[@$!%*?&#]/', // ada simbol spesial
-                'confirmed'
             ],
         ]);
 
