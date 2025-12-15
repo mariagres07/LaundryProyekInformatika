@@ -16,60 +16,60 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-    body {
-        font-family: "Poppins", sans-serif;
-        background: #eef3f9;
-    }
-
-    h2 {
-        text-align: center;
-        margin-top: 30px;
-        margin-bottom: 20px;
-        color: #2d4b74;
-        font-weight: 700;
-    }
-
-    .card-pengaduan {
-        background: #f8f9fc;
-        padding: 18px;
-        border-radius: 20px;
-        margin-bottom: 15px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .status {
-        padding: 6px 15px;
-        font-weight: 600;
-        border-radius: 12px;
-        font-size: 0.85rem;
-    }
-
-    .belum {
-        background: #ffb74d;
-        color: white;
-    }
-
-    .diproses {
-        background: #64b5f6;
-        color: white;
-    }
-
-    .selesai {
-        background: #81c784;
-        color: white;
-    }
-
-    .btn-detail {
-        background: #2d4b74;
-        color: white;
-        border-radius: 15px;
-        padding: 5px 12px;
-        text-decoration: none;
-    }
-
-    .btn-detail:hover {
-        background: #1d3555;
-    }
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #eef3f9;
+        }
+        h2 {
+            text-align:center;
+            margin-top:30px;
+            margin-bottom:20px;
+            color:#2d4b74;
+            font-weight:700;
+        }
+        .card-pengaduan {
+            background:#f8f9fc;
+            padding:18px;
+            border-radius:20px;
+            margin-bottom:15px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding:6px 15px;
+            font-weight:600;
+            border-radius:12px;
+            font-size:0.85rem;
+        }
+        .belum { background:#ffb74d; color:white; }
+        .diproses { background:#64b5f6; color:white; }
+        .selesai { background:#81c784; color:white; }
+        .btn-detail {
+            background:#2d4b74;
+            color:white;
+            border-radius:15px;
+            padding:5px 12px;
+            text-decoration:none;
+        }
+        .btn-detail:hover {
+            background:#1d3555;
+        }
+        .btn-back {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -142,7 +142,10 @@
         @endforelse
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+   <a href="{{ url('/tampilanPelanggan?tab=pengguna') }}" class="btn-back" title="Kembali">
+    <i class="bi bi-arrow-left"></i>
+</a>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

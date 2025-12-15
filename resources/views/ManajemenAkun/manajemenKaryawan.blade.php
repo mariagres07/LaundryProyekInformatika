@@ -212,9 +212,10 @@
     <script src="{{ asset('js/dashboard.js') }}"></script>
 
     <!-- Tombol kembali -->
-    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
-        <i class="bi bi-arrow-left"></i>
+    <a href="{{ url('/tampilanKaryawan?tab=pengguna') }}" class="btn-back" title="Kembali">
+    <i class="bi bi-arrow-left"></i>
     </a>
+
 </body>
 
 </html>

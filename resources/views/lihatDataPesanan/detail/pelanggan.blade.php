@@ -83,21 +83,22 @@
     }
 
     .btn-back {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        background: #2d4b74;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 2000;
-    }
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #8ab2d3ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
     .btn-back:hover {
         background: #1e3a5c;
