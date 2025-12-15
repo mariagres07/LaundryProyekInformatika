@@ -34,6 +34,14 @@ class ClihatPesanan extends Controller
             // ==============================
             // FILTER TANGGAL
             // ==============================
+            $from = request('from');
+            $to = request('to');
+
+            // Validasi tanggal salah (from lebih besar dari to)
+            if ($from && $to && $from > $to) {
+                return redirect()->back()->with('error', 'Rentang tanggal tidak valid.');
+            }
+
             if (request('from')) {
                 $pesanan->whereDate('tanggalMasuk', '>=', request('from'));
             }

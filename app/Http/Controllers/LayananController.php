@@ -10,33 +10,39 @@ class LayananController extends Controller
 {
     public function index()
     {
-        // $this->seedDefaultData();
-
         $categories = KategoriItem::all();
         $pakets = Layanan::all();
 
-        // Tambahkan icon dan harga display kategori
+        /* =========================
+        ICON KATEGORI
+        ========================= */
         foreach ($categories as $cat) {
-            switch ($cat->namaKategori) {
-                case 'Pakaian':
-                    $cat->hargaDisplay = 5000;
-                    $cat->icon = $cat->icon ?: 'pakaian.png';
-                    break;
-                case 'Handuk':
-                    $cat->hargaDisplay = 9000;
-                    $cat->icon = $cat->icon ?: 'handuk.png';
-                    break;
-                case 'Seprai/Selimut/Bed cover':
-                    $cat->hargaDisplay = 10000;
-                    $cat->icon = $cat->icon ?: 'selimut.png';
-                    break;
-                default:
-                    $cat->hargaDisplay = $cat->harga ?? 0;
-                    $cat->icon = $cat->icon ?: 'default.png';
+
+            if (!empty($cat->icon)) {
+                // kalau icon sudah ada di database, pakai itu
+                $cat->icon = $cat->icon;
+            } 
+            elseif (stripos($cat->namaKategori, 'Pakaian') !== false) {
+                $cat->icon = 'pakaian.png';
+            } 
+            elseif (stripos($cat->namaKategori, 'Handuk') !== false) {
+                $cat->icon = 'handuk.png';
+            } 
+            elseif (
+                stripos($cat->namaKategori, 'Seprai') !== false ||
+                stripos($cat->namaKategori, 'Selimut') !== false ||
+                stripos($cat->namaKategori, 'Bed') !== false
+            ) {
+                $cat->icon = 'selimut.png';
+            } 
+            else {
+                $cat->icon = 'default.png';
             }
         }
 
-        // Tambahkan icon layanan
+        /* =========================
+        ICON LAYANAN / PAKET
+        ========================= */
         foreach ($pakets as $p) {
             if (stripos($p->namaLayanan, 'Express') !== false) {
                 $p->icon = $p->icon ?: 'expresslogo.png';
@@ -46,6 +52,7 @@ class LayananController extends Controller
         }
 
         return view('LayananLaundry.layananLaundry', compact('categories', 'pakets'));
+
     }
 
     // ===== KATEGORI =====
@@ -53,12 +60,12 @@ class LayananController extends Controller
     {
         $request->validate([
             'namaKategori' => 'required|string|max:100',
-            'hargaPerItem' => 'nullable|numeric|min:0',
+            'hargaPerItem' => 'required|numeric|min:0',
         ]);
 
         KategoriItem::create([
             'namaKategori' => $request->namaKategori,
-            'hargaPerItem' => $request->hargaPerItem ?? null,
+            'hargaPerItem' => $request->hargaPerItem,
         ]);
 
         return redirect()->route('layanan.index')->with('success', 'Kategori berhasil ditambahkan');
@@ -68,17 +75,18 @@ class LayananController extends Controller
     {
         $request->validate([
             'namaKategori' => 'required|string|max:100',
-            'hargaPerItem' => 'nullable|numeric|min:0',
+            'hargaPerItem' => 'required|numeric|min:0',
         ]);
 
         $kategori = KategoriItem::findOrFail($id);
         $kategori->update([
             'namaKategori' => $request->namaKategori,
-            'hargaPerItem' => $request->hargaPerItem ?? null,
+            'hargaPerItem' => $request->hargaPerItem,
         ]);
 
         return redirect()->route('layanan.index')->with('success', 'Kategori berhasil diperbarui');
     }
+
 
     public function destroyKategori($id)
     {
@@ -89,20 +97,31 @@ class LayananController extends Controller
 
     // ===== LAYANAN / PAKET =====
     public function store(Request $request)
-    {
-        $request->validate([
-            'namaLayanan' => 'required|string|max:100',
-            'hargaPerKg' => 'required|numeric|min:0',
-        ]);
+        {
+            $request->validate([
+                'jenisPaket' => 'required|in:reguler,express',
+                'pewangi'    => 'required|string|max:50',
+                'hargaPerKg' => 'required|numeric|min:0',
+            ]);
 
-        Layanan::create([
-            'namaLayanan' => $request->namaLayanan,
-            'hargaPerKg' => $request->hargaPerKg,
-            'estimasiHari' => 2,
-        ]);
+            // Tentukan estimasi otomatis
+            if ($request->jenisPaket === 'express') {
+                $estimasiHari = 4;
+                $namaLayanan  = 'Express (' . $request->pewangi . ')';
+            } else {
+                $estimasiHari = 2;
+                $namaLayanan  = 'Reguler (' . $request->pewangi . ')';
+            }
 
-        return redirect()->route('layanan.index')->with('success', 'Layanan berhasil ditambahkan');
-    }
+            Layanan::create([
+                'namaLayanan'  => $namaLayanan,
+                'hargaPerKg'   => $request->hargaPerKg,
+                'estimasiHari' => $estimasiHari,
+            ]);
+
+            return redirect()->route('layanan.index')
+                ->with('success', 'Layanan berhasil ditambahkan');
+        }
 
     public function update(Request $request, $id)
     {

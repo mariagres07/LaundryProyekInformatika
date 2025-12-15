@@ -209,7 +209,7 @@
 
         <div class="row mb-2">
             <div class="col-sm-5 text-label">Berat Barang (kg)</div>
-            <div class="col-sm-7 data-value">: {{ $pesanan->beratBarang ?? 'Belum terverifikasi' }} 
+            <div class="col-sm-7 data-value">: {{ $pesanan->beratBarang ?? 'Belum terverifikasi' }}
             </div>
         </div>
 
@@ -219,6 +219,18 @@
                 : Rp {{ number_format($pesanan->totalHarga ?? 0, 0, ',', '.') }}
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-sm-5 text-label">Bukti Pembayaran</div>
+            <div class="col-sm-7 data-value">
+                @if($pesanan->transaksiPembayaran && $pesanan->transaksiPembayaran->buktiPembayaran)
+                <img src="{{ asset('storage/' . $pesanan->transaksiPembayaran->buktiPembayaran) }}"
+                    alt="Bukti Pembayaran" class="img-fluid rounded" style="max-width: 250px;">
+                @else
+                : Belum ada bukti pembayaran
+                @endif
+            </div>
+        </div>
+
 
         <hr class="my-4">
 
@@ -234,7 +246,8 @@
                     {{-- <option value="Menunggu Penjemputan" @selected($pesanan->statusPesanan=='MenungguPenjemputan')>Menunggu Penjemputan</option> --}}
                     {{-- <option value="Menunggu Pembayaran" @selected($pesanan->statusPesanan=='Menunggu Pembayaran')>Menunggu Pembayaran</option> --}}
                     <option value="Diproses" @selected($pesanan->statusPesanan=='Diproses')>Diproses</option>
-                    <option value="Menunggu Pengantaran" @selected($pesanan->statusPesanan=='MenungguPengantaran')>Menunggu Pengantaran</option>
+                    <option value="Menunggu Pengantaran" @selected($pesanan->
+                        statusPesanan=='MenungguPengantaran')>Menunggu Pengantaran</option>
                     {{-- <option value="Sudah Diantar" @selected($pesanan->statusPesanan=='Sudah Diantar')>Sudah Diantar</option> --}}
                     <option value="Selesai" @selected($pesanan->statusPesanan=='Selesai')>Selesai</option>
                     <option value="Dibatalkan" @selected($pesanan->statusPesanan=='Dibatalkan')>Dibatalkan</option>

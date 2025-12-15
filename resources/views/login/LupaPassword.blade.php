@@ -163,7 +163,8 @@
       <h2>Atur Password Baru</h2>
       <p>Masukkan email dan password baru Anda untuk melanjutkan.</p>
 
-      @if($errors->any())
+      {{-- notifikasi error yang di atas email tadi --}}
+      {{-- @if($errors->any())
       <div class="alert-danger">
         <ul>
           @foreach($errors->all() as $err)
@@ -171,7 +172,7 @@
           @endforeach
         </ul>
       </div>
-      @endif
+      @endif --}}
 
       <form action="{{ route('password.update') }}" method="POST">
         @csrf

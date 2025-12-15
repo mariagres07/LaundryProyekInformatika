@@ -92,4 +92,15 @@ class Pesanan extends Model
             ]);
         }
     }
+    public function transaksiPembayaran()
+    {
+        return $this->hasOneThrough(
+            TransaksiPembayaran::class,
+            DetailTransaksi::class,
+            'idPesanan',          // FK di DetailTransaksi
+            'idDetailTransaksi',  // FK di TransaksiPembayaran
+            'idPesanan',          // PK di Pesanan
+            'idDetailTransaksi'   // PK di DetailTransaksi
+        );
+    }
 }

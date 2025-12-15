@@ -110,8 +110,10 @@
     }
 
     .status-lunas {
-    background: #fff3cd;      /* kuning pastel */
-    color: #856404;           /* coklat gelap */
+        background: #fff3cd;
+        /* kuning pastel */
+        color: #856404;
+        /* coklat gelap */
     }
 
     .btn-detail {
@@ -158,47 +160,53 @@
     </div>
 
     <!-- FILTER FORM -->
-<form method="GET" action="{{ route('lihatdata.index') }}" class="mb-4">
-<div class="row g-3 mb-3 mt-3 px-3 justify-content-center">
+    <form method="GET" action="{{ route('lihatdata.index') }}" class="mb-4">
+        <div class="row g-3 mb-3 mt-3 px-3 justify-content-center">
+            <!-- Filter Status -->
+            <div class="col-md-3">
+                <label for="status" class="form-label">Filter Status</label>
+                <select name="status" class="form-select">
+                    <option value="">Semua Status</option>
+                    <option value="Menunggu Penjemputan"
+                        {{ request('status')=='Menunggu Penjemputan' ? 'selected' : '' }}>Menunggu Penjemputan</option>
+                    <option value="Menunggu Pembayaran"
+                        {{ request('status')=='Menunggu Pembayaran' ? 'selected' : '' }}>Menunggu Pembayaran</option>
+                    <option value="Diproses" {{ request('status')=='Diproses' ? 'selected' : '' }}>Diproses</option>
+                    <option value="Menunggu Pengantaran"
+                        {{ request('status')=='Menunggu Pengantaran' ? 'selected' : '' }}>Menunggu Pengantaran</option>
+                    <option value="Sudah Diantar" {{ request('status')=='Sudah Diantar' ? 'selected' : '' }}>Sudah
+                        Diantar</option>
+                    <option value="Selesai" {{ request('status')=='Selesai' ? 'selected' : '' }}>Selesai</option>
+                    <option value="Lunas" {{ request('status')=='Lunas' ? 'selected' : '' }}>Lunas</option>
+                </select>
+            </div>
 
-        {{-- <!-- Search -->
-        <div class="col-md-4">
-            <input type="text" name="search" value="{{ request('search') }}"
-                class="form-control" placeholder="Cari nama pelanggan / layanan...">
-        </div> --}}
+            <!-- Filter Date From -->
+            <div class="col-md-2">
+                <label for="from" class="form-label">Dari Tanggal</label>
+                <input type="date" name="from" value="{{ request('from') }}" class="form-control"
+                    placeholder="Dari tanggal">
+            </div>
 
-        <!-- Filter Status -->
-        <div class="col-md-3">
-            <select name="status" class="form-select">
-                <option value="">Semua Status</option>
-                <option value="Menunggu Penjemputan" {{ request('status')=='Menunggu Penjemputan' ? 'selected' : '' }}>Menunggu Penjemputan</option>
-                <option value="Menunggu Pembayaran" {{ request('status')=='Menunggu Pembayaran' ? 'selected' : '' }}>Menunggu Pembayaran</option>
-                <option value="Diproses" {{ request('status')=='Diproses' ? 'selected' : '' }}>Diproses</option>
-                <option value="Menunggu Pengantaran" {{ request('status')=='Menunggu Pengantaran' ? 'selected' : '' }}>Menunggu Pengantaran</option>
-                <option value="Sudah Diantar" {{ request('status')=='Sudah Diantar' ? 'selected' : '' }}>Sudah Diantar</option>
-                <option value="Selesai" {{ request('status')=='Selesai' ? 'selected' : '' }}>Selesai</option>
-                <option value="Lunas" {{ request('status')=='Lunas' ? 'selected' : '' }}>Lunas</option>
-            </select>
+            <!-- Filter Date To -->
+            <div class="col-md-2">
+                <label for="to" class="form-label">Sampai Tanggal</label>
+                <input type="date" name="to" value="{{ request('to') }}" class="form-control"
+                    placeholder="Sampai tanggal">
+            </div>
+
+            <!-- Submit -->
+            <div class="col-md-1 d-flex align-items-end">
+                <button class="btn btn-primary">Filter</button>
+            </div>
         </div>
-
-        <!-- Filter Date From -->
-        <div class="col-md-2">
-            <input type="date" name="from" value="{{ request('from') }}"
-                class="form-control" placeholder="Dari tanggal">
-        </div>
-
-        <!-- Filter Date To -->
-        <div class="col-md-2">
-            <input type="date" name="to" value="{{ request('to') }}"
-                class="form-control" placeholder="Sampai tanggal">
-        </div>
-
-        <!-- Submit -->
-        <div class="col-md-1 d-grid">
-            <button class="btn btn-primary">Filter</button>
-        </div>
+    </form>
+    <!-- ALERT KECIL DI BAWAH FORM -->
+    @if (session('error'))
+    <div class="alert alert-danger py-1 px-2 small w-50 mx-auto text-center">
+        {{ session('error') }}
     </div>
-</form>
+    @endif
 
     <!-- CONTENT -->
     <div class="container mt-4">

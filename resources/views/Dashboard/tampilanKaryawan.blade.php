@@ -12,7 +12,7 @@
     </script>
     @endif
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -56,6 +56,21 @@
             color: white;
             font-weight: 700;
             font-size: 34px;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: 0.3s;
+            z-index: 2000;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.8;
         }
 
         /* Hilangkan garis biru (outline / focus) */
@@ -116,7 +131,7 @@
             position: fixed;
             bottom: 25px;
             left: 25px;
-            background-color: #8ab2d3;
+            background-color: #0b3d91;
             color: white;
             border: none;
             border-radius: 50%;
@@ -129,6 +144,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
             z-index: 2000;
         }
+
         footer {
             text-align: center;
             padding: 15px 0;
@@ -139,7 +155,6 @@
 </head>
 
 <body>
-@include('Dashboard.karyawan_sidenav')
 
     <!-- HEADER -->
     <div class="header-wrapper">
@@ -147,6 +162,16 @@
         <div class="header-content">
             Welcome! <span>{{ session('username') ?? 'Karyawan' }}</span>
         </div>
+
+        <!-- Logout Button -->
+        <a href="{{ route('logout') }}"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+            class="logout-btn">
+            <i class="bi bi-box-arrow-right"></i>
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
     </div>
 
     <button id="backBtn" class="btn-back hidden" onclick="showDashboard()">

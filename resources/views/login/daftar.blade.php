@@ -289,13 +289,11 @@
         <div class="form-group">
           <label for="password">Password *</label>
           <input type="password" id="password" name="password" required>
-          <i class="fa-solid fa-eye password-toggle" id="toggle-main" onclick="togglePasswordAll(this)"></i>
         </div>
 
         <div class="form-group">
           <label for="password_confirmation">Konfirmasi Password *</label>
           <input type="password" id="password_confirmation" name="password_confirmation" required>
-          <i class="fa-solid fa-eye password-toggle" id="toggle-mirror"></i>
         </div>
 
         <button type="submit" class="btn">Daftar</button>
@@ -307,7 +305,7 @@
     </div>
 
     <div class="right">
-      <img src="selimut.png" alt="Laundry Icon">
+      <img src="gambar.jpg" alt="Laundry Icon">
       <h3>Selamat Datang di Iva Laundry</h3>
       <p>Atur dan pantau cucianmu dengan mudah lewat akun Iva Laundry — cepat, aman, dan terintegrasi.</p>
     </div>
@@ -347,10 +345,8 @@
       });
 
       el.classList.toggle("fa-eye-slash", isHidden);
-      el.classList.toggle("fa-eye", !isHidden);
 
       mirror.classList.toggle("fa-eye-slash", isHidden);
-      mirror.classList.toggle("fa-eye", !isHidden);
     }
   </script>
 </body>
