@@ -86,9 +86,9 @@
             <h3 class="title mb-3" style="color:#2F65B9;">Edit Profil</h3>
 
             <!-- Pesan Sukses -->
-            @if(session('success'))
+            <!-- @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+            @endif -->
 
             <!-- Upload Foto Profil -->
             <div class="text-center mb-3">
@@ -159,13 +159,40 @@
     </div>
 
     <!-- Tombol kembali -->
-    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+    <a href="{{ route('dashboard.pelanggan') }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Script: Preview Foto -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if(session('success'))
+    <script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: "{{ session('success') }}",
+        confirmButtonColor: '#0d6efd',
+        timer: 1800,
+        showConfirmButton: false
+    });
+    </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Terjadi Kesalahan',
+        text: "{{ session('error') }}",
+        confirmButtonColor: '#0d6efd'
+    });
+    </script>
+    @endif
+
     <script>
     document.getElementById('uploadFoto').addEventListener('change', function(e) {
         const file = e.target.files[0];
