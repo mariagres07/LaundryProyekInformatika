@@ -70,6 +70,19 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         z-index: 10000;
     }
+
+    .btn-deliver {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .btn-deliver:hover {
+        background-color: #218838;
+    }
     </style>
 </head>
 
@@ -110,10 +123,12 @@
         <p><strong>Total Harga:</strong>
             <span class="fw-bold text-success">Rp {{ number_format($pesanan->totalHarga, 0, ',', '.') }}</span>
         </p>
-        <form action="{{ route('update.status', $pesanan->idPesanan) }}" method="POST">
+
+        <!-- FORM UPDATE STATUS -->
+        <form id="form-deliver" action="{{ route('update.status', $pesanan->idPesanan) }}" method="POST">
             @csrf
             <input type="hidden" name="statusPesanan" value="Sudah Diantar">
-            <button class="btn-deliver" onclick="return confirm('Konfirmasi pesanan sudah diantar?')">
+            <button type="button" id="btn-deliver" class="btn-deliver">
                 <i class="bi bi-check-circle"></i> Sudah Diantar
             </button>
         </form>
@@ -123,6 +138,54 @@
     <a href="javascript:history.back()" class="btn-back">
         <i class="bi bi-arrow-left"></i>
     </a>
+
+    <!-- SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- SweetAlert Sukses/Error -->
+    @if(session('success'))
+    <script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: '{{ session('
+        success ') }}',
+        confirmButtonColor: '#3085d6'
+    });
+    </script>
+    @endif
+
+    @if(session('error'))
+    <script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal!',
+        text: '{{ session('
+        error ') }}',
+        confirmButtonColor: '#d33'
+    });
+    </script>
+    @endif
+
+    <!-- Konfirmasi sebelum submit -->
+    <script>
+    document.getElementById('btn-deliver').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: "Apakah pesanan sudah diantar?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, sudah!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('form-deliver').submit();
+            }
+        });
+    });
+    </script>
 
 </body>
 

@@ -117,33 +117,23 @@ class ClihatPesanan extends Controller
     public function lihatDetail($id)
     {
         $role = Session::get('role');
-
         if (!$role) {
-            return redirect()->route('login.show')
-                ->with('error', 'Silakan login terlebih dahulu.');
+            return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        $user = Session::get($role); // pelanggan, kurir, atau karyawan
-
-        if (!$user) {
-            return redirect()->route('login.show')
-                ->with('error', 'Silakan login terlebih dahulu.');
-        }
-
-        // Ambil data pesanan
+        $user = Session::get($role);
         $pesanan = Pesanan::with(['pelanggan', 'layanan', 'detailTransaksi.kategoriItem'])
             ->findOrFail($id);
 
-        // Authorization check
+        // Authorization
         if ($role === 'pelanggan' && $pesanan->idPelanggan !== $user->idPelanggan) {
             abort(403, 'Anda hanya bisa melihat pesanan sendiri.');
         }
 
         if ($role === 'kurir' && $pesanan->statusPesanan !== 'Menunggu Pengantaran') {
-            abort(403, 'Kurir hanya bisa melihat pesanan yang menunggu pengantaran.');
+            return redirect()->route('lihatdata.index')
+                ->with('error', 'Pesanan ini tidak tersedia untuk pengantaran.');
         }
-
-        // Return view detail berdasarkan role
         return view("lihatDataPesanan.detail.{$role}", compact('pesanan', 'user'));
     }
 
@@ -151,7 +141,7 @@ class ClihatPesanan extends Controller
     {
         $role = Session::get('role');
 
-        if ($role !== 'karyawan' && $role !== 'kurir') {
+        if (!$role || ($role !== 'karyawan' && $role !== 'kurir')) {
             abort(403, 'Hanya Karyawan dan Kurir yang dapat memperbarui status pesanan.');
         }
 
@@ -160,23 +150,29 @@ class ClihatPesanan extends Controller
             return redirect()->route('login.show')->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Validasi input status
         $validated = $request->validate([
             'statusPesanan' => 'required|string|in:Diproses,Menunggu Pengantaran,Sudah Diantar,Selesai'
         ]);
 
-        // Cari pesanan
         $pesanan = Pesanan::findOrFail($id);
 
-        // Kurir hanya boleh ubah dari "Menunggu Pengantaran" ke "Sudah Diantar"
-        if ($role === 'kurir' && $pesanan->statusPesanan !== 'Menunggu Pengantaran') {
-            abort(403, 'Kurir hanya bisa mengantarkan pesanan yang menunggu pengantaran.');
+        if ($role === 'kurir') {
+            if ($pesanan->statusPesanan !== 'Menunggu Pengantaran') {
+                return redirect()->route('lihatdata.index')
+                    ->with('error', 'Pesanan ini tidak tersedia untuk pengantaran.');
+            }
+
+            if ($validated['statusPesanan'] !== 'Sudah Diantar') {
+                return redirect()->route('lihatdata.index')
+                    ->with('error', 'Kurir hanya bisa mengubah status menjadi "Sudah Diantar".');
+            }
         }
 
         $pesanan->statusPesanan = $validated['statusPesanan'];
         $pesanan->save();
 
-        return redirect()->route('lihatdata.detail', $id)
+        return redirect()->route('lihatdata.index')
             ->with('success', 'Status pesanan berhasil diperbarui.');
     }
+
 }

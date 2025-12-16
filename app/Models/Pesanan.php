@@ -68,6 +68,7 @@ class Pesanan extends Model
             'Menunggu Penjemputan',
             'Sedang Diproses',
             'Menunggu Pengantaran',
+            'Sudah Diantar',
             'Selesai',
             'Dibatalkan',
         ];

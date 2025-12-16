@@ -142,9 +142,9 @@
     <div class="container mt-4">
         <h2>Daftar Pesanan Belum Diverifikasi</h2>
 
-        @if (session('success'))
+        <!-- @if (session('success'))
         <div class="alert alert-success text-center">{{ session('success') }}</div>
-        @endif
+        @endif -->
         <div class="filter-wrapper">
 
             <form method="GET" class="row g-3 mb-4 px-4">
