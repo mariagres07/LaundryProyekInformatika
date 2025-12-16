@@ -12,118 +12,118 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            font-family: "Poppins", sans-serif;
-            box-sizing: border-box;
-        }
+    * {
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+    }
 
-        body {
-            background-color: #eaf6ff;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        background-color: #eaf6ff;
+        margin: 0;
+        padding: 0;
+    }
 
-        /* ==== HEADER ==== */
-        .header-wrapper {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            border-bottom-left-radius: 50px;
-            border-bottom-right-radius: 50px;
-        }
+    /* ==== HEADER ==== */
+    .header-wrapper {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
 
-        .header-bg {
-            background: linear-gradient(to right, #007bff35, #5dade26d), url('/water.jpg');
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 100%;
-            filter: brightness(0.8);
-        }
+    .header-bg {
+        background: linear-gradient(to right, #007bff35, #5dade26d), url('/water.jpg');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+        filter: brightness(0.8);
+    }
 
-        .header-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            text-align: center;
-            font-weight: bold;
-            font-size: 32px;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
-        }
+    .header-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 32px;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    }
 
-        /* ==== MAIN ==== */
-        .main-container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 60px auto;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
+    /* ==== MAIN ==== */
+    .main-container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.96);
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
 
-        /* Card ringkasan pesanan */
-        .card {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 20px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-        }
+    /* Card ringkasan pesanan */
+    .card {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 20px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
 
-        .card-header.bg-primary.text-white {
-            background: linear-gradient(135deg, #6fa8dc, #3d85c6);
-            color: #fff;
-            font-weight: 600;
-            font-size: 1.3rem;
-            letter-spacing: 0.5px;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 20px;
-            justify-content: center;
-        }
+    .card-header.bg-primary.text-white {
+        background: linear-gradient(135deg, #6fa8dc, #3d85c6);
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.3rem;
+        letter-spacing: 0.5px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 20px;
+        justify-content: center;
+    }
 
-        .card-body {
-            font-size: 1.1rem;
-            padding: 30px 40px;
-        }
+    .card-body {
+        font-size: 1.1rem;
+        padding: 30px 40px;
+    }
 
-        .list-group-item {
-            font-size: 1.05rem;
-            padding: 15px 20px;
-        }
+    .list-group-item {
+        font-size: 1.05rem;
+        padding: 15px 20px;
+    }
 
-        .list-group-item strong {
-            display: block;
-            margin-bottom: 8px;
-        }
+    .list-group-item strong {
+        display: block;
+        margin-bottom: 8px;
+    }
 
-        /* Tombol kembali (tetap ada tapi dihilangkan jika tidak ingin) */
-        .btn-back {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background-color: #8ab2d3;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            transition: 0.3s;
-            cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-        }
+    /* Tombol kembali (tetap ada tapi dihilangkan jika tidak ingin) */
+    .btn-back {
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        background-color: #8ab2d3;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        transition: 0.3s;
+        cursor: pointer;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    }
     </style>
 </head>
 
@@ -280,7 +280,7 @@
         </div>
         {{-- === END CARD STATUS VERIFIKASI & AKSI PEMBAYARAN === --}}
 
-        <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+        <a href="{{ route('dashboard.pelanggan') }}" class="btn-back" title="Kembali">
             <i class="bi bi-arrow-left"></i>
         </a>
 </body>

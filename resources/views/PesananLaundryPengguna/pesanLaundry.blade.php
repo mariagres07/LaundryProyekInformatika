@@ -248,6 +248,7 @@ $layanans = Layanan::select('idLayanan', 'namaLayanan', 'estimasiHari')->get();
         cursor: pointer;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
+
     .counter input.qty {
         width: 50px;
         text-align: center;
@@ -257,7 +258,7 @@ $layanans = Layanan::select('idLayanan', 'namaLayanan', 'estimasiHari')->get();
         font-size: 16px;
         color: #555;
         outline: none;
-    }   
+    }
     </style>
 </head>
 
@@ -319,32 +320,27 @@ $layanans = Layanan::select('idLayanan', 'namaLayanan', 'estimasiHari')->get();
 
     <!-- ==== LAYANAN ==== -->
     <div class="card tab-content" id="contentLayanan" style="display:none;">
-@foreach ($layanans ?? [] as $layanan)
-    <label class="radio-item">
-        <div class="left">
-            @if(Str::contains(strtolower($layanan->namaLayanan), 'express'))
+        @foreach ($layanans ?? [] as $layanan)
+        <label class="radio-item">
+            <div class="left">
+                @if(Str::contains(strtolower($layanan->namaLayanan), 'express'))
                 <img src="Expresslogo.png" alt="express">
-            @else
+                @else
                 <img src="regularlogo.png" alt="regular">
-            @endif
+                @endif
 
-            <div>
-                <div>{{ $layanan->namaLayanan }}</div>
-                <small style="color:#555;">
-                    Estimasi {{ $layanan->estimasiHari }} hari
-                </small>
+                <div>
+                    <div>{{ $layanan->namaLayanan }}</div>
+                    <small style="color:#555;">
+                        Estimasi {{ $layanan->estimasiHari }} hari
+                    </small>
+                </div>
             </div>
-        </div>
 
-        <input
-            type="radio"
-            name="layanan"
-            value="{{ $layanan->idLayanan }}"
-            style="margin-left:10px;"
-        >
-    </label>
-@endforeach
-</div>
+            <input type="radio" name="layanan" value="{{ $layanan->idLayanan }}" style="margin-left:10px;">
+        </label>
+        @endforeach
+    </div>
 
     <!-- ==== TOMBOL PESAN ==== -->
     <button id="btnPesan" class="btn-pesan">Pesan Sekarang</button>
@@ -434,42 +430,42 @@ $layanans = Layanan::select('idLayanan', 'namaLayanan', 'estimasiHari')->get();
 
     // === KIRIM PESAN KE BACKEND ===
     btnPesan.addEventListener('click', async () => {
-    if (!btnPesan.classList.contains('active')) return;
+        if (!btnPesan.classList.contains('active')) return;
 
-    // ✅ AMBIL JUMLAH KATEGORI (INPUT YANG BISA DIKETIK)
-    const kategori = Array.from(document.querySelectorAll('.qty'))
-        .map(input => parseInt(input.value));
+        // ✅ AMBIL JUMLAH KATEGORI (INPUT YANG BISA DIKETIK)
+        const kategori = Array.from(document.querySelectorAll('.qty'))
+            .map(input => parseInt(input.value));
 
-    // Ambil layanan yang dipilih
-    const layanan = document.querySelector('input[name="layanan"]:checked').value;
+        // Ambil layanan yang dipilih
+        const layanan = document.querySelector('input[name="layanan"]:checked').value;
 
-    // Ambil alamat
-    const alamat = document.getElementById('alamat').value;
+        // Ambil alamat
+        const alamat = document.getElementById('alamat').value;
 
-    // Kirim ke backend
-    const response = await fetch('/pesanLaundry', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            kategori,
-            layanan,
-            alamat
-        })
+        // Kirim ke backend
+        const response = await fetch('/pesanLaundry', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                kategori,
+                layanan,
+                alamat
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.idPesanan) {
+            window.location.href = `{{ url('detailPesanan') }}/${data.idPesanan}`;
+        } else {
+            alert('Gagal membuat pesanan');
+        }
     });
-
-    const data = await response.json();
-
-    if (data.success && data.idPesanan) {
-        window.location.href = `{{ url('detailPesanan') }}/${data.idPesanan}`;
-    } else {
-        alert('Gagal membuat pesanan');
-    }
-});
     </script>
-    <a href="{{ url()->previous() }}" class="btn-back" title="Kembali">
+    <a href="{{ route('dashboard.pelanggan') }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 

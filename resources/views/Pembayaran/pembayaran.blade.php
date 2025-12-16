@@ -10,58 +10,59 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Poppins', sans-serif;
-        }
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Poppins', sans-serif;
+    }
 
-        .payment-card {
-            max-width: 550px;
-            margin: 60px auto;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            background: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            padding: 25px;
-        }
+    .payment-card {
+        max-width: 550px;
+        margin: 60px auto;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        padding: 25px;
+    }
 
-        .copy-btn {
-            background-color: #0b3d91;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            font-weight: 600;
-        }
+    .copy-btn {
+        background-color: #0b3d91;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        font-weight: 600;
+    }
 
-        .copy-btn:hover {
-            background-color: #062b68;
-        }
+    .copy-btn:hover {
+        background-color: #062b68;
+    }
 
-        .payment-code {
-            font-size: 20px;
-            font-weight: bold;
-            background-color: #0b3d91;
-            color: #fff;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 10px;
-        }
+    .payment-code {
+        font-size: 20px;
+        font-weight: bold;
+        background-color: #0b3d91;
+        color: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
 
-        .date-text {
-            color: #e74c3c;
-            font-size: 0.9rem;
-            text-align: right;
-        }
+    .date-text {
+        color: #e74c3c;
+        font-size: 0.9rem;
+        text-align: right;
+    }
 
-        .notif-box {
-            margin-top: 15px;
-        }
+    .notif-box {
+        margin-top: 15px;
+    }
     </style>
 </head>
 
 <body>
+    @include('Dashboard.karyawan_sidenav')
     <div class="payment-card">
 
         <!-- Notifikasi -->
@@ -112,35 +113,65 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
-        // Salin kode pembayaran
-        function salinKode() {
-            let kode = document.getElementById("kodePembayaran").innerText;
-            navigator.clipboard.writeText(kode);
-            alert("Kode pembayaran berhasil disalin: " + kode);
+    // Fungsi untuk menyalin kode pembayaran
+    function salinKode() {
+        const kode = document.getElementById("kodePembayaran").innerText;
+        navigator.clipboard.writeText(kode)
+            .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: `Kode pembayaran berhasil disalin: ${kode}`,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            })
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: 'Tidak dapat menyalin kode.',
+                    confirmButtonColor: '#d33'
+                });
+            });
+    }
+
+    // Validasi form pembayaran sebelum submit
+    const paymentForm = document.getElementById("paymentForm");
+    paymentForm.addEventListener("submit", function(e) {
+        const fileInput = document.getElementById("buktiPembayaran");
+        const notifBox = document.getElementById("notifBox");
+        notifBox.innerHTML = "";
+
+        if (!fileInput.files.length) {
+            // Jika tidak ada file, batalkan submit
+            e.preventDefault();
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Bukti pembayaran belum diupload!',
+                confirmButtonColor: '#d33'
+            });
+            return;
         }
 
-        // Validasi form sebelum submit
-        const paymentForm = document.getElementById("paymentForm");
-        paymentForm.addEventListener("submit", function(e) {
-            const notifBox = document.getElementById("notifBox");
-            notifBox.innerHTML = "";
-            const file = document.getElementById("buktiPembayaran").files.length;
-
-            if (file === 0) {
-                e.preventDefault(); // batalkan submit
-                notifBox.innerHTML = `
-                    <div class="alert alert-danger mt-2" role="alert">
-                        <i class="bi bi-x-circle"></i> Bukti pembayaran belum diupload!
-                    </div>`;
-            } else {
-                notifBox.innerHTML = `
-                    <div class="alert alert-success mt-2" role="alert">
-                        <i class="bi bi-check-circle"></i> Pembayaran berhasil dikonfirmasi!
-                    </div>`;
-                // form akan tetap submit setelah notif muncul sebentar
+        // Jika ada file, tampilkan popup sukses dan submit form setelah delay
+        e.preventDefault(); // batalkan sementara submit
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Pembayaran berhasil dikonfirmasi!',
+            timer: 2000,
+            showConfirmButton: false,
+            willClose: () => {
+                // Submit form secara manual setelah popup hilang
+                paymentForm.submit();
             }
         });
+    });
     </script>
 
 </body>
