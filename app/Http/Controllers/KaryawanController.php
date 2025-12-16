@@ -69,20 +69,20 @@ class KaryawanController extends Controller
 
         $request->validate([
             'namaKaryawan' => 'required|string|max:100',
-            'username'     => 'required|string|max:50|unique:karyawan,username,' . $karyawan->idKaryawan . ',idKaryawan',
-            'noHp'         => 'required|string|max:15',
-            'email'        => 'required|email',
+            'username' => 'required|string|max:50|unique:karyawan,username,' . $karyawan->idKaryawan . ',idKaryawan',
+            'noHp' => 'required|string|max:15',
+            'email' => 'required|email|unique:karyawan,email,' . $karyawan->idKaryawan . ',idKaryawan',
             'password' => [
-                'required',
+                'nullable',
                 'string',
-                'min:8', // minimal 8 karakter
-                'regex:/[A-Z]/', // ada huruf besar
-                'regex:/[a-z]/', // ada huruf kecil
-                'regex:/[0-9]/', // ada angka
-                'regex:/[@$!%*?&#]/', // ada simbol spesial
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
                 'confirmed'
             ],
-            'alamat'       => 'required|string'
+            'alamat' => 'required|string'
         ]);
 
         $karyawan->update([

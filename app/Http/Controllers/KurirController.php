@@ -56,15 +56,17 @@ class KurirController extends Controller
     }
 
     // Halaman form edit kurir
-    public function edit(Kurir $kurir)
+    public function edit($idKurir)
     {
-        // $kurir = Kurir::findOrFail($idKurir);
+        $kurir = Kurir::where('idKurir', $idKurir)->firstOrFail();
         return view('ManajemenAkun.editKurir', compact('kurir'));
     }
 
     // Update data kurir
-    public function update(Request $request, Kurir $kurir)
+    public function update(Request $request, $idKurir)
     {
+        $kurir = Kurir::where('idKurir', $idKurir)->firstOrFail();
+
         $request->validate([
             'namaKurir' => 'required|string|max:255',
             'username'  => 'required|string|max:255|unique:kurir,username,' . $kurir->idKurir . ',idKurir',
@@ -90,7 +92,6 @@ class KurirController extends Controller
             'alamat'    => $request->alamat,
         ]);
 
-        // Update password jika diisi
         if ($request->filled('password')) {
             $kurir->password = Hash::make($request->password);
             $kurir->save();
