@@ -17,7 +17,7 @@ class BuatPengaduanController extends Controller
 
             $pesanan = Pesanan::where('idPesanan', $idPesanan)
                 ->where('idPelanggan', $user->idPelanggan)
-                ->first();
+                ->firstOrFail();
 
             return view('Pengaduan.BuatPengaduan', [
                 'mode' => 'langsung',   // ← mode tanpa dropdown
@@ -69,6 +69,7 @@ class BuatPengaduanController extends Controller
             'idPesanan' => 'required|exists:pesanan,idPesanan',
             'judul' => 'required',
             'deskripsi' => 'required',
+            'lampiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048'
         ]);
 
         $user = session('pelanggan');
@@ -87,10 +88,12 @@ class BuatPengaduanController extends Controller
             'deskripsi'        => $request->deskripsi,
             'media'            => $filePathLampiran,
             'statusPengaduan'   => 'Belum Ditanggapi',
-            'tanggalPengaduan' => now()->format('d/m/Y')
+            'tanggalPengaduan' => now()->toDateString()
         ]);
 
-        return redirect()->route('pengaduan.create')->with('pesan', 'Pengaduan berhasil dikirim!');
+        return redirect()
+            ->route('lihatdata.detail', $request->idPesanan)
+            ->with('pesan', 'Pengaduan berhasil dikirim!');
     }
 
     public function index()
@@ -104,42 +107,43 @@ class BuatPengaduanController extends Controller
         $pelanggan = session('pelanggan');
 
         if (!$pelanggan) {
-            return redirect()->route('login.show'); // pastikan login
+            return redirect()->route('login.show');
         }
 
-        $idPelanggan = $pelanggan->idPelanggan; // ambil ID saja
+        $idPelanggan = $pelanggan->idPelanggan;
 
         $query = Pengaduan::where('idPelanggan', $idPelanggan);
 
-        // Filter status
+        // ==============================
+        // FILTER STATUS
+        // ==============================
         if ($request->status) {
             $query->where('statusPengaduan', $request->status);
         }
+
         // ==============================
-        // FILTER TANGGAL
+        // FILTER TANGGAL (LOGIKA ASLI)
         // ==============================
         $from = request('start_date');
-        $to = request('end_date');
+        $to   = request('end_date');
 
-        // Validasi tanggal salah (from lebih besar dari to)
+        // Validasi tanggal
         if ($from && $to && $from > $to) {
             return redirect()->back()->with('error', 'Rentang tanggal tidak valid.');
         }
 
-        if (request('from')) {
-            $pesanan->whereDate('tanggalPengaduan', '>=', request('from'));
+        if ($from) {
+            $query->whereDate('tanggalPengaduan', '>=', $from);
         }
 
-        if (request('to')) {
-            $pesanan->whereDate('tanggalPengaduan', '<=', request('to'));
+        if ($to) {
+            $query->whereDate('tanggalPengaduan', '<=', $to);
         }
-        
-        // Search berdasarkan judul
-        // if ($request->search) {
-        //     $query->where('judulPengaduan', 'like', '%' . $request->search . '%');
-        // }
 
-        $pengaduan = $query->orderBy('tanggalPengaduan', 'desc')->get();
+        $pengaduan = $query
+            ->orderBy('tanggalPengaduan', 'desc')
+            ->get();
+
         return view('Pengaduan.RiwayatPengaduan', compact('pengaduan'));
     }
 

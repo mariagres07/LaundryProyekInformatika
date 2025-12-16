@@ -106,10 +106,10 @@ class LayananController extends Controller
 
             // Tentukan estimasi otomatis
             if ($request->jenisPaket === 'express') {
-                $estimasiHari = 4;
+                $estimasiHari = 2;
                 $namaLayanan  = 'Express (' . $request->pewangi . ')';
             } else {
-                $estimasiHari = 2;
+                $estimasiHari = 4;
                 $namaLayanan  = 'Reguler (' . $request->pewangi . ')';
             }
 

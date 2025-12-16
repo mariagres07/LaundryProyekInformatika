@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,11 +39,11 @@
                     <p class="mb-2">
                         <strong>Status:</strong>
                         @if ($pengaduan->statusPengaduan == 'Belum Ditanggapi')
-                            <span class="badge bg-warning text-dark">Belum Ditanggapi</span>
+                        <span class="badge bg-warning text-dark">Belum Ditanggapi</span>
                         @elseif ($pengaduan->statusPengaduan == 'Diproses')
-                            <span class="badge bg-primary">Diproses</span>
+                        <span class="badge bg-primary">Diproses</span>
                         @else
-                            <span class="badge bg-success">Selesai</span>
+                        <span class="badge bg-success">Selesai</span>
                         @endif
                     </p>
 
@@ -57,19 +58,18 @@
                 {{-- LAMPIRAN MEDIA --}}
                 <h6 class="fw-bold">Lampiran Media:</h6>
                 @if ($pengaduan->media)
-                    <img src="{{ asset('storage/' . $pengaduan->media) }}"
-                         class="img-fluid rounded border mb-3"
-                         style="max-height: 320px; object-fit: contain;">
+                <img src="{{ asset('storage/' . $pengaduan->media) }}" class="img-fluid rounded border mb-3"
+                    style="max-height: 320px; object-fit: contain;">
                 @else
-                    <p class="text-muted">Tidak ada lampiran.</p>
+                <p class="text-muted">Tidak ada lampiran.</p>
                 @endif
 
                 {{-- TANGGAPAN --}}
                 @if ($pengaduan->tanggapanPengaduan)
-                    <div class="alert alert-info mt-4">
-                        <strong>Tanggapan Petugas:</strong>
-                        <br>{{ $pengaduan->tanggapanPengaduan }}
-                    </div>
+                <div class="alert alert-info mt-4">
+                    <strong>Tanggapan Petugas:</strong>
+                    <br>{{ $pengaduan->tanggapanPengaduan }}
+                </div>
                 @endif
 
             </div>
@@ -82,4 +82,5 @@
     </div>
 
 </body>
+
 </html>

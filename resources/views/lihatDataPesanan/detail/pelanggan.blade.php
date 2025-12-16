@@ -83,22 +83,22 @@
     }
 
     .btn-back {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background-color: #8ab2d3ff;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            cursor: pointer;
-            text-decoration: none;
-        }
+        position: fixed;
+        bottom: 25px;
+        left: 25px;
+        background-color: #8ab2d3ff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        cursor: pointer;
+        text-decoration: none;
+    }
 
     .btn-back:hover {
         background: #1e3a5c;
@@ -269,11 +269,41 @@
     </div>
 
     <!-- TOMBOL KEMBALI -->
-    <a href="javascript:history.back()" class="btn-back" title="Kembali">
+    <a href="{{ route('lihatdata.index') }}" class="btn-back" title="Kembali">
         <i class="bi bi-arrow-left"></i>
     </a>
 
-    <!-- BANTUAN -->
+    @if(session('pesan'))
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-check-circle-fill"></i> Berhasil
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {{ session('pesan') }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = new bootstrap.Modal(document.getElementById('successModal'));
+        modal.show();
+    });
+    </script>
+    @endif
+
+    <!-- Pengaduan -->
     <div class="help-box">
         <a href="{{ route('pengaduan.create.with-id', $pesanan->idPesanan) }}" class="btn btn-warning">
             Buat Pengaduan

@@ -90,7 +90,7 @@ Route::post('/pesanLaundry', [PesanLaundryController::class, 'store'])->name('pe
 Route::get('/detailPesanan/{id}', [PesanLaundryController::class, 'detail'])->name('detailPesanan');
 Route::post('/checkout', [PesanLaundryController::class, 'checkout'])->name('checkout');
 
-// ===================== LAPORAN =====================
+// ===================== LAPORAN Lihat data =====================
 Route::get('/laporan', [ClihatLap::class, 'index'])->name('laporan.index');
 Route::get('/lihatdata', [ClihatPesanan::class, 'index'])->name('lihatdata.index');
 Route::get('/lihatdata/{id}', [ClihatPesanan::class, 'lihatDetail'])->name('lihatdata.detail');
@@ -115,6 +115,19 @@ Route::get('/pengaduan/buat', [BuatPengaduanController::class, 'create'])->name(
 Route::get('/pengaduan/buat/{idPesanan}', [BuatPengaduanController::class, 'create'])
     ->name('pengaduan.create.with-id');
 Route::post('/pengaduan', [BuatPengaduanController::class, 'store'])->name('pengaduan.store');
+// Route::get(
+//     '/pelanggan/pengaduan/{idPengaduan}',
+//     [BuatPengaduanController::class, 'detail']
+// )->name('pelanggan.pengaduan.detail');
+Route::get(
+    '/pelanggan/pengaduan/pesanan/{idPesanan}',
+    [BuatPengaduanController::class, 'detailPesanan']
+)->name('pelanggan.pengaduan.pesanan');
+// Route::get(
+//     '/pelanggan/pengaduan/pesanan/{idPesanan}',
+//     [BuatPengaduanController::class, 'detailByPesanan']
+// )->name('pelanggan.pengaduan.pesanan');
+
 
 // Tanggapi Pengaduan
 Route::get('/pengaduan', [TanggapiPengaduanController::class, 'index'])->name('pengaduan.index');

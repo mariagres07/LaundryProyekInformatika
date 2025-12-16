@@ -173,7 +173,7 @@
     </div>
 
     <!-- TOMBOL KEMBALI -->
-    <a href="javascript:history.back()" class="btn-back" title="Kembali">
+    <a href="{{ route('lihatdata.detail', $pesananSingle->idPesanan) }}" class="btn-back">
         <i class="bi bi-arrow-left"></i>
     </a>
 
