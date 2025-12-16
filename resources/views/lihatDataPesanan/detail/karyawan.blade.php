@@ -131,9 +131,9 @@
 
         <h2>Detail Pesanan {{ $pesanan->no_pesanan ?? $pesanan->idPesanan }}</h2>
 
-        @if(session('success'))
+        <!-- @if(session('success'))
         <div class="alert alert-success rounded-3">{{ session('success') }}</div>
-        @endif
+        @endif -->
 
         <div class="row mb-3 pb-2 border-bottom">
             <div class="col-sm-5 text-label">Status Pesanan</div>
