@@ -52,9 +52,28 @@ class PesanLaundryController extends Controller
         }
 
         // Ambil jumlah kategori (urutannya sama dengan di view)
-        $pakaian = $data['kategori'][0] ?? 0;
-        $seprai  = $data['kategori'][1] ?? 0;
-        $handuk  = $data['kategori'][2] ?? 0;
+        $kategoriData = $request->input('kategori', []);
+
+        // Ambil semua kategori dari DB
+        $kategoriItems = KategoriItem::all();
+
+        // Inisialisasi
+        $seprai = $handuk = $pakaian = 0;
+
+        foreach ($kategoriItems as $item) {
+            $qty = $kategoriData[$item->idKategoriItem] ?? 0;
+            if ($qty <= 0) continue;
+
+            $nama = strtolower($item->namaKategori);
+
+            if (str_contains($nama, 'pakaian')) {
+                $pakaian += $qty;
+            } elseif (str_contains($nama, 'handuk')) {
+                $handuk += $qty;
+            } elseif (str_contains($nama, 'seprai') || str_contains($nama, 'selimut') || str_contains($nama, 'bed cover')) {
+                $seprai += $qty;
+            }
+        }
 
         // Tentukan estimasi waktu berdasarkan paket
         $paket = strtolower($layanan->namaLayanan);

@@ -311,7 +311,7 @@ $layanans = Layanan::select('idLayanan', 'namaLayanan', 'estimasiHari')->get();
             </div>
             <div class="counter">
                 <button class="minus">-</button>
-                <input type="number" class="qty" value="0" min="0">
+                <input type="number" class="qty" value="0" min="0" data-id="{{ $kategori->idKategoriItem }}">
                 <button class="plus">+</button>
             </div>
         </div>
@@ -433,8 +433,10 @@ $layanans = Layanan::select('idLayanan', 'namaLayanan', 'estimasiHari')->get();
         if (!btnPesan.classList.contains('active')) return;
 
         // ✅ AMBIL JUMLAH KATEGORI (INPUT YANG BISA DIKETIK)
-        const kategori = Array.from(document.querySelectorAll('.qty'))
-            .map(input => parseInt(input.value));
+        const kategori = Array.from(document.querySelectorAll('.qty')).reduce((acc, input) => {
+            acc[input.dataset.id] = parseInt(input.value);
+            return acc;
+        }, {});
 
         // Ambil layanan yang dipilih
         const layanan = document.querySelector('input[name="layanan"]:checked').value;
